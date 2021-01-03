@@ -10,6 +10,7 @@ Vue.use(Vuex);
 export const createStore = initialState => new Vuex.Store({
   state: createState(initialState),
   plugins: [persistedState],
+  // @ts-ignore
   mutations: {
     ...mutations,
   },

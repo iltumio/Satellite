@@ -1,11 +1,11 @@
 import createPersistedState from 'vuex-persistedstate';
 
 export const cookieStorage = {
-  getItem: key => localStorage.getItem(key),
-  setItem: (key, value) => {
+  getItem: (key: string) => localStorage.getItem(key),
+  setItem: (key: string, value: any) => {
     localStorage[key] = value;
   },
-  removeItem: key => delete localStorage[key],
+  removeItem: (key: string) => delete localStorage[key],
 };
 
 export const persistedStateConfig = {
