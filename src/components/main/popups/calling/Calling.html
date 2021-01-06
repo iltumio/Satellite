@@ -4,11 +4,11 @@
     <section class="modal-card-body">
       <CircleIcon image="https://avatars3.githubusercontent.com/u/1770198?s=460&u=c2be9f3c1e9ce8ba336f29ed2f98c6eeeeab3f94&v=4" />
       <h2 class="person">RetroPronghorn</h2>
-      <h2 class="label">is calling you...</h2>
+      <h2 class="label">{{$t('popups.calling.is_calling_you')}}</h2>
       <hr class="divider">
-      <button class="button is-success" v-on:click="acceptCall"><i class="fas fa-phone"></i> &nbsp; Accept</button>
+      <button class="button is-success" v-on:click="acceptCall"><i class="fas fa-phone"></i> &nbsp; {{$t('global.accept')}}</button>
       &nbsp;
-      <button class="button is-danger" v-on:click="denyCall"><i class="fas fa-phone-slash"></i> &nbsp; Deny</button>
+      <button class="button is-danger" v-on:click="denyCall"><i class="fas fa-phone-slash"></i> &nbsp; {{$t('global.deny')}}</button>
     </section>
   </div>
 </div>

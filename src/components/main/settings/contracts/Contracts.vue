@@ -1,36 +1,32 @@
 <template>
   <div>
-    <h3 class="label">Contracts</h3>
+    <h3 class="label">{{$t('settings.contracts.label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <p class="yellow">
-          These are Alpha contracts and have not been audited yet
-          <br />
-          It's worth noting these contracts are built to be funcitional proof of concepts, not performant, and will be re-written pre beta.
-        </p>
+        <p class="yellow" v-html="$t('settings.contracts.audit_disclaimer')"/>
         <br>
-        <h2>Browse Contracts</h2>
+        <h2>{{$t('settings.contracts.heading')}}</h2>
         <div class="tabs">
           <ul>
             <li 
               :class="contract === 'registry' ? 'is-active' : ''"
               v-on:click="changeContract('registry')">
-              <a>Registry</a>
+              <a>{{$t('settings.contracts.registry')}}</a>
             </li>
             <li 
               :class="contract === 'dweller' ? 'is-active' : ''"
               v-on:click="changeContract('dweller')">
-              <a>Dweller</a>
+              <a>{{$t('settings.contracts.dweller')}}</a>
             </li>
             <li 
               :class="contract === 'server' ? 'is-active' : ''"
               v-on:click="changeContract('server')">
-              <a>Server</a>
+              <a>{{$t('settings.contracts.server')}}</a>
             </li>
             <li 
               :class="contract === 'friends' ? 'is-active' : ''"
               v-on:click="changeContract('friends')">
-              <a>Friends</a>
+              <a>{{$t('settings.contracts.friends')}}</a>
             </li>
           </ul>
         </div>

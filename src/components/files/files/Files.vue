@@ -1,23 +1,23 @@
 <template>
   <div id="files" class="noselect">
     <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
-    <h3>Browse files</h3>
-    <p>Browse files you've shared with other users, and upload new files to IPFS.</p>
+    <h3>{{$t('files.heading')}}</h3>
+    <p>{{$t('files.description')}}</p>
     <hr>
-    <h2 class="label">Upload Files</h2>
+    <h2 class="label">{{$t('files.upload')}}</h2>
     <article class="message is-dark">
       <div class="message-body ">
         <FileUploadInline :relayResult="updateCache" :uploadDone="fetchRecentFiles" />
       </div>
     </article>
-    <h2 class="label">File History</h2>
+    <h2 class="label">{{$t('files.history')}}</h2>
     <article class="message is-dark">
       <div class="message-body noselect">
-        <h2>Your Files</h2>
-        <p>Below is a list of all of the files you've uploaded.</p>
+        <h2>{{$t('files.your_files')}}</h2>
+        <p>{{$t('files.your_files_subtext')}}</p>
         <br>
         <p v-if="loading" class="label">
-          <i class="fa fa-circle-notch fa-pulse"></i> &nbsp; Loading files...
+          <i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('files.loading')}}
         </p>
         <FileContext
           v-if="showContext"

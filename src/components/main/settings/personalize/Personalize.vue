@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h3 class="label">Appearance</h3>
+    <h3 class="label">{{$t('settings.personalize.appearance')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Theme</h2>
-        <p>Change up the theam and stay easy on the eyes with Vault74.</p>
+        <h2>{{$t('settings.personalize.theme_heading')}}</h2>
+        <p>{{$t('settings.personalize.theme_subtext')}}</p>
         <br>
         <div class="select">
           <select v-model="$store.state.theme">
@@ -17,25 +17,25 @@
         </div>
       </div>
     </article>
-    <h3 class="label">Permissions</h3>
+    <h3 class="label">{{$t('settings.personalize.permissions')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Notifications</h2>
-        <p>Click to enable notifications with Vault74 for a better experience.</p>
+        <h2>{{$t('settings.personalize.notifications_heading')}}</h2>
+        <p>{{$t('settings.personalize.notifications_subtext')}}</p>
         <br>
         <button 
           class="button is-dark is-small" 
           :disabled="notificationsEnabled"
           v-on:click="enableNotifications">
-          {{ notificationsEnabled ? 'Notifications Enabled!' : 'Enable Notificaions' }}
+          {{ notificationsEnabled ? $t('settings.personalize.notifications_enabled') : $t('settings.personalize.enable_notifications') }}
         </button>
       </div>
     </article>
-    <h3 class="label">Language</h3>
+    <h3 class="label">{{$t('settings.personalize.language')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Language</h2>
-        <p>Choose your preferred language from the list below.</p>
+        <h2>{{$t('settings.personalize.language_heading')}}</h2>
+        <p>{{$t('settings.personalize.language_subtext')}}</p>
         <br>
         <div class="select">
           <select @change="setLanguage($event.target.value)">

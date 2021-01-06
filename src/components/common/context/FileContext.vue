@@ -1,19 +1,19 @@
 <template>
   <div id="context" ref="fileMenu" v-click-outside="close">
-    <span class="label">FILE ACTIONS</span>
+    <span class="label">{{$t('file_context.actions')}}</span>
     <hr class="divider">
     <ul>
       <li
-        v-on:click="openFile">Open File</li>
+        v-on:click="openFile">{{$t('file_context.open')}}</li>
       <li
         v-clipboard:copy="file.url"
-        v-on:click="closeSoon">Copy Link</li>
+        v-on:click="closeSoon">{{$t('file_context.copy_link')}}</li>
     </ul>
     <hr class="divider">
     <ul>
       <li
         v-on:click="closeSoon"
-        v-clipboard:copy="file.hash">Copy ID</li>
+        v-clipboard:copy="file.hash">{{$t('file_context.copy_id')}}</li>
     </ul>
   </div>
 </template>

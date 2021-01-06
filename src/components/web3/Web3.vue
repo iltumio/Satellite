@@ -3,8 +3,8 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <section class="modal-card-body" style="text-align: center;">
-        <p class="head"><strong>Connecting to Network...</strong></p>
-        <b>If you do not have a Ethereum provider installed, please consider installing MetaMask. </b>
+        <p class="head"><strong>{{$t('web3.connecting')}}</strong></p>
+        <b>{{$t('web3.provider_suggestion')}} </b>
         <br /><br>
         <a href="https://metamask.io/" target="_blank">https://metamask.io/</a>
       </section>

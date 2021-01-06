@@ -2,8 +2,7 @@
   <div id="app" :class="this.$store.state.theme">
     <div class="notification is-warning" v-if="showWarning">
       <button class="delete" v-on:click="hideWarning"></button>
-      Heads up, this is an alpha release. <strong>Messages are not yet encrypted</strong>. This is not a finished product and serval exploits may exist.
-      Features are rapidly being added and changed. For this reason please only use this on a <strong>Testnet</strong> until the beta.
+     {{$t('alpha_release.warning')}}
     </div>
     <main id="main" class="theme" v-if="decrypted">
       <transition appear mode="out-in" name="slide-fade">
@@ -98,8 +97,8 @@ export default {
     // Check preferred lang and switch
     // If something goes wrong during the lazy load the language
     // state will be reverted back to the default value
-    getLang(this.$store.state.language).then((messages) => {
-      this.$i18n.setLocaleMessage(this.$store.state.language, messages);
+    getLang(this.$store.state.settings.language).then((messages) => {
+      this.$i18n.setLocaleMessage(this.$store.state.settings.language, messages);
       this.$i18n.locale = this.$store.state.language;
     }).catch((error) => {
       console.error(error);

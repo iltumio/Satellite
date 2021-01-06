@@ -1,10 +1,10 @@
 <template>
   <div>
-    <p class="label">Change Username</p>
+    <p class="label">{{$t('settings.profile.change_username')}}</p>
     <input type="text" class="input" v-model="username" />
     <br>
     <br>
-    <button class="button is-primary is-small change-photo" :disabled="!username.length >= 4" v-on:click="changeUsername">Change Username</button>
+    <button class="button is-primary is-small change-photo" :disabled="!username.length >= 4" v-on:click="changeUsername">{{$t('settings.profile.change_username')}}</button>
     <div style="clear: both;"></div>
     <br>
     <p v-if="error" class="red">{{error}}</p>

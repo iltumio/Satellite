@@ -10,10 +10,7 @@
               <br>
               <span class="label">{{bytesToSize(message.payload.data.size)}}</span>
             </p>
-            <audio controls :src="message.payload.data.url">
-              Your browser does not support the
-              <code>audio</code> element.
-            </audio>
+            <audio controls :src="message.payload.data.url" v-html="$t('conversation.message.audio.not_supported')" />
           </div>
         </div>
       </article>

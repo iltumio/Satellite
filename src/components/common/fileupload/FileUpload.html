@@ -7,24 +7,24 @@
           <img :src="getURL()" />
         </div>
         <div class="column">
-            <h3 class="heading">Upload File</h3>
-            Uploading a file will store your file on the IPFS blockchain and automatically send the file in chat.
+            <h3 class="heading">{{$t('fileupload.heading')}}</h3>
+            {{$t('fileupload.description')}}
             <br>
             <br>
             <div v-if="!selectedFile">
-              <span class="heading">Select File</span>
+              <span class="heading">{{$t('fileupload.select')}}</span>
               <input 
                 name="file" 
                 id="file" 
                 class="input inputfile"
                 @change="setFile" 
                 type="file" />
-              <label for="file" class="button is-small is-primary">Choose a file</label>
+              <label for="file" class="button is-small is-primary">{{$t('fileupload.chosefile')}}</label>
             </div>
             <div v-else>
               <span class="heading">File</span>
               <div readonly :value="selectedFile.name" class="input is-small" type="text" />
-              <span class="heading padtop">IPFS Link</span>
+              <span class="heading padtop">{{$t('fileupload.link')}}</span>
               <input 
                 v-if="ipfsHash"
                 autofocus
@@ -33,7 +33,7 @@
                 class="input is-small hash"
                 type="text" />
               <div class="heading" v-else>
-                Uploading to IPFS...
+                {{$t('fileupload.uploading')}}
               </div>
               <progress 
                 v-if="progress != 100"
@@ -54,7 +54,7 @@
               class="button is-primary send-file"
               autofocus 
               v-on:click="sendFileMessage">
-              {{ipfsHash ? 'Send File' : 'Uploading...'}}
+              {{ipfsHash ? $t('fileupload.button_upload_another') : $t('fileupload.button_uploading')}}
             </button>
             <i class="fa fa-times close" v-on:click="close"></i>
         </div>

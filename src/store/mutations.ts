@@ -39,6 +39,6 @@ export default {
   },
   setLanguage(state, lang) {
     // eslint-disable-next-line
-    state.language = lang;
+    state.settings.language = lang;
   },
 };

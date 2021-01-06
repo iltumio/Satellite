@@ -52,16 +52,16 @@
           <span class="spacer"></span>
           <span v-if="$store.state.accounts">
             <i class="fab fa-ethereum"></i>
-            <b>Network:</b> {{$store.state.web3Stats.nettype.toUpperCase()}}
+            <b>{{$t('footer.network')}}:</b> {{$store.state.web3Stats.nettype.toUpperCase()}}
             <span class="spacer"> </span> 
             <i class="fas fa-hashtag"></i>
-            <b>Block Number:</b> {{$store.state.web3Stats.blockNumber}} 
+            <b>{{$t('footer.block_number')}}:</b> {{$store.state.web3Stats.blockNumber}} 
             <span class="spacer"> </span> 
             <i class="fas fa-id-badge"></i>
-            <b>Account:</b> {{$store.state.accounts[0]}}
+            <b>{{$t('footer.account')}}:</b> {{$store.state.accounts[0]}}
           </span>
           <span v-else>
-            Connecting...
+            {{$t('footer.connecting')}}
           </span>
         </p>
       </div>

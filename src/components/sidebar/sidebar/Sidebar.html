@@ -2,26 +2,26 @@
   <ServerList :toggleCreateServer="toggleCreateServer" />
   <h1 id="logo">Vault74<span id="tag" class="yellow">alpha 0.2</span></h1>
   <div class="control user-search">
-      <input class="input is-small" type="text" placeholder="Find a vault dweller...">
+      <input class="input is-small" type="text" :placeholder="$t('sidebar.find')">
   </div>
   <div class="usersubcontrols">
     <div 
       v-on:click="setMainRoute('friends')"
       :class="`${$store.state.mainRoute == 'friends' ? 'active' : ''} friends`">
-      <i class="fa fa-user-friends"></i>  &nbsp; Friends
+      <i class="fa fa-user-friends"></i>  &nbsp; {{$t('sidebar.friends')}}
     </div>
     <div 
       v-on:click="setMainRoute('files')"
       :class="`${$store.state.mainRoute == 'files' ? 'active' : ''} files`">
-      <i class="fa fa-folder"></i> &nbsp; Files
+      <i class="fa fa-folder"></i> &nbsp; {{$t('sidebar.files')}}
     </div>
   </div>
   <div class="tabs">
       <ul>
           <li 
               :class="`${route === 'chats' ? 'is-active' : ''}`"
-              v-on:click="setRoute('chats')"><a>Chats</a></li>
-          <li><a>Groups</a></li>
+              v-on:click="setRoute('chats')"><a>{{$t('sidebar.chats')}}</a></li>
+          <li><a>{{$t('sidebar.groups')}}</a></li>
       </ul>
       <i class="fa fa-plus add-friend-chat" v-on:click="toggleQuickFriends"></i>
   </div>
@@ -44,12 +44,12 @@
         
         <div v-if="$store.state.activeChats.length < 4">
           <hr class="divider">
-          <span class="label" style="text-align: center;">Hey! Add some more friends to chat</span>
+          <span class="label" style="text-align: center;">{{$t('sidebar.add_friends')}}</span>
           <button
             class="button is-primary is-small" 
             v-on:click="setMainRoute('friends')"
             active="false"
-            style="width: 100%;">Add Friends</button>
+            style="width: 100%;">{{$t('sidebar.button')}}</button>
             <br>
             <br>
         </div>

@@ -2,24 +2,24 @@
   <div class="modal-card bordered" v-click-outside="close">
     <div class="modal-card-head">
       <p class="header">
-        <span class="label">Chat With Friends</span>
+        <span class="label">{{$t('sidebar.quickfriends.chat_with_friends')}}</span>
         <span class="close" v-on:click="close">×</span>
         <input
           class="input is-small searchuser"
           type="text"
           v-model="keyword"
           v-on:keyup="filterFriends"
-          placeholder="Find Friend...">
+          :placeholder="$t('sidebar.quickfriends.search_placeholder')">
       </p>
     </div>
     <div class="modal-card-body">
       <div class="friends-list">
         <div v-if="!this.$store.state.friends.length" style="text-align: center">
-          <span class="label">You haven't added any friends yet.</span>
-          <span>Add some friends to chat.</span>
+          <span class="label">{{$t('sidebar.quickfriends.no_friends_yet')}}</span>
+          <span>{{$t('sidebar.quickfriends.add_some_friends')}}</span>
         </div>
         <div v-if="this.$store.state.friends.length && !friends.length">
-          <span class="label">No results found.</span>
+          <span class="label">{{$t('sidebar.quickfriends.no_results')}}</span>
         </div>
         <div v-for="friend in friends" class="friend" :key="friend.address">
           <div class="columns">

@@ -9,7 +9,7 @@
   <div class="modal-card">
     <section class="modal-card-body">
       <span class="close" v-on:click="close">×</span>
-      <h2 class="person">Create a Server</h2>
+      <h2 class="person">{{$t('servers.create.heading')}}</h2>
       <div v-if="!creating">
         <hr class="divider">
         <div class="columns">
@@ -17,32 +17,32 @@
             <CircleIcon :image="photoUrl"/>
           </div>
           <div class="column">
-            <p>Give your server a face. Chose a memorable photo to show it's members.</p>
+            <p>{{$t('servers.create.photo_text')}}</p>
             <button
               class="button is-small is-primary"
-              v-on:click="toggleCropper">Set Photo</button>
+              v-on:click="toggleCropper">{{$t('servers.create.photo_button')}}</button>
           </div>
         </div>
         <div style="clear: both;"></div>
-        <span class="label">Enter Server Name</span>
-        <input class="input" v-model="name" placeholder="Server Name..." />
+        <span class="label">{{$t('servers.create.server_name')}}</span>
+        <input class="input" v-model="name" :placeholder="$t('servers.create.server_name_placeholder')" />
         <p class="red" v-if="error">{{error}}</p>
         <hr class="divider">
         <button class="button is-primary is-small" v-on:click="confirm" style="float:right;">
-          <i class="fas fa-chevron-right"></i> &nbsp; Create Server
+          <i class="fas fa-chevron-right"></i> &nbsp; {{$t('servers.create.create_server')}}
         </button>
       </div>
       <div v-else>
-        <p>We're setting up your new server, please confirm any transactions.</p>
+        <p>{{$t('servers.create.confirm_transaction')}}</p>
         <hr class="divider">
         <p>
-          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; We're waiting for your server to confirm...</span>
-          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; We're waiting for your server to confirm...</span>
+          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('servers.create.waiting_server_confirmation')}}</span>
+          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; {{$t('servers.create.waiting_server_confirmation')}}</span>
           <br>
-          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; Writing additional server details...</span>
-          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; Writing additional server details...</span>
+          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('servers.create.writing_additional_details')}}</span>
+          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; {{$t('servers.create.writing_additional_details')}}</span>
           <br>
-          <span class="loading"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; Done, cleaning up.</span>
+          <span class="loading"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('servers.create.done')}}</span>
         </p>
       </div>
     </section>

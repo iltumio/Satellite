@@ -3,12 +3,12 @@
     id="action-selector" 
     class="context"
     v-click-outside="close">
-    <p class="label">Edit Profile</p>
+    <p class="label">{{$t('settings.profile.edit_profile')}}</p>
     <ul>
-      <li v-on:click="changePhoto">Change Photo</li>
-      <li v-on:click="changeUsername">Change Username</li>
+      <li v-on:click="changePhoto">{{$t('settings.profile.change_photo')}}</li>
+      <li v-on:click="changeUsername">{{$t('settings.profile.change_username')}}</li>
       <li><hr></li>
-      <li>Copy Address</li>
+      <li>{{$t('settings.profile.copy_address')}}</li>
     </ul>
   </div>
 </template>

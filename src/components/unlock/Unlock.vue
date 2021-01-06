@@ -5,8 +5,8 @@
         <i class="fas fa-key"></i>
       </div>
       <div class="column is-three-fifthths">
-        <h2 class="label" v-if="storedPinHash">Decrypt Account</h2>
-        <h2 class="label" v-else>Create Encryption Pin</h2>
+        <h2 class="label" v-if="storedPinHash">{{$t('unlock.decrypt_account')}}</h2>
+        <h2 class="label" v-else>{{$t('unlock.create_encryption_pin')}}</h2>
         <div class="field has-addons" >
           <div class="control" style="width: 100%;">
             <input
@@ -15,7 +15,7 @@
               autofocus
               v-model="pin"
               v-on:keyup.enter="decideAction"
-              placeholder="alphanumeric pin..."/>
+              :placeholder="$t('unlock.pin_placeholder')"/>
           </div>
           <div class="control">
             <a class="button is-primary is-small" v-on:click="decideAction">
@@ -24,14 +24,14 @@
           </div>
         </div>
         <p class="label sub-label">
-          <input type="checkbox" v-model="storePin" /> Stay logged in?
+          <input type="checkbox" v-model="storePin" /> {{$t('unlock.stay_logged')}}
         </p>
       </div>
       <div class="column is-one-fifth">
       </div>
     </div>
     <div class="subtext label">
-      Pin stored with AES encryption using Web Crypto.
+      {{$t('unlock.AES_encryption')}}
     </div>
     <div class="error label red" v-if="error">
       {{error}}

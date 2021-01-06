@@ -1,8 +1,39 @@
 {
   "global": {
-    "address": "Address"
+    "address": "Address",
+    "view_full_size": "view full size",
+    "external_link_title": "External link",
+    "external_link_text": "You are about to leave our app to view a link, do you want to continue?",
+    "continue": "Continue",
+    "nevermind": "Nevermind",
+    "view_all_achievements": "view all achievements",
+    "not_yet_implemented": "Not yet implemented",
+    "view_on_etherscan": "View on Etherscan",
+    "accept": "Accept",
+    "deny": "Deny",
+    "default": "Default"
+  },
+  "dates": {
+    "month_names": {
+      "0": "January",
+      "1": "February",
+      "2": "March",
+      "3": "April",
+      "4": "May",
+      "5": "June",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December"
+    }
   },
   "dwellerid": {
+    "badges": "Badges",
+    "status": "Status",
+    "actions": "Actions",
+    "send_message": "Send message",
     "account_age": "Account Age",
     "address": "Dweller ID Address",
     "view_contract": "View Dweller ID Contract",
@@ -16,14 +47,18 @@
     "file": "File",
     "link": "IPFS Link",
     "uploading": "Uploading to IPFS...",
-    "send": "Send File"
+    "send": "Send File",
+    "button_uploading": "Uploading...",
+    "button_upload_another": "Upload Another File"
   },
   "loading": {
     "connecting_blockchain": "Connecting to the blockchain...",
+    "assembling": "Assembling the hive...",
     "connecting_broker": "Connecting to 0.vault74.io...",
-    "long_load": "This is taking a bit, do you have {{vaule}} installed?",
+    "long_load": "This is taking a bit, do you have <a href=\"{link}\" target=\"{target}\">{text}</a> installed?",
     "other_tab": "Still loading? Vault74 may already be open in another tab.",
     "something_wrong": "Something may have gone wrong,",
+    "retry": "retry?",
     "alpha": "This is an alpha product, Please use Goerli Testnet!"
   },
   "files": {
@@ -31,7 +66,9 @@
     "subtext": "Browse files you've shared with other users, and upload new files to IPFS.",
     "upload": "Upload Files",
     "your_files": "Your Files",
-    "your_files_subtext": "Below is a list of all of the files you've uploaded."
+    "your_files_subtext": "Below is a list of all of the files you've uploaded.",
+    "loading": "Loading files...",
+    "history": "File History"
   },
   "friends": {
     "heading": "Friends",
@@ -44,10 +81,9 @@
     "chat": "Get Chatting",
     "your_friends": "Your Friends",
     "start_chat": "Start a chat with your friends below, be kind, or don't. We don't judge.",
-    "no_friends": "Oops, you don't have any friends yet. We'll be your friend, but you can also add more above."
-  },
-  "chatbar": {
-    "typing": "is typing"
+    "no_friends": "Oops, you don't have any friends yet. We'll be your friend, but you can also add more above.",
+    "search_placeholder": "Find Friend...",
+    "search": "Search"
   },
   "voice_video": {
     "switch_video": "Switch to Video",
@@ -68,14 +104,16 @@
     "h_audiovideo": "Audio & Video",
     "h_keybinds": "Keybinds",
     "h_accounts": "Accounts & Devices",
-    "h_networks": "Networks & Services",
+    "h_networks": "Networks & Security",
     "h_encryption": "Encryption",
-    "h_storage": "Storage & History",
+    "h_storage": "Storage",
     "h_network": "Network",
     "h_transactions": "Transactions",
     "h_payments": "Payments",
     "h_transfers": "Transfers",
     "h_balance": "Balance",
+    "h_information": "Information",
+    "h_contracts": "Contnracts",
     "accounts": {
       "label": "Accounts",
       "heading": "Active Account",
@@ -91,11 +129,23 @@
       "label": "Audio",
       "input_heading": "Audio Input Device",
       "input_subtext": "Select which input device you'd like people to hear your silky smooth voice from.",
+      "input_default_text": "Default Microphone",
       "audio_output": "Audio Output Device",
       "audio_output_subtext": "Select the device that you'd like to deliver sound to your ear holes with.",
+      "audio_output_default": "Default Audio Output",
+      "audio_bitrate": "Audio Bitrate",
+      "audio_bitrate_subtext": "Higher bitrates will transmit better quality audio, lowering the bitrate can help with slower connection speeds.",
+      "sample_size": "Sample Size",
+      "sample_size_subtext": "A higher sample size will give you a broader dynamic range of audio. Higher samples will require better connection speeds.",
+      "echo_cancellation": "Echo Cancellation",
+      "echo_cancellation_subtext": "Enable to help cancel out some slight echo &amp; feedback from your mic.",
+      "noise_supression": "Noise Supression",
+      "noise_supression_subtext": "Enable to help hide background noise in your environment.",
+      "opus": "Vault74 uses the Opus Codec, and open source audio codec.",
       "video": "Video",
       "video_heading": "Video Input Device",
-      "video_subtext": "Select which video device you'd like to share your beautiful smile from."
+      "video_subtext": "Select which video device you'd like to share your beautiful smile from.",
+      "video_default_text": "Default Webcam"
     },
     "keybinds": {
       "label": "Keybinds",
@@ -109,21 +159,36 @@
     "network": {
       "label": "Network",
       "heading": "Web3 Provider",
-      "subtext": "A Web3 provider is simply the way you chose to interact with the blockchain. For most people MetaMask is fine."
+      "subtext": "A Web3 provider is simply the way you chose to interact with the blockchain. For most people <b>Default</b> is fine."
     },
     "personalize": {
       "appearance": "Appearance",
-      "darktheme_heading": "Dark Theme",
-      "darktheme_subtext": "Enable dark theme for an easy on the eyes version of Vault74.",
+      "theme_heading": "Theme",
+      "theme_subtext": "Change up the theam and stay easy on the eyes with Vault74.",
       "permissions": "Permissions",
-      "notifications": "Notifications",
-      "notifiactions_subtext": "Click to enable notifications with Vault74 for a better experience."
+      "notifications_heading": "Notifications",
+      "notifications_subtext": "Click to enable notifications with Vault74 for a better experience.",
+      "enable_notifications": "Enable notifications",
+      "notifications_enabled": "Notifications Enabled!",
+      "language": "Language",
+      "language_heading": "Language",
+      "language_subtext": "Choose your preferred language from the list below."
     },
     "storage": {
-      "label": "Storage",
+      "database_label": "Database",
+      "database_heading": "Enable Database",
+      "threadDB": "Vault74 utilizes Texile's ThreadDB, a decentralized database, to store your data.",
+      "threadDB_learn_more": "You can learn more about them here:",
+      "threadDB_enable": "Enable <b>ThreadDB</b>, a decentralized database used to recieve offline messaging and unlock additional features.<br>Your data is stored on a distributed network and none of that data passes through us.",
+      "threadDB_data_id": "Your Data ID",
+      "threadDB_data_id_text": "Your data ID references all the data stored in the app. Save this somewhere save to transfer your data to another browser.",
+      "storage_label": "Storage",
       "lfs_heading": "Large File Storage",
       "lfs_subtext": "Click to enable large file storage, this will allow you to upload very large files and keep more message history cached.",
       "lfs_request": "Request Storage Permissions",
+      "export_ls_heading": "Export Local Storage",
+      "export_ls_subtext": "Export your Local Storage to move to another browser.",
+      "export_ls_button": "Export Storage",
       "data_heading": "Clear Data",
       "data_subtext": "Quickly clean up locally stored data, please be aware doing so will clear your stored files, message history, and more.",
       "data_subtext_two": "Only do this if you know the repercussions.",
@@ -134,6 +199,7 @@
       "heading": "Setup Account",
       "subtext": "Your account is not setup yet, let's get that going! It only takes a moment.",
       "profile_pic": "Profile Picture (Optional)",
+      "upload_profile_pic": "Upload Profile Picture",
       "uploading_ipfs": "Uploading to IPFS...",
       "username": "Username",
       "create_account": "Create Account",
@@ -155,13 +221,39 @@
       "dweller_address": "Dweller Address",
       "dweller_owner_address": "Dweller Owner Address",
       "name": "Name",
-      "photo_hash": "Photo Hash"
+      "photo_hash": "Photo Hash",
+      "your_badges": "Your Badges",
+      "disclaimer": "Your profile is stored on an Ethereum Smart Contract. A decentralized transfer protocol free from fraudulent manipulation.",
+      "edit_profile": "Edit Profile",
+      "change_photo": "Change Photo",
+      "change_username": "Change Username",
+      "copy_address": "Copy Address",
+      "confirm_transaction": "Please confirm transaction..."
+    },
+    "contracts": {
+      "audit_disclaimer": "These are Alpha contracts and have not been audited yet <br /> It's worth noting these contracts are built to be funcitional proof of concepts, not performant, and will be re-written pre beta.",
+      "label": "Contracts",
+      "heading": "Browse Contracts",
+      "registry": "Registry",
+      "dweller": "Dweller",
+      "server": "Server",
+      "friends": "Friends"
+    },
+    "encryption": {
+      "label": "Encryption &amp; Keys",
+      "heading": "Public / Private Keys",
+      "subtext": "Messages are encrypted with a public and private key. You can reveal your keys below. <b>DO NOT</b> share your private key with others.",
+      "public_key": "Public Key",
+      "private_key": "Private Key",
+      "hover_to_reveal": "hover to reveal",
+      "regenerate_keys": "Regenerate Keys"
     }
   },
   "payments": {
-    "send": "Send {{amount}} ether",
+    "send": "Send {amount} ether ${dollar_equivalent}",
     "balance": "Balance",
-    "button": "Send"
+    "button": "Send",
+    "prices_disclaimer": " - Prices from CoinCap.io"
   },
   "sidebar": {
     "find": "Find a vault dweller...",
@@ -170,7 +262,21 @@
     "chats": "Chats",
     "groups": "Groups",
     "add_friends": "Hey! Add some more friends to chat",
-    "button": "Add Friends"
+    "button": "Add Friends",
+    "controls": {
+      "connected_to": "Connected to {network}",
+      "peer_broker_offline": "Peer Broker Offline",
+      "media_stream_active": "Media stream active, click to view",
+      "media_stream_inactive": "No active media stream",
+      "status": "Super awesome status..."
+    },
+    "quickfriends": {
+      "chat_with_friends": "Chat With Friends",
+      "no_friends_yet": "You haven't added any friends yet.",
+      "add_some_friends": "Add some friends to chat.",
+      "no_results": "No results found.",
+      "search_placeholder": "Find Friend..."
+    }
   },
   "footer": {
     "p2p": "P2P",
@@ -184,5 +290,117 @@
     "en_US": "English (USA)",
     "en_UK": "English (UK)",
     "fr": "French"
+  },
+  "alpha_release": {
+    "warning": "Heads up, this is an alpha release. <strong>Messages are not yet encrypted</strong>. This is not a finished product and serval exploits may exist. Features are rapidly being added and changed. For this reason please only use this on a <strong>Testnet</strong> until the beta."
+  },
+  "message_context": {
+    "actions": "MESSAGE ACTIONS",
+    "copy": "Copy Text",
+    "edit": "Edit Message",
+    "speak": "Speak Message",
+    "copy_id": "Copy ID"
+  },
+  "file_context": {
+    "actions": "FILE ACTIONS",
+    "open": "Open File",
+    "copy_link": "Copy Link",
+    "copy_id": "Copy ID"
+  },
+  "context": {
+    "actions": "ACTIONS",
+    "reload": "Reload",
+    "devtools": "Open Devtools"
+  },
+  "conversation": {
+    "chatbar": {
+      "typing": "is typing",
+      "characters_left": "{characters} Characters Left",
+      "pick_emoji": "Pick your emoji...",
+      "securely_message": "Securely Message {name}..."
+    },
+    "conversation":{
+      "invite_offline": "Invite {name} to message offline.",
+      "must_be_online": "{name} must be online.",
+      "invite": "Invite {name}",
+      "no_conversation_heading": "It's awfully quiet",
+      "no_conversation_subtext": "Say something and get the conversation started."
+    },
+    "infobar": {
+      "search_placeholder": "Search in conversation..."
+    },
+    "message": {
+      "address": {
+        "external_link_text": "Click to view on Etherscan.io"
+      },
+      "audio":{
+        "not_supported": "Your browser does not support the <code>audio</code> element."
+      },
+      "call": {
+        "started": "Call Started",
+        "incoming": "Call incoming, get ready!"
+      },
+      "offline_chat": {
+        "heading": "Enable Offline Messaging",
+        "text": "Message {name} while they are offline",
+        "enable": "Enable Offline Messaging",
+        "enabled": "Offline Messaging Enabled"
+      },
+      "video": {
+        "not_supported": "Your browser does not support the <code>video</code> element."
+      },
+      "message_body": {
+        "call_started": "{name} started a call..."
+      }
+    },
+    "userinfo": {
+      "heading": "User Details",
+      "badges": "Badges",
+      "notes": "Notes",
+      "notes_placeholder": "enter some notes..."
+    },
+    "voicevideo": {
+      "switch_to_video": "Switch to Video",
+      "switch_to_voice": "Switch to Voice",
+      "disconnect": "Disconnect"
+    }
+  },
+  "popups": {
+    "calling": {
+      "is_calling_you": "is calling you..."
+    },
+    "error": {
+      "title": "That's a bug.",
+      "text": "You encountered a bug, if you'd like to report it all the info you need is below.",
+      "user_agent": "User Agent",
+      "source": "Source",
+      "line": "Line number",
+      "confirm": "Alright"
+    }
+  },
+  "servers": {
+    "create": {
+      "heading": "Create a Server",
+      "photo_text": "Give your server a face. Chose a memorable photo to show it's members.",
+      "photo_button": "Set Photo",
+      "server_name": "Enter Server Name",
+      "server_name_placeholder": "Server Name...",
+      "create_server": "Create Server",
+      "confirm_transaction": "We're setting up your new server, please confirm any transactions.",
+      "waiting_server_confirmation": "We're waiting for your server to confirm...",
+      "writing_additional_details": "Writing additional server details...",
+      "done": "Done, cleaning up."
+    }
+  },
+  "unlock": {
+    "decrypt_account": "Decrypt Account",
+    "create_encryption_pin": "Create Encryption Pin",
+    "stay_logged": "Stay logged in?",
+    "AES_encryption": "Pin stored with AES encryption using Web Crypto.",
+    "pin_placeholder": "alphanumeric pin..."
+  },
+  "web3": {
+    "connecting": "Connecting to network...",
+    "provider_suggestion": "If you do not have a Ethereum provider installed, please consider installing MetaMask."
   }
 }

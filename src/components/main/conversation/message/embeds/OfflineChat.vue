@@ -5,8 +5,8 @@
         <div class="content">
           <p>
             <i class="fas fa-comment-alt logo"></i>
-            <strong class="amount">Enable Offline Messaging</strong><br />
-            <small>Message {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}} while they are offline</small><br>
+            <strong class="amount">{{$t('conversation.message.offline_chat.heading')}}</strong><br />
+            <small>{{$t('conversation.message.offline_chat.text',{name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}</small><br>
           </p>
         </div>
         <div class="content-alt">
@@ -14,12 +14,12 @@
             v-if="!doesExist"
             v-on:click="storeThread"
             class="button is-primary is-small"
-            style="width: 100%;">Enable Offline Messaging</button>
+            style="width: 100%;">{{$t('conversation.message.offline_chat.enable')}}</button>
           <button
             v-else
             disabled
             class="button is-success is-small"
-            style="width: 100%;">Offline Messaging Enabled</button>
+            style="width: 100%;">{{$t('conversation.message.offline_chat.enabled')}}</button>
         </div>
       </div>
     </article>

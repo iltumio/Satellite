@@ -21,9 +21,9 @@
     <UserInfo v-if="$store.state.showUser" :makeCall="makeCall"/>
   </div>
   <div v-else class="no-friends">
-    <h2 class="heading">Better with Friends</h2>
-    <p>You don't have to be alone. <br /> Add some friends and get chatting, sharing and streaming!</p>
+    <h2 class="heading">{{$t('main.heading')}}</h2>
+    <p>{{$t('main.subtext_one')}}<br /> {{$t('main.subtext_two')}}</p>
     <br>
-    <button class="button is-primary" v-on:click="$store.commit('changeRoute', 'friends')">Add Friends to Chat</button>
+    <button class="button is-primary" v-on:click="$store.commit('changeRoute', 'friends')">{{$t('main.button')}}</button>
   </div>
 </section>

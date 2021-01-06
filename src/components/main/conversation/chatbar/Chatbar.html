@@ -11,14 +11,14 @@
         <b v-if="$store.state.friends.length">
           {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}
         </b> 
-        is typing
+        {{$t('conversation.chatbar.typing')}}
       </p>
       <div :class="`input-collection ${messageText.length > limit ? 'input-collection-red' : ''}`">
           <p :class="`charlimit ${messageText.length > limit ? 'red' : ''}`" v-if="messageText.length <= limit">
-            {{limit - messageText.length}} Characters Left
+            {{$t('conversation.chatbar.characters_left',{characters: limit - messageText.length})}}
           </p>
           <p :class="`charlimit ${messageText.length > limit ? 'red' : ''}`"  v-else>
-            {{limit - messageText.length}} Characters Left
+            {{$t('conversation.chatbar.characters_left',{characters: limit - messageText.length})}}
           </p>
           <i class="fas fa-arrow-circle-right send" v-on:click="sendMessage"></i>
           <i class="far fa-smile-wink emoji" v-on:click="toggleEmoji"></i>
@@ -29,7 +29,7 @@
             v-if="selectingEmoji"
             native 
             :data="emojiIndex"
-            title="Pick your emoji…" 
+            :title="$t('conversation.chatbar.pick_emoji')" 
             emoji="point_up" 
             color="#00d0a1"
             :showPreview="false"
@@ -41,7 +41,7 @@
             autofocus
             @input="isTyping"
             v-on:keyup="startTyping"
-            :placeholder="`Securley Message ${$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}...`"
+            :placeholder="$t('conversation.chatbar.securely_message', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})"
             v-model="messageText"
             v-on:keyup.enter="sendMessage">
           <!--<div class="input is-small messageuser" contenteditable role="textbox">
