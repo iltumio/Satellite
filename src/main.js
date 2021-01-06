@@ -49,12 +49,14 @@ window.Vault74 = {
       "color: #e74c3c; font-weight: bold; font-family: 'Major Mono Display', monospace;",
       ...args.slice(1, args.length)
     );
-  }
+  },
   /* eslint-enable */
 };
 
 Vue.prototype.$database = new Database('Vault74Data');
 Vue.prototype.$pin = null;
+
+const i18n = i18nInit('en_US');
 
 /* eslint-disable */
 new Vue({
@@ -62,9 +64,9 @@ new Vue({
   functional: true,
   router,
   store,
-  i18n: i18nInit('en_US'),
+  i18n,
   render(h) {
     return h(App);
-  }
+  },
 });
 /* eslint-enable */

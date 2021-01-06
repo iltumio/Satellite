@@ -21,6 +21,7 @@ import Peer2Peer from '@/classes/Peer2Peer';
 import MessageBroker from '@/classes/MessageBroker';
 import Unlock from '@/components/unlock/Unlock';
 import PeerDataHandler from '@/classes/PeerDataHandler.ts';
+import { getLang } from '@/utils/i18n';
 
 // const newMessageSound = new Audio(`${config.ipfs.browser}${config.sounds.newMessage}`);
 
@@ -92,6 +93,17 @@ export default {
         // Connect to new peer.
         window.Vault74.Peer2Peer.createChannels(state.friends);
       }
+    });
+
+    // Check preferred lang and switch
+    // If something goes wrong during the lazy load the language
+    // state will be reverted back to the default value
+    getLang(this.$store.state.language).then((messages) => {
+      this.$i18n.setLocaleMessage(this.$store.state.language, messages);
+      this.$i18n.locale = this.$store.state.language;
+    }).catch((error) => {
+      console.error(error);
+      this.$store.commit('setLanguage', config.defaultLanguage);
     });
   },
 };

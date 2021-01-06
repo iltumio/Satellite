@@ -178,5 +178,11 @@
     "block_number": "Numero di blocco",
     "account": "Account",
     "connecting": "In connessione"
+  },
+  "languages": {
+    "it": "Italiano",
+    "en_US": "Inglese (USA)",
+    "en_UK": "Inglese (UK)",
+    "fr": "Francese"
   }
 }

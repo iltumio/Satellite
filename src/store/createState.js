@@ -2,6 +2,7 @@ const defaultState = {
   // Settings
   settings: {
     darkMode: true,
+    language: 'en_US',
   },
   // Theme
   theme: 'dark',
