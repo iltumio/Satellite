@@ -37,4 +37,8 @@ export default {
     // eslint-disable-next-line no-param-reassign
     state.criticalError = false;
   },
+  setLanguage(state, lang) {
+    // eslint-disable-next-line
+    state.language = lang;
+  },
 };
