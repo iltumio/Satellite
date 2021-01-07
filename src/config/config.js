@@ -29,6 +29,8 @@ module.exports = {
   },
   defaultLanguage: 'en_US',
   languages: {
+    en_UK: '',
+    fr: '',
     it: 'QmSezaqPeAhsjekzNS3xChGw7G5N4GYCuYAqYkkGZgxneu',
   },
   registry: {

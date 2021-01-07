@@ -50,7 +50,7 @@
 
 <script>
 import { languages } from '@/config/config';
-import { getLang } from '@/utils/i18n';
+// import { getLang } from '@/utils/i18n';
 
 export default {
   name: 'Personalize',
@@ -71,16 +71,21 @@ export default {
       this.$store.commit('toggleDarkMode');
     },
     setLanguage(lang) {
-      // Language is set optimistically in Vuex store. If something goes wrong during
-      // the lazy load the language state will be reverted back to the default value
-      getLang(lang).then((messages) => {
-        this.$i18n.setLocaleMessage(lang, messages);
-        this.$i18n.locale = lang;
-        this.$store.commit('setLanguage', lang);
-      }).catch((error) => {
-        console.error(error);
-        this.$store.commit('setLanguage', 'en_US');
-      });
+      this.$i18n.locale = lang;
+      this.$store.commit('setLanguage', lang);
+      // ----------------------Lazy load of the language from IPFS (disabled)
+      // // Language is set optimistically in Vuex store. If something goes wrong during
+      // // the lazy load the language state will be reverted back to the default value
+      //
+      // getLang(lang).then((messages) => {
+      //   this.$i18n.setLocaleMessage(lang, messages);
+      //   this.$i18n.locale = lang;
+      //   this.$store.commit('setLanguage', lang);
+      // }).catch((error) => {
+      //   console.error(error);
+      //   this.$store.commit('setLanguage', 'en_US');
+      // });
+      // ------------------------
     },
   },
 };
