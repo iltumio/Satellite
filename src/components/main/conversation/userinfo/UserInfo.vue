@@ -1,7 +1,7 @@
 <template>
   <div id="user-info">
     <div class="heading">
-      <span class="label">User Details</span>
+      <span class="label">{{$t('conversation.userinfo.heading')}}</span>
       <span class="username">{{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}</span>
     </div>
     <hr class="divider">
@@ -16,7 +16,7 @@
         {{$store.state.activeChat.substr(0, 12)}}...
       </p>
       <hr class="divider">
-      <span class="label">Badges</span>
+      <span class="label">{{$t('conversation.userinfo.badges')}}</span>
       <Badge :address="$store.state.activeChat" showNoBadges="true"/>
       <hr class="divider">
     </div>
@@ -45,8 +45,8 @@
     </div>
 
     <div class="notes">
-      <span class="label">Notes</span>
-      <textarea class="textarea" placeholder="enter some notes..." v-model="$store.state.userNotes[$store.state.activeChat]"></textarea>
+      <span class="label">{{$t('conversation.userinfo.notes')}}</span>
+      <textarea class="textarea" :placeholder="$t('conversation.userinfo.notes_placeholder')" v-model="$store.state.userNotes[$store.state.activeChat]"></textarea>
     </div>
   </div>
 </template>

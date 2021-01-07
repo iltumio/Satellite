@@ -1,28 +1,28 @@
 <template>
   <div>
-    <h3 class="label">Audio</h3>
+    <h3 class="label">{{$t('settings.audio_video.label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Audio Input Device</h2>
-        <p>Select which input device you'd like people to hear your silky smooth voice from.</p>
+        <h2>{{$t('settings.audio_video.input_heading')}}</h2>
+        <p>{{$t('settings.audio_video.input_subtext')}}</p>
         <div class="select">
           <select v-model="$store.state.audioDevice">
-            <option v-for="device in audioDevices" :key="device.deviceId">{{device.label || 'Default Microphone'}}</option>
+            <option v-for="device in audioDevices" :key="device.deviceId">{{device.label || $t('settings.audio_video.input_default_text')}}</option>
           </select>
         </div>
         <hr class="spacer">
-        <h2>Audio Output Device</h2>
-        <p>Select the device that you'd like to deliver sound to your ear holes with.</p>
+        <h2>{{$t('settings.audio_video.audio_output')}}</h2>
+        <p>{{$t('settings.audio_video.audio_output_subtext')}}</p>
         <div class="select">
           <select>
-            <option>Default Audio Output</option>
+            <option>{{$t('settings.audio_video.audio_output_default')}}</option>
           </select>
         </div>
         <hr class="spacer">
         <div class="columns">
           <div class="column">
-            <h2>Audio Bitrate</h2>
-            <p>Higher bitrates will transmit better quality audio, lowering the bitrate can help with slower connection speeds.</p>
+            <h2>{{$t('settings.audio_video.audio_bitrate')}}</h2>
+            <p>{{$t('settings.audio_video.audio_bitrate_subtext')}}</p>
             <div class="select">
               <select v-model="$store.state.audioQuality">
                 <option value="8">8kbps</option>
@@ -36,8 +36,8 @@
             </div>
           </div>
           <div class="column">
-            <h2>Sample Size</h2>
-            <p>A higher sample size will give you a broader dynamic range of audio. Higher samples will require better connection speeds.</p>
+            <h2>{{$t('settings.audio_video.sample_size')}}</h2>
+            <p>{{$t('settings.audio_video.sample_size_subtext')}}</p>
             <div class="select">
               <select v-model="$store.state.audioSamples">
                 <option value="2">2bits</option>
@@ -51,14 +51,14 @@
         <hr class="spacer">
         <div class="columns">
           <div class="column">
-            <h2>Echo Cancellation</h2>
-            <p>Enable to help cancel out some slight echo &amp; feedback from your mic.</p>
+            <h2>{{$t('settings.audio_video.echo_cancellation')}}</h2>
+            <p>{{$t('settings.audio_video.echo_cancellation_subtext')}}</p>
             <br>
             <ToggleSwitch v-model="$store.state.echoCancellation"/>
           </div>
           <div class="column">
-            <h2>Noise Supression</h2>
-            <p>Enable to help hide background noise in your environment.</p>
+            <h2>{{$t('settings.audio_video.noise_supression')}}</h2>
+            <p>{{$t('settings.audio_video.noise_supression_subtext')}}</p>
             <br>
             <ToggleSwitch v-model="$store.state.noiseSuppression"/>
           </div>
@@ -73,7 +73,7 @@
           </div>
           <div class="column padded">
             <p class="padded">
-              Vault74 uses the Opus Codec, and open source audio codec. 
+              {{$t('settings.audio_video.opus')}}
               <br>
               <a href="https://opus-codec.org/">https://opus-codec.org/</a>
             </p>
@@ -82,14 +82,14 @@
       </div>
       </div>
     </article>
-    <h3 class="label">Video</h3>
+    <h3 class="label">{{$t('settings.audio_video.video')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Video Input Device</h2>
-        <p>Select which video device you'd like to share your beautiful smile from.</p>
+        <h2>{{$t('settings.audio_video.video_heading')}}</h2>
+        <p>{{$t('settings.audio_video.video_subtext')}}</p>
         <div class="select">
           <select v-model="$store.state.videoDevice">
-            <option v-for="device in videoDevices" :key="device.deviceId">{{device.label || 'Default Webcam'}}</option>
+            <option v-for="device in videoDevices" :key="device.deviceId">{{device.label || $t('settings.audio_video.video_default_text')}}</option>
           </select>
         </div>
       </div>

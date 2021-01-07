@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="notification is-info" v-if="!doesThreadExist()">
-      Invite {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}} to message offline.
+      {{$t('conversation.conversation.invite_offline', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}
       <button
         v-if="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].status !== 'alive'"
         class="button is-small is-link"
-        disabled>{{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}} must be online</button>
+        disabled>{{$t('conversation.conversation.must_be_online', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}</button>
       <button 
         v-else
         v-on:click="inviteToOffline"
         class="button is-small is-link">
-        Invite {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}
+        {{$t('conversation.conversation.invite',{name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}
       </button>
     </div>
     <div id="scrollBottom" v-if="showScrollToBottom" v-on:click="scrollToEnd">

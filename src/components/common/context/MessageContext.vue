@@ -1,21 +1,21 @@
 <template>
   <div id="context" ref="menu" v-click-outside="close">
-    <span class="label">MESSAGE ACTIONS</span>
+    <span class="label">{{$t('message_context.actions')}}</span>
     <hr class="divider">
     <ul>
       <li
         v-clipboard:copy="getDecoded(message.payload.data)"
         v-on:click="closeSoon"
-        v-if="isTextMessage()">Copy Text</li>
-      <li v-if="isTextMessage()">Edit Message</li>
+        v-if="isTextMessage()">{{$t('message_context.copy')}}</li>
+      <li v-if="isTextMessage()">{{$t('message_context.edit')}}</li>
       <li
-        v-if="isTextMessage()">Speak Message</li>
+        v-if="isTextMessage()">{{$t('message_context.speak')}}</li>
     </ul>
     <hr class="divider">
     <ul>
       <li
         v-on:click="closeSoon"
-        v-clipboard:copy="message.id || message._id">Copy ID</li>
+        v-clipboard:copy="message.id || message._id">{{$t('message_context.copy_id')}}</li>
     </ul>
   </div>
 </template>

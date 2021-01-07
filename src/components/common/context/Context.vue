@@ -1,14 +1,14 @@
 <template>
   <div id="context" ref="contextMenu" v-click-outside="close">
-    <span class="label">ACTIONS</span>
+    <span class="label">{{$t('context.actions')}}</span>
     <hr class="divider">
     <ul>
       <li
-        v-on:click="reload">Reload</li>
+        v-on:click="reload">{{$t('context.reload')}}</li>
     </ul>
     <hr class="divider">
     <ul>
-      <li>Open Devtools</li>
+      <li>{{$t('context.devtools')}}</li>
     </ul>
   </div>
 </template>

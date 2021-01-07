@@ -2,8 +2,7 @@
   <div id="app" :class="this.$store.state.theme">
     <div class="notification is-warning" v-if="showWarning">
       <button class="delete" v-on:click="hideWarning"></button>
-      Heads up, this is an alpha release. <strong>Messages are not yet encrypted</strong>. This is not a finished product and serval exploits may exist.
-      Features are rapidly being added and changed. For this reason please only use this on a <strong>Testnet</strong> until the beta.
+     {{$t('alpha_release.warning')}}
     </div>
     <main id="main" class="theme" v-if="decrypted">
       <transition appear mode="out-in" name="slide-fade">
@@ -21,6 +20,7 @@ import Peer2Peer from '@/classes/Peer2Peer';
 import MessageBroker from '@/classes/MessageBroker.ts';
 import Unlock from '@/components/unlock/Unlock';
 import PeerDataHandler from '@/classes/PeerDataHandler.ts';
+// import { getLang } from '@/utils/i18n';
 
 // const newMessageSound = new Audio(`${config.ipfs.browser}${config.sounds.newMessage}`);
 
@@ -93,6 +93,25 @@ export default {
         window.Vault74.Peer2Peer.createChannels(state.friends);
       }
     });
+
+    // Set i18n locale based on the user preferred language
+    if (this.$store.state.settings.language) {
+      this.$i18n.locale = this.$store.state.settings.language;
+    }
+
+    // ----- Lazy Load of languages from IPFS (currently disabled)
+    // Check preferred lang and switch
+    // If something goes wrong during the lazy load the language
+    // state will be reverted back to the default value
+    //
+    // getLang(this.$store.state.settings.language).then((messages) => {
+    //   this.$i18n.setLocaleMessage(this.$store.state.settings.language, messages);
+    //   this.$i18n.locale = this.$store.state.language;
+    // }).catch((error) => {
+    //   console.error(error);
+    //   this.$store.commit('setLanguage', config.defaultLanguage);
+    // });
+    // -----------------------------------------------------------
   },
 };
 </script>

@@ -1,14 +1,14 @@
 <template>
   <div>
-    <h3 class="label">Network</h3>
+    <h3 class="label">{{$t('settings.network.label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Web3 Provider</h2>
-        <p>A Web3 provider is simply the way you chose to interact with the blockchain. For most people <b>Default</b> is fine.</p>
+        <h2>{{$t('settings.network.heading')}}</h2>
+        <p v-html="$t('settings.network.subtext')"/>
         <br>
         <div class="select">
           <select v-model="network" @change="networkChanged">
-            <option value="default">Default</option>
+            <option value="default">{{$t('global.default')}}</option>
             <option value="infura">Infura</option>
             <option value="vault74">Vault74</option>
           </select>

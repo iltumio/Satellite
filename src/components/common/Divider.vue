@@ -5,11 +5,6 @@
 </template>
 
 <script>
-const monthNames = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-];
-
 export default {
   name: 'Divider',
   props: [
@@ -18,7 +13,7 @@ export default {
   methods: {
     getFormattedDate(timestamp) {
       const d = new Date(timestamp);
-      const dateString = `${monthNames[d.getMonth()]}, ${d.getDate()}`;
+      const dateString = `${this.$i18n.t(`dates.month_names.${d.getMonth()}`)}, ${d.getDate()}`;
       return dateString;
     },
   },

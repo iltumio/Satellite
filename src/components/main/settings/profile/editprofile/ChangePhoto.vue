@@ -6,10 +6,10 @@
       @crop-success="cropSuccess"
       v-model="showCropper"
       :value="showCropper"/>
-    <p class="label">Change Photo</p>
-    <button v-if="!ipfsHash" class="button is-primary is-small" v-on:click="toggleCropper">Upload Profile Picture</button>
+    <p class="label">{{$t('settings.profile.change_photo')}}</p>
+    <button v-if="!ipfsHash" class="button is-primary is-small" v-on:click="toggleCropper">{{$t('settings.profile.upload_profile_pic')}}</button>
     <p v-if="ipfsHash">
-      <i class="fa fa-circle-notch fa-pulse"></i> Please confirm transaction...  
+      <i class="fa fa-circle-notch fa-pulse"></i> {{$t('settings.profile.confirm_transaction')}}
     </p>    
     <div style="clear: both;"></div>
     <br>

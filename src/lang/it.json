@@ -1,0 +1,188 @@
+{
+  "global": {
+    "address": "Indirizzo"
+  },
+  "dwellerid": {
+    "account_age": "Età dell'account",
+    "address": "Indirizzo del contratto Dweller ID",
+    "view_contract": "Visualizza il contratto Dweller ID",
+    "view_address": "Copia l'indirizzo del contratto Dweller"
+  },
+  "fileupload": {
+    "heading": "Carica file",
+    "description": "Il file sarà memorizzato su IPFS ed automaticamente inviato in chat.",
+    "select": "Seleziona un file",
+    "chosefile": "Scegli un file",
+    "file": "File",
+    "link": "Collegamento a IPFS",
+    "uploading": "Caricamento su IPFS...",
+    "send": "Invia File"
+  },
+  "loading": {
+    "connecting_blockchain": "Connessione alla blockchain in corso...",
+    "connecting_broker": "Connessione a 0.vault74.io in corso...",
+    "long_load": "L'operazione sta impiegando più del previsto, {{vaule}} è installato?",
+    "other_tab": "Ancora in caricamento? Vault74 potrebbe essere già aperto in un'altra tab.",
+    "something_wrong": "Qualcosa potrebbe essere andato storto,",
+    "alpha": "Questo prodotto è in alpha, per favore usa la rete di test Goerli!"
+  },
+  "files": {
+    "heading": "Sfoglia file",
+    "subtext": "Sfoglia i file che hai condiviso con altri utenti o carica nuovi file su IPFS.",
+    "upload": "Carica file",
+    "your_files": "I tuoi file",
+    "your_files_subtext": "Di seguito la lista di tutti i file che hai caricato."
+  },
+  "friends": {
+    "heading": "Amici",
+    "subtext": "Collegati con altre persone attraverso la piattaforma Vault74.",
+    "find_someone": "Trova qualcuno",
+    "add_a_friend": "Aggiungi un Amico",
+    "enter_address": "Aggiungi l'indirizzo Ethereum di un amico qua sotto per trovarlo...",
+    "add_friend": "Aggiungi Amico",
+    "found_someone": "Abbiamo trovato qualcuno",
+    "chat": "Inizia a chattare",
+    "your_friends": "I tuoi amici",
+    "start_chat": "Inizia una conversazione con i tuoi amici qua sotto, sii gentile, oppure no. Noi non giudichiamo.",
+    "no_friends": "Oops, non hai ancora nessun amico. Noi saremo tuoi amici, ma puoi anche aggiungerne altri qua sopra."
+  },
+  "chatbar": {
+    "typing": "sta scrivendo"
+  },
+  "voice_video": {
+    "switch_video": "Passa al video",
+    "switch_voice": "Passa all'audio",
+    "disconnect": "Disconnetti"
+  },
+  "main": {
+    "heading": "Meglio con Amici",
+    "subtext_one": "Non devi essere solo.",
+    "subtext_two": "Aggiungi degli amici e chatta, condividi e connettiti in diretta!",
+    "button": "Aggiungi Amici alla Chat"
+  },
+  "settings": {
+    "logo": "Impostazioni",
+    "h_general": "Generali",
+    "h_personalize": "Personalizza",
+    "h_profile": "Profilo",
+    "h_audiovideo": "Audio & Video",
+    "h_keybinds": "Scorciatoie da tastiera",
+    "h_accounts": "Account & Dispositivi",
+    "h_networks": "Reti & Servizi",
+    "h_encryption": "Cifratura",
+    "h_storage": "Memorizzazione & Storico",
+    "h_network": "Rete",
+    "h_transactions": "Transazioni",
+    "h_payments": "Pagamenti",
+    "h_transfers": "Trasferimenti",
+    "h_balance": "Saldo",
+    "accounts": {
+      "label": "Accounts",
+      "heading": "Account Attivo",
+      "subtext": "Seleziona l' account Ethereum che preferisci utilizzare come predefinito per inviare transazioni.",
+      "balance": "Saldo",
+      "gas_price": "Prezzo del gas",
+      "gas_price_desc": "Un prezzo del gas più alto permetterà transazioni più veloci.",
+      "devices": "Dispositivi",
+      "connected_devices": "Dispositivi Connessi",
+      "none": "Nessun wallet esterno collegato."
+    },
+    "audio_video": {
+      "label": "Audio",
+      "input_heading": "Ingresso Audio",
+      "input_subtext": "Seleziona da quale dispositivo audio vorresti che le persone sentano la tua voce liscia come la seta.",
+      "audio_output": "Uscita Audio",
+      "audio_output_subtext": "Seleziona da quale dispositivo audio vorresti che venga inviato il suono alle tue orecchie.",
+      "video": "Video",
+      "video_heading": "Ingresso Video",
+      "video_subtext": "Seleziona attraverso quale dispositivo di ingresso video vorresti che venga condiviso il tuo splendido sorriso."
+    },
+    "keybinds": {
+      "label": "Scorciatoie da tastiera",
+      "heading": "Scorciatoie predefinite",
+      "subtext": "Di seguito la lista delle scorciatoie correnti, attualmente non sono configurabili.",
+      "toggle_mute": "Attiva/disattiva Audio",
+      "toggle_deafen": "Attiva/disattiva cancellazione rumore",
+      "toggle_settings": "Apri impostazioni",
+      "call": "Avvia call nella finestra corrente"
+    },
+    "network": {
+      "label": "Rete",
+      "heading": "Web3 Provider",
+      "subtext": "Il Web3 Provider è semplicemente il sistema che scegli per interagire con la blockchain. Per la maggior parte delle persone MetaMask è ok."
+    },
+    "personalize": {
+      "appearance": "Aspetto",
+      "darktheme_heading": "Tema scuro",
+      "darktheme_subtext": "Abilita il tema scuro per una versione di Vault74 più facile per gli occhi.",
+      "permissions": "Permessi",
+      "notifications": "Notifiche",
+      "notifiactions_subtext": "Clicca per consentire a Vault74 di inviarti notifiche ed offrirti un'esperienza migliore."
+    },
+    "storage": {
+      "label": "Archiviazione",
+      "lfs_heading": "Archiviazione file di grandi dimensioni",
+      "lfs_subtext": "Clicca per abilitare l'archiviazione per i file di grandi dimensioni. Questo ti permetterà di caricare file molto grandi e di tenere uno storico dei messaggi più grande in cache.",
+      "lfs_request": "Richiedi i permessi di Archiviazione",
+      "data_heading": "Cancella Dati",
+      "data_subtext": "Cancella velocemente i dati memorizzati localmente. Sii consapevole che attraverso questa operazione perderai i file archiviati, la storia dei messaggi e altre informazioni.",
+      "data_subtext_two": "Fallo solo se sei a conoscenza delle conseguenze che ne derivano.",
+      "clear_data": "Cancella i dati locali"
+    },
+    "profile": {
+      "label": "Profilo",
+      "heading": "Impostazioni Account",
+      "subtext": "Il tuo account non è ancora configurato, facciamolo ora! Richiede solo qualche minuto.",
+      "profile_pic": "Immagine del profilo (Opzionale)",
+      "uploading_ipfs": "Caricamento su IPFS in corso...",
+      "username": "Nome utente",
+      "create_account": "Crea Account",
+      "creating_transaction": "Creazione della Transazione",
+      "step1": "Per favore conferma la transazione attraverso il tuo wallet o tramite MetaMask.",
+      "sending_transaction": "Invio della Transazione",
+      "step2": "In attesa che la tua transazione sia inviata...",
+      "confirming_transactoin": "Conferma della Transazione",
+      "step3": "Non uscire dalla pagina! stiamo aspettando la conferma dell'inserimento della transazione inviata...",
+      "last_step": "Ultimi passi!",
+      "step4": "Stiamo predisponendo alcune cose dell'ultimo minuto...",
+      "edit_account": "Modifica Account",
+      "edit_account_subtext": "Sfoglia le informazioni del tuo account ed effettua modifiche.",
+      "your_account": "Il tuo Account",
+      "your_account_subtext": "Sfoglia le informazioni del tuo account ed effettua modifiche.",
+      "display_name": "Nome Visualizzato",
+      "account_address": "Indirizzo Account",
+      "id_card": "Questo è come la tua carta d'identità. Condividila con i tuoi amici in modo che possano aggiungerti.",
+      "dweller_address": "Indirizzo Dweller",
+      "dweller_owner_address": "Indirizzo del proprietario del Dweller",
+      "name": "Nome",
+      "photo_hash": "Hash della foto"
+    }
+  },
+  "payments": {
+    "send": "Invia {{amount}} ether",
+    "balance": "Saldo",
+    "button": "Invia"
+  },
+  "sidebar": {
+    "find": "Trova un vault dweller...",
+    "friends": "Amici",
+    "files": "File",
+    "chats": "Chat",
+    "groups": "Gruppi",
+    "add_friends": "Hey! Aggiungi altri amici alla chat",
+    "button": "Aggiungi Amici"
+  },
+  "footer": {
+    "p2p": "P2P",
+    "network": "Rete",
+    "block_number": "Numero di blocco",
+    "account": "Account",
+    "connecting": "In connessione"
+  },
+  "languages": {
+    "it": "Italiano",
+    "en_US": "Inglese (USA)",
+    "en_UK": "Inglese (UK)",
+    "fr": "Francese"
+  }
+}

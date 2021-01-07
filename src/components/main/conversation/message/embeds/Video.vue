@@ -4,10 +4,7 @@
       <article class="media">
         <div class="media-content">
           <div class="content">
-            <video controls :src="message.payload.data.url">
-              Your browser does not support the
-              <code>video</code> element.
-            </video>
+            <video controls :src="message.payload.data.url" v-html="$t('conversation.message.video.not_supported')"/>
             <p>
               <i class="fas fa-file-download logo"></i>
               <strong class="filename">{{message.payload.data.filename}}</strong>

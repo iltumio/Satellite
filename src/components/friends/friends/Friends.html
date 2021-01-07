@@ -1,12 +1,12 @@
 <div id="friends">
   <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
-  <h3>Friends</h3>
-  <p>Get connected with other people on the Vault74 platform.</p>
-  <h2 class="label">Find Someone</h2>
+  <h3>{{$t('friends.heading')}}</h3>
+  <p>{{$t('friends.subtext')}}</p>
+  <h2 class="label">{{$t('friends.find_someone')}}</h2>
   <article class="message is-dark">
     <div class="message-body">
-      <h2>Add a Friend</h2>
-      <p>Enter a friends Ethereum address below to find them...</p>
+      <h2>{{$t('friends.add_a_friend')}}</h2>
+      <p>{{$t('friends.enter_address')}}</p>
       <br>
       <div class="field has-addons" >
         <div class="control" style="width: 100%;">
@@ -14,7 +14,7 @@
         </div>
         <div class="control">
           <a class="button is-primary" v-on:click="addFriend">
-            Search
+            {{$t('friends.search')}}
           </a>
         </div>
       </div>
@@ -26,29 +26,29 @@
         <h2 class="label green">{{success}}</h2>
       </div>
       <div v-if="friend">
-        <h2 class="label">We Found Someone</h2>
+        <h2 class="label">{{$t('friends.found_someone')}}</h2>
         <Friend :action="commitFriend" :friend="friend" text="Add" />
         <div style="clear:both"></div>
       </div>
     </div>
   </article>
-  <h2 class="label">Get Chatting</h2>
+  <h2 class="label">{{$t('friends.chat')}}</h2>
   <article class="message is-dark">
     <div class="message-body">
-      <h2>Your Friends</h2>
+      <h2>{{$t('friends.your_friends')}}</h2>
       <div v-if="$store.state.friends.length > 0">
-        <p>Start a chat with your friends below, be kind, or don't. We don't judge.</p>
+        <p>{{$t('friends.start_chat')}}</p>
         <hr class="divider">
         <input
           class="input searchuser"
           type="text"
           v-model="keyword"
           v-on:keyup="filterFriends"
-          placeholder="Find Friend...">
+          :placeholder="$t('friends.search_placeholder')">
         <hr class="divider">
       </div>
       <div v-else>
-        <p>Oops, you don't have any friends yet. We'll be your friend, but you can also add more above.</p>
+        <p>{{$t('friends.no_friends')}}</p>
       </div>
       <Friend v-for="fr in friends" :key="fr.address" :friend="fr" :action="chatFriend" text="Chat" />
       <div style="clear:both"></div>

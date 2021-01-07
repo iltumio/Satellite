@@ -5,12 +5,12 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <section class="modal-card-body">
-          <h2 class="label">External Link</h2>
-          <p>You are about to leave our app to view a link, do you want to continue?</p>
+          <h2 class="label">{{$t('global.external_link_title')}}</h2>
+          <p>{{$t('global.external_link_text')}}</p>
           <hr class="divider">
-          <button class="button is-success" v-on:click="openLink">Continue</button>
+          <button class="button is-success" v-on:click="openLink">{{$t('global.continue')}}</button>
           &nbsp;
-          <button class="button is-danger" v-on:click="togglePopup">Nevermind</button>
+          <button class="button is-danger" v-on:click="togglePopup">{{$t('global.nevermind')}}</button>
         </section>
       </div>
     </div>
