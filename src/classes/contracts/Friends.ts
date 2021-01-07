@@ -1,6 +1,6 @@
 import { Contract } from "web3-eth-contract";
 // @ts-ignore
-import * as FriendsInterface from '@/contracts/interfaces/Friends.json';
+import * as FriendsInterface from '@/contracts/build/contracts/Friends.json';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
 

@@ -42,7 +42,8 @@
           <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; Writing additional server details...</span>
           <span v-else><i class="fa fa-circle-notch"></i> &nbsp; Writing additional server details...</span>
           <br>
-          <span class="loading"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; Done, cleaning up.</span>
+          <span class="loading" v-if="!done"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; Done, cleaning up.</span>
+          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; Done, You can close this.</span>
         </p>
       </div>
     </section>

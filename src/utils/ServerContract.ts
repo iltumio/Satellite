@@ -1,10 +1,10 @@
 // @ts-ignore
-import * as Server from '@/contracts/interfaces/Server.json';
+import * as Server from '@/contracts/build/contracts/Server.json';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
 import IIPFSHash from '../interfaces/IIPFSHash';
 
-const ethereum = new Ethereum('user-provided');
+const ethereum = new Ethereum('window');
 // useful methods to interact with the DwellerID contract
 export default {
   /** @function
@@ -14,9 +14,10 @@ export default {
    */
   getContract(address: string) {
     const contract = ethereum.getContract(Server.abi, address);
-    contract.options.data = Server.data.bytecode.object;
+    contract.options.data = Server.bytecode.object;
     return contract;
   },
+
   /** @function
    * @name setPhoto
    * @argument address Address of the Server contract

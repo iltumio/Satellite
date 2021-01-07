@@ -9,10 +9,10 @@
         <div class="select">
           <select v-model="$store.state.theme">
             <option value="dark">Simply Dark</option>
+            <option value="zenburn">Zenburn</option>
             <option value="light">Eye Strain</option>
             <option value="ice">Ice Cold</option>
             <option value="tokyo">Tokyo Night</option>
-            <option value="tokyo-lights">Tokyo Lights</option>
           </select>
         </div>
       </div>

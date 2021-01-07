@@ -17,6 +17,10 @@ You must install `Node.JS` on your system prior to running the application.
 **Install Deps.**
 `yarn` or `npm install`
 
+**Build Contracts**
+Install Truffle `npm i -g truffle`
+Build Contracts `cd src/contracts && truffle`
+
 **Start in Devmode**
 `yarn dev` or `npm run dev`
 

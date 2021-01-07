@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as DwellerID from '@/contracts/interfaces/DwellerID.json';
+import * as DwellerID from '@/contracts/build/contracts/DwellerID.json';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
 import IIPFSHash from '../interfaces/IIPFSHash';
@@ -20,9 +20,10 @@ export default {
     } else {
       contract = ethereum.getContract(DwellerID.abi);
     }
-    contract.options.data = DwellerID.data.bytecode.object;
+    contract.options.data = DwellerID.bytecode.object;
     return contract;
   },
+
   /** @function
    * @name deploy
    * @argument _username inital username to deploy the contract with
@@ -45,6 +46,7 @@ export default {
       // @ts-ignore
       .once('confirmation', done);
   },
+
   /** @function
    * @name setPhoto
    * @argument address Address of the DwellerID contract
@@ -66,6 +68,7 @@ export default {
       .once('transactionHash', done)
       .once('confirmation', done);
   },
+
   /** @function
    * @name setUsername
    * @argument address Address of the DwellerID contract
@@ -83,6 +86,7 @@ export default {
       .once('transactionHash', done)
       .once('confirmation', done);
   },
+
   /** @function
    * @name getDwellerAsync
    * @argument address Address of the DwellerID contract
@@ -100,6 +104,15 @@ export default {
     onChainPhotoHash = ethereum.utils.hexToString(onChainPhotoHash);
     done(dweller, onChainPhotoHash);
   },
+
+  async getServers(address: string, from: string) : Promise<any> {
+    const contract = this.getContract(address);
+    const servers = await contract.methods.getServers().call({
+      from: from,
+    });
+    return servers;
+  },
+
   /** @function
    * @name getDwellerAsync
    * @argument address Address of the DwellerID contract
@@ -113,6 +126,7 @@ export default {
       });
     });
   },
+
   /** @function
    * @name getPhotoAsync
    * @argument address Address of the DwellerID contract
@@ -125,6 +139,7 @@ export default {
       });
     });
   },
+
   /** @function
    * @name getDwellerAddress
    * @argument address Address of the DwellerID contract
@@ -135,6 +150,7 @@ export default {
     const dweller = await contract.methods.getDwellerAddress().call();
     return dweller;
   },
+
   /** @function
    * @name getDwellerName
    * @argument address Address of the DwellerID contract

@@ -4,7 +4,7 @@ const defaultState = {
     darkMode: true,
   },
   // Theme
-  theme: 'dark',
+  theme: 'tokyo',
   // Screen Share
   screenShareRequest: null,
   captureMouse: 'always',

@@ -4,6 +4,8 @@
 import PhotoCropper from 'vue-image-crop-upload';
 import CircleIcon from '@/components/common/CircleIcon';
 import Vault74Registry from '@/utils/Vault74Registry.ts';
+import DwellerContract from '@/utils/DwellerContract.ts';
+import ServerContract from '@/utils/ServerContract.ts';
 
 export default {
   name: 'CreateServer',
@@ -20,6 +22,7 @@ export default {
       showCropper: false,
       photoUrl: false,
       creating: false,
+      done: false,
       transactionHash: false,
       confirmation: false,
     };
@@ -93,38 +96,32 @@ export default {
         },
         (confirmationNumber, receipt) => {
           this.confirmation = confirmationNumber;
-          this.finishProfile(receipt);
+          this.finishServer(receipt);
         },
       );
     },
     // Set the dweller id profile picture hash on contract
     // after do any final tasks we need to do on chain
-    async finishProfile(receipt) {
+    async finishServer() {
       if (!this.ipfsHash) {
+        this.done = true;
         return;
       }
-
-      console.log('uploading icon', receipt);
-      /*
-      const serverContract = await Vault74Registry
-        .getServer(this.$store.state.activeAccount);
-
-      let confirms = 0;
-      this.$store.commit('setStatus', 'Transaction created, waiting for confirm');
-      DCUtils.setPhoto(
-        dwellerIDContract,
+      console.log('ipfsHash', this.ipfsHash);
+      // Get newest server on dweller contract
+      const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
+      const servers = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
+      const newServer = servers[servers.length - 1];
+      console.log('newest server', newServer);
+      ServerContract.setPhoto(
+        newServer,
         this.$store.state.activeAccount,
         this.ipfsHash,
-        () => {
-          confirms += 1;
-          this.finished = true;
-          this.$store.commit('setStatus', 'Transaction confirmed');
-          if (confirms >= 2 || !this.customFinalAction) {
-            this.commitEverything(dwellerIDContract);
-          }
+        (confirmation) => {
+          this.done = true;
+          console.log('done!', confirmation);
         },
       );
-      */
     },
   },
 };

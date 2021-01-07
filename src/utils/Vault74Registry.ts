@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as Vault74Registry from '@/contracts/interfaces/Vault74Registry.json';
+import * as Vault74Registry from '@/contracts/build/contracts/Vault74Registry.json';
 // @ts-ignore
 import config from '@/config/config';
 // @ts-ignore
@@ -16,7 +16,7 @@ export default {
    */
   getContract() {
     const contract = ethereum.getContract(Vault74Registry.abi, address);
-    contract.options.data = Vault74Registry.data.bytecode.object;
+    contract.options.data = Vault74Registry.bytecode.object;
     return contract;
   },
   /** @function

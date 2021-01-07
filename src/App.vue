@@ -122,8 +122,8 @@ export default {
 .tokyo {
   @import "assets/styles/tokyo.less";
 }
-.tokyo-lights {
-  @import "assets/styles/tokyo_lights.less";
+.zenburn {
+  @import "assets/styles/zenburn.less";
 }
 .notification {
   z-index: 10;
