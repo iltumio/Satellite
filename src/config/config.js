@@ -27,6 +27,12 @@ module.exports = {
     upload: 'QmSHtz5kSvX8JNZKMfkm6PjqScxoC864bmGd2g3ycwRqK1',
     connected: 'QmUJMTmCdnzjcUT5nT2eGzXVDYbwDq3CanjKabYQ3Vu3Dt',
   },
+  defaultLanguage: 'en_US',
+  languages: {
+    en_UK: '',
+    fr: '',
+    it: 'QmSezaqPeAhsjekzNS3xChGw7G5N4GYCuYAqYkkGZgxneu',
+  },
   registry: {
     mainnet: '0x0',
     goerli: '0xfA22498c3F2bc836d9347F2e8c718E7820eAb308',
@@ -47,9 +53,7 @@ module.exports = {
         port: 443,
         path: '/',
         key: 'vault74',
-        iceServers: [
-          { url: 'stun:stun.l.google.com:19302' },
-        ],
+        iceServers: [{ url: 'stun:stun.l.google.com:19302' }],
       },
       dev: {
         secure: false,
@@ -57,9 +61,7 @@ module.exports = {
         port: 80,
         path: '/',
         key: 'vault74',
-        iceServers: [
-          { url: 'stun:stun.l.google.com:19302' },
-        ],
+        iceServers: [{ url: 'stun:stun.l.google.com:19302' }],
       },
     },
     heartbeat_timeout: 7000,

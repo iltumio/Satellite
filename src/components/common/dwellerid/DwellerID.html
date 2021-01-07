@@ -12,21 +12,21 @@
       </header>
       <section class="modal-card-body">
           <p>
-            <span class="label">Badges</span>
+            <span class="label">{{$t('dwellerid.badges')}}</span>
             <span class="badges">
                 <Badge :address="address" />
             </span>
           </p>
-          <span class="label">Status</span>
+          <span class="label">{{$t('dwellerid.status')}}</span>
           <div class="padded">
-              <span>Not yet implimented</span>
+              <span>{{$t('global.not_yet_implemented')}}</span>
           </div>
-          <span class="label">Actions</span>
+          <span class="label">{{$t('dwellerid.actions')}}</span>
           <div class="padded">
-            <a :href="`https://goerli.etherscan.io/address/${address}`" target="_blank">View on Etherscan</a> 
+            <a :href="`https://goerli.etherscan.io/address/${address}`" target="_blank">{{$t('global.view_on_etherscan')}}</a> 
           </div>
           <br>
-          <button class="button is-success" style="float:right;" v-on:click="message">Send Message</button>
+          <button class="button is-success" style="float:right;" v-on:click="message">{{$t('dwellerid.send_message')}}</button>
       </section>
   </div>
 </div>

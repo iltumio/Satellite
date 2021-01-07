@@ -6,7 +6,7 @@
           <h2>{{fetchAchievement(achievement).title}}</h2>
           <p>
             {{fetchAchievement(achievement).subtext}}<br />
-            <a href="">view all achievements</a>
+            <a href="">{{$t('global.view_all_achievements')}}</a>
           </p>
         </div>
       </div>

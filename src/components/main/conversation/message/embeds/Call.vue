@@ -5,8 +5,8 @@
         <div class="content">
           <p>
             <i class="fas fa-phone-volume logo"></i>
-            <strong class="amount">Call Started</strong><br />
-            <small>Call incoming, get ready!</small><br>
+            <strong class="amount">{{$t('conversation.message.call.started')}}</strong><br />
+            <small>{{$t('conversation.message.call.incoming')}}</small><br>
           </p>
         </div>
       </div>

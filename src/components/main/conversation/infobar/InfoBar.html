@@ -16,7 +16,7 @@
               <i class="fa fa-phone-volume" v-on:click="makeCall"></i>
               <i class="fa fa-video disabled-icon"></i>
               <i class="fas fa-desktop" v-on:click="requestScreenShare"></i>
-              <input class="input is-small searchuser" type="text" placeholder="Search in conversation...">
+              <input class="input is-small searchuser" type="text" :placeholder="$t('conversation.infobar.search_placeholder')">
               <i class="fas fa-address-card" v-on:click="toggleFingerprint"></i>
           </div>
       </div>

@@ -9,15 +9,16 @@
   <hr class="divider">
   <div style="clear:both;"></div>
   <p>
-      <i class="fab fa-ethereum"></i> Send {{amount}} ether (${{+(Math.round((amount * priceUsd) + "e+2")  + "e-2")}})<br>
+      <i class="fab fa-ethereum"></i> {{$t('payments.send', {amount: amount, dollar_equivalent: +(Math.round((amount * priceUsd) + "e+2")  + "e-2")})}}
+      <br>
       <small>
-          <b>Balance: </b>
+          <b>{{$t('payments.balance')}}: </b>
           {{+(Math.round($store.state.balance + "e+3")  + "e-3")}} ETH
           <span v-if="error">
             <br>
             <b class="red">{{error}}</b>
           </span>
-          <b class="yellow"> - Prices from CoinCap.io</b>
+          <b class="yellow">{{$t('payments.prices_disclaimer')}}</b>
       </small>
   </p>
   <input 
@@ -26,5 +27,5 @@
       placeholder="0.1"
       v-model="amount">
   <i class="fa fa-times close" v-on:click="toggle"></i>
-  <button class="button is-primary" v-on:click="sendTransaction">Send</button>
+  <button class="button is-primary" v-on:click="sendTransaction">{{$t('payments.button')}}</button>
 </section>

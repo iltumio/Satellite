@@ -1,21 +1,21 @@
 <template>
   <div>
-    <h3 class="label">Encryption &amp; Keys</h3>
+    <h3 class="label">{{$t('settings.encryption.label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Public / Private Keys</h2>
-        <p>Messages are encrypted with a public and private key. You can reveal your keys below. <b>DO NOT</b> share your private key with others.</p>
+        <h2>{{$t('settings.encryption.heading')}}</h2>
+        <p v-html="$t('settings.encryption.subtext')"/>
         <br>
-        <span class="label">Public Key</span>
+        <span class="label">{{$t('settings.encryption.public_key')}}</span>
         <input readonly :value="key.getPublicKey()" class="input" type="text" />
-        <span class="label">Private Key <small>(hover to reveal)</small></span>
+        <span class="label">{{$t('settings.encryption.private_key')}} <small>({{$t('settings.encryption.hover_to_reveal')}})</small></span>
         <div class="input blured" type="text">
           <span class="text">
             {{key.getPrivateKey()}}
           </span>
         </div>
         <br><br>
-        <button class="button is-danger is-small">Regenerate Keys</button>
+        <button class="button is-danger is-small">{{$t('settings.encryption.regenerate_keys')}}</button>
       </div>
     </article>
   </div>

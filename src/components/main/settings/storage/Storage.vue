@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="label">Database</h3>
+    <h3 class="label">{{$t('settings.storage.database_label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
         <h2>Enable Database</h2>
@@ -10,54 +10,51 @@
               <img src="https://textile.io/images/logo.png" class="margin" alt="" />
             </div>
             <div class="column padded">
-              <p class="padded">Vault74 utilizes Texile's ThreadDB, a decentralized database, to store your data.
+              <p class="padded">
+                {{$t('settings.storage.threadDB')}}
                 <br>
-                You can learn more about them here: <a href="https://textile.io/">https://textile.io/</a></p>
+                {{$t('settings.storage.threadDB_learn_more')}} <a href="https://textile.io/">https://textile.io/</a></p>
             </div>
           </div>
         </div>
 
-        <p>
-          Enable <b>ThreadDB</b>, a decentralized database used to recieve offline messaging and unlock additional features.
-          <br>
-          Your data is stored on a distributed network and none of that data passes through us.
-        </p>
+        <p v-html="$t('settings.storage.threadDB_enable')"/>
         <br>
         <ToggleSwitch v-model="$store.state.databaseEnabled"/>
         <hr class="spacer">
-        <h2>Your Data ID</h2>
+        <h2>{{$t('settings.storage.threadDB_data_id')}}</h2>
         <p>
-          Your data ID references all the data stored in the app. Save this somewhere save to transfer your data to another browser.
+          {{$t('settings.storage.threadDB_data_id_text')}}
           <br> <br>
           <input v-model="dataid" readonly class="input is-small" placeholder="data..." />     
         </p>
       </div>
     </article>
-    <h3 class="label">Storage</h3>
+    <h3 class="label">{{$t('settings.storage.storage_label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Large File Storage</h2>
-        <p>Click to enable large file storage, this will allow you to upload very large files and keep more message history cached.</p>
+        <h2>{{$t('settings.storage.lfs_heading')}}</h2>
+        <p>{{$t('settings.storage.lfs_subtext')}}</p>
         <br>
         <button class="button is-primary is-small" v-on:click="requestUnlimitedStorage">
-          Request Storage Permissions
+          {{$t('settings.storage.lfs_request')}}
         </button>
         <hr class="spacer">
-        <h2>Export Local Storage</h2>
-        <p>Export your Local Storage to move to another browser.</p>
+        <h2>{{$t('settings.storage.export_ls_heading')}}</h2>
+        <p>{{$t('settings.storage.export_ls_subtext')}}</p>
         <br>
         <button class="button is-primary is-small" v-on:click="exportStorage">
-          Export Storage
+         {{$t('settings.storage.export_ls_button')}}
         </button>
         <hr class="spacer">
-        <h2>Clear Data</h2>
+        <h2>{{$t('settings.storage.data_heading')}}</h2>
         <p class="heading">{{storageSize}}</p>
-        <p>Quickly clean up locally stored data, please be aware doing so will clear your stored files, message history, and more. <br>
+        <p>{{$t('settings.storage.data_subtext')}}<br>
         <br>
-        Only do this if you know the repercussions.</p>
+        {{$t('settings.storage.data_subtext_two')}}</p>
         <br>
         <button class="button is-danger is-small" v-on:click="clearData">
-          <i class="fas fa-skull-crossbones"></i> &nbsp; Clear Local Data
+          <i class="fas fa-skull-crossbones"></i> &nbsp; {{$t('settings.storage.clear_data')}}
         </button>
       </div>
     </article>

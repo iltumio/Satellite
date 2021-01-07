@@ -1,9 +1,9 @@
 <div>
-  <h3 class="label" v-if="!embeded">Profile</h3>
+  <h3 class="label" v-if="!embeded">{{$t('settings.profile.label')}}</h3>
   <article :class="`${(!embeded) ? 'message is-dark' : ''}`" id="profile">
     <div :class="`${(!embeded) ? 'message-body' : ''}`" v-if="this.$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'">
-      <h2>Setup Account</h2>
-      <p>Your account is not setup yet, let's get that going! It only takes a moment.</p>
+      <h2>{{$t('settings.profile.heading')}}</h2>
+      <p>{{$t('settings.profile.subtext')}}</p>
       <br>
       <div v-if="!this.created">
         <div class="columns">
@@ -11,16 +11,16 @@
             <img :src="profileFile" class="preview">
           </div>
           <div class="column is-four-fifths">
-            <p class="label">Profile Picture (Optional)</p>
+            <p class="label">{{$t('settings.profile.profile_pic')}}</p>
             <PhotoCropper 
               field="img"
               langType="en"
               @crop-success="cropSuccess"
               v-model="showCropper"
               :value="showCropper"/>
-            <button class="button is-primary is-small" v-on:click="toggleCropper">Upload Profile Picture</button>
+            <button class="button is-primary is-small" v-on:click="toggleCropper">{{$t('settings.profile.upload_profile_pic')}}</button>
             <!--<input class="input" type="file" @change="onFileChange" />-->
-            <span v-if="profileFile && !ipfsHash">Uploading to IPFS...</span>
+            <span v-if="profileFile && !ipfsHash">{{$t('settings.profile.uploading_ipfs')}}</span>
             <small class="address">{{ipfsHash.path}}</small>
           </div>
         </div>
@@ -28,8 +28,8 @@
           <div class="column is-one-fifth">
           </div>
           <div class="column is-four-fifths">
-            <p class="label">Username</p>
-            <input v-model="$store.state.username" class="input" placeholder="Username" />     
+            <p class="label">{{$t('settings.profile.username')}}</p>
+            <input v-model="$store.state.username" class="input" :placeholder="$t('settings.profile.username')" />     
           </div>
           <p v-if="error">{{error}}</p>
         </div>
@@ -37,28 +37,28 @@
           <button 
             class="button is-primary" 
             :disabled="profileFile && !ipfsHash"
-            v-on:click="submitProfileContract">Create Account</button>
+            v-on:click="submitProfileContract">{{$t('settings.profile.create_account')}}</button>
         </p>
       </div>
       <div v-else>
         <p>
-          <span class="heading">Creating Transaction</span>
-          <span :class="`${created ? 'light' : 'dark'}`">Please approve the transaction on your wallet or MetaMask.</span>
+          <span class="heading">{{$t('settings.profile.creating_transaction')}}</span>
+          <span :class="`${created ? 'light' : 'dark'}`">{{$t('settings.profile.step1')}}</span>
         </p>
         <br>
         <p>
-          <span :class="`${transactionHash ? 'light' : 'dark'} heading`">Sending Transaction</span>
-          <span :class="`${transactionHash ? 'light' : 'dark'}`">Please wait while your transaction is sent...</span>
+          <span :class="`${transactionHash ? 'light' : 'dark'} heading`">{{$t('settings.profile.sending_transaction')}}</span>
+          <span :class="`${transactionHash ? 'light' : 'dark'}`">{{$t('settings.profile.step2')}}</span>
         </p>
         <br>
         <p>
-          <span :class="`${confirmation ? 'light' : 'dark'} heading`">Confirming Transaction</span>
-          <span :class="`${confirmation ? 'light' : 'dark'}`">Don't Leave! we're waiting for a confirmation...</span>
+          <span :class="`${confirmation ? 'light' : 'dark'} heading`">{{$t('settings.profile.confirming_transaction')}}</span>
+          <span :class="`${confirmation ? 'light' : 'dark'}`">{{$t('settings.profile.step3')}}</span>
         </p>
         <br>
         <p>
-          <span :class="`${finished ? 'light' : 'dark'} heading`">Last Steps!</span>
-          <span :class="`${finished ? 'light' : 'dark'}`">We're just taking care of some last minute things...</span>
+          <span :class="`${finished ? 'light' : 'dark'} heading`">{{$t('settings.profile.last_step')}}</span>
+          <span :class="`${finished ? 'light' : 'dark'}`">{{$t('settings.profile.step4')}}</span>
         </p>
       </div>
     </div>
@@ -72,40 +72,40 @@
         :changePhoto="changePhoto"
         :changeUsername="changeUsername"/>
       <div class="editing" v-if="showChangePhoto || showChangeUsername">
-        <h2>Edit Account</h2>
-        <p>Browse your account info, and make changes.</p>
+        <h2>{{$t('settings.profile.edit_account')}}</h2>
+        <p>{{$t('settings.profile.edit_account_subtext')}}</p>
         <ChangePhoto v-if="showChangePhoto" :close="hideChangePhoto" :refresh="getDweller" />
         <ChangeUsername v-if="showChangeUsername" :close="hideChangeUsername" :refresh="getDweller" />
         <hr class="spacer">
       </div>
-      <h2>Your Account</h2>
-      <p>Browse your account info, and make changes.</p>
+      <h2>{{$t('settings.profile.your_account')}}</h2>
+      <p>{{$t('settings.profile.your_account_subtext')}}</p>
       <br>
       <img :src="`${config.ipfs.browser}${$store.state.profilePictureHash}`" class="preview">
       <div class="inputs">
-        <p class="label">Display Name</p>
+        <p class="label">{{$t('settings.profile.display_name')}}</p>
         <input class="input" :value="$store.state.username" readonly />
       </div>
       <div style="clear:both;"></div>
       <br>
-      <p class="label">Your Badges</p>
+      <p class="label">{{$t('settings.profile.your_badges')}}</p>
       <div class="badges">
         <Badge :address="$store.state.activeAccount" />
       </div>
-      <p class="label">Account Address</p>
-      <p>This is like your ID card, share this with friends so they can add you.</p>
+      <p class="label">{{$t('settings.profile.account_address')}}</p>
+      <p>{{$t('settings.profile.id_card')}}</p>
       <input class="input" :value="$store.state.activeAccount" readonly />
       <br>
       <hr class="spacer">
       <button class="button is-primary is-small" v-on:click="getDweller" v-if="!this.dweller">Advanced Details</button>
       <div v-if="this.dweller">
-        <p class="label">Dweller Address</p>
+        <p class="label">{{$t('settings.profile.dweller_address')}}</p>
         <input class="input" :value="$store.state.dwellerAddress" readonly />
-        <p class="label">Dweller Owner Address</p>
+        <p class="label">{{$t('settings.profile.dweller_owner_address')}}</p>
         <input class="input" :value="this.dweller[0]" readonly />
-        <p class="label">Name</p>
+        <p class="label">{{$t('settings.profile.name')}}</p>
         <input class="input" :value="this.dweller[1]" readonly />
-        <p class="label">Photo Hash</p>
+        <p class="label">{{$t('settings.profile.photo_hash')}}</p>
         <input class="input" :value="this.onChainPhotoHash" readonly />
         <hr class="spacer">
         <div class="bordered margin-2">
@@ -114,7 +114,7 @@
               <img src="https://ipfs.io/ipfs/QmdRkYNxFja3Bg9F9jicRXA3DAEVFFSVcZ6uBjEKkSDrEF" class="margin" alt="" />
             </div>
             <div class="column padded">
-              <p class="padded">Your profile is stored on an Ethereum Smart Contract. A decentralized transfer protocol free from fraudulent manipulation.</p>
+              <p class="padded">{{$t('settings.profile.disclaimer')}}</p>
             </div>
           </div>
         </div>

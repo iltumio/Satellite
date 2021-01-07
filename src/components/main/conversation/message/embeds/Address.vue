@@ -9,7 +9,7 @@
             <br>
             <ExternalLink 
               :link="getEtherscanLink()" 
-              text="Click to view on Etherscan.io" />
+              :text="$t('conversation.message.address.external_link_text')" />
           </p>
         </div>
       </div>

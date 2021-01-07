@@ -9,31 +9,28 @@
                 <button class="button is-danger is-small" v-on:click="reload">Retry?</button>
             </div>
             <div v-else-if="!$store.state.dwellerAddress">
-                <i class="fas fa-circle-notch fa-pulse"></i> Connecting to the blockchain...
+                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.connecting_blockchain')}}
             </div>
             <div v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'" class="content">
                 <Profile :customFinalAction="reload" />
             </div>
             <div v-else-if="!$store.state.friends">
-                <i class="fas fa-circle-notch fa-pulse"></i> Assembling the hive...
+                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.assembling')}}
             </div>
             <div v-else-if="!$store.state.ICEConnected">
-                <i class="fas fa-circle-notch fa-pulse"></i> Connecting to 0.vault74.io...
+                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.connecting_broker')}}
             </div>
             <div class="metamask" v-if="showWeb3 && $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'">
-                <span v-if="!$store.state.dwellerAddress">
-                    This is taking a bit, do you have <a href="https://metamask.io/" target="_blank">https://metamask.io/</a> installed?
-                </span>
+                <span v-if="!$store.state.dwellerAddress" v-html="$t('loading.long_load', {text: 'https://metamask.io/', link: 'https://metamask.io/', target: '_blank'})"/>
                 <span v-else-if="!$store.state.ICEConnected">
-                    Still loading? Vault74 may already be open in another tab.
+                    {{$t('loading.other_tab')}}
                 </span>
                 <span v-else>
-                    Something may have gone wrong, <a href="#" target="_blank" v-on:click="window.location.reload()">retry?</a>
+                    {{$t('loading.something_wrong')}} <a href="#" target="_blank" v-on:click="window.location.reload()">{{$t('loading.retry')}}</a>
                 </span>
             </div>
-
             <p class="special-thanks">
-                This is a alpha product, Please use Goerli Testnet!
+                {{$t('loading.alpha')}}
             </p>
         </div>
     </div>

@@ -18,7 +18,7 @@
             <br>
             <ExternalLink 
               :link="`${config.network.explorer}/tx/${message.data.tx}`" 
-              text="Click to review transaction on Etherscan.">
+              :text="$t('global.view_on_etherscan')">
             </ExternalLink>
           </p>
         </div>

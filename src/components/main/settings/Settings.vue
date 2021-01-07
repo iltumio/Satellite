@@ -2,48 +2,48 @@
   <div class="columns">
     <button v-if="open" class="modal-close is-large" aria-label="close" v-on:click="toggleSettings"></button>
     <div class="column is-one-third settings-left noselect" style="max-width: 300px;" v-if="open">
-      <h1 id="logo">Settings</h1>
+      <h1 id="logo">{{$t('settings.logo')}}</h1>
       <aside class="menu">
         <p class="menu-label">
-          General
+          {{$t('settings.h_general')}}
         </p>
         <ul class="menu-list">
           <li v-on:click="setRoute('personalize')">
-            <a :class="`${route == 'personalize' ? 'active' : ''}`">Personalize</a>
+            <a :class="`${route == 'personalize' ? 'active' : ''}`">{{$t('settings.h_personalize')}}</a>
           </li>
           <li v-on:click="setRoute('profile')">
-            <a :class="`${route == 'profile' ? 'active' : ''}`">Profile</a>
+            <a :class="`${route == 'profile' ? 'active' : ''}`">{{$t('settings.h_profile')}}</a>
           </li>
           <li v-on:click="setRoute('audiovideo')">
-            <a :class="`${route == 'audiovideo' ? 'active' : ''}`">Audio &amp; Video</a>
+            <a :class="`${route == 'audiovideo' ? 'active' : ''}`">{{$t('settings.h_audiovideo')}}</a>
           </li>
           <li v-on:click="setRoute('keybinds')">
-            <a :class="`${route == 'keybinds' ? 'active' : ''}`">Keybinds</a>
+            <a :class="`${route == 'keybinds' ? 'active' : ''}`">{{$t('settings.h_keybinds')}}</a>
           </li>
           <li v-on:click="setRoute('accounts-devices')">
-            <a :class="`${route == 'accounts-devices' ? 'active' : ''}`">Accounts &amp; Devices</a>
+            <a :class="`${route == 'accounts-devices' ? 'active' : ''}`">{{$t('settings.h_accounts')}}</a>
           </li>
         </ul>
         <p class="menu-label">
-          Networks &amp; Security
+          {{$t('settings.h_networks')}}
         </p>
         <ul class="menu-list">
           <li v-on:click="setRoute('encryption')">
-            <a :class="`${route == 'encryption' ? 'active' : ''}`">Encryption</a>
+            <a :class="`${route == 'encryption' ? 'active' : ''}`">{{$t('settings.h_encryption')}}</a>
           </li>
           <li v-on:click="setRoute('storage')">
-            <a :class="`${route == 'storage' ? 'active' : ''}`">Storage</a>
+            <a :class="`${route == 'storage' ? 'active' : ''}`">{{$t('settings.h_storage')}}</a>
           </li>
           <li v-on:click="setRoute('network')">
-            <a :class="`${route == 'network' ? 'active' : ''}`">Network</a>
+            <a :class="`${route == 'network' ? 'active' : ''}`">{{$t('settings.h_network')}}</a>
           </li>
         </ul>
         <p class="menu-label">
-          Information
+          {{$t('settings.h_information')}}
         </p>
         <ul class="menu-list">
           <li v-on:click="setRoute('contracts')">
-            <a :class="`${route == 'contracts' ? 'active' : ''}`">Contracts</a>
+            <a :class="`${route == 'contracts' ? 'active' : ''}`">{{$t('settings.h_contracts')}}</a>
           </li>
         </ul>
       </aside>
