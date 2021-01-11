@@ -389,7 +389,7 @@
       "confirm_transaction": "We're setting up your new server, please confirm any transactions.",
       "waiting_server_confirmation": "We're waiting for your server to confirm...",
       "writing_additional_details": "Writing additional server details...",
-      "done": "Done, cleaning up."
+      "done": "Wrapping things up..."
     }
   },
   "unlock": {
