@@ -3,7 +3,9 @@ import VueI18n from 'vue-i18n';
 import en_US from '../lang/en_US.json';
 import en_UK from  '../lang/en_UK.json';
 import fr from  '../lang/fr.json';
+import ru from  '../lang/ru.json';
 import it from  '../lang/it.json';
+import hy from  '../lang/hy.json';
 
 import { ipfs, languages, defaultLanguage } from '../config/config';
 
@@ -57,7 +59,9 @@ export default (locale, fallbackLocale) =>
       en_US,
       en_UK,
       fr,
-      it
+      it,
+      ru,
+      hy
     },
     fallbackLocale: fallbackLocale || locale,
   });

@@ -62,7 +62,7 @@
     "alpha": "This is an alpha product, Please use Goerli Testnet!"
   },
   "files": {
-    "heading": "Browse files",
+    "heading": "files",
     "subtext": "Browse files you've shared with other users, and upload new files to IPFS.",
     "upload": "Upload Files",
     "your_files": "Your Files",
@@ -71,7 +71,7 @@
     "history": "File History"
   },
   "friends": {
-    "heading": "Friends",
+    "heading": "friends",
     "subtext": "Get connected with other people on the Vault74 platform.",
     "find_someone": "Find Someone",
     "add_a_friend": "Add a Friend",
@@ -289,7 +289,9 @@
     "it": "Italian",
     "en_US": "English (USA)",
     "en_UK": "English (UK)",
-    "fr": "French"
+    "fr": "French",
+    "ru": "Russian",
+    "hy": "Armenian"
   },
   "alpha_release": {
     "warning": "Heads up, this is an alpha release. <strong>Messages are not yet encrypted</strong>. This is not a finished product and serval exploits may exist. Features are rapidly being added and changed. For this reason please only use this on a <strong>Testnet</strong> until the beta."

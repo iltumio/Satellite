@@ -1,8 +1,20 @@
 <div class="servers">
   <CircleIcon color="#00d0a1" icon="fa fa-search" />
   <hr class="divider">
-  <div class="server">
-    <CircleIcon image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png" />
+  <div class="server" v-if="servers.length < 1">
+    <CircleIcon icon="fa fa-circle-notch fa-pulse" />
   </div>
+  <div class="server has-tooltip-arrow has-tooltip-right has-tooltip-success"
+    v-for="(server, index) in servers"
+    v-bind:key="server.address"
+    :data-tooltip="server.name">
+    <div v-if="server.photo.length > 1">
+      <CircleIcon :image="`https://ipfs.io/ipfs/${server.photo}`" />
+    </div>
+    <div v-else>
+      <CircleIcon :address="server.address"/>
+    </div>
+  </div>
+  <hr class="divider">
   <CircleIcon :action="toggleCreateServer" id="addServer" color="#1f2029" icon="fa fa-plus" />
 </div>

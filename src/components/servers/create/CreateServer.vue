@@ -107,7 +107,6 @@ export default {
         this.done = true;
         return;
       }
-      console.log('ipfsHash', this.ipfsHash);
       // Get newest server on dweller contract
       const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
       const servers = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);

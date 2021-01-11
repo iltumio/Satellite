@@ -32,6 +32,8 @@ module.exports = {
     en_UK: '',
     fr: '',
     it: 'QmSezaqPeAhsjekzNS3xChGw7G5N4GYCuYAqYkkGZgxneu',
+    ru: '',
+    hy: '',
   },
   registry: {
     mainnet: '0x0',

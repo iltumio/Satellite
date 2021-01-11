@@ -3,9 +3,13 @@
         <span v-if="icon">
             <i :class="icon"></i>
         </span>
-        <div v-else>
+        <div v-else-if="image">
+          {{image}}
           <jazzicon class="jazzicon" :address="address" :diameter="diameter || 45" />
-          <img v-if="image !== 'https://ipfs.io/ipfs/'" :src="image" :key="image">
+          <img :src="image" :key="image">
+        </div>
+        <div v-else-if="address">
+          <jazzicon class="jazzicon" :address="address" :diameter="diameter || 45" />
         </div>
     </div>
 </template>

@@ -2,7 +2,6 @@
   <div id="files" class="noselect">
     <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
     <h3>{{$t('files.heading')}}</h3>
-    <p>{{$t('files.description')}}</p>
     <hr>
     <h2 class="label">{{$t('files.upload')}}</h2>
     <article class="message is-dark">

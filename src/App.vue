@@ -2,7 +2,7 @@
   <div id="app" :class="this.$store.state.theme">
     <div class="notification is-warning" v-if="showWarning">
       <button class="delete" v-on:click="hideWarning"></button>
-     {{$t('alpha_release.warning')}}
+      <span v-html="$t('alpha_release.warning')"></span>
     </div>
     <main id="main" class="theme" v-if="decrypted">
       <transition appear mode="out-in" name="slide-fade">
