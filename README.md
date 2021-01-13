@@ -9,7 +9,7 @@ Decentralized chat & sharing platform
 
 ## Running Locally
 
-You must install `Node.JS` on your system prior to running the application.
+You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application.
 
 **Update Submodules**
 `git submodule --init --recursive`
