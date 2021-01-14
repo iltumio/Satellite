@@ -31,10 +31,10 @@
       <Calling :active="$store.state.activeCaller" :callerId="$store.state.activeCaller" />
 
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
-        <div class="column is-one-third" style="max-width: 320px;" v-if="$store.state.sidebarOpen">
+        <div class="column is-one-third sidebar-wrapper" v-if="$store.state.sidebarOpen">
           <Sidebar :toggleSettings="toggleSettings" :toggleCreateServer="toggleCreateServer" />
         </div>
-        <div class="column">
+        <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
           <Files v-if="$store.state.mainRoute == 'files'"/>
           <Friends v-if="$store.state.mainRoute == 'friends'"/>
@@ -194,6 +194,13 @@ export default {
     left: 100vw;
     bottom: 0;
     background: #e7ebee;
+  }
+  .sidebar-wrapper {
+    max-width: 320px;
+    height: 100%;
+  }
+  .chat-wrapper {
+    height: 100%;
   }
   .settings-open-container {
     right: 0;

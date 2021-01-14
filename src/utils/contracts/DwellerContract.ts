@@ -2,7 +2,7 @@
 import * as DwellerID from '@/contracts/build/contracts/DwellerID.json';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
-import IIPFSHash from '../interfaces/IIPFSHash';
+import IIPFSHash from '../../interfaces/IIPFSHash';
 import { Contract } from "web3-eth-contract";
 
 const ethereum = new Ethereum('window');
@@ -78,7 +78,7 @@ export default {
    */
   setUsername(address: string, account: string, username: string, done: CallableFunction) {
     const contract = this.getContract(address);
-    contract.methods.setDwellerName(ethereum.fromAscii(username))
+    contract.methods.makeRequest(ethereum.fromAscii(username))
       .send({
         from: account,
         gas: 4700000,
@@ -105,10 +105,16 @@ export default {
     done(dweller, onChainPhotoHash);
   },
 
+  /** @function
+   * @name getServers
+   * @argument address Address of the DwellerID contract
+   * @argument from the addres to send the transaction from
+   * @returns promise which will return the dwellers servers
+   */
   async getServers(address: string, from: string) : Promise<any> {
     const contract = this.getContract(address);
     const servers = await contract.methods.getServers().call({
-      from: from,
+      from: from || address,
     });
     return servers;
   },

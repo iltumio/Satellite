@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import DCUtils from '@/utils/DwellerContract.ts';
-import Vault74Registry from '@/utils/Vault74Registry.ts';
+import DCUtils from '@/utils/contracts/DwellerContract.ts';
+import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
 
 export default {
   name: 'ChangeUsername',

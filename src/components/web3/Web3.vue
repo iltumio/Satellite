@@ -15,8 +15,8 @@
 
 <script>
 import Web3 from 'web3';
-import Vault74Registry from '@/utils/Vault74Registry.ts';
-import DwellerID from '@/utils/DwellerContract.ts';
+import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import DwellerID from '@/utils/contracts/DwellerContract.ts';
 import Ethereum from '@/classes/Ethereum';
 
 let ethereum = null;

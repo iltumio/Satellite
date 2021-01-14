@@ -22,6 +22,9 @@
             </div>
             <div class="metamask" v-if="showWeb3 && $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'">
                 <span v-if="!$store.state.dwellerAddress" v-html="$t('loading.long_load', {text: 'https://metamask.io/', link: 'https://metamask.io/', target: '_blank'})"/>
+                <span v-else-if="!$store.state.friends">
+                    {{$t('loading.textile')}}
+                </span>
                 <span v-else-if="!$store.state.ICEConnected">
                     {{$t('loading.other_tab')}}
                 </span>

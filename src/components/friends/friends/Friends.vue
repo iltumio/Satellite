@@ -8,7 +8,10 @@
 import Fuse from 'fuse.js';
 
 import config from '@/config/config';
+// Components
 import CircleIcon from '@/components/common/CircleIcon';
+import FriendRequests from '@/components/friends/friends/requests/FriendRequests';
+// Classes
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Friend from '@/components/friends/friend/Friend';
 import Ethereum from '@/classes/Ethereum';
@@ -20,6 +23,7 @@ export default {
   components: {
     CircleIcon,
     Friend,
+    FriendRequests,
   },
   data() {
     return {

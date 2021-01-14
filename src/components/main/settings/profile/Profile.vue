@@ -4,11 +4,11 @@
 import Mousetrap from 'mousetrap';
 
 import config from '@/config/config';
-import DCUtils from '@/utils/DwellerContract.ts';
+import DCUtils from '@/utils/contracts/DwellerContract.ts';
 import Badge from '@/components/common/Badge';
 import Ethereum from '@/classes/Ethereum';
 import PhotoCropper from 'vue-image-crop-upload';
-import Vault74Registry from '@/utils/Vault74Registry.ts';
+import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';

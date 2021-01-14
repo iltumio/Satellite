@@ -1,5 +1,5 @@
 //@ts-ignore
-import DwellerContract from '../../utils/DwellerContract';
+import DwellerContract from '../../utils/contracts/DwellerContract';
 
 export default class Dweller {
   contractAddress: string;

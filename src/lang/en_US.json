@@ -49,6 +49,7 @@
     "uploading": "Uploading to IPFS...",
     "send": "Send File",
     "button_uploading": "Uploading...",
+    "button_done": "Done",
     "button_upload_another": "Upload Another File"
   },
   "loading": {
@@ -59,6 +60,7 @@
     "other_tab": "Still loading? Vault74 may already be open in another tab.",
     "something_wrong": "Something may have gone wrong,",
     "retry": "retry?",
+    "textile": "Waiting for Textile.io...",
     "alpha": "This is an alpha product, Please use Goerli Testnet!"
   },
   "files": {
@@ -83,7 +85,10 @@
     "start_chat": "Start a chat with your friends below, be kind, or don't. We don't judge.",
     "no_friends": "Oops, you don't have any friends yet. We'll be your friend, but you can also add more above.",
     "search_placeholder": "Find Friend...",
-    "search": "Search"
+    "search": "Search",
+    "requests": {
+      "heading": "Friend Requests"
+    }
   },
   "voice_video": {
     "switch_video": "Switch to Video",
@@ -113,7 +118,7 @@
     "h_transfers": "Transfers",
     "h_balance": "Balance",
     "h_information": "Information",
-    "h_contracts": "Contnracts",
+    "h_contracts": "Contracts",
     "accounts": {
       "label": "Accounts",
       "heading": "Active Account",

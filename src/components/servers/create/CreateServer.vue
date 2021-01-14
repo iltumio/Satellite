@@ -3,13 +3,13 @@
 <script>
 import PhotoCropper from 'vue-image-crop-upload';
 import CircleIcon from '@/components/common/CircleIcon';
-import Vault74Registry from '@/utils/Vault74Registry.ts';
-import DwellerContract from '@/utils/DwellerContract.ts';
-import ServerContract from '@/utils/ServerContract.ts';
+import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import DwellerContract from '@/utils/contracts/DwellerContract.ts';
+import ServerContract from '@/utils/contracts/ServerContract.ts';
 
 export default {
   name: 'CreateServer',
-  props: ['close'],
+  props: ['close', 'update'],
   components: {
     PhotoCropper,
     CircleIcon,
@@ -111,14 +111,14 @@ export default {
       const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
       const servers = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
       const newServer = servers[servers.length - 1];
-      console.log('newest server', newServer);
+
       ServerContract.setPhoto(
         newServer,
         this.$store.state.activeAccount,
         this.ipfsHash,
-        (confirmation) => {
+        () => {
           this.done = true;
-          console.log('done!', confirmation);
+          this.update();
         },
       );
     },

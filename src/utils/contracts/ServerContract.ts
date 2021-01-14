@@ -2,8 +2,8 @@
 import * as Server from '@/contracts/build/contracts/Server.json';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
-import IIPFSHash from '../interfaces/IIPFSHash';
-import IServer from '../interfaces/IServer';
+import IIPFSHash from '../../interfaces/IIPFSHash';
+import IServer from '../../interfaces/IServer';
 
 const ethereum = new Ethereum('window');
 // useful methods to interact with the DwellerID contract
@@ -44,7 +44,6 @@ export default {
   // TODO: Cache this in the future
   async get(address: string, account: string) : Promise<IServer> {
     const contract = this.getContract(address);
-    console.log('contract', contract);
     const server = <IServer>{
       address,
       registry: await contract.methods.registry.call(),

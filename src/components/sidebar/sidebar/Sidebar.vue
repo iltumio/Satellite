@@ -5,6 +5,9 @@ import ServerList from '@/components/serverlist/ServerList';
 import QuickFriends from '@/components/sidebar/quickfriends/QuickFriends';
 import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
+import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import DwellerContract from '@/utils/contracts/DwellerContract.ts';
+import ServerContract from '@/utils/contracts/ServerContract.ts';
 
 export default {
   name: 'Sidebar',
@@ -19,9 +22,26 @@ export default {
     return {
       route: 'chats',
       showQuickFriends: false,
+      servers: [],
     };
   },
+  mounted() {
+    this.updateServers();
+  },
   methods: {
+    async updateServers() {
+      const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
+      const serverAddresses = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
+      const fetchServers = [];
+
+      serverAddresses.forEach(async (s) => {
+        fetchServers.push(ServerContract.get(s, this.$store.state.activeAccount));
+      });
+
+      const servers = await Promise.all(fetchServers);
+
+      this.servers = servers;
+    },
     isUnread(address) {
       const groupID = `${this.$store.state.activeAccount}::${address}`;
       const messages = this.$store.state.messages[groupID];
