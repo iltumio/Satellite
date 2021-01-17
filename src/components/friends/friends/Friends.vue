@@ -8,6 +8,7 @@
 import Fuse from 'fuse.js';
 
 import config from '@/config/config';
+import Friends from '@/classes/contracts/Friends.ts';
 // Components
 import CircleIcon from '@/components/common/CircleIcon';
 import FriendRequests from '@/components/friends/friends/requests/FriendRequests';
@@ -32,7 +33,9 @@ export default {
       error: false,
       success: false,
       friend: false,
+      friendRequests: [],
       friendAddress: '',
+      makingRequest: {},
       dwellerCachingHelper: new DwellerCachingHelper(
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,
@@ -45,8 +48,50 @@ export default {
         this.friends = state.friends;
       }
     });
+    this.friendsContract = new Friends(config.friends[config.network.chain]);
+
+    this.update();
+    setInterval(() => {
+      this.update();
+    }, 10000);
+
+    // TODO: subscribe to new friend request events and if the event is
+    // is for this user, refresh friend requests.
+    // this.watch();
   },
   methods: {
+    watch() {
+      const filter = ethereum.eth.filter({
+        fromBlock: 0,
+        toBlock: 'latest',
+        address: config.friends[config.network.chain],
+        topics: [
+          ethereum.web3.sha3('FriendRequestSent(address indexed sentTo)'),
+        ],
+      });
+
+      filter.watch((error, result) => {
+        console.log('result', result);
+      });
+    },
+    update() {
+      this.fetchFriendRequests();
+      this.getFriends();
+    },
+    /** @method
+     * Get all the friend requests that are actively stored on chain
+     * @name fetchFriendRequests
+     */
+    async fetchFriendRequests() {
+      const frIds = await this.friendsContract.getRequests(this.$store.state.activeAccount);
+      this.friendRequests = [];
+      frIds.forEach(async (id) => {
+        const req = await this.friendsContract.getRequest(id);
+        const parsed = await this.friendsContract.parseRequest(req);
+        if (!this.friendRequests) this.friendRequests = [];
+        this.friendRequests = [...this.friendRequests, parsed];
+      });
+    },
     /** @method
      * Filter friends by stored keyword and
      * rebind the friends data
@@ -58,21 +103,21 @@ export default {
           includeScore: false,
           keys: ['name'],
         };
-        const fuse = new Fuse(this.$store.state.friends, options);
+        const fuse = new Fuse(this.friends, options);
         const result = fuse.search(this.keyword);
         this.friends = result.map(i => i.item);
       } else {
-        this.friends = this.$store.state.friends;
+        this.getFriends();
       }
     },
     /** @method
      * Update all store values so to chat with the given client
      * @name chatFriend
-     * @argument clientId client to chat with referenced by address
+     * @argument address client to chat with referenced by address
      */
-    chatFriend(clientId) {
-      this.$store.commit('newChat', clientId);
-      this.$store.commit('activeChat', clientId);
+    chatFriend(address) {
+      this.$store.commit('newChat', address);
+      this.$store.commit('activeChat', address);
       this.$store.commit('changeRoute', 'main');
     },
     /** @method
@@ -117,6 +162,45 @@ export default {
       }
       this.error = false;
       this.friend = { ...friend, status: 'unchecked' };
+    },
+    /** @method
+     * Get friends stored on chain
+     * @name getFriends
+     */
+    async getFriends() {
+      this.friends = [];
+      let friends = await this.friendsContract.getFriends(this.$store.state.activeAccount);
+      friends = friends.map(f => f[0]);
+      friends.forEach(async (f) => {
+        const friend = await this.dwellerCachingHelper.getDweller(f);
+        this.friends = [...this.friends, friend];
+        this.$store.commit('addFriend', friend);
+      });
+    },
+    /** @method
+     * Sends a friend request to the active friend
+     * This will create a thread for the users as well if one does not exist
+     * @name sendFriendRequest
+     */
+    async sendFriendRequest() {
+      const id = this.$database.threadManager.makeIdentifier(
+        this.$store.state.activeAccount,
+        this.friendAddress,
+      );
+      this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: true });
+      const threadID = await this.$database.threadManager.threadAt(id);
+      this.friendsContract.makeRequest(
+        this.$store.state.activeAccount,
+        this.friendAddress,
+        threadID.toString(),
+      )
+        .then(() => {
+          this.reset();
+          this.getFriends();
+        })
+        .catch(() => {
+          this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: false });
+        });
     },
     /** @method
      * Confirms and adds a found friend

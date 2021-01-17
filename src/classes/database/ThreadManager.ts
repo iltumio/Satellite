@@ -20,12 +20,15 @@ export default class ThreadManager {
    * @method
    * @name storeThread
    * @argument identifier identifier to store the thread by
-   * @argument threadId ThreadID object to store ID of
+   * @argument threadID ThreadID object to store ID of
    * @returns string ID of the thread
    */
-  storeThread(identifier: string, threadId: ThreadID) : string {
-    localStorage.setItem(`v74.threadManager.${identifier}`, threadId.toString());
-    return threadId.toString();
+  storeThread(identifier: string, threadID: string) : string {
+    localStorage.setItem(
+      `v74.threadManager.${identifier}`,
+      threadID.replace(/\W/g, ''),
+    );
+    return threadID.replace(/\W/g, '');
   }
 
   /** 
@@ -63,7 +66,7 @@ export default class ThreadManager {
    */
   async threadAt(identifier: string) : Promise<ThreadID> {
     const existingThreadID = this.fetchThread(identifier);
-
+    
     if (existingThreadID) {
       return ThreadID.fromString(
         existingThreadID,
@@ -75,7 +78,7 @@ export default class ThreadManager {
       `${identifier}-${Date.now()}`,
     );
 
-    this.storeThread(identifier, threadID);
+    this.storeThread(identifier, threadID.toString());
 
     return threadID;
   }

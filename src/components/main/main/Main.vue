@@ -1,6 +1,9 @@
 <template src="./Main.html"></template>
 
 <script>
+import config from '@/config/config';
+import Friends from '@/classes/contracts/Friends.ts';
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import InfoBar from '@/components/main/conversation/infobar/InfoBar';
 import Chatbar from '@/components/main/conversation/chatbar/Chatbar';
 import VoiceVideo from '@/components/main/conversation/voicevideo/VoiceVideo';
@@ -18,7 +21,34 @@ export default {
     NoConversation,
     UserInfo,
   },
+  data() {
+    return {
+      mediaOpen: false,
+      voice: false,
+      playCallSoundTimer: null,
+      subscribed: {},
+      friends: [],
+      dwellerCachingHelper: new DwellerCachingHelper(
+        config.registry[config.network.chain],
+        config.cacher.dwellerLifespan,
+      ),
+    };
+  },
   methods: {
+    /** @method
+     * Get friends stored on chain
+     * @name getFriends
+     */
+    async getFriends() {
+      this.friends = [];
+      let friends = await this.friendsContract.getFriends(this.$store.state.activeAccount);
+      friends = friends.map(f => f[0]);
+      friends.forEach(async (f) => {
+        const friend = await this.dwellerCachingHelper.getDweller(f);
+        this.friends = [...this.friends, friend];
+        this.$store.commit('addFriend', friend);
+      });
+    },
     async fetchMessages(id, friend) {
       const threadID = await this.$database.threadManager.threadAt(id);
       const messages = await this.$database.messageManager.getMessages(threadID);
@@ -112,14 +142,6 @@ export default {
       }
     },
   },
-  data() {
-    return {
-      mediaOpen: false,
-      voice: false,
-      playCallSoundTimer: null,
-      subscribed: {},
-    };
-  },
   mounted() {
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'connectMediaStream') {
@@ -130,6 +152,8 @@ export default {
       }
     });
     this.subscribeToThreads();
+    this.friendsContract = new Friends(config.friends[config.network.chain]);
+    this.getFriends();
   },
 };
 </script>

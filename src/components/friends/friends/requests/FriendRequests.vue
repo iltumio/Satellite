@@ -3,18 +3,31 @@
     <div v-if="!this.friendRequests">
       Loading Requests...
     </div>
-    <div v-if="this.friendRequests.length === 0">
+    <div v-if="this.friendRequests.length === 0 || this.friendRequests.filter(fr => fr.active).length === 0">
       No Active Requests.
     </div>
     <div v-for="request in friendRequests" :key="request.id">
       <div class="friend request" v-if="!request.accepted && request.active">
         <div class="left">
           <h1 class="label name">{{request.sender.name}}</h1>
-          <span class="address">{{request.sender.address.substr(0, 24)}}...</span>
+          <span class="address" v-if="!requestPending[request.id]">{{request.sender.address.substr(0, 24)}}...</span>
+          <span class="address" v-else>
+            <i class="fa fa-circle-notch fa-pulse"></i>  Updating Request...
+          </span>
         </div>
         <div class="right">
-          <button class="button is-primary" v-on:click="acceptRequest(request.id)"><i class="fas fa-check"></i></button>
-          <button class="button is-danger" v-on:click="denyRequest(request.id)"><i class="fas fa-times"></i></button>
+          <button
+            :disabled="requestPending[request.id]"
+            class="button is-primary"
+            v-on:click="acceptRequest(request.id)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button
+            :disabled="requestPending[request.id]"
+            class="button is-dark"
+            v-on:click="denyRequest(request.id)">
+              <i class="fas fa-times"></i>
+          </button>
         </div>
         <br>
       </div>
@@ -29,40 +42,53 @@ import Friends from '@/classes/contracts/Friends.ts';
 
 export default {
   name: 'FriendRequests',
+  props: [
+    'action',
+    'fetchFriendRequests',
+    'friendRequests',
+  ],
   data() {
     return {
+      requestPending: {},
       friendsContract: null,
-      friendRequests: false,
     };
   },
   mounted() {
     this.friendsContract = new Friends(config.friends[config.network.chain]);
-    this.fetchFriendRequests();
   },
   methods: {
-    async fetchFriendRequests() {
-      this.friendRequests = [];
-      const frIds = await this.friendsContract.getRequests(this.$store.state.activeAccount);
-      frIds.forEach(async (id) => {
-        const req = await this.friendsContract.getRequest(id);
-        const parsed = await this.friendsContract.parseRequest(req);
-        if (!this.friendRequests) this.friendRequests = [];
-        this.friendRequests = [...this.friendRequests, parsed];
-      });
-    },
     async acceptRequest(id) {
       const parsedId = parseInt(id, 0);
+      if (!this.friendRequests) return;
       const [request] = this.friendRequests.filter(req => req.id === id);
       const threadID = request.threadHash;
-      // TODO: save the thread hash
-      console.log('threadID', threadID);
-      await this.friendsContract.acceptRequest(this.$store.state.activeAccount, parsedId);
-      this.fetchFriendRequests();
+      this.requestPending = Object.assign({}, this.requestPending, { [id]: true });
+      this.friendsContract.acceptRequest(this.$store.state.activeAccount, parsedId)
+        .then(async () => {
+          await this.$database.threadManager.storeThread(
+            `${this.$store.state.activeAccount}-${request.sender.address}`,
+            threadID,
+          );
+          const friend = { ...request.sender, status: 'unchecked' };
+          this.$store.commit('addFriend', friend);
+          this.action(friend.address);
+          this.fetchFriendRequests();
+          this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
+        })
+        .catch(() => {
+          this.fetchFriendRequests();
+          this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
+        });
     },
     async denyRequest(id) {
       const parsedId = parseInt(id, 0);
-      await this.friendsContract.denyRequest(this.$store.state.activeAccount, parsedId);
-      this.fetchFriendRequests();
+      this.friendsContract.denyRequest(this.$store.state.activeAccount, parsedId)
+        .then(() => {
+          this.fetchFriendRequests();
+        })
+        .catch(() => {
+          this.fetchFriendRequests();
+        });
     },
   },
 };

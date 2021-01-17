@@ -126,6 +126,7 @@ export default {
       // If we get a message update the last read messages to mark it as read
       const groupID = `${this.$store.state.activeAccount}::${this.$store.state.activeChat}`;
       const messages = this.$store.state.messages[groupID];
+      if (!messages || messages.length === 0) return;
       const messageGroup = messages[messages.length - 1];
       const lastMessage = messageGroup[messageGroup.length - 1];
       this.$store.commit('markRead', {
