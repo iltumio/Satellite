@@ -31,6 +31,7 @@ export default {
   async fetchFriends(state: any, account: string) {
     let friends = await friendsContract.getFriends(account);
     friends = friends.map(f => f[0]);
+    if (friends.length === 0) state.friends = [];
     const parsedFriends: any[] = [];
     friends.forEach(async (f, i) => {
       const friend = await dwellerCachingHelper.getDweller(f);
