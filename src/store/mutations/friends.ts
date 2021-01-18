@@ -43,6 +43,9 @@ export default {
       const parsedFriend = await friendsContract.parseFriend(friends[i]);
       parsedFriends[i] = { ...friend, threadID: parsedFriend.threadHash };
       if (parsedFriends.length == friendAddresses.length) {
+        // Alpha sort friends
+        // eslint-disable-next-line
+        parsedFriends.sort((a: IFriend, b: IFriend) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1);
         state.friends = parsedFriends;
       }
     });

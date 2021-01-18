@@ -1,7 +1,7 @@
 module.exports = {
   env: 'prod',
   textile: {
-    key: 'b6as6mvzie477t3wbrxarau5bj4',
+    key: 'blhtljyplc4oeoxqso4ypwlei3y',
   },
   network: {
     explorer: 'https://goerli.etherscan.io',
