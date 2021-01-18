@@ -41,7 +41,7 @@
           :unread="!isUnread(chat)"
           :typing="$store.state.typingUsers[chat]"
           :clientId="chat" />
-        
+
         <div v-if="$store.state.activeChats.length < 4">
           <hr class="divider">
           <span class="label" style="text-align: center;">{{$t('sidebar.add_friends')}}</span>

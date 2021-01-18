@@ -73,6 +73,19 @@ export default class Friends {
     }
   }
 
+
+  /** @function
+   * @name parseFriend
+   * @argument account request array to parse to request object
+   * @returns friend request object
+   */
+  async parseFriend(fr: any[]) {
+    return {
+      id: fr[0],
+      threadHash: `${this.ethereum.utils.hexToAscii(fr['threadHash1'])}${this.ethereum.utils.hexToAscii(fr['threadHash2'])}`,
+    }
+  }
+
   /** @function
    * @name getFriends
    * @argument account account to get friends from

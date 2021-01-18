@@ -30,13 +30,14 @@ export default {
   },
   async fetchFriends(state: any, account: string) {
     let friends = await friendsContract.getFriends(account);
-    friends = friends.map(f => f[0]);
-    if (friends.length === 0) state.friends = [];
+    let friendAddresses = friends.map(f => f[0]);
+    if (friendAddresses.length === 0) state.friends = [];
     const parsedFriends: any[] = [];
-    friends.forEach(async (f, i) => {
+    friendAddresses.forEach(async (f, i) => {
       const friend = await dwellerCachingHelper.getDweller(f);
-      parsedFriends[i] = friend;
-      if (parsedFriends.length == friends.length) {
+      const parsedFriend = await friendsContract.parseFriend(friends[i]);
+      parsedFriends[i] = { ...friend, threadID: parsedFriend.threadHash };
+      if (parsedFriends.length == friendAddresses.length) {
         state.friends = parsedFriends;
       }
     });

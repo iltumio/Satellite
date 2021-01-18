@@ -35,6 +35,18 @@ export default {
     };
   },
   methods: {
+    // TODO: This should be removed in the future, we should pull
+    // the thread ID from the friend object all over the app instead.
+    bindThreads() {
+      const { friends } = this.$store.state;
+      friends.forEach(async (f) => {
+        const threadID = await this.$database.threadManager.makeIdentifier(
+          this.$store.state.activeAccount,
+          f.address,
+        );
+        this.$database.threadManager.storeThread(threadID, f.threadID);
+      });
+    },
     async fetchMessages(id, friend) {
       const threadID = await this.$database.threadManager.threadAt(id);
       const messages = await this.$database.messageManager.getMessages(threadID);
@@ -139,6 +151,7 @@ export default {
     });
     this.subscribeToThreads();
     this.friendsContract = new Friends(config.friends[config.network.chain]);
+    this.bindThreads();
   },
 };
 </script>

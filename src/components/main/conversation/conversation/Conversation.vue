@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="notification is-info" v-if="!doesThreadExist()">
+    <div class="notification is-info" v-if="!threadExists">
       {{$t('conversation.conversation.invite_offline', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}
       <button
         v-if="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].status !== 'alive'"
@@ -59,6 +59,7 @@ export default {
       showScrollToBottom: false,
       scrollTimeout: false,
       subscribed: false,
+      threadExists: false,
     };
   },
   methods: {
@@ -156,6 +157,19 @@ export default {
         this.markRead();
       }
     });
+    // Watch for threads, this can be removed in the future
+    // when thread IDs are persistent
+    const checkThread = () => {
+      if (!this.doesThreadExist()) {
+        this.threadExists = false;
+        setTimeout(() => {
+          checkThread();
+        }, 3000);
+      } else {
+        this.threadExists = true;
+      }
+    };
+    checkThread();
   },
 };
 </script>
