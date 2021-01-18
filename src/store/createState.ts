@@ -1,4 +1,5 @@
 const defaultState = {
+  starting: true,
   // Settings
   settings: {
     darkMode: true,
@@ -30,10 +31,11 @@ const defaultState = {
   dwellerAddress: false,
   username: '',
   profilePictureHash: false,
-  recentFiles: 0,
+  files: [],
   mainRoute: 'main',
   // Friends
   friends: null,
+  friendRequests: [],
   peerHealth: {},
   unreads: {},
   // Audio Video

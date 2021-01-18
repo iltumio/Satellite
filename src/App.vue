@@ -80,6 +80,7 @@ export default {
     this.$store.commit('ICEConnected', false);
     this.$store.commit('dwellerAddress', false);
     this.$store.commit('activeCaller', false);
+    this.$store.commit('starting', true);
     this.$store.commit('clear');
     // Reset media call data
     this.$store.commit('connectMediaStream', false);

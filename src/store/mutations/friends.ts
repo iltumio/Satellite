@@ -28,6 +28,11 @@ export default {
     const bucket = window.Vault74.Database.Bucket('friends');
     bucket.add(friend);
   },
+  // For caching purposes
+  updateFriendRequests(state: any, requests: any) {
+    // eslint-disable-next-line
+    state.friendRequests = requests;
+  },
   async fetchFriends(state: any, account: string) {
     let friends = await friendsContract.getFriends(account);
     let friendAddresses = friends.map(f => f[0]);

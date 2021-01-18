@@ -11,6 +11,11 @@ export default {
   methods: {
     startup() {
       this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      setTimeout(() => {
+        // Really shouldn't be used, but prevents
+        // some potenial race conditions with globals
+        this.$store.commit('starting', false);
+      }, 500);
     },
     makeKey() {
       return {
@@ -44,6 +49,7 @@ export default {
     },
   },
   async mounted() {
+    this.$store.commit('starting', true);
     if (this.$store.state.databaseEnabled) {
       const identity = await this.getIdentity();
       const client = await this.authorize(this.makeKey(), identity);

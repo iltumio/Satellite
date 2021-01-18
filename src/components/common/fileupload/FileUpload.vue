@@ -74,7 +74,6 @@ export default {
         const ipfsUtils = new IPFSUtils(this.$database);
         await ipfsUtils.appendFileCache(this.fileClass.getObject());
         uploadAudio.play();
-        this.$store.commit('addRecentFile');
       }
     },
     /** @method

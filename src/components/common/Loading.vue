@@ -17,6 +17,9 @@
             <div v-else-if="!$store.state.friends">
                 <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.assembling')}}
             </div>
+            <div v-else-if="$store.state.starting">
+                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.generic')}}
+            </div>
             <div v-else-if="!$store.state.ICEConnected">
                 <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.connecting_broker')}}
             </div>
