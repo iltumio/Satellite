@@ -51,10 +51,6 @@ export default {
     this.friendsContract = new Friends(config.friends[config.network.chain]);
 
     this.update();
-    setInterval(() => {
-      this.update();
-    }, 10000);
-
     // TODO: subscribe to new friend request events and if the event is
     // is for this user, refresh friend requests.
     // this.watch();

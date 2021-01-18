@@ -1,4 +1,16 @@
+// @ts-ignore
+import config from '@/config/config.js';
+// @ts-ignore
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
+import Friends from "../../classes/contracts/Friends";
 import IFriend from "../../interfaces/IFriend";
+import { parse } from 'uuid';
+
+const friendsContract =  new Friends(config.friends[config.network.chain]);
+const dwellerCachingHelper = new DwellerCachingHelper(
+  config.registry[config.network.chain],
+  config.cacher.dwellerLifespan,
+);
 
 export default {
   // Add a new friend to the local cache
@@ -16,12 +28,17 @@ export default {
     const bucket = window.Vault74.Database.Bucket('friends');
     bucket.add(friend);
   },
-  async fetchFriends(state: any) {
-    // @ts-ignore
-    const bucket = window.Vault74.Database.Bucket('friends');
-    const friends = await bucket.get();
-    // eslint-disable-next-line
-    state.friends = friends;
+  async fetchFriends(state: any, account: string) {
+    let friends = await friendsContract.getFriends(account);
+    friends = friends.map(f => f[0]);
+    const parsedFriends: any[] = [];
+    friends.forEach(async (f, i) => {
+      const friend = await dwellerCachingHelper.getDweller(f);
+      parsedFriends[i] = friend;
+      if (parsedFriends.length == friends.length) {
+        state.friends = parsedFriends;
+      }
+    });
   },
   clearFriends(state: any) {
     // eslint-disable-next-line

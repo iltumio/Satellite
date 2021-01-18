@@ -10,7 +10,7 @@ export default {
   name: 'database',
   methods: {
     startup() {
-      this.$store.commit('fetchFriends');
+      this.$store.commit('fetchFriends', this.$store.state.activeAccount);
     },
     makeKey() {
       return {

@@ -30,6 +30,9 @@ export default {
     this.updateServers();
   },
   methods: {
+    getFriend(address) {
+      return this.$store.state.friends.filter(f => f.address === address)[0];
+    },
     async updateServers() {
       this.loadingServers = true;
       const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
