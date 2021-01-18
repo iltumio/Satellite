@@ -93,7 +93,6 @@ export default {
         window.Vault74.Peer2Peer.createChannels(state.friends);
       }
     });
-
     // Set i18n locale based on the user preferred language
     if (this.$store.state.settings.language) {
       this.$i18n.locale = this.$store.state.settings.language;

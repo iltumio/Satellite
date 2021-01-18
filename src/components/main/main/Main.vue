@@ -35,20 +35,6 @@ export default {
     };
   },
   methods: {
-    /** @method
-     * Get friends stored on chain
-     * @name getFriends
-     */
-    async getFriends() {
-      this.friends = [];
-      let friends = await this.friendsContract.getFriends(this.$store.state.activeAccount);
-      friends = friends.map(f => f[0]);
-      friends.forEach(async (f) => {
-        const friend = await this.dwellerCachingHelper.getDweller(f);
-        this.friends = [...this.friends, friend];
-        this.$store.commit('addFriend', friend);
-      });
-    },
     async fetchMessages(id, friend) {
       const threadID = await this.$database.threadManager.threadAt(id);
       const messages = await this.$database.messageManager.getMessages(threadID);
@@ -153,7 +139,6 @@ export default {
     });
     this.subscribeToThreads();
     this.friendsContract = new Friends(config.friends[config.network.chain]);
-    this.getFriends();
   },
 };
 </script>

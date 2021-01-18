@@ -51,6 +51,7 @@ export default {
     this.friendsContract = new Friends(config.friends[config.network.chain]);
 
     this.update();
+
     // TODO: subscribe to new friend request events and if the event is
     // is for this user, refresh friend requests.
     // this.watch();
@@ -72,7 +73,10 @@ export default {
     },
     update() {
       this.fetchFriendRequests();
-      this.getFriends();
+      this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+    },
+    getFriends() {
+      this.friends = this.$store.state.friends;
     },
     /** @method
      * Get all the friend requests that are actively stored on chain
@@ -160,20 +164,6 @@ export default {
       this.friend = { ...friend, status: 'unchecked' };
     },
     /** @method
-     * Get friends stored on chain
-     * @name getFriends
-     */
-    async getFriends() {
-      this.friends = [];
-      let friends = await this.friendsContract.getFriends(this.$store.state.activeAccount);
-      friends = friends.map(f => f[0]);
-      friends.forEach(async (f) => {
-        const friend = await this.dwellerCachingHelper.getDweller(f);
-        this.friends = [...this.friends, friend];
-        this.$store.commit('addFriend', friend);
-      });
-    },
-    /** @method
      * Sends a friend request to the active friend
      * This will create a thread for the users as well if one does not exist
      * @name sendFriendRequest
@@ -203,7 +193,7 @@ export default {
      * @name commitFriend
      */
     commitFriend() {
-      this.$store.commit('addFriend', this.friend);
+      this.update();
       this.success = `${this.friend.name} has been added to your friendslist.`;
       setTimeout(() => {
         this.success = false;
