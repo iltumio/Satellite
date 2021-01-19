@@ -1,6 +1,6 @@
 <template></template>
 <script>
-import Config from '@/config/config';
+import config from '@/config/config';
 
 export default {
   name: 'polling',
