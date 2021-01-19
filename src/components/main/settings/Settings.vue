@@ -58,7 +58,8 @@
         :settings="settings"/>
       <Profile 
         v-if="route == 'profile'" 
-        :settings="settings"/>
+        :settings="settings"
+        :address="address"/>
       <AudioVideo 
         v-if="route == 'audiovideo'" 
         :settings="settings"/>
@@ -108,7 +109,7 @@ export default {
     AudioVideo,
     Contracts,
   },
-  props: ['toggleSettings', 'open'],
+  props: ['toggleSettings', 'open', 'address'],
   data() {
     return {
       route: 'personalize',

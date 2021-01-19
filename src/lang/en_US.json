@@ -232,6 +232,7 @@
       "disclaimer": "Your profile is stored on an Ethereum Smart Contract. A decentralized transfer protocol free from fraudulent manipulation.",
       "edit_profile": "Edit Profile",
       "change_photo": "Change Photo",
+      "remove_photo": "Remove Photo",
       "change_username": "Change Username",
       "copy_address": "Copy Address",
       "confirm_transaction": "Please confirm transaction..."

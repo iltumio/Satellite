@@ -12,19 +12,21 @@ Decentralized chat & sharing platform
 You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application.
 
 **Update Submodules**
-`git submodule --init --recursive`
+`git submodule update --init --recursive`
 
 **Install Deps.**
 `yarn` or `npm install`
 
 **Build Contracts**
 Install Truffle `npm i -g truffle`
-Build Contracts `cd src/contracts && truffle`
+Build Contracts `cd src/contracts && truffle build`
 
 **Start in Devmode**
 `yarn dev` or `npm run dev`
 
 Navigate to `http://localhost:8080`.
+
+In your browser, use something like metamask connected to the goerli testnet.
 
 ## Theming
 

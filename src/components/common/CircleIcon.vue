@@ -3,8 +3,7 @@
         <span v-if="icon">
             <i :class="icon"></i>
         </span>
-        <div v-else-if="image">
-          {{image}}
+        <div v-if="image && image.trim() !== 'https://ipfs.io/ipfs/'">
           <jazzicon class="jazzicon" :address="address" :diameter="diameter || 45" />
           <img :src="image" :key="image">
         </div>

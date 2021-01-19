@@ -8,7 +8,7 @@
       <div v-if="!this.created">
         <div class="columns">
           <div class="column is-one-fifth">
-            <img :src="profileFile" class="preview">
+            <img v-if="profileFile && (profileFile.trim() !== 'https://ipfs.io/ipfs/')" :src="profileFile" class="preview">
           </div>
           <div class="column is-four-fifths">
             <p class="label">{{$t('settings.profile.profile_pic')}}</p>
@@ -70,7 +70,8 @@
         v-if="actionsOpen"
         :close="hideActionSelector"
         :changePhoto="changePhoto"
-        :changeUsername="changeUsername"/>
+        :changeUsername="changeUsername"
+        :removePhoto="removePhoto"/>
       <div class="editing" v-if="showChangePhoto || showChangeUsername">
         <h2>{{$t('settings.profile.edit_account')}}</h2>
         <p>{{$t('settings.profile.edit_account_subtext')}}</p>
@@ -81,7 +82,10 @@
       <h2>{{$t('settings.profile.your_account')}}</h2>
       <p>{{$t('settings.profile.your_account_subtext')}}</p>
       <br>
-      <img :src="`${config.ipfs.browser}${$store.state.profilePictureHash}`" class="preview">
+      <CircleIcon
+      class="preview"
+      :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
+      :address="$store.state.activeAccount" />
       <div class="inputs">
         <p class="label">{{$t('settings.profile.display_name')}}</p>
         <input class="input" :value="$store.state.username" readonly />
