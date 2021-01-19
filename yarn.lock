@@ -14768,7 +14768,7 @@
     "yaeti" "^0.0.6"
 
 "websocket@github:web3-js/WebSocket-Node#polyfill/globalThis":
-  "resolved" "git+ssh://git@github.com/web3-js/WebSocket-Node.git#ef5ea2f41daf4a2113b80c9223df884b4d56c400"
+  "resolved" "https://github.com/web3-js/WebSocket-Node.git#ef5ea2f41daf4a2113b80c9223df884b4d56c400"
   "version" "1.0.29"
   dependencies:
     "debug" "^2.2.0"
