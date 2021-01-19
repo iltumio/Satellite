@@ -21,7 +21,7 @@
     "prepush": "npm run eslint",
     "dev": "npm run init && node build/dev-server.js",
     "init": "git submodule update --init --recursive",
-    "truffle" : "cd src/contracts && truffle build && cd ../..",
+    "truffle": "cd src/contracts && truffle build && cd ../..",
     "electron": "electron .",
     "start": "npm run dev",
     "build": "npm run init && cd src/contracts && node build/build.js",
