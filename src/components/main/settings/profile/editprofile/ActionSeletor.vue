@@ -6,6 +6,7 @@
     <p class="label">{{$t('settings.profile.edit_profile')}}</p>
     <ul>
       <li v-on:click="changePhoto">{{$t('settings.profile.change_photo')}}</li>
+      <li v-on:click="removePhoto">{{$t('settings.profile.remove_photo')}}</li>
       <li v-on:click="changeUsername">{{$t('settings.profile.change_username')}}</li>
       <li><hr></li>
       <li>{{$t('settings.profile.copy_address')}}</li>
@@ -16,7 +17,7 @@
 <script>
 export default {
   name: 'ActionSelector',
-  props: ['close', 'changePhoto', 'changeUsername'],
+  props: ['close', 'changePhoto', 'removePhoto', 'changeUsername'],
   /* eslint-disable */
   directives: {
     'click-outside': {

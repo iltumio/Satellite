@@ -58,6 +58,7 @@
         contextCoordsX: 0,
         contextCoordsY: 0,
         clickedMessage: null,
+        config,
       };
     },
     methods: {

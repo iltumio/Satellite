@@ -19,10 +19,11 @@
   "license": "CC-BY-NC",
   "scripts": {
     "prepush": "npm run eslint",
-    "dev": "node build/dev-server.js",
+    "dev": "npm run init && node build/dev-server.js",
+    "init": "git submodule update --init --recursive && cd src/contracts && truffle build",
     "electron": "electron .",
     "start": "npm run dev",
-    "build": "node build/build.js",
+    "build": "npm run init && cd src/contracts && truffle build && cd ../.. && node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "cross-env PORT=8081 node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",

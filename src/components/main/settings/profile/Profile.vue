@@ -7,11 +7,14 @@ import config from '@/config/config';
 import DCUtils from '@/utils/contracts/DwellerContract.ts';
 import Badge from '@/components/common/Badge';
 import Ethereum from '@/classes/Ethereum';
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
+import CircleIcon from '@/components/common/CircleIcon';
 import PhotoCropper from 'vue-image-crop-upload';
 import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';
+
 
 const ethereum = new Ethereum('user-provided');
 
@@ -22,6 +25,7 @@ export default {
     ActionSelector,
     ChangePhoto,
     ChangeUsername,
+    CircleIcon,
     PhotoCropper,
     Badge,
   },
@@ -42,9 +46,14 @@ export default {
       showCropper: false,
       config,
       funded: false,
+      dwellerCachingHelper: new DwellerCachingHelper(
+        config.registryAddress,
+        config.cacher.dwellerLifespan,
+      ),
     };
   },
   mounted() {
+    this.getDwellerByAddress(this.$store.state.activeAccount);
     Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
     Mousetrap.bind('esc', () => {
       this.showCropper = false;
@@ -65,6 +74,14 @@ export default {
     }
   },
   methods: {
+    /** @method
+     * Setter
+     * @name getDweller
+     * @argument address address of the dweller to get from the cache
+     */
+    // async getDweller(address) {
+    //   this.dweller = await this.dwellerCachingHelper.getDweller(address);
+    // },
     dataURItoBlob(dataURI) {
       // convert base64 to raw binary data held in a string
       // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
@@ -112,6 +129,22 @@ export default {
       this.hideActionSelector();
       this.hideChangePhoto();
       this.showChangeUsername = true;
+    },
+    async removePhoto() {
+      this.ipfsHash = {
+        path: '',
+      };
+      const dwellerIDContract = await Vault74Registry
+        .getDwellerContract(this.$store.state.activeAccount);
+      DCUtils.setPhoto(
+        dwellerIDContract,
+        this.$store.state.activeAccount,
+        this.ipfsHash,
+        () => {
+          this.$store.commit('setStatus', 'Transaction confirmed');
+          this.$store.commit('profilePictureHash', this.ipfsHash.path);
+        },
+      );
     },
     // Create a new profile via the Vault74Registry for this user
     async submitProfileContract() {
@@ -187,6 +220,9 @@ export default {
           this.onChainPhotoHash = onChainPhotoHash;
         },
       );
+    },
+    async getDwellerByAddress(address) {
+      this.dweller = await this.dwellerCachingHelper.getDweller(address);
     },
   },
 };
