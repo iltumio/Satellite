@@ -7,6 +7,8 @@ interface Message {
   at: number,
   type: string,
   payload: any,
+  encrypted: boolean,
+  secure: boolean,
 }
 
 const messageSchema = <Message>{
@@ -15,6 +17,8 @@ const messageSchema = <Message>{
   at: Date.now(),
   type: '',
   payload: {},
+  encrypted: false,
+  secure: false,
 };
 
 export class MessageManager {
@@ -23,9 +27,11 @@ export class MessageManager {
   key: CryptoKeyPair | null;
   publicKey: JsonWebKey | null;
   privateKey: JsonWebKey | null;
+  address: string;
 
-  constructor(client: Client) {
+  constructor(client: Client, address: string) {
     this.client = client;
+    this.address = address;
     this.crypto = new Crypto();
     this.key = null;
     this.publicKey = null;
@@ -67,12 +73,24 @@ export class MessageManager {
     });
   }
 
+  async addMessageDeterministically(threadID: ThreadID, message: Message, recipient: string) {
+    if (localStorage.getItem(`pubkey.${recipient}`)) {
+      const key = localStorage.getItem(`pubkey.${recipient}`) || '';
+      this.addEncryptedMessage(
+        threadID,
+        message,
+        JSON.parse(key),
+      );
+    } else {
+      this.addNewMessage(threadID, message);
+    }
+  }
+
   async addNewMessage(threadID: ThreadID, message: Message) : Promise<ThreadID> {
     await this.ensureCollection(threadID);
     await this.client.create(threadID, 'messages', [message]);
     return threadID;
   }
-
 
   async addEncryptedMessage(threadID: ThreadID, message: Message, guestPublicKey: JsonWebKey) : Promise<ThreadID | null> {
     if (typeof this.publicKey === null || typeof this.privateKey === null) {
@@ -89,13 +107,18 @@ export class MessageManager {
     );
     const encryptedMessage = {
       ...message,
-      payload: encryptedPayload,
+      encrypted: true,
+      secure: true,
+      payload: {
+        encryptedData: encryptedPayload,
+      },
     };
     await this.client.create(threadID, 'messages', [encryptedMessage]);
     return threadID;
   }
 
   async decryptMessage(message: Message, guestPublicKey: JsonWebKey) {
+    if (!message.encrypted) return message;
     if (typeof this.publicKey === null || typeof this.privateKey === null) {
       return null;
     }
@@ -103,9 +126,11 @@ export class MessageManager {
     // @ts-ignore
     const privateKey = await this.crypto.importPrivKey(this.privateKey);
     const derivedKey = await this.crypto.derive(publicKey, privateKey);
-    const decrpytedPayload = await this.crypto.decrypt(message.payload, derivedKey);
+    const decrpytedPayload = await this.crypto.decrypt(message.payload.encryptedData, derivedKey);
     return {
       ...message,
+      encrypted: false,
+      secure: true,
       payload: decrpytedPayload,
     };
   }
@@ -120,7 +145,31 @@ export class MessageManager {
         // Collection not found
         resolve([]);
       }) || [];
-      resolve(<Array<Message>>messages);
+      const decryptedMessages: any[] = [];
+      messages.forEach(async (msg: any, i: number) => {
+        if (msg.encrypted) {
+          const keyId = (msg.sender === this.address) ? 
+            `pubkey.${msg.to}` :
+            `pubkey.${msg.sender}`;
+          const key = localStorage.getItem(keyId);
+          if (!key) {
+            decryptedMessages.push(msg);
+          } else {
+            this.decryptMessage(msg, JSON.parse(key))
+              .then((decrypted) => {
+                decryptedMessages.push(decrypted);
+              })
+              .catch(() => {
+                decryptedMessages.push(msg);
+              });
+          }
+        } else {
+          decryptedMessages.push(msg);
+        }
+        if (decryptedMessages.length === messages.length) {
+          resolve(<Array<Message>>decryptedMessages);
+        }
+      });
     });
   }
 

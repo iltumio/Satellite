@@ -67,7 +67,9 @@ export default {
             type: msg.type,
             payload: msg.payload,
           };
-          this.$database.messageManager.addNewMessage(threadID, message);
+          // If we have their public key, we will encrypt their message
+          this.$database.messageManager
+            .addMessageDeterministically(threadID, message, this.$store.state.activeChat);
         }
       }
       window.Vault74.Peer2Peer.send(

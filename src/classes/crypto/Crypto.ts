@@ -1,4 +1,41 @@
+interface JsonKeyPair {
+  public: JsonWebKey,
+  private: JsonWebKey,
+}
+
 export default class Crypto {
+  /** @function
+   * Store a public key locally
+   * @name storeKey
+   */
+  storeKey(address: string, key: JsonWebKey) {
+    console.log('Storing new key', address, key);
+    localStorage.setItem(`pubkey.${address}`, JSON.stringify(key));
+  }
+
+  /** @function
+   * Generate a new locally stored pub & priv key
+   * @name keygen
+   * @returns promise newley generated or existing JsonKeyPair
+   */
+  async keygen(override: boolean = false) : Promise<JsonKeyPair> {
+    if (!localStorage.getItem('publicKey') || !localStorage.getItem('privateKey') || override) {
+      const key = await this.getKeyPair();
+      const publicKey = await this.pubKey(key);
+      const privateKey = await this.privKey(key);
+      localStorage.setItem('publicKey', JSON.stringify(publicKey));
+      localStorage.setItem('privateKey', JSON.stringify(privateKey));
+    }
+    return {
+      public: JSON.parse(
+        localStorage.getItem('publicKey') || '',
+      ),
+      private: JSON.parse(
+        localStorage.getItem('privateKey') || '',
+      ),
+    };
+  }
+
   /** @function
    * Generate a new CryptoKeyPair
    * @name getKeyPair

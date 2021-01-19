@@ -14,6 +14,10 @@
         :y="contextCoordsY"
         :close="hideContext" />
       <div class="c-message" v-for="message in messages" @contextmenu="handleContext" :data-id="message.id || message._id">
+          <p v-if="message.encrypted">
+            <small><span class="yellow">Keys changed or are missing, unable to decrypt</span></small><br>
+            {{message.payload.encryptedData}}
+          </p>
           <p v-if="message.type == 'call-status'">
             <i class="fas fa-phone"></i> {{$t('conversation.message.message_body.call_started', {name: dweller.name})}}
           </p>
