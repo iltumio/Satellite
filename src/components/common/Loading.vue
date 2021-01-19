@@ -14,7 +14,7 @@
             <div v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'" class="content">
                 <Profile :customFinalAction="reload" />
             </div>
-            <div v-else-if="!$store.state.friends">
+            <div v-else-if="!$store.state.friendsLoaded">
                 <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.assembling')}}
             </div>
             <div v-else-if="$store.state.starting">
@@ -25,7 +25,7 @@
             </div>
             <div class="metamask" v-if="showWeb3 && $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'">
                 <span v-if="!$store.state.dwellerAddress" v-html="$t('loading.long_load', {text: 'https://metamask.io/', link: 'https://metamask.io/', target: '_blank'})"/>
-                <span v-else-if="!$store.state.friends">
+                <span v-else-if="!$store.state.friendsLoaded">
                     {{$t('loading.textile')}}
                 </span>
                 <span v-else-if="!$store.state.ICEConnected">

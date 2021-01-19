@@ -36,7 +36,10 @@ export default {
   async fetchFriends(state: any, account: string) {
     let friends = await friendsContract.getFriends(account);
     let friendAddresses = friends.map(f => f[0]);
-    if (friendAddresses.length === 0) state.friends = [];
+    if (friendAddresses.length === 0) {
+      state.friends = [];
+      state.friendsLoaded = true;
+    }
     const parsedFriends: any[] = [];
     friendAddresses.forEach(async (f, i) => {
       const friend = await dwellerCachingHelper.getDweller(f);
@@ -47,11 +50,13 @@ export default {
         // eslint-disable-next-line
         parsedFriends.sort((a: IFriend, b: IFriend) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1);
         state.friends = parsedFriends;
+        state.friendsLoaded = true;
       }
     });
   },
   clearFriends(state: any) {
     // eslint-disable-next-line
     state.friends = null;
+    state.friendsLoaded = false;
   },
 };

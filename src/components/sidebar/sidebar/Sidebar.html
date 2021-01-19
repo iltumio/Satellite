@@ -33,11 +33,11 @@
         <UserDemo name="Sophie Chain" status="Enjoying Vault74's piece of mind" online="true" icon="https://randomuser.me/api/portraits/women/43.jpg" active="true"/>
         -->
         <User
-          v-if="$store.state.friends.length"
+          v-if="$store.state.friendsLoaded"
           v-for="chat in $store.state.activeChats"
           :friend="getFriend(chat)"
           :active="$store.state.activeChat === chat"
-          :key="chat"
+          :key="`${chat}${getFriend(chat).status}`"
           :unread="!isUnread(chat)"
           :typing="$store.state.typingUsers[chat]"
           :clientId="chat" />

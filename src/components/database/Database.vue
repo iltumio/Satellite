@@ -13,31 +13,7 @@ export default {
     async startup() {
       // Generate local pub/priv keys if none exist.
       const crypto = new Crypto();
-      const keys = await crypto.keygen();
-
-      const test = {
-        _id: '0',
-        sender: '0x0',
-        at: Date.now(),
-        type: 'text',
-        payload: {
-          data: 'Some string that should be encrypted when i use the crypto lib on it.',
-        },
-      };
-
-      const pubKey = await crypto.importPubKey(keys.public);
-      const privKey = await crypto.importPrivKey(keys.private);
-      console.log(pubKey);
-      console.log(privKey);
-      const derivedKey = await crypto.derive(pubKey, privKey);
-      console.log(derivedKey);
-      const encryptedTest = await crypto.encrypt(JSON.stringify(test.payload), derivedKey);
-      const encryptedMessage = {
-        ...test,
-        payload: encryptedTest,
-        encrypted: true,
-      };
-      console.log(encryptedMessage);
+      await crypto.keygen();
 
       this.$store.commit('fetchFriends', this.$store.state.activeAccount);
       setTimeout(() => {

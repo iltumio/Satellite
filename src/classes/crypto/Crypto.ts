@@ -9,7 +9,6 @@ export default class Crypto {
    * @name storeKey
    */
   storeKey(address: string, key: JsonWebKey) {
-    console.log('Storing new key', address, key);
     localStorage.setItem(`pubkey.${address}`, JSON.stringify(key));
   }
 

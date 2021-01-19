@@ -7,6 +7,7 @@ export default {
     const friend = state.friends ? state.friends.filter((f: IFriend) => f.address === id)[0] : null;
     if (friend) {
       const withoutFriend = state.friends.filter(f => f.address !== id);
+      console.log('updating status');
       friend.status = status;
       withoutFriend.push(friend);
       // eslint-disable-next-line

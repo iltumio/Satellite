@@ -54,7 +54,7 @@ export default {
             this.peerDataHandler.dispatch(peer, type, data);
           },
         );
-      if (this.$store.state.friends) {
+      if (this.$store.state.friendsLoaded) {
         window.Vault74.Peer2Peer.createChannels(this.$store.state.friends);
       }
       this.peerInit = true;
