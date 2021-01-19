@@ -12,7 +12,7 @@ Decentralized chat & sharing platform
 You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application.
 
 **Update Submodules**
-`git submodule --init --recursive`
+`git submodule update --init --recursive`
 
 **Install Deps.**
 `yarn` or `npm install`
