@@ -47,6 +47,10 @@ module.exports = {
   cacher: {
     dwellerLifespan: 900000,
   },
+  polling: {
+    friends: 10000,
+    requests: 10000,
+  },
   peer: {
     network: {
       prod: {

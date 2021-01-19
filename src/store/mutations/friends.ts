@@ -34,6 +34,7 @@ export default {
     state.friendRequests = requests;
   },
   async fetchFriends(state: any, account: string) {
+    console.log('fetching friends');
     let friends = await friendsContract.getFriends(account);
     let friendAddresses = friends.map(f => f[0]);
     if (friendAddresses.length === 0) {
@@ -51,6 +52,7 @@ export default {
         parsedFriends.sort((a: IFriend, b: IFriend) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1);
         state.friends = parsedFriends;
         state.friendsLoaded = true;
+        console.log('done updating friends', state.friends);
       }
     });
   },

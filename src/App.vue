@@ -81,6 +81,7 @@ export default {
     this.$store.commit('dwellerAddress', false);
     this.$store.commit('activeCaller', false);
     this.$store.commit('starting', true);
+    this.$store.commit('clearFriends');
     this.$store.commit('clear');
     // Reset media call data
     this.$store.commit('connectMediaStream', false);
