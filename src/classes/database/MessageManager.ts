@@ -105,14 +105,16 @@ export class MessageManager {
       JSON.stringify(message.payload),
       derivedKey,
     );
-    const encryptedMessage = {
-      ...message,
-      encrypted: true,
-      secure: true,
-      payload: {
-        encryptedData: encryptedPayload,
-      },
-    };
+    const encryptedMessage = Object.assign(
+      {},
+      message,
+      {
+        encrypted: true,
+        secure: true,
+        payload: {
+          encryptedData: encryptedPayload,
+        },
+      });
     await this.client.create(threadID, 'messages', [encryptedMessage]);
     return threadID;
   }
@@ -127,12 +129,14 @@ export class MessageManager {
     const privateKey = await this.crypto.importPrivKey(this.privateKey);
     const derivedKey = await this.crypto.derive(publicKey, privateKey);
     const decrpytedPayload = await this.crypto.decrypt(message.payload.encryptedData, derivedKey);
-    return {
-      ...message,
-      encrypted: false,
-      secure: true,
-      payload: decrpytedPayload,
-    };
+    return Object.assign(
+      {},
+      message,
+      {
+        encrypted: false,
+        secure: true,
+        payload: decrpytedPayload,
+      });
   }
 
   async getMessages(threadID: ThreadID) : Promise<Message[]> {

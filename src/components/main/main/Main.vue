@@ -131,6 +131,8 @@ export default {
           const message = {
             _id: msg.id,
             sender: msg.sender,
+            encypted: msg.encrypted,
+            secure: msg.secure,
             to: this.$store.state.activeChat,
             at: msg.at,
             type: msg.type,
