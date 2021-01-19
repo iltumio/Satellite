@@ -83,7 +83,9 @@ export default class Database {
         );
         this.messageManager = new MessageManager(
           extras.client,
+          id,
         );
+        this.messageManager.build();
         break;
       default:
         this.interface = new LocalStorage(

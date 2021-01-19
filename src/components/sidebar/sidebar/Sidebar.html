@@ -1,5 +1,5 @@
 <section class="section main-section noselect">
-  <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" />
+  <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
   <h1 id="logo">Vault74<span id="tag" class="yellow">alpha 0.2</span></h1>
   <div class="control user-search">
       <input class="input is-small" type="text" :placeholder="$t('sidebar.find')">
@@ -35,13 +35,13 @@
         <User
           v-if="$store.state.friends.length"
           v-for="chat in $store.state.activeChats"
-          :friend="$store.state.friends.filter(f => f.address === chat)[0]"
+          :friend="getFriend(chat)"
           :active="$store.state.activeChat === chat"
           :key="chat"
-          :unread="!isUnread($store.state.friends.filter(f => f.address === chat)[0].address)"
+          :unread="!isUnread(chat)"
           :typing="$store.state.typingUsers[chat]"
           :clientId="chat" />
-        
+
         <div v-if="$store.state.activeChats.length < 4">
           <hr class="divider">
           <span class="label" style="text-align: center;">{{$t('sidebar.add_friends')}}</span>

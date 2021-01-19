@@ -1,4 +1,5 @@
 import config from '@/config/config';
+import Crypto from '@/classes/crypto/Crypto.ts';
 
 const messageParser = msg => JSON.parse(msg);
 const messageFormatter = (type, data) => JSON.stringify({ type, data });
@@ -28,6 +29,7 @@ export default class PeerConnection {
     // Helpers
     this.connecting = false;
     this.established = false;
+    this.crypto = new Crypto();
   }
 
   /** @function
@@ -118,6 +120,11 @@ export default class PeerConnection {
       message: 'gateway-created',
     };
     this.watcher('status', this.status);
+    // Send the remote peer our public key for encrypting messages
+    this.send(messageFormatter(
+      'key-offer',
+      JSON.parse(localStorage.getItem('publicKey')),
+    ));
   }
 
   /** @function
@@ -139,6 +146,18 @@ export default class PeerConnection {
     if (!this.established) this.ensureAlive();
     const message = messageParser(data);
     switch (message.type) {
+      case 'key-request':
+        this.send(messageFormatter(
+          'key-offer',
+          JSON.parse(localStorage.getItem('publicKey')),
+        ));
+        break;
+      case 'key-offer':
+        this.crypto.storeKey(
+          this.remoteId,
+          JSON.parse(data).data,
+        );
+        break;
       case 'ping':
         this.lastPulse = Date.now();
         this.send(messageFormatter('pong', this.lastPulse));

@@ -6,9 +6,10 @@
     </span>
     <div class="name-address">
       <p class="username">{{friend.name}}</p>
-      <p class="address">{{friend.address}}</p>
+      <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.address}}</p>
+      <p class="address" v-else><i class="fa fa-circle-notch fa-pulse"></i> Sending request...</p>
     </div>
-    <button class="button add-friend is-primary" v-on:click="action(friend.address)">{{text}}</button>
+    <button :disabled="isMakingRequest(friend.address)" class="button add-friend is-primary" v-on:click="action(friend.address)">{{text}}</button>
   </div>
 </template>
 
@@ -26,10 +27,16 @@ export default {
     'action',
     'text',
     'friend',
+    'makingRequest',
   ],
   components: {
     CircleIcon,
     Badge,
+  },
+  methods: {
+    isMakingRequest(address) {
+      return this.makingRequest && this.makingRequest[address];
+    },
   },
 };
 </script>

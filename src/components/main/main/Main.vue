@@ -1,6 +1,9 @@
 <template src="./Main.html"></template>
 
 <script>
+import config from '@/config/config';
+import Friends from '@/classes/contracts/Friends.ts';
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import InfoBar from '@/components/main/conversation/infobar/InfoBar';
 import Chatbar from '@/components/main/conversation/chatbar/Chatbar';
 import VoiceVideo from '@/components/main/conversation/voicevideo/VoiceVideo';
@@ -18,7 +21,32 @@ export default {
     NoConversation,
     UserInfo,
   },
+  data() {
+    return {
+      mediaOpen: false,
+      voice: false,
+      playCallSoundTimer: null,
+      subscribed: {},
+      friends: [],
+      dwellerCachingHelper: new DwellerCachingHelper(
+        config.registry[config.network.chain],
+        config.cacher.dwellerLifespan,
+      ),
+    };
+  },
   methods: {
+    // TODO: This should be removed in the future, we should pull
+    // the thread ID from the friend object all over the app instead.
+    bindThreads() {
+      const { friends } = this.$store.state;
+      friends.forEach(async (f) => {
+        const threadID = await this.$database.threadManager.makeIdentifier(
+          this.$store.state.activeAccount,
+          f.address,
+        );
+        this.$database.threadManager.storeThread(threadID, f.threadID);
+      });
+    },
     async fetchMessages(id, friend) {
       const threadID = await this.$database.threadManager.threadAt(id);
       const messages = await this.$database.messageManager.getMessages(threadID);
@@ -103,22 +131,17 @@ export default {
           const message = {
             _id: msg.id,
             sender: msg.sender,
+            to: this.$store.state.activeChat,
             at: msg.at,
             type: msg.type,
             payload: msg.payload,
           };
-          this.$database.messageManager.addNewMessage(threadID, message);
+          // If we have their public key, we will encrypt their message
+          this.$database.messageManager
+            .addMessageDeterministically(threadID, message, this.$store.state.activeChat);
         }
       }
     },
-  },
-  data() {
-    return {
-      mediaOpen: false,
-      voice: false,
-      playCallSoundTimer: null,
-      subscribed: {},
-    };
   },
   mounted() {
     this.$store.subscribe((mutation, state) => {
@@ -130,6 +153,8 @@ export default {
       }
     });
     this.subscribeToThreads();
+    this.friendsContract = new Friends(config.friends[config.network.chain]);
+    this.bindThreads();
   },
 };
 </script>

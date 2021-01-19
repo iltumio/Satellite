@@ -60,8 +60,14 @@ export default class DwellerCachingHelper {
     return dweller;
   }
 
+  /** @function
+   * @name updateDweller
+   * Local method to update the cache with new info from the dweller
+   * @argument address Address of the dweller to update
+   * @returns the dweller from the chain
+   */
   async updateDweller(address: string) : Promise<IDweller | null> {
-    let dweller;
+    let dweller : any;
     const dwellerIDAddress = await Vault74Registry.getDwellerContract(address);
     if (dwellerIDAddress === '0x0000000000000000000000000000000000000000') return null;
     dweller = {

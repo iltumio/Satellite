@@ -23,13 +23,18 @@ export default {
       route: 'chats',
       showQuickFriends: false,
       servers: [],
+      loadingServers: false,
     };
   },
   mounted() {
     this.updateServers();
   },
   methods: {
+    getFriend(address) {
+      return this.$store.state.friends.filter(f => f.address === address)[0];
+    },
     async updateServers() {
+      this.loadingServers = true;
       const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
       const serverAddresses = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
       const fetchServers = [];
@@ -41,6 +46,7 @@ export default {
       const servers = await Promise.all(fetchServers);
 
       this.servers = servers;
+      this.loadingServers = false;
     },
     isUnread(address) {
       const groupID = `${this.$store.state.activeAccount}::${address}`;

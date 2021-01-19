@@ -39,11 +39,14 @@ export default {
           const message = {
             _id: msg.id,
             sender: msg.sender,
+            to: this.$store.state.activeChat,
             at: msg.at,
             type: msg.type,
             payload: msg.payload,
           };
-          this.$database.messageManager.addNewMessage(threadID, message);
+          // If we have their public key, we will encrypt their message
+          this.$database.messageManager
+            .addMessageDeterministically(threadID, message, this.$store.state.activeChat);
         }
       }
       window.Vault74.Peer2Peer.send(

@@ -14,21 +14,22 @@
       <div class="message-body noselect">
         <h2>{{$t('files.your_files')}}</h2>
         <p>{{$t('files.your_files_subtext')}}</p>
-        <br>
-        <p v-if="loading" class="label">
-          <i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('files.loading')}}
-        </p>
+
         <FileContext
           v-if="showContext"
           :file="activeFile"
           :x="contextCoordsX"
           :y="contextCoordsY"
           :close="hideContext" />
-        <div v-for="(file, index) in recentFiles" v-bind:key="file.hash">
+        <div v-for="(file, index) in $store.state.files" v-bind:key="file.hash">
           <p @contextmenu="fileContext">
             <File :file="file" :updateParent="updateParent" :index="index" />
           </p>
         </div>
+        <br>
+        <p v-if="loading" class="label">
+          <small><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('files.loading')}}</small>
+        </p>
         <div style="clear:both"></div>
       </div>
     </article>
@@ -53,7 +54,6 @@ export default {
   data() {
     return {
       loading: false,
-      recentFiles: [],
       showContext: false,
       contextCoordsX: 0,
       contextCoordsY: 0,
@@ -65,7 +65,7 @@ export default {
       event.preventDefault();
       const fileIndex = event.target.getAttribute('data-id');
       if (fileIndex) {
-        this.activeFile = this.recentFiles[fileIndex];
+        this.activeFile = this.$store.state.files[fileIndex];
         this.contextCoordsX = event.clientX;
         this.contextCoordsY = event.clientY;
         this.showContext = true;
@@ -105,7 +105,7 @@ export default {
       const ipfsUtils = new IPFSUtils(this.$database);
       const cache = await ipfsUtils.getFileCache();
       this.loading = false;
-      this.recentFiles = cache.reverse();
+      this.$store.commit('cacheFiles', cache.reverse());
     },
   },
   async mounted() {

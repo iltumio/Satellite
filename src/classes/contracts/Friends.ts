@@ -31,9 +31,11 @@ export default class Friends {
     return contract;
   }
 
-  // Update Friends cache
-
-  // Update Friend requests recieved cache
+  /** @function
+   * @name getRequests
+   * @argument account Address to get friend requests from
+   * @returns array of friend request IDs
+   */
   async getRequests(account: string) : Promise<string[]>{
     const requests = await this.contract.methods
       .getRequests()
@@ -43,6 +45,11 @@ export default class Friends {
     return requests;
   }
 
+  /** @function
+   * @name getRequest
+   * @argument account Address to get friend requests from
+   * @returns friend request object
+   */
   async getRequest(id: number) {
     const request = await this.contract.methods
       .getRequest(id)
@@ -50,6 +57,11 @@ export default class Friends {
     return request;
   }
 
+  /** @function
+   * @name parseRequest
+   * @argument account request array to parse to request object
+   * @returns friend request object
+   */
   async parseRequest(request: any[]) {
     return {
       id: request['id'].toString(),
@@ -61,7 +73,24 @@ export default class Friends {
     }
   }
 
-  // Update Friend requests sent cache
+
+  /** @function
+   * @name parseFriend
+   * @argument account request array to parse to request object
+   * @returns friend request object
+   */
+  async parseFriend(fr: any[]) {
+    return {
+      id: fr[0],
+      threadHash: `${this.ethereum.utils.hexToAscii(fr['threadHash1'])}${this.ethereum.utils.hexToAscii(fr['threadHash2'])}`,
+    }
+  }
+
+  /** @function
+   * @name getFriends
+   * @argument account account to get friends from
+   * @returns friend request object
+   */
   async getFriends(account: string) {
     const friends = await this.contract.methods
       .getFriends()
@@ -71,9 +100,16 @@ export default class Friends {
     return friends;
   }
 
+  /** @function
+   * @name makeRequest
+   * @argument account account to send request from
+   * @argument to account to send the request to
+   * @argument hash threadID for the friend group
+   * @returns transaction hash
+   */
   async makeRequest(account: string, to: string, hash: string) : Promise<any> {
-    return new Promise((resolve) => {
-      this.contract.methods.setDwellerName(
+    return new Promise((resolve, reject) => {
+      this.contract.methods.makeRequest(
         to,
         [
           this.ethereum.fromAscii(hash.substring(0, 28)),
@@ -84,29 +120,44 @@ export default class Friends {
           from: account,
           gas: 4700000,
         })
-        .once('transactionHash', resolve);
+        .once('confirmation', resolve)
+        .on('error', reject);
     });
   }
 
+  /** @function
+   * @name acceptRequest
+   * @argument account account to accept friend request on behalf of
+   * @argument id friend request identifier to accept
+   * @returns transaction hash
+   */
   async acceptRequest(account: string, id: number) : Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods.acceptRequest(id)
         .send({
           from: account,
           gas: 4700000,
         })
-        .once('confirmation', resolve);
+        .once('confirmation', resolve)
+        .on('error', reject);
     });
   }
 
+  /** @function
+   * @name denyRequest
+   * @argument account account to deny friend request on behalf of
+   * @argument id friend request identifier to deny
+   * @returns transaction hash
+   */
   async denyRequest(account: string, id: number) : Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.contract.methods.acceptRequest(id)
         .send({
           from: account,
           gas: 4700000,
         })
-        .once('confirmation', resolve);
+        .once('confirmation', resolve)
+        .on('error', reject);
     });
   }
 }

@@ -26,7 +26,11 @@
       </div>
       <div v-if="friend">
         <h2 class="label">{{$t('friends.found_someone')}}</h2>
-        <Friend :action="commitFriend" :friend="friend" text="Add" />
+        <Friend
+          :action="sendFriendRequest"
+          :friend="friend"
+          :makingRequest="makingRequest"
+          text="Add" />
         <div style="clear:both"></div>
       </div>
     </div>
@@ -35,7 +39,10 @@
   <article class="message is-dark">
     <div class="message-body">
       <div>
-        <FriendRequests />
+        <FriendRequests 
+          :fetchFriendRequests="fetchFriendRequests"
+          :friendRequests="friendRequests"
+          :action="chatFriend" />
       </div>
     </div>
   </article>
@@ -57,7 +64,12 @@
       <div v-else>
         <p>{{$t('friends.no_friends')}}</p>
       </div>
-      <Friend v-for="fr in friends" :key="fr.address" :friend="fr" :action="chatFriend" text="Chat" />
+      <Friend
+        v-for="fr in $store.state.friends"
+        :key="fr.address"
+        :friend="fr"
+        :action="chatFriend"
+        text="Chat" />
       <div style="clear:both"></div>
     </div>
   </article>

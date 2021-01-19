@@ -1,7 +1,7 @@
 <div class="servers">
   <CircleIcon color="#00d0a1" icon="fa fa-search" />
   <hr class="divider">
-  <div class="server" v-if="servers.length < 1">
+  <div class="server" v-if="loadingServers">
     <CircleIcon icon="fa fa-circle-notch fa-pulse" />
   </div>
   <div class="server has-tooltip-arrow has-tooltip-right has-tooltip-success"

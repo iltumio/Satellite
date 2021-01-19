@@ -5,12 +5,46 @@ import {
   PrivateKey,
 } from '@textile/hub';
 import config from '@/config/config';
+import Crypto from '@/classes/crypto/Crypto.ts';
 
 export default {
   name: 'database',
   methods: {
-    startup() {
-      this.$store.commit('fetchFriends');
+    async startup() {
+      // Generate local pub/priv keys if none exist.
+      const crypto = new Crypto();
+      const keys = await crypto.keygen();
+
+      const test = {
+        _id: '0',
+        sender: '0x0',
+        at: Date.now(),
+        type: 'text',
+        payload: {
+          data: 'Some string that should be encrypted when i use the crypto lib on it.',
+        },
+      };
+
+      const pubKey = await crypto.importPubKey(keys.public);
+      const privKey = await crypto.importPrivKey(keys.private);
+      console.log(pubKey);
+      console.log(privKey);
+      const derivedKey = await crypto.derive(pubKey, privKey);
+      console.log(derivedKey);
+      const encryptedTest = await crypto.encrypt(JSON.stringify(test.payload), derivedKey);
+      const encryptedMessage = {
+        ...test,
+        payload: encryptedTest,
+        encrypted: true,
+      };
+      console.log(encryptedMessage);
+
+      this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      setTimeout(() => {
+        // Really shouldn't be used, but prevents
+        // some potenial race conditions with globals
+        this.$store.commit('starting', false);
+      }, 500);
     },
     makeKey() {
       return {
@@ -44,6 +78,7 @@ export default {
     },
   },
   async mounted() {
+    this.$store.commit('starting', true);
     if (this.$store.state.databaseEnabled) {
       const identity = await this.getIdentity();
       const client = await this.authorize(this.makeKey(), identity);

@@ -23,7 +23,8 @@
     <Loading v-if="!$store.state.friends ||
       !$store.state.p2pOnline ||
       $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
-      !$store.state.dwellerAddress"
+      !$store.state.dwellerAddress ||
+      $store.state.starting"
     />
     <div v-else>
       <Achievement v-if="false" achievement="addFriend" />

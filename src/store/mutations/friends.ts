@@ -1,4 +1,16 @@
+// @ts-ignore
+import config from '@/config/config.js';
+// @ts-ignore
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
+import Friends from "../../classes/contracts/Friends";
 import IFriend from "../../interfaces/IFriend";
+import { parse } from 'uuid';
+
+const friendsContract =  new Friends(config.friends[config.network.chain]);
+const dwellerCachingHelper = new DwellerCachingHelper(
+  config.registry[config.network.chain],
+  config.cacher.dwellerLifespan,
+);
 
 export default {
   // Add a new friend to the local cache
@@ -16,12 +28,27 @@ export default {
     const bucket = window.Vault74.Database.Bucket('friends');
     bucket.add(friend);
   },
-  async fetchFriends(state: any) {
-    // @ts-ignore
-    const bucket = window.Vault74.Database.Bucket('friends');
-    const friends = await bucket.get();
+  // For caching purposes
+  updateFriendRequests(state: any, requests: any) {
     // eslint-disable-next-line
-    state.friends = friends;
+    state.friendRequests = requests;
+  },
+  async fetchFriends(state: any, account: string) {
+    let friends = await friendsContract.getFriends(account);
+    let friendAddresses = friends.map(f => f[0]);
+    if (friendAddresses.length === 0) state.friends = [];
+    const parsedFriends: any[] = [];
+    friendAddresses.forEach(async (f, i) => {
+      const friend = await dwellerCachingHelper.getDweller(f);
+      const parsedFriend = await friendsContract.parseFriend(friends[i]);
+      parsedFriends[i] = { ...friend, threadID: parsedFriend.threadHash };
+      if (parsedFriends.length == friendAddresses.length) {
+        // Alpha sort friends
+        // eslint-disable-next-line
+        parsedFriends.sort((a: IFriend, b: IFriend) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1);
+        state.friends = parsedFriends;
+      }
+    });
   },
   clearFriends(state: any) {
     // eslint-disable-next-line

@@ -30,7 +30,7 @@ export default {
     return {
       vcoConfig: {
         handler: this.handler,
-        events: ['dblclick', 'click', 'contextmenu', 'click.right'],
+        events: ['dblclick', 'click', 'contextmenu', 'contextmenu', 'click.right'],
       },
     };
   },

@@ -41,4 +41,8 @@ export default {
     // eslint-disable-next-line
     state.settings.language = lang;
   },
+  starting(state, isStarting) {
+    // eslint-disable-next-line
+    state.starting = isStarting;
+  }
 };

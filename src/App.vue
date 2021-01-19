@@ -80,7 +80,7 @@ export default {
     this.$store.commit('ICEConnected', false);
     this.$store.commit('dwellerAddress', false);
     this.$store.commit('activeCaller', false);
-    this.$store.commit('clearFriends');
+    this.$store.commit('starting', true);
     this.$store.commit('clear');
     // Reset media call data
     this.$store.commit('connectMediaStream', false);
@@ -93,7 +93,6 @@ export default {
         window.Vault74.Peer2Peer.createChannels(state.friends);
       }
     });
-
     // Set i18n locale based on the user preferred language
     if (this.$store.state.settings.language) {
       this.$i18n.locale = this.$store.state.settings.language;

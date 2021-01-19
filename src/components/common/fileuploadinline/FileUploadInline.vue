@@ -39,7 +39,6 @@ export default {
     sendFileMessage() {
       if (this.ipfsHash) {
         this.relayResult(this.fileClass.getObject());
-        this.$store.commit('addRecentFile');
       }
     },
     // Set the file from the input ready for processing
