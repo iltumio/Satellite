@@ -5,11 +5,9 @@
         </span>
         <div v-if="image && image.trim() !== 'https://ipfs.io/ipfs/'">
           <jazzicon class="jazzicon" :address="address" :diameter="diameter || 45" />
-          {{image}}
           <img :src="image" :key="image">
         </div>
         <div v-else-if="address">
-          {{address}}
           <jazzicon class="jazzicon" :address="address" :diameter="diameter || 45" />
         </div>
     </div>
