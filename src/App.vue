@@ -64,7 +64,6 @@ export default {
         window.Vault74.messageBroker = new MessageBroker(
           this.$store.state.activeAccount,
           (data) => {
-            console.log('got updated data', data);
             this.$store.commit('updateMessages', data);
           },
           (user) => {

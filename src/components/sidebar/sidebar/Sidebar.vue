@@ -30,8 +30,8 @@ export default {
     this.updateServers();
   },
   methods: {
-    getFriend(address) {
-      return this.$store.state.friends.filter(f => f.address === address)[0];
+    getFriend(friends, address) {
+      return friends.filter(f => f.address === address)[0];
     },
     async updateServers() {
       this.loadingServers = true;
