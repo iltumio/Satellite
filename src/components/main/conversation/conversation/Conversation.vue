@@ -1,18 +1,5 @@
 <template>
   <div>
-    <div class="notification is-info" v-if="!threadExists">
-      {{$t('conversation.conversation.invite_offline', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}
-      <button
-        v-if="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].status !== 'alive'"
-        class="button is-small is-link"
-        disabled>{{$t('conversation.conversation.must_be_online', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}</button>
-      <button 
-        v-else
-        v-on:click="inviteToOffline"
-        class="button is-small is-link">
-        {{$t('conversation.conversation.invite',{name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})}}
-      </button>
-    </div>
     <div id="scrollBottom" v-if="showScrollToBottom" v-on:click="scrollToEnd">
       <i class="fas fa-chevron-down"></i>
     </div>
@@ -54,8 +41,6 @@ export default {
   },
   data() {
     return {
-      // TODO: Remove after friend requests
-      invitedToOffline: false,
       showScrollToBottom: false,
       scrollTimeout: false,
       subscribed: false,
@@ -63,20 +48,6 @@ export default {
     };
   },
   methods: {
-    // TODO: Remove after friend requests
-    async inviteToOffline() {
-      this.invitedToOffline = true;
-      const id = this.$database.threadManager
-        .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
-      const threadID = await this.$database.threadManager.threadAt(id);
-      this.sendMessage(
-        {
-          threadID: threadID.toString(),
-          identifier: id,
-        },
-        'thread-id',
-      );
-    },
     doesThreadExist() {
       const id = this.$database.threadManager
         .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);

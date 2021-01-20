@@ -56,6 +56,14 @@ export default {
         );
       }
     },
+    async addNewMessage(id, message) {
+      if (window.Vault74.messageBroker) {
+        window.Vault74.messageBroker.addToConvo(
+          id,
+          message,
+        );
+      }
+    },
     async subscribeToThreads() {
       this.$store.state.friends.forEach(async (friend) => {
         const id = this.$database.threadManager
@@ -66,8 +74,8 @@ export default {
           this.fetchMessages(id, friend);
           if (!this.subscribed[friend.address]) {
             const threadID = await this.$database.threadManager.threadAt(id);
-            const closer = await this.$database.messageManager.subscribe(threadID, () => {
-              this.fetchMessages(id, friend);
+            const closer = await this.$database.messageManager.subscribe(threadID, (update) => {
+              this.addNewMessage(id, update.instance);
             });
             this.subscribed[friend.address] = closer;
           }

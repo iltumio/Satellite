@@ -44,9 +44,6 @@
           <div v-if="message.payload.type === 'payment'">
             <Payment :message="message.payload" />
           </div>
-          <div v-if="message.payload.type === 'thread-id'">
-            <OfflineChat :message="message.payload" />
-          </div>
           <div v-if="message.payload.type === 'call'">
             <Call :message="message.payload" />
           </div>
