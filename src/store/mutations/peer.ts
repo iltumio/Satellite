@@ -6,6 +6,7 @@ export default {
     const [id, status] = data;
     const friend = state.friends ? state.friends.filter((f: IFriend) => f.address === id)[0] : null;
     if (friend) {
+      if (friend.status === status) return; // No Update Needed
       const withoutFriend = state.friends.filter(f => f.address !== id);
       friend.status = status;
       withoutFriend.push(friend);

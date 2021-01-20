@@ -18,7 +18,7 @@
   </div>
   <div class="tabs">
       <ul>
-          <li 
+          <li
               :class="`${route === 'chats' ? 'is-active' : ''}`"
               v-on:click="setRoute('chats')"><a>{{$t('sidebar.chats')}}</a></li>
           <li><a>{{$t('sidebar.groups')}}</a></li>
@@ -28,10 +28,6 @@
   <QuickFriends v-if="showQuickFriends" :close="toggleQuickFriends"/>
   <div class="usercontainer">
       <div v-if="route === 'chats'">
-        <!--
-        <UserDemo name="Samantha Version" unread="unread" status="Idly typing away!" online="true" icon="https://randomuser.me/api/portraits/women/56.jpg"/>
-        <UserDemo name="Sophie Chain" status="Enjoying Vault74's piece of mind" online="true" icon="https://randomuser.me/api/portraits/women/43.jpg" active="true"/>
-        -->
         <User
           v-if="$store.state.friendsLoaded"
           v-for="chat in $store.state.activeChats"
@@ -41,12 +37,11 @@
           :unread="!isUnread(chat)"
           :typing="$store.state.typingUsers[chat]"
           :clientId="chat" />
-
         <div v-if="$store.state.activeChats.length < 4">
           <hr class="divider">
           <span class="label" style="text-align: center;">{{$t('sidebar.add_friends')}}</span>
           <button
-            class="button is-primary is-small" 
+            class="button is-primary is-small"
             v-on:click="setMainRoute('friends')"
             active="false"
             style="width: 100%;">{{$t('sidebar.button')}}</button>

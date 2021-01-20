@@ -1,7 +1,7 @@
 <div class="c-message-body" v-if="dweller">
   <h4 class="c-message-user">{{dweller.name}} <span class="timestamp">{{formattedDate(messages[messages.length - 1].at)}}</span></h4>
   <CircleIcon
-    :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
+    :image="dweller.photo"
     :address="$store.state.activeAccount" />
   <div class="c-message-actions" v-if="isEditable">
     <i class="fas fa-pencil-alt"></i>

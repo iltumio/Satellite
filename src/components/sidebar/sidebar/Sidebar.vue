@@ -31,9 +31,6 @@ export default {
   },
   methods: {
     getFriend(address) {
-      console.log('friends', this.$store.state.friends);
-      console.log('address', address);
-      console.log('friend found', this.$store.state.friends.filter(f => f.address === address)[0]);
       return this.$store.state.friends.filter(f => f.address === address)[0];
     },
     async updateServers() {

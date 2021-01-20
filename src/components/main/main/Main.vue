@@ -27,7 +27,6 @@ export default {
       voice: false,
       playCallSoundTimer: null,
       subscribed: {},
-      friends: [],
       dwellerCachingHelper: new DwellerCachingHelper(
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,

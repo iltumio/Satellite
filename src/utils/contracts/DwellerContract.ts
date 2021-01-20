@@ -78,7 +78,7 @@ export default {
    */
   setUsername(address: string, account: string, username: string, done: CallableFunction) {
     const contract = this.getContract(address);
-    contract.methods.makeRequest(ethereum.fromAscii(username))
+    contract.methods.setDwellerName(ethereum.fromAscii(username))
       .send({
         from: account,
         gas: 4700000,
