@@ -1,10 +1,11 @@
 <template>
   <div>
     <div v-if="!this.friendRequests">
-      Loading Requests...
+      {{$t('friends.requests.loading')}}
     </div>
     <div v-if="this.friendRequests.length === 0 || this.friendRequests.filter(fr => fr.active).length === 0">
-      No Active Requests.
+      <span v-if="outgoing">{{$t('friends.requests.no-outgoing')}}</span>
+      <span v-else>{{$t('friends.requests.no-incoming')}}</span>
     </div>
     <div v-for="request in friendRequests" :key="request.id">
       <div class="friend request" v-if="!request.accepted && request.active">
@@ -12,7 +13,7 @@
           <h1 class="label name">{{request.sender.name}}</h1>
           <span class="address" v-if="!requestPending[request.id]">{{request.sender.address.substr(0, 24)}}...</span>
           <span class="address" v-else>
-            <i class="fa fa-circle-notch fa-pulse"></i>  Updating Request...
+            <i class="fa fa-circle-notch fa-pulse"></i>  {{$t('friends.requests.updating')}}
           </span>
         </div>
         <div class="right">
@@ -46,6 +47,7 @@ export default {
     'action',
     'fetchFriendRequests',
     'friendRequests',
+    'outgoing',
   ],
   data() {
     return {

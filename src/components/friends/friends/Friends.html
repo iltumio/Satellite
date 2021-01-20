@@ -35,7 +35,7 @@
       </div>
     </div>
   </article>
-  <h2 class="label">{{$t('friends.requests.heading')}}</h2>
+  <h2 class="label">{{$t('friends.requests.incoming')}}</h2>
   <article class="message is-dark">
     <div class="message-body">
       <div>
@@ -46,6 +46,21 @@
       </div>
     </div>
   </article>
+  <!--
+    TODO: Requires contract updates
+  <h2 class="label">{{$t('friends.requests.outgoing')}}</h2>
+  <article class="message is-dark">
+    <div class="message-body">
+      <div>
+        <FriendRequests
+          :fetchFriendRequests="fetchFriendRequests"
+          :friendRequests="friendRequests"
+          :outgoing="true"
+          :action="chatFriend" />
+      </div>
+    </div>
+  </article>
+  -->
   <h2 class="label">{{$t('friends.chat')}}</h2>
   <article class="message is-dark">
     <div class="message-body">

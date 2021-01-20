@@ -135,12 +135,18 @@ export class MessageManager {
       {
         encrypted: false,
         secure: true,
-        payload: decrpytedPayload,
+        payload: JSON.parse(decrpytedPayload),
       });
   }
 
   async getMessages(threadID: ThreadID) : Promise<Message[]> {
     return new Promise(async (resolve) => {
+      const checkStatus = () => {
+        if (decryptedMessages.length === messages.length) {
+          resolve(<Array<Message>>decryptedMessages);
+        }
+      }
+      
       let messages = await this.client.find(
         threadID,
         'messages',
@@ -156,22 +162,27 @@ export class MessageManager {
             `pubkey.${msg.to}` :
             `pubkey.${msg.sender}`;
           const key = localStorage.getItem(keyId);
+          // We don't have a key for this user, can't decrypt
           if (!key) {
             decryptedMessages.push(msg);
+            checkStatus();
           } else {
             this.decryptMessage(msg, JSON.parse(key))
+              // The message was successfully decrypted
               .then((decrypted) => {
                 decryptedMessages.push(decrypted);
+                checkStatus();
               })
+              // The message failed to decrypt
               .catch(() => {
                 decryptedMessages.push(msg);
+                checkStatus();
               });
           }
         } else {
+          // The message wasn't encrypted
           decryptedMessages.push(msg);
-        }
-        if (decryptedMessages.length === messages.length) {
-          resolve(<Array<Message>>decryptedMessages);
+          checkStatus();
         }
       });
     });

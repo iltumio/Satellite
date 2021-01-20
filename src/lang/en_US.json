@@ -88,7 +88,13 @@
     "search_placeholder": "Find Friend...",
     "search": "Search",
     "requests": {
-      "heading": "Friend Requests"
+      "heading": "Friend Requests",
+      "incoming": "Incoming Requests",
+      "outgoing": "Outgoing Requests",
+      "loading": "Loading Requests...",
+      "no-outgoing": "No outgoing requests",
+      "no-incoming": "No incoming requests",
+      "updating": "Updating request..."
     }
   },
   "voice_video": {
