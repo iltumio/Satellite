@@ -155,6 +155,7 @@ export class MessageManager {
         // Collection not found
         resolve([]);
       }) || [];
+
       const decryptedMessages: any[] = [];
       messages.forEach(async (msg: any, i: number) => {
         if (msg.encrypted) {

@@ -67,6 +67,12 @@ export default {
             console.log('got updated data', data);
             this.$store.commit('updateMessages', data);
           },
+          (user) => {
+            if (user !== this.$store.state.activeAccount) {
+              // Check to see if we have an active chat with this user already
+              this.$store.commit('newChat', user);
+            }
+          },
         );
         window.Vault74.warn('No account found yet, rechecking soon.');
         // Attach to peers

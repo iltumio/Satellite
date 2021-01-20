@@ -5,16 +5,18 @@ export default class MessageBroker {
   storage: any;
   peerId: string;
   update: CallableFunction;
+  pulseUser: CallableFunction;
   /** @constructor
    * Construct a new Message Broker
    * @argument peerId the local peer ID
    * @argument update callback method to update our application with new messages
    */
-  constructor(peerId: string, update: CallableFunction) {
+  constructor(peerId: string, update: CallableFunction, pulseUser: CallableFunction) {
     const storedStorage = localStorage.getItem('vault74.messageHistory');
     this.storage = storedStorage ? JSON.parse(storedStorage) : {};
     this.peerId = peerId;
     this.update = update;
+    this.pulseUser = pulseUser;
   }
 
   setConvo(id: string, messages: IMessage[]) {
@@ -34,6 +36,7 @@ export default class MessageBroker {
     this.storage[id] = this.storage[id] ? [...this.storage[id], message] : [message];
     localStorage.setItem('vault74.messageHistory', JSON.stringify(this.storage));
     this.update(this.storage);
+    this.pulseUser(message.sender);
   }
 
   /** @function
