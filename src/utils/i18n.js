@@ -2,6 +2,7 @@ import VueI18n from 'vue-i18n';
 /* eslint-disable */
 import en_US from '../lang/en_US.json';
 import en_UK from  '../lang/en_UK.json';
+import de from  '../lang/de.json';
 import fr from  '../lang/fr.json';
 import ru from  '../lang/ru.json';
 import it from  '../lang/it.json';
@@ -58,6 +59,7 @@ export default (locale, fallbackLocale) =>
     messages: {
       en_US,
       en_UK,
+      de,
       fr,
       it,
       ru,
