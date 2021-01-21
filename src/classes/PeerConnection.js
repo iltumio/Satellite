@@ -98,7 +98,6 @@ export default class PeerConnection {
    */
   checkHeartbeat() {
     if (Date.now() - this.lastHeartbeat > config.peer.heartbeat_timeout) {
-      window.Vault74.warn(`Not seeing a heartbeat from ${this.remoteId}.`);
       this.watcher('dead', this.lastHeartbeat);
       this.established = false;
     }

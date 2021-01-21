@@ -34,6 +34,17 @@ export default {
     };
   },
   methods: {
+    async fetchMessages(remoteAddress) {
+      const friend = this.$store.state.friends.find(f => f.address === remoteAddress);
+      if (!friend) return;
+      const messages = await this.$database.messageManager.getMessages(friend.threadID);
+      if (window.Vault74.messageBroker) {
+        window.Vault74.messageBroker.setConvo(
+          `${this.$store.state.activeAccount}::${friend.address}`,
+          messages,
+        );
+      }
+    },
     // TODO: This should be removed in the future, we should pull
     // the thread ID from the friend object all over the app instead.
     bindThreads() {
@@ -45,16 +56,6 @@ export default {
         );
         this.$database.threadManager.storeThread(threadID, f.threadID);
       });
-    },
-    async fetchMessages(id, friend) {
-      const threadID = await this.$database.threadManager.threadAt(id);
-      const messages = await this.$database.messageManager.getMessages(threadID);
-      if (window.Vault74.messageBroker) {
-        window.Vault74.messageBroker.setConvo(
-          `${this.$store.state.activeAccount}::${friend.address}`,
-          messages,
-        );
-      }
     },
     async addNewMessage(id, message) {
       if (window.Vault74.messageBroker) {
@@ -71,7 +72,6 @@ export default {
         const existingThread = this.$database.threadManager
           .fetchThread(id);
         if (existingThread) {
-          this.fetchMessages(id, friend);
           if (!this.subscribed[friend.address]) {
             const threadID = await this.$database.threadManager.threadAt(id);
             const closer = await this.$database.messageManager.subscribe(threadID, (update) => {
@@ -153,6 +153,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchMessages(this.$store.state.activeChat);
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'connectMediaStream') {
         // Connect to new peer.

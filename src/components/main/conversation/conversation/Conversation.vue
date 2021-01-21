@@ -34,6 +34,7 @@ export default {
     'sendMessage',
     'mediaOpen',
     'voice',
+    'fetchMessages',
   ],
   components: {
     MessageBody,
@@ -117,11 +118,18 @@ export default {
     this.subscribed();
   },
   mounted() {
+    // This is to track changes in addresses, I couldn't find a way to do this with subscribe
+    let lastChat = this.$store.state.activeChat;
     this.$nextTick(() => this.scrollToEnd());
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'activeChat') {
         this.$nextTick(() => this.scrollToEnd());
         this.markRead();
+
+        if (lastChat !== mutation.payload) {
+          this.fetchMessages(mutation.payload);
+          lastChat = mutation.payload;
+        }
       }
       if (mutation.type === 'updateMessages') {
         this.scrollToEndConditionally();

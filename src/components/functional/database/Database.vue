@@ -4,6 +4,7 @@ import {
   Client,
   PrivateKey,
 } from '@textile/hub';
+import { Context } from '@textile/context';
 import config from '@/config/config';
 import Crypto from '@/classes/crypto/Crypto.ts';
 
@@ -43,10 +44,15 @@ export default {
       return identity;
     },
     async authorize(key, identity) {
-      const client = await Client.withKeyInfo(key);
+      // TODO: If in dev mode create a new client, else use the provided key
+      const client = (config.env === 'dev') ?
+        new Client(new Context(config.textile.localURI)) :
+        await Client.withKeyInfo(key);
+
       const userToken = await client.getToken(identity).catch(() => {
         this.$store.commit('criticalError', 'Textile.io may be down...');
       });
+
       return {
         client,
         userToken,

@@ -5,6 +5,7 @@
       :makeCall="makeCall"/>
     <div :class="`${($store.state.showUser) ? 'main-user-info main-user-info-open' : 'main-user-info'}`">
       <Conversation 
+        :fetchMessages="fetchMessages"
         :sendMessage="sendMessage"
         :mediaOpen="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer"
         :voice="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer && voice"

@@ -1,5 +1,7 @@
 import { Client, ThreadID } from "@textile/hub";
 import Crypto from "../crypto/Crypto";
+// @ts-ignore
+import config from '@/config/config';
 
 interface Message {
   _id: string,
@@ -139,8 +141,11 @@ export class MessageManager {
       });
   }
 
-  async getMessages(threadID: ThreadID) : Promise<Message[]> {
+  async getMessages(threadID: ThreadID | string) : Promise<Message[]> {
     return new Promise(async (resolve) => {
+      const safeThread = (typeof threadID === 'string') ?
+        ThreadID.fromString(threadID.replace(/\W/g, '')) : threadID;
+      
       const checkStatus = () => {
         if (decryptedMessages.length === messages.length) {
           resolve(<Array<Message>>decryptedMessages);
@@ -148,13 +153,16 @@ export class MessageManager {
       }
       
       let messages = await this.client.find(
-        threadID,
+        safeThread,
         'messages',
         {},
       ).catch((err) => {
         // Collection not found
         resolve([]);
       }) || [];
+
+      // @ts-ignore
+      window.Vault74.debug(`ThreadDB request made for ThreadID ${safeThread.toString()}`);
 
       const decryptedMessages: any[] = [];
       messages.forEach(async (msg: any, i: number) => {

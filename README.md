@@ -9,7 +9,20 @@ Decentralized chat & sharing platform
 
 ## Running Locally
 
-You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application.
+You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application. 
+
+### Textile.io Setup
+Because the application uses HMR it will refresh un-nessiarily so it is recommended to run Textile locally. 
+You can use their Docker container which makes this very easy, information here: [Textile Docker](https://github.com/textileio/go-threads#running-threaddb).
+
+Alternativley you can simply create a key for Textile and include it in your config. Creating a Textile account and generating keys is explained here: [Textile Account](https://docs.textile.io/hub/accounts/)
+
+### Creating the config
+You'll need to fill out a few things in the config, first create your config by running `cp src/config/config-example.js src/config/config.js`. 
+
+**Next enter the following information:**
+`env` - Switch to 'prod' unless you're using a local instance of Textile.
+`textile.key` - Replace this with your Textile.io API key.
 
 **Update Submodules**
 `git submodule update --init --recursive`
@@ -18,13 +31,16 @@ You must install [Node.JS](https://nodejs.org/en/download/) on your system prior
 `yarn` or `npm install`
 
 **Build Contracts**
+
 Install Truffle `npm i -g truffle`
+
 Build Contracts `cd src/contracts && truffle build`
 
 **Start in Devmode**
+
 `yarn dev` or `npm run dev`
 
-Navigate to `http://localhost:8080`.
+Navigate to `http://localhost:8080`. (This should open automatically.)
 
 In your browser, use something like metamask connected to the goerli testnet.
 

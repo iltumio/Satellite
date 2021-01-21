@@ -1,8 +1,8 @@
 module.exports = {
-  env: 'prod',
+  env: 'dev', // Switch to Prod if you plan to use textiles live env
   textile: {
     localURI: 'http://localhost:6007',
-    key: 'blhtljyplc4oeoxqso4ypwlei3y',
+    key: '<your_textile_key>',
   },
   network: {
     explorer: 'https://goerli.etherscan.io',

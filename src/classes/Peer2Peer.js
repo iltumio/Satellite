@@ -191,7 +191,6 @@ export default class Peer2Peer {
   internalWatcher(peer, type, data) {
     // Hoist watcher methods
     this.watcher(peer, type, data);
-    window.Vault74.debug(`${peer} -> `, type, data);
   }
 
   /** @function

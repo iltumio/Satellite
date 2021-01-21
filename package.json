@@ -31,6 +31,7 @@
     "eslint": "eslint --ext .js,.vue build config src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "@textile/context": "^0.10.0",
     "@textile/hub": "^4.0.0",
     "bulma": "^0.9.1",
     "dayjs": "^1.9.4",
