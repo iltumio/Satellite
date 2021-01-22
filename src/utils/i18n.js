@@ -7,7 +7,7 @@ import fr from  '../lang/fr.json';
 import ru from  '../lang/ru.json';
 import it from  '../lang/it.json';
 import hy from  '../lang/hy.json';
-import en_IN from  '../lang/hi.json';
+import hi from  '../lang/hi.json';
 
 import { ipfs, languages, defaultLanguage } from '../config/config';
 
