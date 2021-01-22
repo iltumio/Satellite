@@ -31,7 +31,7 @@ module.exports = {
   defaultLanguage: 'en_US',
   languages: {
     en_UK: '',
-    en_IN: '',
+    hi: '',
     de: 'QmeBfYw5esSbRR63cV1qi1iV5FfgvAe93FAHNeKfqWEnrR',
     fr: '',
     it: 'QmSezaqPeAhsjekzNS3xChGw7G5N4GYCuYAqYkkGZgxneu',
