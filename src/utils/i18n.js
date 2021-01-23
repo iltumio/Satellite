@@ -7,6 +7,7 @@ import fr from  '../lang/fr.json';
 import ru from  '../lang/ru.json';
 import it from  '../lang/it.json';
 import hy from  '../lang/hy.json';
+import hi from  '../lang/hi.json';
 
 import { ipfs, languages, defaultLanguage } from '../config/config';
 
@@ -63,7 +64,8 @@ export default (locale, fallbackLocale) =>
       fr,
       it,
       ru,
-      hy
+      hy,
+      hi,
     },
     fallbackLocale: fallbackLocale || locale,
   });

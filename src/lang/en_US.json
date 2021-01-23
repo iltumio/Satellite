@@ -305,7 +305,8 @@
     "en_UK": "English (UK)",
     "fr": "French",
     "ru": "Russian",
-    "hy": "Armenian"
+    "hy": "Armenian",
+    "hi": "Hindi"
   },
   "alpha_release": {
     "warning": "Heads up, this is an alpha release. <strong>Messages are not yet encrypted</strong>. This is not a finished product and serval exploits may exist. Features are rapidly being added and changed. For this reason please only use this on a <strong>Testnet</strong> until the beta."
