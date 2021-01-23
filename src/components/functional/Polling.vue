@@ -18,7 +18,10 @@ export default {
     friends() {
       this.friendsTimer = setInterval(() => {
         this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+        console.log('fetching friends');
+        
       }, config.polling.friends);
+      this.friendsTimer();
     },
     requests() {
       this.requestsTimer = setInterval(() => {

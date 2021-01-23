@@ -49,17 +49,7 @@ export default {
       this.loadingServers = false;
     },
     isUnread(address) {
-      const groupID = `${this.$store.state.activeAccount}::${address}`;
-      const messages = this.$store.state.messages[groupID];
-      if (!messages || !messages.length) return true;
-      const messageID = this.$store.state.unreads[address];
-      const messageGroup = messages[messages.length - 1];
-      const lastMessage = messageGroup[messageGroup.length - 1];
-      /* eslint-disable */
-      const unread = messageID === lastMessage.id ||
-        messageID === lastMessage._id;
-      /* eslint-enable */
-      return unread;
+      return this.$store.state.unreads.includes(address);
     },
     toggleQuickFriends() {
       this.showQuickFriends = !this.showQuickFriends;

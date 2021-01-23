@@ -91,20 +91,18 @@ export default {
     startTyping() {
       if (!this.typing) {
         this.typing = true;
-        window.Vault74.Peer2Peer.send(
-          this.$store.state.activeChat,
-          'typing-notice',
-          true,
-        );
+        const WebRTCUser = this.$WebRTC.find(this.$store.state.activeChat);
+        if (WebRTCUser && WebRTCUser.isAlive) {
+          WebRTCUser.send('typing-notice', true);
+        }
       }
     },
     stopTyping() {
       this.typing = false;
-      window.Vault74.Peer2Peer.send(
-        this.$store.state.activeChat,
-        'typing-notice',
-        false,
-      );
+      const WebRTCUser = this.$WebRTC.find(this.$store.state.activeChat);
+      if (WebRTCUser && WebRTCUser.isAlive) {
+        WebRTCUser.send('typing-notice', false);
+      }
     },
     // eslint-disable-next-line
     isTyping: debounce(function(e) {

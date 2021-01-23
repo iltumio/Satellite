@@ -7,11 +7,11 @@
       id="conversation"
       :class="`${(mediaOpen) ? 'media-open' : 'media-closed'} ${(voice) ? 'media-voice' : ''}`"
       ref="chat"
-      :key="`${$store.state.activeAccount}::${$store.state.activeChat}`"
+      :key="`${$store.state.activeChat}`"
       v-on:scroll="onScroll">
         <div
-          v-for="messageGroup in $store.state.messages[`${$store.state.activeAccount}::${$store.state.activeChat}`]" 
-          v-bind:key="messageGroup[0].id || messageGroup[0]._id">
+          v-for="messageGroup in grouper($store.state.messages)" 
+          v-bind:key="messageGroup[0].id">
           <Divider :text="messageGroup[0].date" v-if="messageGroup[0].type =='day-break'" />
           <MessageBody v-else :messages="messageGroup" :scrollToEnd="scrollToEndConditionally" />
         </div>
@@ -24,6 +24,7 @@
   This component houses the current active conversation
 -->
 <script>
+import MessageUtils from '@/utils/MessageUtils';
 import MessageBody from '@/components/main/conversation/message/messagebody/MessageBody';
 import Divider from '@/components/common/Divider';
 
@@ -49,6 +50,7 @@ export default {
     };
   },
   methods: {
+    grouper: MessageUtils.group,
     doesThreadExist() {
       const id = this.$database.threadManager
         .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
@@ -97,16 +99,7 @@ export default {
     },
     markRead() {
       // If we get a message update the last read messages to mark it as read
-      const groupID = `${this.$store.state.activeAccount}::${this.$store.state.activeChat}`;
-      const messages = this.$store.state.messages[groupID];
-      if (!messages || messages.length === 0) return;
-      const messageGroup = messages[messages.length - 1];
-      const lastMessage = messageGroup[messageGroup.length - 1];
-      this.$store.commit('markRead', {
-        address: this.$store.state.activeChat,
-        // eslint-disable-next-line
-        messageID: lastMessage.id || lastMessage._id,
-      });
+      this.$store.commit('markRead', this.$store.state.activeChat);
     },
   },
   watch: {
@@ -127,7 +120,6 @@ export default {
         this.markRead();
 
         if (lastChat !== mutation.payload) {
-          this.fetchMessages(mutation.payload);
           lastChat = mutation.payload;
         }
       }

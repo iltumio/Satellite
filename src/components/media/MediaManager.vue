@@ -1,7 +1,6 @@
 <template></template>
 
 <script>
-import MessageBroker from '@/classes/MessageBroker.ts';
 import config from '@/config/config';
 import { Howl } from 'howler';
 
@@ -29,12 +28,6 @@ export default {
   name: 'MediaManager',
   data() {
     return {
-      messageBroker: new MessageBroker(
-        this.$store.state.activeAccount,
-        (data) => {
-          this.$store.commit('updateMessages', data);
-        },
-      ),
       mediaStream: null,
       peer: null,
       activeCall: null,
@@ -51,8 +44,8 @@ export default {
      * @argument type type of message
      */
     async sendMessage(data, type) {
-      if (window.Vault74.messageBroker) {
-        const msg = window.Vault74.messageBroker.sentMessage(
+      if (this.$database.messageManager) {
+        const msg = this.$database.messageManager.buildMessage(
           this.$store.state.activeChat,
           Date.now(),
           'message',
@@ -67,28 +60,22 @@ export default {
         const threadExists = await this.$database.threadManager.fetchThread(id);
         if (threadExists) {
           const threadID = await this.$database.threadManager.threadAt(id);
-          const message = {
-            _id: msg.id,
-            sender: msg.sender,
-            to: this.$store.state.activeChat,
-            at: msg.at,
-            type: msg.type,
-            payload: msg.payload,
-          };
           // If we have their public key, we will encrypt their message
           this.$database.messageManager
-            .addMessageDeterministically(threadID, message, this.$store.state.activeChat);
+            .addMessageDeterministically(threadID, msg, this.$store.state.activeChat);
         }
       }
 
-      window.Vault74.Peer2Peer.send(
-        this.$store.state.activeChat,
-        'message',
-        {
-          type: type || 'text',
-          data,
-        },
-      );
+      const peer = this.$WebRTC.find(this.$store.state.activeChat);
+      if (peer && peer.isAlive) {
+        peer.send(
+          'message',
+          {
+            type: type || 'text',
+            data,
+          },
+        );
+      }
     },
     /** @method
      * Stream the audio to the DOM

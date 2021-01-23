@@ -119,11 +119,6 @@ export default class PeerConnection {
       message: 'gateway-created',
     };
     this.watcher('status', this.status);
-    // Send the remote peer our public key for encrypting messages
-    this.send(messageFormatter(
-      'key-offer',
-      JSON.parse(localStorage.getItem('publicKey')),
-    ));
   }
 
   /** @function
@@ -145,18 +140,6 @@ export default class PeerConnection {
     if (!this.established) this.ensureAlive();
     const message = messageParser(data);
     switch (message.type) {
-      case 'key-request':
-        this.send(messageFormatter(
-          'key-offer',
-          JSON.parse(localStorage.getItem('publicKey')),
-        ));
-        break;
-      case 'key-offer':
-        this.crypto.storeKey(
-          this.remoteId,
-          JSON.parse(data).data,
-        );
-        break;
       case 'ping':
         this.lastPulse = Date.now();
         this.send(messageFormatter('pong', this.lastPulse));
@@ -168,9 +151,6 @@ export default class PeerConnection {
         break;
       case 'message':
         this.watcher('message', data);
-        break;
-      case 'typing-notice':
-        this.watcher('typing-notice', data);
         break;
       case 'call-status':
         this.watcher('call-status', data);

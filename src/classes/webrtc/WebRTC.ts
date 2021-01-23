@@ -2,6 +2,7 @@ import Peer, { PeerJSOption } from 'peerjs';
 // @ts-ignore
 import config from '@/config/config';
 import P2PUser from './P2PUser';
+import WebRTCMedia from './WebRTCMedia';
 
 
 interface Subscriber {
@@ -20,42 +21,47 @@ interface Connection {
   identifier: string,
 }
 
-export default class WebRTC {
+export default class WebRTC extends WebRTCMedia {
   public protocol: string;
-  private _idenfitier: string;
+  private _identifier: string;
   protected _subscribers: Subscriber[];
   private _events: string[];
   peer: Peer | null;
   connections: Connection[];
+  registry: string[];
 
   /** @constructor
    * Construct a new Peer 2 Peer handler
    * @argument identifier the ID we'd like to use for handshakes
    */
-  constructor(identifier: string) {
+  constructor() {
+    super();
     this.protocol = "peerjs <https://peerjs.com/>";
-    this._idenfitier = identifier;
+    this._identifier = '';
     this._subscribers = [];
     this._events = this.events;
     this.peer = null;
     this.connections = [];
+    this.registry = [];
   }
 
-  get idenfitier() : string {
-    return this.idenfitier;
+  get identifier() : string {
+    return this.buildIdentifier(this._identifier);
   }
 
   get subscribers() : Subscriber[] {
-    return this.subscribers;
+    return this._subscribers;
   }
 
   get events() : string[] {
     return [
       '*',
-      'key-request',
       'key-offer',
+      'connection-established',
       'ping',
       'pong',
+      'heartbeat',
+      'flatlined',
       'message',
       'typing-notice',
       'call-status',
@@ -77,21 +83,42 @@ export default class WebRTC {
     };
   }
 
-  findConnection(idenfitier: string) : P2PUser | undefined {
+  public buildIdentifier(identifier: string) : string {
+    return identifier.replace('0x', 'WRTCx');
+  }
+
+  public revertIdentifier(identifier: string) : string {
+    return identifier.replace('WRTCx', '0x');
+  }
+
+  public find(identifier: string) : P2PUser | undefined {
     const connection = this.connections
-      .find(conn => conn.identifier === idenfitier);
+      .find(conn => conn.identifier === this.buildIdentifier(identifier));
     return connection?.user;
   }
 
-  public init() : Promise<WebRTC> {
+  public init(identifier: string) : Promise<WebRTC> {
+    this._identifier = identifier;
+
     return new Promise(resolve => {
-      const peer = new Peer(this.idenfitier, this.settings);
+      const peer = new Peer(this.identifier, this.settings);
       // Emitted once we've connected to the handshake service
       peer.on('call', function(call) { });
       peer.on('open', () => {
         this.peer = peer;
+        // We're connected to the PeerJS server and ready to make connections
+        this.connectToRegistry();
+        this.publish(
+          'connection-established',
+          '*',
+          {
+            type: 'connection-established',
+            data: true,
+          });
         // A new peer has connected to us
-        peer.on('connection', this.connect);
+        peer.on('connection', (conn: Peer.DataConnection) => {
+          this.connect(conn);
+        });
         resolve(this);
       });
 
@@ -102,7 +129,9 @@ export default class WebRTC {
       });
 
       peer.on('error', (err: any) => {
-        console.log('PeerJS Error: ', err);
+        // This is fine, we don't need to care if they are offline.
+        // @ts-ignore
+        window.Vault74.debug('PeerJS Error: ', err);
       });
     });
   }
@@ -114,8 +143,33 @@ export default class WebRTC {
     });
   }
 
-  private connect(conn: Peer.DataConnection) {
-    const identifier = conn.peer;
+  public updateRegistry(_identifiers: string[]) {
+    const identifiers = _identifiers.map(id => this.buildIdentifier(id));
+    this.registry.forEach(id => {
+      // If the updated registry doesn't contain one of our friends, close the connection.
+      if (!identifiers.includes(id)) {
+        const peer = this.find(id);
+        peer?.close();
+      }
+    });
+    this.registry = identifiers;
+  }
+
+  private connectToRegistry() {
+    this.registry.forEach(identifier => {
+      const peer = this.find(identifier);
+      if (!peer || !peer.connection) {
+        this.connectToPeer(identifier);
+      }
+    });
+  }
+ 
+  connect(conn: Peer.DataConnection) {
+    const identifier = this.buildIdentifier(conn.peer);
+    const exitingPeer = this.find(identifier);
+    if (exitingPeer && exitingPeer.connection) {
+      exitingPeer.close();
+    };
     const peer = new P2PUser(this, identifier, (event: string, data: Message) => {
       this.publish(event, identifier, data);
     });
@@ -127,8 +181,15 @@ export default class WebRTC {
     });
   }
 
-  public subscribe(method: CallableFunction, events: string[], identifiers: string[]) : number | Error {
-    if (this.peer === null) return new Error('You cannot subscribe before initalizing.');
+  public connectToPeer(_identifier: string) : Error | null {
+    if (!this.peer) return new Error('You cannot connect before initalizing.');
+    const identifier = this.buildIdentifier(_identifier);
+    const connection = this.peer.connect(identifier);
+    this.connect(connection);
+    return null;
+  }
+
+  public subscribe(method: CallableFunction, events: string[], identifiers: string[]) : number {
     const id = this.subscribers.length;
     this.subscribers.push({
       method,
@@ -138,20 +199,36 @@ export default class WebRTC {
     return id;
   }
 
+  public unSubscribe(index: number) : Error | null {
+    if (index > this.subscribers.length) return new Error('Index out of bounds');
+    this.subscribers.splice(index, 1);
+    return null;
+  }
+
   private publish(event: string, identifier: string, message: Message) : void {
     this.subscribers.map(subscriber => {
-      const events = subscriber.events; 
+      const events = subscriber.events;
+      const normalizedIdentifiers = (subscriber.identifiers) ?
+        subscriber.identifiers.map((id) => {
+          return this.buildIdentifier(id);
+        }) :
+        null;
       // Ensure the subscriber is listening for the event
       if (events.includes(event) || events.includes('*')) {
         // Chec if the subscriber is only interested in specific users
-        if (subscriber.identifiers.length > 0 && subscriber.identifiers.includes(identifier)) {
-          subscriber.method(event, identifier, message);
+        if (normalizedIdentifiers && normalizedIdentifiers.includes(identifier)) {
+          subscriber.method(event, this.revertIdentifier(identifier), message);
         // They arn't listenting to any specific users
-        } else if (subscriber.identifiers.length === 0) {
-          subscriber.method(event, identifier, message);
+        } else if (!normalizedIdentifiers) {
+          console.log('publishing', event, this.revertIdentifier(identifier), message);
+          subscriber.method(event, this.revertIdentifier(identifier), message);
         }
       }
     });
+  }
+
+  public publishDeath(identifier: string) : void {
+    this.publish('flatlined', identifier, { type: 'flatlined', data: true });
   }
 
   // Ideally, this should be called before the app closes.

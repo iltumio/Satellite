@@ -62,6 +62,12 @@
       };
     },
     methods: {
+      notEncrypted(message) {
+        return message.payload.type === 'text' && !message.secure;
+      },
+      debug() {
+        return window.Vault74.debugEnabled;
+      },
       handleContext(event) {
         event.preventDefault();
         const msgId = event.target.parentNode.parentNode.getAttribute('data-id');

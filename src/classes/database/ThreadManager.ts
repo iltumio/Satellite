@@ -60,7 +60,7 @@ export default class ThreadManager {
   /** 
    * @method
    * @name threadAt
-   * Fetch a thread from a given idenfitier
+   * Fetch a thread from a given identifier
    * @argument identifier identifier string of the thread to fetch
    * @returns ThreadID object assigned to the idenifier
    */

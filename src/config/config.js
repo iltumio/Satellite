@@ -1,5 +1,5 @@
 module.exports = {
-  env: 'prod',
+  env: 'dev',
   textile: {
     localURI: 'http://localhost:6007',
     key: 'blhtljyplc4oeoxqso4ypwlei3y',
@@ -45,7 +45,7 @@ module.exports = {
     mainnet: '0x0',
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
   },
-  debug: true,
+  debug: false,
   cacher: {
     dwellerLifespan: 900000,
   },

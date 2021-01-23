@@ -16,14 +16,9 @@
 <script>
 import 'bulma/css/bulma.css';
 import config from '@/config/config';
-import Peer2Peer from '@/classes/Peer2Peer';
-import MessageBroker from '@/classes/MessageBroker.ts';
+import Crypto from '@/classes/crypto/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
 import PeerDataHandler from '@/classes/PeerDataHandler.ts';
-// import { getLang } from '@/utils/i18n';
-
-// const newMessageSound = new Audio(`${config.ipfs.browser}${config.sounds.newMessage}`);
-
 
 export default {
   name: 'app',
@@ -47,32 +42,49 @@ export default {
       this.showWarning = false;
     },
     initP2P() {
-      window.Vault74.Peer2Peer = window.Vault74.Peer2Peer ||
-        new Peer2Peer(
-          this.$store.state.activeAccount,
-          (peer, type, data) => {
-            this.peerDataHandler.dispatch(peer, type, data);
-          },
-        );
       if (this.$store.state.friendsLoaded) {
-        window.Vault74.Peer2Peer.createChannels(this.$store.state.friends);
+        const crypto = new Crypto();
+        // TODO: Move this to polling
+        const addresses = this.$store.state.friends.map(f => f.address);
+        this.$WebRTC.updateRegistry(addresses);
+
+        // TODO: update this when active chats updates.
+
+        this.$WebRTC.subscribe(() => {
+          this.$store.commit('ICEConnected', true);
+        }, ['connection-established']);
+        // Watch for users typing
+        this.$WebRTC.subscribe((event, identifier, message) => {
+          this.$store.commit('userTyping', [identifier, message.data]);
+        }, ['typing-notice'], this.$store.state.activeChats);
+
+        // Track the health of a peer
+        this.$WebRTC.subscribe((event, identifier) => {
+          this.$store.commit('peerHealth', [identifier, 'alive']);
+        }, ['heartbeat'], this.$store.state.activeChats);
+
+        // Track the death of a peer
+        this.$WebRTC.subscribe((event, identifier) => {
+          this.$store.commit('peerHealth', [identifier, 'dead']);
+        }, ['flatlined'], this.$store.state.activeChats);
+
+        // Listen for keys
+        this.$WebRTC.subscribe((event, identifier, message) => {
+          console.log('message', message);
+          crypto.storeKey(
+            identifier,
+            message.data,
+          );
+        }, ['key-offer'], this.$store.state.activeChats);
+
+        this.$WebRTC.subscribe((event, identifier, message) => {
+          console.log('got message', message);
+        }, ['message']);
       }
       this.peerInit = true;
     },
     checkAccount() {
       if (this.$store.state.activeAccount) {
-        window.Vault74.messageBroker = new MessageBroker(
-          this.$store.state.activeAccount,
-          (data) => {
-            this.$store.commit('updateMessages', data);
-          },
-          (user) => {
-            if (user !== this.$store.state.activeAccount) {
-              // Check to see if we have an active chat with this user already
-              this.$store.commit('newChat', user);
-            }
-          },
-        );
         window.Vault74.warn('No account found yet, rechecking soon.');
         // Attach to peers
         this.initP2P();
@@ -97,7 +109,8 @@ export default {
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'addFriend') {
         // Connect to new peer.
-        window.Vault74.Peer2Peer.createChannels(state.friends);
+        // TODO: Update WebRTC
+        console.log('state', state);
       }
     });
     // Set i18n locale based on the user preferred language

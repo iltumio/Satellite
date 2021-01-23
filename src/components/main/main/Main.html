@@ -9,7 +9,7 @@
         :sendMessage="sendMessage"
         :mediaOpen="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer"
         :voice="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer && voice"
-        v-if="$store.state.messages[`${$store.state.activeAccount}::${$store.state.activeChat}`]"/>
+        v-if="$store.state.messages.length"/>
       <NoConversation v-else />
       <VoiceVideo
         v-if="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer"

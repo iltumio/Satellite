@@ -299,6 +299,7 @@
     "connecting": "Connecting"
   },
   "languages": {
+    "de": "German",
     "it": "Italian",
     "en_US": "English (USA)",
     "en_UK": "English (UK)",
@@ -365,7 +366,9 @@
         "not_supported": "Your browser does not support the <code>video</code> element."
       },
       "message_body": {
-        "call_started": "{name} started a call..."
+        "call_started": "{name} started a call...",
+        "lost_keys": "Keys changed or are missing, unable to decrypt",
+        "not_encrypted": "Not Encrypted"
       }
     },
     "userinfo": {

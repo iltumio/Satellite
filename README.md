@@ -18,23 +18,34 @@ You can use their Docker container which makes this very easy, information here:
 Alternativley you can simply create a key for Textile and include it in your config. Creating a Textile account and generating keys is explained here: [Textile Account](https://docs.textile.io/hub/accounts/)
 
 ### Creating the config
+
 You'll need to fill out a few things in the config, first create your config by running `cp src/config/config-example.js src/config/config.js`. 
 
 **Next enter the following information:**
+
 `env` - Switch to 'prod' unless you're using a local instance of Textile.
+
 `textile.key` - Replace this with your Textile.io API key.
 
+### Update & Install Dependancies
+
 **Update Submodules**
+
 `git submodule update --init --recursive`
 
 **Install Deps.**
+
 `yarn` or `npm install`
+
+### Build Contracts (Currently Optional)
 
 **Build Contracts**
 
 Install Truffle `npm i -g truffle`
 
 Build Contracts `cd src/contracts && truffle build`
+
+### Running Vault
 
 **Start in Devmode**
 

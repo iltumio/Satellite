@@ -4,6 +4,7 @@ import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
 import config from '@/config/config';
 import Database from '@/classes/database/Database.ts';
+import WebRTC from '@/classes/webrtc/WebRTC.ts';
 import VueI18n from 'vue-i18n';
 
 import i18nInit from './utils/i18n';
@@ -54,6 +55,7 @@ window.Vault74 = {
 };
 
 Vue.prototype.$database = new Database('Vault74Data');
+Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
 
 const i18n = i18nInit('en_US');

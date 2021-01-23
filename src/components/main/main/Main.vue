@@ -10,6 +10,7 @@ import VoiceVideo from '@/components/main/conversation/voicevideo/VoiceVideo';
 import Conversation from '@/components/main/conversation/conversation/Conversation';
 import NoConversation from '@/components/main/conversation/conversation/NoConversation';
 import UserInfo from '@/components/main/conversation/userinfo/UserInfo';
+import Crypto from '@/classes/crypto/Crypto.ts';
 
 export default {
   name: 'Main',
@@ -27,6 +28,7 @@ export default {
       voice: false,
       playCallSoundTimer: null,
       subscribed: {},
+      crypto: new Crypto(),
       dwellerCachingHelper: new DwellerCachingHelper(
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,
@@ -35,15 +37,18 @@ export default {
   },
   methods: {
     async fetchMessages(remoteAddress) {
+      console.log('fetching messages', remoteAddress);
+      // this.$store.commit('loadingMessages');
       const friend = this.$store.state.friends.find(f => f.address === remoteAddress);
+      console.log('friend', friend);
       if (!friend) return;
       const messages = await this.$database.messageManager.getMessages(friend.threadID);
-      if (window.Vault74.messageBroker) {
-        window.Vault74.messageBroker.setConvo(
-          `${this.$store.state.activeAccount}::${friend.address}`,
-          messages,
-        );
-      }
+      console.log('messages', messages);
+      const key = this.crypto.getKey(this.$store.state.activeChat);
+      console.log('key', key);
+      const decrypted = await this.$database.messageManager.bulkDecrypt(messages, key);
+      console.log('decrypted messages', messages);
+      this.$store.commit('updateMessages', decrypted);
     },
     // TODO: This should be removed in the future, we should pull
     // the thread ID from the friend object all over the app instead.
@@ -57,14 +62,6 @@ export default {
         this.$database.threadManager.storeThread(threadID, f.threadID);
       });
     },
-    async addNewMessage(id, message) {
-      if (window.Vault74.messageBroker) {
-        window.Vault74.messageBroker.addToConvo(
-          id,
-          message,
-        );
-      }
-    },
     async subscribeToThreads() {
       this.$store.state.friends.forEach(async (friend) => {
         const id = this.$database.threadManager
@@ -74,8 +71,19 @@ export default {
         if (existingThread) {
           if (!this.subscribed[friend.address]) {
             const threadID = await this.$database.threadManager.threadAt(id);
-            const closer = await this.$database.messageManager.subscribe(threadID, (update) => {
-              this.addNewMessage(id, update.instance);
+            const closer = await this.$database.messageManager.subscribe(threadID, async (update) => {
+              const key = await this.crypto.getKey(this.$store.state.activeChat);
+              if (update.instance.sender !== this.$store.state.activeChat) {
+                this.$store.commit('markUnread', update.instance.sender);
+              }
+              if (key) {
+                const decrypted = await this.$database.messageManager.decryptMessage(update.instance, key);
+                console.log('appending message');
+                this.$store.commit('appendMessage', decrypted);
+              } else {
+                console.log('appending message');
+                this.$store.commit('appendMessage', update.instance);
+              }
             });
             this.subscribed[friend.address] = closer;
           }
@@ -110,8 +118,8 @@ export default {
     // Send a message in the chat, this will probably
     // be rewritten when the chat is functional
     async sendMessage(data, type) {
-      if (window.Vault74.messageBroker) {
-        const msg = window.Vault74.messageBroker.sentMessage(
+      if (this.$database.messageManager) {
+        const msg = this.$database.messageManager.buildMessage(
           this.$store.state.activeChat,
           Date.now(),
           'message',
@@ -121,44 +129,46 @@ export default {
               encodeURI(data) : data,
           },
         );
-        window.Vault74.Peer2Peer.send(
-          this.$store.state.activeChat,
-          'message',
-          {
-            type: type || 'text',
-            data: type === 'text' ?
-              encodeURI(data) : data,
-          },
-        );
+        this.$store.commit('appendMessage', msg);
+        /*
+        const peer = this.$WebRTC.find(this.$store.state.activeChat);
+        if (peer && peer.isAlive) {
+          peer.send(
+            'message',
+            {
+              type: type || 'text',
+              data: type === 'text' ?
+                encodeURI(data) : data,
+            },
+          );
+        }
+        */
         const id = this.$database.threadManager
           .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
         const threadExists = await this.$database.threadManager.fetchThread(id);
         if (threadExists) {
           const threadID = await this.$database.threadManager.threadAt(id);
-          const message = {
-            _id: msg.id,
-            sender: msg.sender,
-            encrypted: msg.encrypted,
-            secure: msg.secure,
-            to: this.$store.state.activeChat,
-            at: msg.at,
-            type: msg.type,
-            payload: msg.payload,
-          };
           // If we have their public key, we will encrypt their message
           this.$database.messageManager
-            .addMessageDeterministically(threadID, message, this.$store.state.activeChat);
+            .addMessageDeterministically(threadID, msg, this.$store.state.activeChat);
         }
       }
     },
   },
   mounted() {
-    this.fetchMessages(this.$store.state.activeChat);
+    let lastChat = this.$store.state.activeChat;
+    this.fetchMessages(lastChat);
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'connectMediaStream') {
         // Connect to new peer.
         if (state.activeMediaStreamPeer) {
           this.voice = true;
+        }
+      } else if (mutation.type === 'activeChat') {
+        if (lastChat !== mutation.payload) {
+          lastChat = mutation.payload;
+          this.$store.commit('loadingMessages');
+          this.fetchMessages(mutation.payload);
         }
       }
     });

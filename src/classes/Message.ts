@@ -5,20 +5,23 @@ import Payload from './interfaces/payload';
 export default class Message {
   id: string;
   sender: string;
+  to: string;
   at: number;
   type: string;
   payload: Payload;
 
   /** @constructor
    * Construct a new Message
-   * @argument sender remote id of the person who sent the message
+   * @argument to who the message is going to
+   * @argument sender the sender of the message
    * @argument at time the message was recived
    * @argument type string type of the message
    * @argument data payload recived from the message
    */
-  constructor(sender: string, at: number, type: string, payload: Payload) {
+  constructor(to: string, sender: string, at: number, type: string, payload: Payload) {
     this.id = uuidv4();
     this.sender = sender;
+    this.to = to;
     this.at = at;
     this.type = type;
     this.payload = payload;

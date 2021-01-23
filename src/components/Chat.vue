@@ -158,7 +158,7 @@ export default {
     const ipfs = await IPFS.create();
     window.ipfs = ipfs;
     const checkPeer = () => {
-      if (window.Vault74.Peer2Peer) {
+      if (this.$WebRTC.connection) {
         this.windowBound = true;
       } else {
         setTimeout(() => {

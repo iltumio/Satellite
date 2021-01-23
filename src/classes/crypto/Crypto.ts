@@ -12,6 +12,11 @@ export default class Crypto {
     localStorage.setItem(`pubkey.${address}`, JSON.stringify(key));
   }
 
+  getKey(address: string) {
+    const stringKey = localStorage.getItem(`pubkey.${address}`);
+    return stringKey ? JSON.parse(stringKey) : false;
+  }
+
   /** @function
    * Generate a new locally stored pub & priv key
    * @name keygen

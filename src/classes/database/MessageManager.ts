@@ -1,26 +1,30 @@
-import { Client, ThreadID } from "@textile/hub";
+import { Client, decrypt, ThreadID } from "@textile/hub";
 import Crypto from "../crypto/Crypto";
 // @ts-ignore
-import config from '@/config/config';
+import Message from '../Message';
 
 interface Message {
   _id: string,
   sender: string,
+  to: '',
   at: number,
   type: string,
   payload: any,
   encrypted: boolean,
   secure: boolean,
+  metadata: object,
 }
 
 const messageSchema = <Message>{
   _id: '',
   sender: '',
+  to: '',
   at: Date.now(),
   type: '',
   payload: {},
   encrypted: false,
   secure: false,
+  metadata: {},
 };
 
 export class MessageManager {
@@ -42,6 +46,22 @@ export class MessageManager {
 
   async build() {
     this.enableEncryption();
+  }
+
+  buildMessage(to: string, at: number, type: string, data: any) {
+    const message = new Message(to, this.address, at, type, data);
+    return {
+      _id: '',
+      id: message.id,
+      sender: this.address,
+      to: message.to,
+      at: at,
+      type: type,
+      payload: message.payload,
+      encrypted: false,
+      secure: false,
+      metadata: {},
+    };
   }
 
   async enableEncryption() {
@@ -124,34 +144,41 @@ export class MessageManager {
   async decryptMessage(message: Message, guestPublicKey: JsonWebKey) {
     if (!message.encrypted) return message;
     if (typeof this.publicKey === null || typeof this.privateKey === null) {
-      return null;
+      return message;
     }
-    const publicKey = await this.crypto.importPubKey(guestPublicKey);
-    // @ts-ignore
-    const privateKey = await this.crypto.importPrivKey(this.privateKey);
-    const derivedKey = await this.crypto.derive(publicKey, privateKey);
-    const decrpytedPayload = await this.crypto.decrypt(message.payload.encryptedData, derivedKey);
-    return Object.assign(
-      {},
-      message,
-      {
+    try {
+      const publicKey = await this.crypto.importPubKey(guestPublicKey);
+      // @ts-ignore
+      const privateKey = await this.crypto.importPrivKey(this.privateKey);
+      const derivedKey = await this.crypto.derive(publicKey, privateKey);
+      const decrpytedPayload = await this.crypto.decrypt(message.payload.encryptedData, derivedKey);
+      console.log('succedded');
+      return {
+        ...message,
         encrypted: false,
         secure: true,
         payload: JSON.parse(decrpytedPayload),
-      });
+      };
+    } catch (e) {
+      console.log('failed');
+      return message;
+    }
+  }
+
+  async bulkDecrypt(messages: Message[], guestPublicKey: JsonWebKey) {
+    const decryptedMessages: Promise<Message>[] = [];
+    messages.map(msg => decryptedMessages.push(this.decryptMessage(msg, guestPublicKey)));
+    const resolvedMessages = await Promise.all(decryptedMessages);
+    return resolvedMessages;
   }
 
   async getMessages(threadID: ThreadID | string) : Promise<Message[]> {
     return new Promise(async (resolve) => {
       const safeThread = (typeof threadID === 'string') ?
         ThreadID.fromString(threadID.replace(/\W/g, '')) : threadID;
-      
-      const checkStatus = () => {
-        if (decryptedMessages.length === messages.length) {
-          resolve(<Array<Message>>decryptedMessages);
-        }
-      }
-      
+
+      const decryptedMessages: any[] = [];
+
       let messages = await this.client.find(
         safeThread,
         'messages',
@@ -164,36 +191,7 @@ export class MessageManager {
       // @ts-ignore
       window.Vault74.debug(`ThreadDB request made for ThreadID ${safeThread.toString()}`);
 
-      const decryptedMessages: any[] = [];
-      messages.forEach(async (msg: any, i: number) => {
-        if (msg.encrypted) {
-          const keyId = (msg.sender === this.address) ? 
-            `pubkey.${msg.to}` :
-            `pubkey.${msg.sender}`;
-          const key = localStorage.getItem(keyId);
-          // We don't have a key for this user, can't decrypt
-          if (!key) {
-            decryptedMessages.push(msg);
-            checkStatus();
-          } else {
-            this.decryptMessage(msg, JSON.parse(key))
-              // The message was successfully decrypted
-              .then((decrypted) => {
-                decryptedMessages.push(decrypted);
-                checkStatus();
-              })
-              // The message failed to decrypt
-              .catch(() => {
-                decryptedMessages.push(msg);
-                checkStatus();
-              });
-          }
-        } else {
-          // The message wasn't encrypted
-          decryptedMessages.push(msg);
-          checkStatus();
-        }
-      });
+      resolve(<Array<Message>>messages);
     });
   }
 

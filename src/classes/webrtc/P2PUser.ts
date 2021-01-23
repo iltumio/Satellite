@@ -1,3 +1,5 @@
+// @ts-ignore
+import config from '@/config/config';
 import Peer from "peerjs";
 import WebRTC from "./WebRTC";
 
@@ -11,24 +13,65 @@ export default class P2PUser {
   connection: Peer.DataConnection | null;
   eventBus: CallableFunction;
   instance: WebRTC;
+  lastHeartbeat: number;
+  flatlined: boolean;
   constructor(instance: WebRTC, identifier: string, eventBus: CallableFunction) {
+    this.lastHeartbeat = Date.now();
+    this.flatlined = false;
     this.instance = instance;
     this.identifier = identifier;
     this.connection = null;
     this.eventBus = eventBus; // Signals back to subscribers
   }
 
-  bind(connection: Peer.DataConnection) {
+  get isAlive() {
+    return this.connection && !this.flatlined;
+  }
+
+  public bind(connection: Peer.DataConnection) {
+    // @ts-ignore
+    window.Vault74.debug(`Connection made to peer ${this.identifier}`);
     this.connection = connection;
-    this.connection.on('data', this.handleData);
+    this.connection.on('data', (data: any) => {
+      this.handleData(data);
+    });
     this.defib();
+    this.monitor();
+    // Send over our public key
+    this.sendKey();
   }
 
   // Sends pulses to the peer user every n seconds
   // this is used to signal the peer is still online.
-  private defib() {
+  public defib() {
     this.send('heartbeat', Date.now());
-    setTimeout(this.defib, 5000);
+    setTimeout(() => {
+      if (!this.flatlined) this.defib();
+    }, config.peer.check_heartbeat);
+  }
+
+  public sendKey() {
+    this.send(
+      'key-offer',
+      JSON.parse(localStorage.getItem('publicKey') || ''),
+    );
+  }
+
+  /** @function
+   * @name monitor
+   * Check that the remote peer is alive and well via a ping-pong heartbeat
+   */
+  monitor() {
+    if (Date.now() - this.lastHeartbeat > config.peer.heartbeat_timeout) {
+      if (!this.flatlined) {
+        // TODO: close the connection
+        this.flatlined = true;
+        this.instance.publishDeath(this.identifier);
+      }
+    }
+    setTimeout(() => {
+      this.monitor();
+    }, config.peer.check_heartbeat);
   }
 
   handleData(data: any) {
@@ -38,15 +81,15 @@ export default class P2PUser {
       data: data.payload,
     };
 
-    console.log('data recived', data, message);
-    // TODO: Figure out the type from the data (we'll use a specific structure when formatting messages)
+    this.eventBus(message.type, message);
+    this.lastHeartbeat = Date.now();
   }
 
-  public call(idenfitier: string, stream: MediaStream) : Error | null {
+  public call(identifier: string, stream: MediaStream) : Error | null {
     if (!this.instance.peer) return new Error('Parent connection not established.');
     if (!this.connection) return new Error('Connection not bound.');
 
-    this.instance.peer.call(idenfitier, stream);
+    this.instance.peer.call(identifier, stream);
     // No errors
     return null;
   }
@@ -55,10 +98,9 @@ export default class P2PUser {
     if (!this.connection) return new Error('Connection not bound.');
     if (event === '*') return new Error('The wildcard event is for listening only.');
     if (!this.instance.events.includes(event)) return new Error(`Invalid event type: ${event}`);
-
     this.connection.send({
       type: event,
-      data,
+      payload: data,
     });
     
     // No errors

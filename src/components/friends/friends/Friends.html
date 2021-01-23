@@ -80,7 +80,7 @@
         <p>{{$t('friends.no_friends')}}</p>
       </div>
       <Friend
-        v-for="fr in $store.state.friends"
+        v-for="fr in this.friends"
         :key="fr.address"
         :friend="fr"
         :action="chatFriend"

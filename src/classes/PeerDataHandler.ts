@@ -10,11 +10,7 @@ export default class PeerDataHandler {
     this.store = store;
 
     this.lexicon = {
-      heartbeat: this.heartbeat,
-      dead: this.dead,
-      alive: this.alive,
       message: this.message,
-      'typing-notice': this.typingNotice,
       'call-status': this.callStatus,
     };
   }
@@ -45,22 +41,7 @@ export default class PeerDataHandler {
       }
     });
   }
-  
-  heartbeat(peer: string, _type: string, _data: string, store: any) {
-    store.commit('peerHealth', [peer, 'alive']);
-  }
 
-  dead(peer: string, _type: string, _data: string, store: any) {
-    store.commit('peerHealth', [peer, 'dead']);
-  }
-
-  alive(_peer: string, _type: string, _data: string, store: any) {
-    store.commit('ICEConnected', true);
-  }
-
-  typingNotice(peer: string, _type: string, data: string, store: any) {
-    store.commit('userTyping', [peer, JSON.parse(data).data]);
-  }
 
   callStatus(_peer: string, _type: string, data: string) {
     if (JSON.parse(data).data === 'ended') {

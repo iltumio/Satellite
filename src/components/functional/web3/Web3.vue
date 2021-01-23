@@ -39,6 +39,9 @@ export default {
         this.$store.commit('dwellerAddress', dwellerContract);
         this.$store.commit('profilePictureHash', dwellerPhoto);
         this.$store.commit('username', ethereum.web3.utils.hexToString(dwellerName));
+        // Start WebRTC Connections
+        this.$WebRTC.init(this.$store.state.activeAccount);
+        window.Vault74.debug('WebRTC Initalized', this.$WebRTC.identifier);
       } else {
         this.$store.commit('dwellerAddress', '0x0000000000000000000000000000000000000000');
       }
