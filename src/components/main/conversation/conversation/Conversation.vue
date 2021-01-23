@@ -127,6 +127,10 @@ export default {
         this.scrollToEndConditionally();
         this.markRead();
       }
+      if (mutation.type === 'appendMessage') {
+        this.scrollToEndConditionally();
+        this.markRead();
+      }
     });
     // Watch for threads, this can be removed in the future
     // when thread IDs are persistent

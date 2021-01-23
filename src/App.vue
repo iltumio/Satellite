@@ -70,16 +70,11 @@ export default {
 
         // Listen for keys
         this.$WebRTC.subscribe((event, identifier, message) => {
-          console.log('message', message);
           crypto.storeKey(
             identifier,
             message.data,
           );
         }, ['key-offer'], this.$store.state.activeChats);
-
-        this.$WebRTC.subscribe((event, identifier, message) => {
-          console.log('got message', message);
-        }, ['message']);
       }
       this.peerInit = true;
     },

@@ -220,7 +220,6 @@ export default class WebRTC extends WebRTCMedia {
           subscriber.method(event, this.revertIdentifier(identifier), message);
         // They arn't listenting to any specific users
         } else if (!normalizedIdentifiers) {
-          console.log('publishing', event, this.revertIdentifier(identifier), message);
           subscriber.method(event, this.revertIdentifier(identifier), message);
         }
       }

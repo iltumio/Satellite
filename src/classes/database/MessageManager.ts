@@ -152,7 +152,6 @@ export class MessageManager {
       const privateKey = await this.crypto.importPrivKey(this.privateKey);
       const derivedKey = await this.crypto.derive(publicKey, privateKey);
       const decrpytedPayload = await this.crypto.decrypt(message.payload.encryptedData, derivedKey);
-      console.log('succedded');
       return {
         ...message,
         encrypted: false,
@@ -160,7 +159,6 @@ export class MessageManager {
         payload: JSON.parse(decrpytedPayload),
       };
     } catch (e) {
-      console.log('failed');
       return message;
     }
   }

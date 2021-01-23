@@ -37,17 +37,12 @@ export default {
   },
   methods: {
     async fetchMessages(remoteAddress) {
-      console.log('fetching messages', remoteAddress);
       // this.$store.commit('loadingMessages');
       const friend = this.$store.state.friends.find(f => f.address === remoteAddress);
-      console.log('friend', friend);
       if (!friend) return;
       const messages = await this.$database.messageManager.getMessages(friend.threadID);
-      console.log('messages', messages);
       const key = this.crypto.getKey(this.$store.state.activeChat);
-      console.log('key', key);
       const decrypted = await this.$database.messageManager.bulkDecrypt(messages, key);
-      console.log('decrypted messages', messages);
       this.$store.commit('updateMessages', decrypted);
     },
     // TODO: This should be removed in the future, we should pull
@@ -78,10 +73,8 @@ export default {
               }
               if (key) {
                 const decrypted = await this.$database.messageManager.decryptMessage(update.instance, key);
-                console.log('appending message');
                 this.$store.commit('appendMessage', decrypted);
               } else {
-                console.log('appending message');
                 this.$store.commit('appendMessage', update.instance);
               }
             });

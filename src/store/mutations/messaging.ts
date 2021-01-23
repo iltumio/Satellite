@@ -44,7 +44,6 @@ export default {
         msg.id !== message._id;
     });
     filtered.push(message);
-    console.log('filtered', filtered);
     state.messages = filtered;
   },
   markUnread(state: any, address: string) {
