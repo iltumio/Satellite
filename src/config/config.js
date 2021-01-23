@@ -1,5 +1,5 @@
 module.exports = {
-  env: 'dev',
+  env: 'prod',
   textile: {
     localURI: 'http://localhost:6007',
     key: 'blhtljyplc4oeoxqso4ypwlei3y',
