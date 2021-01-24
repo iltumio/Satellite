@@ -18,7 +18,6 @@ import 'bulma/css/bulma.css';
 import config from '@/config/config';
 import Crypto from '@/classes/crypto/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
-import PeerDataHandler from '@/classes/PeerDataHandler.ts';
 
 export default {
   name: 'app',
@@ -29,7 +28,6 @@ export default {
     return {
       decrypted: false,
       showWarning: !(localStorage.getItem('alpha-warning') === 'false'),
-      peerDataHandler: null,
     };
   },
   methods: {
@@ -75,8 +73,13 @@ export default {
             message.data,
           );
         }, ['key-offer'], this.$store.state.activeChats);
+        this.peerInit = true;
+      } else {
+        setTimeout(() => {
+          window.Vault74.warn('Friends not loaded yet, will try again soon.');
+          this.initP2P();
+        }, 500);
       }
-      this.peerInit = true;
     },
     checkAccount() {
       if (this.$store.state.activeAccount) {
@@ -89,7 +92,6 @@ export default {
     },
   },
   mounted() {
-    this.peerDataHandler = new PeerDataHandler(this.$store);
     this.$store.commit('ICEConnected', false);
     this.$store.commit('dwellerAddress', false);
     this.$store.commit('activeCaller', false);

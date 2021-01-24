@@ -1,4 +1,4 @@
-import Peer, { PeerJSOption } from 'peerjs';
+import Peer, { MediaConnection, PeerJSOption } from 'peerjs';
 // @ts-ignore
 import config from '@/config/config';
 import P2PUser from './P2PUser';
@@ -21,11 +21,24 @@ interface Connection {
   identifier: string,
 }
 
+type RTCEvent = '*' |
+  'key-offer' |
+  'connection-established' |
+  'ping' |
+  'pong' |
+  'heartbeat' |
+  'flatlined' |
+  'message' |
+  'typing-notice' |
+  'call-status' |
+  'stream' |
+  'data';
+
 export default class WebRTC extends WebRTCMedia {
   public protocol: string;
   private _identifier: string;
   protected _subscribers: Subscriber[];
-  private _events: string[];
+  private _events: RTCEvent[];
   peer: Peer | null;
   connections: Connection[];
   registry: string[];
@@ -53,7 +66,8 @@ export default class WebRTC extends WebRTCMedia {
     return this._subscribers;
   }
 
-  get events() : string[] {
+  get events() : RTCEvent[] {
+    // TODO: Convert this to a string union
     return [
       '*',
       'key-offer',
@@ -103,9 +117,9 @@ export default class WebRTC extends WebRTCMedia {
     return new Promise(resolve => {
       const peer = new Peer(this.identifier, this.settings);
       // Emitted once we've connected to the handshake service
-      peer.on('call', function(call) { });
       peer.on('open', () => {
         this.peer = peer;
+        this.initMedia(this.peer);
         // We're connected to the PeerJS server and ready to make connections
         this.connectToRegistry();
         this.publish(
@@ -118,6 +132,10 @@ export default class WebRTC extends WebRTCMedia {
         // A new peer has connected to us
         peer.on('connection', (conn: Peer.DataConnection) => {
           this.connect(conn);
+        });
+
+        peer.on('call', (call: MediaConnection) => {
+          this.addPendingCall(call.peer, call);
         });
         resolve(this);
       });

@@ -15,7 +15,7 @@
     <ul>
       <li
         v-on:click="closeSoon"
-        v-clipboard:copy="message._id">{{$t('message_context.copy_id')}}</li>
+        v-clipboard:copy="message.id">{{$t('message_context.copy_id')}}</li>
     </ul>
   </div>
 </template>

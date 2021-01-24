@@ -8,6 +8,18 @@ interface Message {
   data: any,
 }
 
+type RTCEvent = '*' |
+  'key-offer' |
+  'connection-established' |
+  'ping' |
+  'pong' |
+  'heartbeat' |
+  'flatlined' |
+  'message' |
+  'typing-notice' |
+  'call-status' |
+  'data';
+
 export default class P2PUser {
   identifier: string;
   connection: Peer.DataConnection | null;
@@ -97,7 +109,7 @@ export default class P2PUser {
   public send(event: string, data: any) : Error | null {
     if (!this.connection) return new Error('Connection not bound.');
     if (event === '*') return new Error('The wildcard event is for listening only.');
-    if (!this.instance.events.includes(event)) return new Error(`Invalid event type: ${event}`);
+    if (!this.instance.events.includes(<RTCEvent>event)) return new Error(`Invalid event type: ${event}`);
     this.connection.send({
       type: event,
       payload: data,

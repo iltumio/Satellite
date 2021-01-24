@@ -23,10 +23,6 @@ export default {
     friends.sort((a: IFriend, b: IFriend) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1);
     // eslint-disable-next-line no-param-reassign
     state.friends = friends;
-    // storage
-    // @ts-ignore
-    const bucket = window.Vault74.Database.Bucket('friends');
-    bucket.add(friend);
   },
   // For caching purposes
   updateFriendRequests(state: any, requests: any) {

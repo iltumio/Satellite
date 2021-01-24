@@ -72,7 +72,6 @@ export default {
             threadID,
           );
           const friend = { ...request.sender, status: 'unchecked' };
-          this.$store.commit('addFriend', friend);
           this.action(friend.address);
           this.fetchFriendRequests();
           this.requestPending = Object.assign({}, this.requestPending, { [id]: false });

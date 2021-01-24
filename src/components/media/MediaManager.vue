@@ -77,6 +77,7 @@ export default {
         );
       }
     },
+
     /** @method
      * Stream the audio to the DOM
      * @name playRemoteStream
