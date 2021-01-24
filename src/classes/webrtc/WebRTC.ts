@@ -78,7 +78,6 @@ export default class WebRTC extends WebRTCMedia {
       'flatlined',
       'message',
       'typing-notice',
-      'call-status',
       'data',
     ];
   }
