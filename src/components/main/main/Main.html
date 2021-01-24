@@ -12,8 +12,8 @@
         v-if="$store.state.messages.length"/>
       <NoConversation v-else />
       <VoiceVideo
-        v-if="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer"
-        :mediaOpen="$store.state.activeMediaStreamPeer"
+        v-if="$store.state.activeCall"
+        :mediaOpen="$store.state.activeCall"
         :voice="voice"
         :disconnect="hangup"
         :switchTo="switchTo"/>

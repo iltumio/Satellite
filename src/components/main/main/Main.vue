@@ -88,15 +88,47 @@ export default {
       this.mediaOpen = true;
       this.voice = voice;
     },
-    makeCall() {
-      this.$store.commit('connectMediaStream', this.$store.state.activeChat);
-      window.Vault74.Peer2Peer.call(this.$store.state.activeChat);
+
+    // TODO: Move all this somewhere more relevant...
+    /** @method
+     * Clear the usage of the audio devices
+     * @name stopStream
+     */
+    stopStream() {
+      if (!this.$audioStream) return;
+      this.$audioStream.getAudioTracks().forEach((track) => {
+        track.stop();
+      });
+      this.$audioStream.getVideoTracks().forEach((track) => {
+        track.stop();
+      });
+      this.$audioStream = null;
+    },
+    async makeCall() {
+      if (this.$store.state.activeCall) return;
+      const constraints = {
+        audio: {
+          autoGainControl: false,
+          channelCount: 2,
+          echoCancellation: this.$store.state.echoCancellation,
+          latency: 0,
+          noiseSuppression: this.$store.state.noiseSuppression,
+          sampleRate: this.$store.state.audioQuality * 1000,
+          sampleSize: this.$store.state.audioSamples,
+          volume: 1.0,
+        },
+      };
+      const stream = await this.$WebRTC.getMediaStream(constraints);
+      this.$audioStream = stream;
+      this.$WebRTC.call(this.$store.state.activeChat, this.$audioStream);
+      this.$store.commit('activeCall', this.$store.state.activeChat);
       this.voice = true;
       this.mediaOpen = true;
     },
     hangup() {
-      window.Vault74.Peer2Peer.hangup();
-      window.Vault74.Peer2Peer.send(this.$store.state.activeChat, 'call-status', 'ended');
+      this.stopStream();
+      this.$WebRTC.hangup(this.$store.state.activeChat);
+      this.$store.commit('activeCall', false);
       this.voice = false;
       this.mediaOpen = false;
     },
@@ -123,19 +155,6 @@ export default {
           },
         );
         this.$store.commit('appendMessage', msg);
-        /*
-        const peer = this.$WebRTC.find(this.$store.state.activeChat);
-        if (peer && peer.isAlive) {
-          peer.send(
-            'message',
-            {
-              type: type || 'text',
-              data: type === 'text' ?
-                encodeURI(data) : data,
-            },
-          );
-        }
-        */
         const id = this.$database.threadManager
           .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
         const threadExists = await this.$database.threadManager.fetchThread(id);

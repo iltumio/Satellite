@@ -27,4 +27,10 @@ export default {
     // eslint-disable-next-line no-param-reassign
     state.deafened = deafened;
   },
+  incomingCall(state: any, identifier: string) {
+    state.incomingCall = identifier;
+  },
+  activeCall(state: any, identifier: string) {
+    state.activeCall = identifier;
+  }
 };

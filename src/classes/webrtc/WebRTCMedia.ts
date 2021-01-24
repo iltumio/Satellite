@@ -1,6 +1,6 @@
 import Peer, { MediaConnection } from "peerjs";
 
-type MediaEvent = "HANGUP" | "CALL" | "ANSWER";
+type MediaEvent = "HANGUP" | "INCOMING-CALL" | "ANSWER" | "OUTGOING-CALL";
 
 type CallState = "ACTIVE" | "PENDING" | "CLOSED";
 
@@ -33,6 +33,10 @@ export default class WebRTCMedia {
     this.peer = peer;
   }
 
+  getCall(identifier: string) {
+    return this.calls.find(c => c.from === identifier);
+  }
+
   getMediaStream(constraints: MediaStreamConstraints) : Promise<MediaStream>{
     // @ts-ignore
     const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -62,16 +66,22 @@ export default class WebRTCMedia {
 
   private publishMediaEvent(event: MediaEvent, identifier: string) {
     this._mediaSubscriptions.forEach(subscription => {
+      console.log('subscription', subscription);
       if (subscription.events.includes(event)) {
-        subscription.method(identifier);
+        subscription.method(event, identifier);
       }
     });
   }
 
   public call(identifier: string, mediaStream: MediaStream) : Error | null {
     if (!this.peer) return new Error('Not yet initalizied');
-    this.peer.call(identifier, mediaStream);
-    this.publishMediaEvent("CALL", identifier);
+    const call = this.peer.call(identifier, mediaStream);
+    this.calls.push({
+      state: 'CLOSED',
+      from: identifier,
+      call,
+    });
+    this.publishMediaEvent("OUTGOING-CALL", identifier);
     return null;
   }
 
@@ -88,6 +98,7 @@ export default class WebRTCMedia {
         this.publishMediaEvent("ANSWER", identifier);
         resolve(stream);
       });
+      // Timeout for requests
       setTimeout(() => {
         if (pendingCall.state !== 'ACTIVE') {
           reject(new Error('Request timed out.'));
@@ -102,18 +113,18 @@ export default class WebRTCMedia {
     if (!call) return new Error('Call not found by ID');
     call.call.close();
     call.state = 'CLOSED';
-    this.publishMediaEvent("CALL", identifier);
+    // TODO: remove call from array
+    this.publishMediaEvent("HANGUP", identifier);
     return null;
   }
 
-  protected addPendingCall(from: string, call: MediaConnection) : number {
+  protected addPendingCall(identifier: string, call: MediaConnection) : number {
+    this.publishMediaEvent('INCOMING-CALL', identifier);
     this.calls.push({
       state: 'PENDING',
-      from,
+      from: identifier,
       call,
     });
     return this.calls.length - 1;
   }
-
-  
 }

@@ -56,6 +56,8 @@ const defaultState = {
   pendingMediaStream: false,
   activeMediaStreamPeer: false,
   activeCaller: false,
+  incomingCall: false,
+  activeCall: false,
   // Database
   databaseEnabled: true,
   criticalError: false,

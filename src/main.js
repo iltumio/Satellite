@@ -57,6 +57,7 @@ window.Vault74 = {
 Vue.prototype.$database = new Database('Vault74Data');
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
+Vue.prototype.$audioStream = null;
 
 const i18n = i18nInit('en_US');
 

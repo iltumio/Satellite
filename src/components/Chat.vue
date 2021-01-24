@@ -12,8 +12,7 @@
       $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000' ||
       $store.state.dwellerAddress"
     />
-    <MediaManager v-if="windowBound &&
-      $store.state.p2pOnline &&
+    <Voice v-if="$store.state.p2pOnline &&
       $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'"
     />
     <ScreenCapture v-if="windowBound &&
@@ -29,7 +28,7 @@
     <div v-else>
       <Achievement v-if="false" achievement="addFriend" />
       <CreateServer v-if="showCreateServer" :close="closeCreateServer"/>
-      <Calling :active="$store.state.activeCaller" :callerId="$store.state.activeCaller" />
+      <Calling :active="$store.state.incomingCall" :callerId="$store.state.incomingCall" />
 
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
         <div class="column is-one-third sidebar-wrapper" v-if="$store.state.sidebarOpen">
@@ -72,7 +71,7 @@
 
 <script>
 import Mousetrap from 'mousetrap';
-import MediaManager from '@/components/media/MediaManager';
+import Voice from '@/components/media/Voice';
 import ScreenCapture from '@/components/media/ScreenCapture';
 import Sidebar from '@/components/sidebar/sidebar/Sidebar';
 import Main from '@/components/main/main/Main';
@@ -103,7 +102,7 @@ export default {
     Web3,
     Database,
     Loading,
-    MediaManager,
+    Voice,
     ScreenCapture,
     Calling,
     CreateServer,

@@ -23,7 +23,6 @@ const connectedSound = new Howl({
   html5: true,
 });
 
-
 export default {
   name: 'MediaManager',
   data() {
