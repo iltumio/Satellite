@@ -95,6 +95,7 @@ export default {
     this.$store.commit('ICEConnected', false);
     this.$store.commit('dwellerAddress', false);
     this.$store.commit('activeCaller', false);
+    this.$store.commit('incomingCall', false);
     this.$store.commit('starting', true);
     this.$store.commit('clearFriends');
     this.$store.commit('clear');

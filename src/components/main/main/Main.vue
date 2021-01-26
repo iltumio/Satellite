@@ -125,6 +125,10 @@ export default {
       this.voice = true;
       this.mediaOpen = true;
     },
+    callAnswered() {
+      this.voice = true;
+      this.mediaOpen = true;
+    },
     hangup() {
       this.stopStream();
       this.$WebRTC.hangup(this.$store.state.activeChat);
@@ -184,6 +188,22 @@ export default {
         }
       }
     });
+    const WebRTC = this.$WebRTC;
+    WebRTC.subscribe(() => {
+      this.hangup();
+    }, ['REMOTE-HANGUP']);
+    WebRTC.mediaSubscription(
+      ['INCOMING-CALL', 'HANGUP', 'ANSWER', 'OUTGOING-CALL'],
+      (event, identifier) => {
+        switch (event) {
+          case 'ANSWER':
+            this.callAnswered(identifier);
+            break;
+          default:
+            break;
+        }
+      },
+    );
     this.subscribeToThreads();
     this.friendsContract = new Friends(config.friends[config.network.chain]);
     this.bindThreads();

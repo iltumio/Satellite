@@ -88,7 +88,6 @@ export default {
           this.decrypted();
         })
         .catch(() => {
-          console.log('this.error', this.error);
           this.error = 'Invalid pin, try again.';
         });
     },

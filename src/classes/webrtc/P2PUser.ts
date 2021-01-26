@@ -18,7 +18,8 @@ type RTCEvent = '*' |
   'message' |
   'typing-notice' |
   'call-status' |
-  'data';
+  'data' | 
+  'REMOTE-HANGUP';
 
 export default class P2PUser {
   identifier: string;
