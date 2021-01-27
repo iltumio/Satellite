@@ -94,6 +94,7 @@ export default {
       connectedSound.play();
       callingSound.stop();
       this.playRemoteStream(mediaStream);
+      this.$streamManager.addRemoteStream(mediaStream);
     },
   },
 };

@@ -24,8 +24,8 @@ export default {
         },
       };
       const stream = await this.$WebRTC.getMediaStream(constraints);
-      this.$audioStream = stream;
-      this.$WebRTC.answer(this.$store.state.incomingCall, stream);
+      this.$streamManager.addLocalStream(stream);
+      this.$WebRTC.answer(this.$store.state.incomingCall, this.$streamManager.localStreams[0]);
       this.$store.commit('incomingCall', false);
       this.$store.commit('activeCall', this.$store.state.activeChat);
     },

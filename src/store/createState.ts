@@ -55,7 +55,6 @@ const defaultState = {
   // Direct Calling Media Streams
   pendingMediaStream: false,
   activeMediaStreamPeer: false,
-  activeCaller: false,
   incomingCall: false,
   activeCall: false,
   // Database

@@ -92,15 +92,10 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('ICEConnected', false);
-    this.$store.commit('dwellerAddress', false);
-    this.$store.commit('activeCaller', false);
-    this.$store.commit('incomingCall', false);
     this.$store.commit('starting', true);
     this.$store.commit('clearFriends');
     this.$store.commit('clear');
     // Reset media call data
-    this.$store.commit('connectMediaStream', false);
     this.$store.commit('clearTypingUsers');
     // Connect when a new friend is added
     // we have active chats with.

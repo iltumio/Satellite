@@ -11,6 +11,7 @@ import i18nInit from './utils/i18n';
 import App from './App';
 import router from './router/index.ts';
 import store from './store/index.ts';
+import StreamManager from './classes/webrtc/StreamManager.ts';
 
 Vue.config.productionTip = false;
 
@@ -57,7 +58,20 @@ window.Vault74 = {
 Vue.prototype.$database = new Database('Vault74Data');
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
-Vue.prototype.$audioStream = null;
+
+const constraints = {
+  audio: {
+    autoGainControl: false,
+    channelCount: 2,
+    echoCancellation: true,
+    latency: 0,
+    noiseSuppression: false,
+    sampleRate: 96 * 1000,
+    sampleSize: 24,
+    volume: 1.0,
+  },
+};
+Vue.prototype.$streamManager = new StreamManager(constraints);
 
 const i18n = i18nInit('en_US');
 

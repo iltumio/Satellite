@@ -95,14 +95,8 @@ export default {
      * @name stopStream
      */
     stopStream() {
-      if (!this.$audioStream) return;
-      this.$audioStream.getAudioTracks().forEach((track) => {
-        track.stop();
-      });
-      this.$audioStream.getVideoTracks().forEach((track) => {
-        track.stop();
-      });
-      this.$audioStream = null;
+      if (!this.$streamManager) return;
+      this.$streamManager.killStreams();
     },
     async makeCall() {
       if (this.$store.state.activeCall) return;
@@ -119,11 +113,12 @@ export default {
         },
       };
       const stream = await this.$WebRTC.getMediaStream(constraints);
-      this.$audioStream = stream;
-      this.$WebRTC.call(this.$store.state.activeChat, this.$audioStream);
+      this.$streamManager.addLocalStream(stream);
+      this.$WebRTC.call(this.$store.state.activeChat, this.$streamManager.localStreams[0]);
       this.$store.commit('activeCall', this.$store.state.activeChat);
       this.voice = true;
       this.mediaOpen = true;
+      this.sendMessage(Date.now(), 'call');
     },
     callAnswered() {
       this.voice = true;
