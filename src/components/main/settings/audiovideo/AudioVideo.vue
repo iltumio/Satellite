@@ -121,7 +121,7 @@ export default {
   },
   data() {
     return {
-      love: 0,
+      love: 0, // shh, its secret
       devices: false,
       audioQuality: 320,
       audioDevices: [],

@@ -126,7 +126,8 @@ export default {
     },
     hangup() {
       this.stopStream();
-      this.$WebRTC.hangup(this.$store.state.activeChat);
+      const id = this.$store.state.incomingCall || this.$store.state.activeCall;
+      this.$WebRTC.hangup(id);
       this.$store.commit('activeCall', false);
       this.voice = false;
       this.mediaOpen = false;

@@ -85,6 +85,7 @@ export default {
     async fetchFriendRequests() {
       const frIds = await this.friendsContract.getRequests(this.$store.state.activeAccount);
       let requests = [];
+      console.log('frIds', frIds);
       frIds.forEach(async (id) => {
         const req = await this.friendsContract.getRequest(id);
         const parsed = await this.friendsContract.parseRequest(req);
