@@ -64,6 +64,7 @@ export default {
      * @name scrollToEnd
      */
     scrollToEnd() {
+      console.log('scrolling to end');
       const { chat } = this.$refs;
       if (!chat) return;
       setTimeout(() => {

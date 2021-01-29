@@ -73,8 +73,12 @@ export default {
               }
               if (key) {
                 const decrypted = await this.$database.messageManager.decryptMessage(update.instance, key);
-                this.$store.commit('appendMessage', decrypted);
-              } else {
+                if (update.instance.sender === this.$store.state.activeChat ||
+                  update.instance.sender === this.$store.state.activeAccount) {
+                  this.$store.commit('appendMessage', decrypted);
+                }
+              } else if (update.instance.sender === this.$store.state.activeChat ||
+                update.instance.sender === this.$store.state.activeAccount) {
                 this.$store.commit('appendMessage', update.instance);
               }
             });
