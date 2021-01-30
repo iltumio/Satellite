@@ -49,6 +49,7 @@ export default {
     friendAddresses.forEach(async (f, i) => {
       const friend = await dwellerCachingHelper.getDweller(f);
       const parsedFriend = await friendsContract.parseFriend(friends[i]);
+      
       parsedFriends.push({ ...friend, threadID: parsedFriend.threadHash });
 
       if (!updateNeeded) { // If we already need to update, don't bother checking again
