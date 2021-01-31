@@ -40,6 +40,13 @@
 <script>
 import config from '@/config/config';
 import Friends from '@/classes/contracts/Friends.ts';
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
+
+const dwellerCachingHelper = new DwellerCachingHelper(
+  config.registryAddress,
+  config.cacher.dwellerLifespan,
+);
+
 
 export default {
   name: 'FriendRequests',
@@ -73,7 +80,11 @@ export default {
           );
           // const friend = { ...request.sender, status: 'unchecked' };
           this.fetchFriendRequests();
-          this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+          const friend = await dwellerCachingHelper.getDweller(request.sender.address);
+          this.$store.commit('addFriend', {
+            ...friend,
+            threadID,
+          });
           this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
         })
         .catch(() => {

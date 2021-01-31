@@ -29,6 +29,7 @@
       <Achievement v-if="false" achievement="addFriend" />
       <CreateServer v-if="showCreateServer" :close="closeCreateServer"/>
       <Calling :active="$store.state.incomingCall" :callerId="$store.state.incomingCall" />
+      <!--<Polling />-->
 
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
         <div class="column is-one-third sidebar-wrapper" v-if="$store.state.sidebarOpen">
@@ -86,6 +87,7 @@ import Achievement from '@/components/common/Achievement';
 import Calling from '@/components/main/popups/calling/Calling';
 import CreateServer from '@/components/servers/create/CreateServer';
 import Context from '@/components/common/context/Context';
+import Polling from '@/components/functional/Polling';
 
 import IPFS from 'ipfs-core';
 
@@ -93,6 +95,7 @@ export default {
   name: 'chat',
   components: {
     Achievement,
+    Polling,
     Sidebar,
     Main,
     Error,
