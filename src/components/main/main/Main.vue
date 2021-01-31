@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     async fetchMessages(remoteAddress) {
-      // this.$store.commit('loadingMessages');
       const friend = this.$store.state.friends.find(f => f.address === remoteAddress);
       if (!friend) return;
       const messages = await this.$database.messageManager.getMessages(friend.threadID);
@@ -103,7 +102,9 @@ export default {
       this.$streamManager.killStreams();
     },
     async makeCall() {
-      if (this.$store.state.activeCall) return;
+      if (this.$store.state.activeCall) {
+        this.hangup();
+      }
       const constraints = {
         audio: {
           autoGainControl: false,

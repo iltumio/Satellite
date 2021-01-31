@@ -4,7 +4,7 @@ import config from '@/config/config.js';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Friends from "../../classes/contracts/Friends";
 import IFriend from "../../interfaces/IFriend";
-import store from '..';
+import { parse } from 'uuid';
 
 const friendsContract =  new Friends(config.friends[config.network.chain]);
 const dwellerCachingHelper = new DwellerCachingHelper(
@@ -45,24 +45,29 @@ export default {
     const parsedFriends: any[] = [];
     // If true, we will update the friends list.
     let updateNeeded = (state.friends) ? false : true;
-  
+
+    let skipped = 0;
     friendAddresses.forEach(async (f, i) => {
       const friend = await dwellerCachingHelper.getDweller(f);
       const parsedFriend = await friendsContract.parseFriend(friends[i]);
-      
-      parsedFriends.push({ ...friend, threadID: parsedFriend.threadHash });
+      const hasFriend = parsedFriends.find((fr) => fr.address === f);
 
-      if (!updateNeeded) { // If we already need to update, don't bother checking again
-        const storedFriend = state.friends.filter(f => f.address === friend.address);
-        
-        Object.keys(storedFriend).forEach(key => {
-          if (metadata.includes(key) && storedFriend[key] !== friend[key]) {
-            updateNeeded = true;
-          }
-        });
+      if (!hasFriend) {
+        parsedFriends.push({ ...friend, threadID: parsedFriend.threadHash });
+
+        if (!updateNeeded) { // If we already need to update, don't bother checking again
+          const storedFriend = state.friends.filter(f => f.address === friend.address);
+
+          Object.keys(storedFriend).forEach(key => {
+            if (metadata.includes(key) && storedFriend[key] !== friend[key]) {
+              updateNeeded = true;
+            }
+          });
+        }
+      } else {
+        skipped += 1;
       }
-
-      if (parsedFriends.length == friendAddresses.length) {
+      if (parsedFriends.length + skipped == friendAddresses.length) {
         // Alpha sort friends
         // eslint-disable-next-line
         parsedFriends.sort((a: IFriend, b: IFriend) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1);
