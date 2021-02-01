@@ -1,44 +1,65 @@
 <template>
-<!--@contextmenu="openContext"-->
-  <div id="wrapper" >
-    <Context
-      v-if="showContext"
-      :x="contextCoordsX"
-      :y="contextCoordsY"
-      :close="closeContext" />
+  <!--@contextmenu="openContext"-->
+  <div id="wrapper">
+    <Context v-if="showContext" :x="contextCoordsX" :y="contextCoordsY" :close="closeContext" />
     <Web3 />
     <Error />
-    <Database v-if="$store.state.p2pOnline ||
-      $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000' ||
-      $store.state.dwellerAddress"
+    <Database
+      v-if="
+        $store.state.p2pOnline ||
+          $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000' ||
+          $store.state.dwellerAddress
+      "
     />
-    <MediaManager v-if="windowBound &&
-      $store.state.p2pOnline &&
-      $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'"
+    <MediaManager
+      v-if="
+        windowBound &&
+          $store.state.p2pOnline &&
+          $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
+      "
     />
-    <ScreenCapture v-if="windowBound &&
-      $store.state.p2pOnline &&
-      $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'"
+    <ScreenCapture
+      v-if="
+        windowBound &&
+          $store.state.p2pOnline &&
+          $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
+      "
     />
-    <Loading v-if="!$store.state.friendsLoaded ||
-      !$store.state.p2pOnline ||
-      $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
-      !$store.state.dwellerAddress ||
-      $store.state.starting"
+    <!-- <Loading
+      v-if="
+        !$store.state.friendsLoaded ||
+          !$store.state.p2pOnline ||
+          $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
+          !$store.state.dwellerAddress ||
+          $store.state.starting
+      "
+    /> -->
+    <!-- if injectedProvider is not present, a special object in the store will be set, 
+    therefore the value will not be null -->
+    <Loading
+      v-if="
+        !$store.state.injectedProvider
+      "
     />
     <div v-else>
       <Achievement v-if="false" achievement="addFriend" />
-      <CreateServer v-if="showCreateServer" :close="closeCreateServer"/>
+      <CreateServer v-if="showCreateServer" :close="closeCreateServer" />
       <Calling :active="$store.state.activeCaller" :callerId="$store.state.activeCaller" />
 
-      <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
+      <div
+        :class="
+          `columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${
+            settingsOpen ? 'settings-open' : ''
+          }`
+        "
+      >
         <div class="column is-one-third sidebar-wrapper" v-if="$store.state.sidebarOpen">
           <Sidebar :toggleSettings="toggleSettings" :toggleCreateServer="toggleCreateServer" />
         </div>
         <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
-          <Files v-if="$store.state.mainRoute == 'files'"/>
-          <Friends v-if="$store.state.mainRoute == 'friends'"/>
+          <Files v-if="$store.state.mainRoute == 'files'" />
+          <Friends v-if="$store.state.mainRoute == 'friends'" />
         </div>
       </div>
       <div :class="`settings ${settingsOpen ? 'settings-open-container' : ''}`" v-if="settingsOpen">
@@ -46,23 +67,23 @@
       </div>
       <div class="footer">
         <p>
-          <i :class="`fas fa-heartbeat ${($store.state.p2pOnline) ? 'green' : 'red'}`"></i> P2P
-          <span class="spacer"></span> 
+          <i :class="`fas fa-heartbeat ${$store.state.p2pOnline ? 'green' : 'red'}`"></i> P2P
+          <span class="spacer"></span>
           <i class="fas fa-info-circle"></i>
-          {{$store.state.status}}
+          {{ $store.state.status }}
           <span class="spacer"></span>
           <span v-if="$store.state.accounts">
             <i class="fab fa-ethereum"></i>
-            <b>{{$t('footer.network')}}:</b> {{$store.state.web3Stats.nettype.toUpperCase()}}
-            <span class="spacer"> </span> 
+            <b>{{ $t('footer.network') }}:</b> {{ $store.state.web3Stats.nettype.toUpperCase() }}
+            <span class="spacer"> </span>
             <i class="fas fa-hashtag"></i>
-            <b>{{$t('footer.block_number')}}:</b> {{$store.state.web3Stats.blockNumber}} 
-            <span class="spacer"> </span> 
+            <b>{{ $t('footer.block_number') }}:</b> {{ $store.state.web3Stats.blockNumber }}
+            <span class="spacer"> </span>
             <i class="fas fa-id-badge"></i>
-            <b>{{$t('footer.account')}}:</b> {{$store.state.accounts[0]}}
+            <b>{{ $t('footer.account') }}:</b> {{ $store.state.accounts[0] }}
           </span>
           <span v-else>
-            {{$t('footer.connecting')}}
+            {{ $t('footer.connecting') }}
           </span>
         </p>
       </div>
@@ -110,6 +131,7 @@ export default {
     Context,
   },
   data() {
+    console.log('starting', this.$store.state.starting);
     return {
       msg: 'Chat',
       showCreateServer: false,
@@ -173,89 +195,89 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .hidden {
-    display: none;
-  }
-  .show {
-    display: block;
-  }
-  #wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-width: 900px;
-  }
-  .settings {
-    position: absolute;
-    top: 0;
-    z-index: 3;
-    right: -100vw;
-    left: 100vw;
-    bottom: 0;
-    background: #e7ebee;
-  }
-  .sidebar-wrapper {
-    max-width: 320px;
-    height: 100%;
-  }
-  .chat-wrapper {
-    height: 100%;
-  }
-  .settings-open-container {
-    right: 0;
-    left: 0;
-  }
-  .fas {
-    font-size: 8pt;
-  }
-  .wrapper {
-    height: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 3.8rem;
-    margin: 0;
-    border-left: 1px solid #e7ebee;
-  }
-  .wrapper-closed {
-    left: 0;
-  }
-  .settings-open {
-    left: -100vw;
-    right: 100vw;
-    max-width: 100vw;
-  }
-  .footer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: calc(100% - 2rem);
-    padding: 0.3rem 1.75rem;
-    border-top: 1px solid #e7ebee;
-    background: #fff;
-    font-size: 10pt;
-    color: #666;
-  }
-  .column {
-    margin: 0;
-    padding: 0;
-  }
-  .spacer {
-    width: 15px;
-    height: 100%;
-    display: inline-block;
-  }
-  .fa-moon {
-    cursor: pointer;
-  }
-  .red {
-    color: #e74c3c;
-  }
-  .green {
-    color: #00d0a1;
-  }
+.hidden {
+  display: none;
+}
+.show {
+  display: block;
+}
+#wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 900px;
+}
+.settings {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  right: -100vw;
+  left: 100vw;
+  bottom: 0;
+  background: #e7ebee;
+}
+.sidebar-wrapper {
+  max-width: 320px;
+  height: 100%;
+}
+.chat-wrapper {
+  height: 100%;
+}
+.settings-open-container {
+  right: 0;
+  left: 0;
+}
+.fas {
+  font-size: 8pt;
+}
+.wrapper {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 3.8rem;
+  margin: 0;
+  border-left: 1px solid #e7ebee;
+}
+.wrapper-closed {
+  left: 0;
+}
+.settings-open {
+  left: -100vw;
+  right: 100vw;
+  max-width: 100vw;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: calc(100% - 2rem);
+  padding: 0.3rem 1.75rem;
+  border-top: 1px solid #e7ebee;
+  background: #fff;
+  font-size: 10pt;
+  color: #666;
+}
+.column {
+  margin: 0;
+  padding: 0;
+}
+.spacer {
+  width: 15px;
+  height: 100%;
+  display: inline-block;
+}
+.fa-moon {
+  cursor: pointer;
+}
+.red {
+  color: #e74c3c;
+}
+.green {
+  color: #00d0a1;
+}
 </style>

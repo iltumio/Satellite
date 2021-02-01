@@ -2,11 +2,11 @@
 import config from '@/config/config.js';
 // @ts-ignore
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
-import Friends from "../../classes/contracts/Friends";
-import IFriend from "../../interfaces/IFriend";
+import Friends from '../../classes/contracts/Friends';
+import IFriend from '../../interfaces/IFriend';
 import store from '..';
 
-const friendsContract =  new Friends(config.friends[config.network.chain]);
+const friendsContract = new Friends(config.friends[config.network.chain]);
 const dwellerCachingHelper = new DwellerCachingHelper(
   config.registry[config.network.chain],
   config.cacher.dwellerLifespan,
@@ -40,7 +40,7 @@ export default {
     const metadata = ['photo', 'name'];
 
     // Get the friends from chain
-    let friends = await friendsContract.getFriends(account);
+    const friends = await friendsContract.getFriends(account);
     const friendAddresses = friends.map(f => f[0]);
     if (friendAddresses.length === 0) {
       state.friends = [];
@@ -48,8 +48,8 @@ export default {
     }
     const parsedFriends: any[] = [];
     // If true, we will update the friends list.
-    let updateNeeded = (state.friends) ? false : true;
-  
+    let updateNeeded = !(state.friends);
+
     friendAddresses.forEach(async (f, i) => {
       const friend = await dwellerCachingHelper.getDweller(f);
       const parsedFriend = await friendsContract.parseFriend(friends[i]);
@@ -57,8 +57,8 @@ export default {
 
       if (!updateNeeded) { // If we already need to update, don't bother checking again
         const storedFriend = state.friends.filter(f => f.address === friend.address);
-        
-        Object.keys(storedFriend).forEach(key => {
+
+        Object.keys(storedFriend).forEach((key) => {
           if (metadata.includes(key) && storedFriend[key] !== friend[key]) {
             updateNeeded = true;
           }

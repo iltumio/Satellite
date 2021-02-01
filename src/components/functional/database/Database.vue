@@ -16,12 +16,12 @@ export default {
       const crypto = new Crypto();
       await crypto.keygen();
 
-      this.$store.commit('fetchFriends', this.$store.state.activeAccount);
-      setTimeout(() => {
-        // Really shouldn't be used, but prevents
-        // some potenial race conditions with globals
-        this.$store.commit('starting', false);
-      }, 500);
+      // this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      // setTimeout(() => {
+      //   // Really shouldn't be used, but prevents
+      //   // some potenial race conditions with globals
+      //   this.$store.commit('starting', false);
+      // }, 500);
     },
     makeKey() {
       return {

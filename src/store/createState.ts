@@ -1,3 +1,5 @@
+import { AvailableProviders } from './mutations/web3';
+
 const defaultState = {
   starting: true,
   // Settings
@@ -25,8 +27,9 @@ const defaultState = {
   balance: 0,
   localAccount: false,
   // Network
-  availableProviders: ['MetaMask'],
-  selectedProvider: 'MetaMask',
+  availableProviders: [AvailableProviders.VAULT_74],
+  selectedProvider: null,
+  injectedProvider: null,
   // Profile
   dwellerAddress: false,
   username: '',

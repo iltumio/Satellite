@@ -8,6 +8,7 @@ export const cookieStorage = {
   removeItem: (key: string) => delete localStorage[key],
 };
 
+
 export const persistedStateConfig = {
   key: '_vuex',
   filter({ type }) {

@@ -1,4 +1,5 @@
-import Web3 from 'web3';
+// import Web3 from 'web3';
+import { ethers } from 'ethers';
 import * as Web3Utils from 'web3-utils';
 import config from '@/config/config';
 
@@ -9,30 +10,32 @@ export default class Ethereum {
    * on which network we are using to connect to the chain
    * @argument web3Provider optional providewr to be used
    */
-  constructor(web3Provider) {
+  constructor(providerType, signer = null) {
+    console.log('New ethereum', providerType);
     this.netConfig = config.network;
-    if (web3Provider === 'window') {
-      this.web3 = new Web3(window.ethereum);
+
+    if (providerType === 'injected') {
+      this.provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
+    } else if (providerType === 'vault74' && signer) {
+      // this.provider = new ethers.providers.InfuraProvider('goerli', '');
+      this.provider = ethers.providers.getDefaultProvider('goerli');
     } else {
-      this.web3 = new Web3(web3Provider === 'user-provided' ? this.fetchProvider() : Web3.givenProvider);
+      console.error('Signer is required for wault74 provider');
     }
-    // Abstract bindings to prevent API changes breaking Vault74
-    this.createBindings();
-    this.localAccount = localStorage.getItem('Vault74.eth.account') ?
-      JSON.parse(localStorage.getItem('Vault74.eth.account')) : null;
   }
-  /** @function
-   * Bind window provided web3 object
-   * @name pollBindWeb3
+
+  /**
+   * @description Retrieve the current block number from the network
    */
-  pollBindWeb3() {
-    if (window.ethereum) {
-      this.web3 = new Web3(window.ethereum);
-    } else {
-      setTimeout(() => {
-        this.pollBindWeb3();
-      }, 500);
-    }
+  async getBlockNumber() {
+    return this.provider.getBlockNumber();
+  }
+
+  /**
+   * @description Retrieve the network from the network
+   */
+  async getNetworkType() {
+    return this.provider.getNetwork();
   }
 
   /** @function
@@ -96,8 +99,7 @@ export default class Ethereum {
    * @argument address address of the contract on chain
    */
   getContract(abi, address = null) {
-    return (address) ? new this.web3.eth.Contract(abi, address) :
-      new this.web3.eth.Contract(abi);
+    return new ethers.Contract(address, abi, this.provider);
   }
 
   getAccount() {
