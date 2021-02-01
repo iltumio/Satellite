@@ -52,6 +52,7 @@ const defaultState = {
   typingUsers: {},
   userNotes: {},
   showUser: false,
+  loadingMessages: false,
   // Direct Calling Media Streams
   pendingMediaStream: false,
   activeMediaStreamPeer: false,

@@ -159,9 +159,10 @@
     }
   },
   "payments": {
-    "send": "Envoyer {{amount}} ether",
+    "send": "Envoyer {{amount}} ether ${dollar_equivalent}",
     "balance": "Solde",
-    "button": "Envoyer"
+    "button": "Envoyer",
+    "prices_disclaimer": " - Prices from CoinCap.io"
   },
   "sidebar": {
     "find": "Trouver un vault dweller",

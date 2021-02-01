@@ -341,7 +341,9 @@
       "must_be_online": "{name} must be online.",
       "invite": "Invite {name}",
       "no_conversation_heading": "It's awfully quiet",
-      "no_conversation_subtext": "Say something and get the conversation started."
+      "no_conversation_subtext": "Say something and get the conversation started.",
+      "loading_convorstaion": "Loading Messages",
+      "fetching_messages": "We're fetching from IPFS..."
     },
     "infobar": {
       "search_placeholder": "Search in conversation..."

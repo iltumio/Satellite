@@ -29,6 +29,7 @@ export default {
   updateMessages(state: any, messages: IMessage[]) {
     // eslint-disable-next-line no-param-reassign
     state.messages = messages;
+    state.loadingMessages = false;
   },
   appendMessage(state: any, message: IMessage) {
     let filtered = [...state.messages];

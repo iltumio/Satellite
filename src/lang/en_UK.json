@@ -159,7 +159,7 @@
     }
   },
   "payments": {
-    "send": "Send {{amount}} ether",
+    "send": "Send {amount} ether ${dollar_equivalent}",
     "balance": "Balance",
     "button": "Send"
   },

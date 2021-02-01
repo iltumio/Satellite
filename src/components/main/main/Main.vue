@@ -9,6 +9,7 @@ import Chatbar from '@/components/main/conversation/chatbar/Chatbar';
 import VoiceVideo from '@/components/main/conversation/voicevideo/VoiceVideo';
 import Conversation from '@/components/main/conversation/conversation/Conversation';
 import NoConversation from '@/components/main/conversation/conversation/NoConversation';
+import LoadingConvorsation from '@/components/main/conversation/conversation/LoadingConvorsation';
 import UserInfo from '@/components/main/conversation/userinfo/UserInfo';
 import Crypto from '@/classes/crypto/Crypto.ts';
 
@@ -18,6 +19,7 @@ export default {
     InfoBar,
     Chatbar,
     Conversation,
+    LoadingConvorsation,
     VoiceVideo,
     NoConversation,
     UserInfo,
@@ -39,6 +41,7 @@ export default {
     async fetchMessages(remoteAddress) {
       const friend = this.$store.state.friends.find(f => f.address === remoteAddress);
       if (!friend) return;
+      this.$store.commit('loadingMessages');
       const messages = await this.$database.messageManager.getMessages(friend.threadID);
       const key = this.crypto.getKey(this.$store.state.activeChat);
       const decrypted = await this.$database.messageManager.bulkDecrypt(messages, key);
@@ -120,6 +123,12 @@ export default {
       const stream = await this.$WebRTC.getMediaStream(constraints);
       this.$streamManager.addLocalStream(stream);
       this.$WebRTC.call(this.$store.state.activeChat, this.$streamManager.localStreams[0]);
+      if (this.$store.state.deafened) {
+        this.$streamManager.toggleLocalStreams();
+        this.$streamManager.toggleRemoteStreams();
+      } else if (this.$store.state.muted) {
+        this.$streamManager.toggleLocalStreams();
+      }
       this.$store.commit('activeCall', this.$store.state.activeChat);
       this.voice = true;
       this.mediaOpen = true;

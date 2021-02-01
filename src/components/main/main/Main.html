@@ -4,12 +4,13 @@
       :toggleMedia="toggleMedia"
       :makeCall="makeCall"/>
     <div :class="`${($store.state.showUser) ? 'main-user-info main-user-info-open' : 'main-user-info'}`">
+      <LoadingConvorsation v-if="$store.state.loadingMessages" />
       <Conversation
         :fetchMessages="fetchMessages"
         :sendMessage="sendMessage"
         :mediaOpen="$store.state.activeCall && $store.state.activeCall === $store.state.activeChat"
         :voice="$store.state.activeCall && $store.state.activeCall === $store.state.activeChat && voice"
-        v-if="$store.state.messages.length"/>
+        v-else-if="$store.state.messages.length"/>
       <NoConversation v-else />
       <VoiceVideo
         v-if="$store.state.activeCall && $store.state.activeCall === $store.state.activeChat"
