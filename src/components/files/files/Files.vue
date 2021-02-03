@@ -14,22 +14,24 @@
       <div class="message-body noselect">
         <h2>{{$t('files.your_files')}}</h2>
         <p>{{$t('files.your_files_subtext')}}</p>
-
-        <FileContext
-          v-if="showContext"
-          :file="activeFile"
-          :x="contextCoordsX"
-          :y="contextCoordsY"
-          :close="hideContext" />
-        <div v-for="(file, index) in $store.state.files" v-bind:key="file.path">
-          <p @contextmenu="fileContext">
-            <File :file="file" :updateParent="updateParent" :index="index" />
-          </p>
+        <div v-if="!loading">
+          <FileContext
+            v-if="showContext"
+            :file="activeFile"
+            :x="contextCoordsX"
+            :y="contextCoordsY"
+            :close="hideContext" />
+          <div v-for="(file, index) in $store.state.files" v-bind:key="file.path">
+            <p @contextmenu="fileContext">
+              <File :file="file" :updateParent="updateParent" :index="index" />
+            </p>
+          </div>
+        </div>
+        <div v-else>
+            <div class="bar-small"></div>
+            <div class="bar-large"></div>
         </div>
         <br>
-        <p v-if="loading" class="label">
-          <small><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('files.loading')}}</small>
-        </p>
         <div style="clear:both"></div>
       </div>
     </article>
@@ -114,6 +116,37 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .bar-small {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg,  rgba(32,32,43,0.45) 0%, rgba(32,32,43,0.65) 50%, rgba(32,32,43,0.45) 100%);
+    height: 30px;
+    width: 35%;
+    border-radius: 5px;
+    background-size: 200% 200%;
+    animation: gradient 0.5s ease infinite;
+    margin: 1rem 0;
+  }
+  .bar-large {
+    width: 55%;
+    height: 100px;
+    border-radius: 5px;
+    margin: 1rem 0;
+    background: linear-gradient(90deg,  rgba(32,32,43,0.45) 0%, rgba(32,32,43,0.65) 50%, rgba(32,32,43,0.45) 100%);
+    background-size: 200% 200%;
+    animation: gradient 0.5s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: -100% 0%;
+    }
+    100% {
+      background-position: -200% 0%;
+    }
+  }
   #files {
     position: relative;
     width: 100%;

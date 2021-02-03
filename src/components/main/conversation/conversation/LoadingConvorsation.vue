@@ -36,7 +36,7 @@ export default {
       width: 35%;
       border-radius: 5px;
       background-size: 200% 200%;
-      animation: gradient 2s ease infinite;
+      animation: gradient 0.5s ease infinite;
       margin: 1rem 1rem;
     }
     .bar-large {
@@ -46,7 +46,7 @@ export default {
       margin: 1rem 1rem;
       background: linear-gradient(90deg,  rgba(32,32,43,0.45) 0%, rgba(32,32,43,0.65) 50%, rgba(32,32,43,0.45) 100%);
       background-size: 200% 200%;
-      animation: gradient 2s ease infinite;
+      animation: gradient 0.5s ease infinite;
     }
 
     @keyframes gradient {
