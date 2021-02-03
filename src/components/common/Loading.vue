@@ -14,8 +14,14 @@
             <div v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'" class="content">
                 <Profile :customFinalAction="reload" />
             </div>
+            <div v-else-if="!$store.state.authenticated">
+                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.authenticating')}}
+            </div>
             <div v-else-if="!$store.state.friendsLoaded">
                 <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.assembling')}}
+            </div>
+            <div v-else-if="!$store.state.buckets">
+                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.buckets')}}
             </div>
             <div v-else-if="$store.state.starting">
                 <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.generic')}}

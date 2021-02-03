@@ -21,7 +21,7 @@
           :x="contextCoordsX"
           :y="contextCoordsY"
           :close="hideContext" />
-        <div v-for="(file, index) in $store.state.files" v-bind:key="file.hash">
+        <div v-for="(file, index) in $store.state.files" v-bind:key="file.path">
           <p @contextmenu="fileContext">
             <File :file="file" :updateParent="updateParent" :index="index" />
           </p>
@@ -40,7 +40,6 @@
 
 <script>
 import File from '@/components/files/file/File';
-import IPFSUtils from '@/classes/IPFSUtils.ts';
 import FileContext from '@/components/common/context/FileContext';
 import FileUploadInline from '@/components/common/fileuploadinline/FileUploadInline';
 
@@ -102,10 +101,9 @@ export default {
      */
     async fetchRecentFiles() {
       this.loading = true;
-      const ipfsUtils = new IPFSUtils(this.$database);
-      const cache = await ipfsUtils.getFileCache();
+      const index = await this.$database.bucketManager.fetchIndex();
       this.loading = false;
-      this.$store.commit('cacheFiles', cache.reverse());
+      this.$store.commit('cacheFiles', index.paths);
     },
   },
   async mounted() {

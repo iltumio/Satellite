@@ -20,6 +20,7 @@
       $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'"
     />
     <Loading v-if="!$store.state.friendsLoaded ||
+      !$store.state.buckets ||
       !$store.state.p2pOnline ||
       $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
       !$store.state.dwellerAddress ||

@@ -6,14 +6,14 @@
       <li
         v-on:click="openFile">{{$t('file_context.open')}}</li>
       <li
-        v-clipboard:copy="file.url"
+        v-clipboard:copy="file.remote"
         v-on:click="closeSoon">{{$t('file_context.copy_link')}}</li>
     </ul>
     <hr class="divider">
     <ul>
       <li
         v-on:click="closeSoon"
-        v-clipboard:copy="file.hash">{{$t('file_context.copy_id')}}</li>
+        v-clipboard:copy="file.path">{{$t('file_context.copy_id')}}</li>
     </ul>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     openFile() {
-      window.open(this.file.url);
+      window.open(this.file.remote);
       this.closeSoon();
     },
     closeSoon() {

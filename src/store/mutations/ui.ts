@@ -1,4 +1,11 @@
 export default {
+  authenticated(state: any) {
+    state.authenticated = true;
+  },
+  buckets(state: any) {
+    state.buckets = true;
+    console.log('buckets done');
+  },
   // Used to hotswitch dark mode from anywhere in the app
   toggleDarkMode(state: any) {
     // eslint-disable-next-line no-param-reassign

@@ -2,7 +2,6 @@
 
 <script>
 import config from '@/config/config';
-import IPFSUtils from '@/classes/IPFSUtils.ts';
 import FileC from '@/classes/FileC.ts';
 
 const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`);
@@ -19,6 +18,7 @@ export default {
       ipfsHash: false,
       selectedFile: false,
       progress: 0,
+      error: false,
       config,
     };
   },
@@ -44,36 +44,33 @@ export default {
     // Set the file from the input ready for processing
     setFile(event) {
       [this.selectedFile] = event.target.files;
-      this.sendToIpfs(this.selectedFile);
+      const size = this.selectedFile.size / 1024 / 1024; // MiB
+      if (size > 40) {
+        this.error = 'Please select a file smaller than 40 MiB';
+        this.selectedFile = false;
+      } else {
+        this.sendToIpfs(this.selectedFile);
+      }
     },
     // Uploads the file to the connected IPFS node
     async sendToIpfs(file) {
+      const path = `/uploads/${file.name}`;
+      const result = await this.$database.bucketManager.pushFile(file, path, (progress) => {
+        this.progress = progress;
+      });
+      this.imageURL = `https://hub.textile.io${result.root}${path}`;
       this.$store.commit('setStatus', 'Uploading file to IPFS');
-      const ipfsResponse = await window.ipfs.add(
-        file,
-        {
-          progress: (length) => {
-            // eslint-disable-next-line
-            let percent = ((length / this.selectedFile.size) * 100).toFixed(0);
-            this.progress = percent;
-            if (percent > 100) {
-              this.progress = 100;
-            }
-          },
-        },
-      );
-      this.$store.commit('setStatus', 'File uploaded to IPFS');
-      this.ipfsHash = ipfsResponse.path;
+      this.ipfsHash = result.root.replace('/ipfs/', '');
       this.fileClass = new FileC(
-        `${config.ipfs.browser}${this.ipfsHash}`,
+        this.imageURL,
         this.ipfsHash,
         this.selectedFile,
       );
-
-      const ipfsUtils = new IPFSUtils(this.$database);
-      await ipfsUtils.appendFileCache(this.fileClass.getObject());
       this.uploadDone();
+      // Update file index
+      this.$database.bucketManager.addToIndex(file, result.root, path);
       uploadAudio.play();
+      this.$store.commit('setStatus', 'File uploaded to IPFS');
       this.$nextTick(() => {
         this.$refs.hidden.focus();
       });

@@ -64,20 +64,25 @@ export default {
     if (this.$store.state.databaseEnabled) {
       const identity = await this.getIdentity();
       const client = await this.authorize(this.makeKey(), identity);
-      this.$database.authenticate(
+      await this.$database.authenticate(
         'textile',
         this.$store.state.activeAccount,
         window.v74pin,
         client,
+        identity,
       );
+      this.$store.commit('authenticated');
       window.Vault74.Database = this.$database;
       this.startup();
+      await this.$database.initBuckets();
+      this.$store.commit('buckets');
     } else {
-      this.$database.authenticate(
+      await this.$database.authenticate(
         'localStorage',
         this.$store.state.activeAccount,
         window.v74pin,
       );
+      this.$store.commit('authenticated');
       window.Vault74.Database = this.$database;
       this.startup();
     }

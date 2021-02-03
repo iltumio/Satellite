@@ -39,6 +39,10 @@
     "view_contract": "View Dweller ID Contract",
     "view_address": "Copy Dweller Address"
   },
+  "file": {
+    "removed": "File Removed",
+    "unpinned": "File un-pinned, removing soon."
+  },
   "fileupload": {
     "heading": "Upload File",
     "description": "Uploading a file will store your file on the IPFS blockchain and automatically send the file in chat.",
@@ -47,14 +51,16 @@
     "file": "File",
     "link": "IPFS Link",
     "uploading": "Uploading to IPFS...",
+    "waiting": "Authenticating...",
     "send": "Send File",
     "button_uploading": "Uploading...",
-    "button_done": "Done",
+    "button_done": "Send",
     "button_upload_another": "Upload Another File"
   },
   "loading": {
     "connecting_blockchain": "Connecting to the blockchain...",
     "assembling": "Assembling the hive...",
+    "authenticating": "Authenticating with Textil.io",
     "connecting_broker": "Connecting to 0.vault74.io...",
     "long_load": "This is taking a bit, do you have <a href=\"{link}\" target=\"{target}\">{text}</a> installed?",
     "other_tab": "Still loading? Vault74 may already be open in another tab.",

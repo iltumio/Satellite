@@ -1,6 +1,10 @@
 // @ts-ignore
+import { Identity } from '@textile/hub';
 import Bucket from './Bucket';
+import BucketManager from './BucketManager';
 import Drawer from './Drawer';
+// @ts-ignore
+import config from '@/config/config';
 // @ts-ignore
 import { LocalStorage, ThreadDB } from './interpreters';
 import { MessageManager } from './MessageManager';
@@ -32,6 +36,7 @@ export default class Database {
   availableInterfaces: any[];
   creds: Creds | undefined;
   threadManager: ThreadManager | null;
+  bucketManager: BucketManager | null;
   messageManager: MessageManager | null;
 
   /** @constructor
@@ -48,6 +53,7 @@ export default class Database {
       LocalStorage,
     ];
     this.threadManager = null;
+    this.bucketManager = null;
     this.messageManager = null;
     this.creds = undefined;
   }
@@ -58,7 +64,7 @@ export default class Database {
    * @argument id identity
    * @argument pass password
    */
-  authenticate(intrface: string, id: string, pass: string, extras: Extras) {
+  async authenticate(intrface: string, id: string, pass: string, extras: Extras, identity?: Identity) {
     this.creds = {
       id,
       pass,
@@ -85,6 +91,12 @@ export default class Database {
           extras.client,
           id,
         );
+        if (identity) {
+          this.bucketManager = new BucketManager(
+            identity,
+            this.creds.id,
+          );
+        }
         this.messageManager.build();
         break;
       default:
@@ -94,6 +106,13 @@ export default class Database {
         );
         break;
     }
+  }
+
+  async initBuckets() {
+    if (!this.bucketManager) return;
+    await this.bucketManager.init({
+      key: config.textile.key,
+    });
   }
 
   /**

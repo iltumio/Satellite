@@ -9,6 +9,7 @@ export default class Crypto {
    * @name storeKey
    */
   storeKey(address: string, key: JsonWebKey) {
+    // TODO: encrypt this with the users pin
     localStorage.setItem(`pubkey.${address}`, JSON.stringify(key));
   }
 

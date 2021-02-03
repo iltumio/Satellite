@@ -1,5 +1,7 @@
 const defaultState = {
   starting: true,
+  authenticated: false,
+  buckets: false,
   // Settings
   settings: {
     darkMode: true,

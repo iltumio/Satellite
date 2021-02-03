@@ -35,6 +35,8 @@ export default {
   },
   clear(state: any) {
     // eslint-disable-next-line no-param-reassign
+    state.buckets = false;
+    state.authenticated = false;
     state.criticalError = false;
     state.ICEConnected = false;
     state.dwellerAddress = false;

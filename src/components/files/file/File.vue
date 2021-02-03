@@ -1,7 +1,6 @@
 <template src="./File.html"></template>
 
 <script>
-import IPFSUtils from '@/classes/IPFSUtils.ts';
 import FileIconMapper from '@/utils/FileIconMapper.ts';
 
 export default {
@@ -14,6 +13,7 @@ export default {
   data() {
     return {
       hovered: false,
+      unpinned: false,
     };
   },
   methods: {
@@ -37,9 +37,9 @@ export default {
      * @name deleteFile
      */
     async deleteFile() {
-      const ipfsUtils = new IPFSUtils(this.$database);
-      await ipfsUtils.removeFileFromCache(this.file);
+      this.$database.bucketManager.removeFile(this.file, this.file.path);
       this.updateParent();
+      this.unpinned = true;
     },
     /** @method
      * Setter
