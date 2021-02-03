@@ -99,7 +99,7 @@ export default {
      * @argument file the file to be uploaded to IPFS
      */
     async sendToIpfs(file) {
-      const path = `/uploads/${file.name}`;
+      const path = `/${this.$database.bucketManager.prefix}/uploads/${file.name}`;
       const result = await this.$database.bucketManager.pushFile(file, path, (progress) => {
         this.progress = progress;
       });
