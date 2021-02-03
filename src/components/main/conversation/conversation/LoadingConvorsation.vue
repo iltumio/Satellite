@@ -4,11 +4,11 @@
       :class="`${(mediaOpen) ? 'media-open' : 'media-closed'} ${(voice) ? 'media-voice' : ''}`"
       ref="chat">
         <div class="bar-small"></div>
+        <div class="bar-large"><div class="circle-load"></div></div>
         <div class="bar-large"></div>
-        <div class="bar-large"></div>
+        <div class="bar-small"><div class="circle-load"></div></div>
         <div class="bar-small"></div>
-        <div class="bar-small"></div>
-        <div class="bar-large"></div>
+        <div class="bar-large"><div class="circle-load"></div></div>
         <div class="bar-large"></div>
     </div>
 </template>
@@ -38,12 +38,26 @@ export default {
       background-size: 200% 200%;
       animation: gradient 0.5s ease infinite;
       margin: 1rem 1rem;
+      margin-left: 5rem;
     }
     .bar-large {
       width: 55%;
       height: 100px;
       border-radius: 5px;
       margin: 1rem 1rem;
+      background: linear-gradient(90deg,  rgba(32,32,43,0.45) 0%, rgba(32,32,43,0.65) 50%, rgba(32,32,43,0.45) 100%);
+      background-size: 200% 200%;
+      animation: gradient 0.5s ease infinite;
+      margin-left: 5rem;
+    }
+
+    .circle-load {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      left: 0.75em;
+      border-radius: 50%;
+      margin: 0 1rem;
       background: linear-gradient(90deg,  rgba(32,32,43,0.45) 0%, rgba(32,32,43,0.65) 50%, rgba(32,32,43,0.45) 100%);
       background-size: 200% 200%;
       animation: gradient 0.5s ease infinite;

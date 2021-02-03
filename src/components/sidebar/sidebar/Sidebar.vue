@@ -30,6 +30,10 @@ export default {
     this.updateServers();
   },
   methods: {
+    activeRequestCount(requests) {
+      const activeRequests = requests.filter(fr => fr.active);
+      return activeRequests.length;
+    },
     getFriend(friends, address) {
       return friends.filter(f => f.address === address)[0];
     },

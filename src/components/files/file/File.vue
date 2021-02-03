@@ -38,8 +38,10 @@ export default {
      */
     async deleteFile() {
       this.$database.bucketManager.removeFile(this.file, this.file.path);
-      this.updateParent();
       this.unpinned = true;
+      setTimeout(() => {
+        this.updateParent();
+      }, 4000);
     },
     /** @method
      * Setter
