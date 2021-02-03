@@ -82,6 +82,7 @@ export default {
      * @argument event DOM event for selecting file
      */
     setFile(event) {
+      this.error = false;
       [this.selectedFile] = event.target.files;
       const size = this.selectedFile.size / 1024 / 1024; // MiB
       if (size > 40) {

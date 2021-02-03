@@ -85,8 +85,8 @@ export default class BucketManager {
             type: file.type,
             author: this.prefix,
           },
-          path: `/${this.prefix}${remotePath}`,
-          remote: encodeURI(`${config.textile.browser}${root}/${this.prefix}${remotePath}`),
+          path: remotePath,
+          remote: encodeURI(`${config.textile.browser}${root}${remotePath}`),
         },
       ],
     };
@@ -146,7 +146,7 @@ export default class BucketManager {
         }
         const binaryStr = reader.result;
         // Finally, push the full file to the bucket
-        this.buckets.pushPath(this.bucketKey, `${this.prefix}${path}`, binaryStr, {
+        this.buckets.pushPath(this.bucketKey, path, binaryStr, {
           progress: (num) => {
             if (progress && num) progress(this.progressParse(num, file.size));
           },

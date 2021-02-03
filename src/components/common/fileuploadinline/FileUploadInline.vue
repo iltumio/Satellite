@@ -43,6 +43,7 @@ export default {
     },
     // Set the file from the input ready for processing
     setFile(event) {
+      this.error = false;
       [this.selectedFile] = event.target.files;
       const size = this.selectedFile.size / 1024 / 1024; // MiB
       if (size > 40) {
