@@ -9,7 +9,7 @@
       v-on:click="setMainRoute('friends')"
       :class="`${$store.state.mainRoute == 'friends' ? 'active' : ''} friends`">
       <i class="fa fa-user-friends"></i>  &nbsp; {{$t('sidebar.friends')}} 
-      <span v-if="$store.state.friendRequests.length" class="indicator">
+      <span v-if="activeRequestCount($store.state.friendRequests) > 0" class="indicator">
         {{activeRequestCount($store.state.friendRequests)}}
       </span>
     </div>
