@@ -1,13 +1,25 @@
 <template src="./Calling.html"></template>
 
 <script>
+import config from '@/config/config';
 import CircleIcon from '@/components/common/CircleIcon';
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
+
+const dwellerCachingHelper = new DwellerCachingHelper(
+  config.registryAddress,
+  config.cacher.dwellerLifespan,
+);
 
 export default {
   name: 'Calling',
   props: ['active', 'callerId'],
   components: {
     CircleIcon,
+  },
+  data() {
+    return {
+      dweller: false,
+    };
   },
   methods: {
     async acceptCall() {
@@ -34,10 +46,17 @@ export default {
       this.$store.commit('incomingCall', false);
     },
   },
-  mounted() {
+  async mounted() {
     this.$WebRTC.subscribe(() => {
       this.denyCall();
     }, ['REMOTE-HANGUP']);
+    this.$WebRTC.mediaSubscription(
+      ['INCOMING-CALL'],
+      async (event, identifier) => {
+        console.log('incoming call', identifier);
+        this.dweller = await dwellerCachingHelper.getDweller(identifier);
+      },
+    );
   },
 };
 </script>
