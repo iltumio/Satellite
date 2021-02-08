@@ -53,7 +53,6 @@ export default {
     this.$WebRTC.mediaSubscription(
       ['INCOMING-CALL'],
       async (event, identifier) => {
-        console.log('incoming call', identifier);
         this.dweller = await dwellerCachingHelper.getDweller(identifier);
       },
     );

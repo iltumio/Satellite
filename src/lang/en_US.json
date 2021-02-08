@@ -238,6 +238,7 @@
       "account_address": "Account Address",
       "id_card": "This is like your ID card, share this with friends so they can add you.",
       "dweller_address": "Dweller Address",
+      "transfer_data": "Transfer Data",
       "dweller_owner_address": "Dweller Owner Address",
       "name": "Name",
       "photo_hash": "Photo Hash",

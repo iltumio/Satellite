@@ -100,6 +100,11 @@
       <p>{{$t('settings.profile.id_card')}}</p>
       <input class="input" :value="$store.state.activeAccount" readonly />
       <br>
+      <br>
+      <h2>{{$t('settings.profile.transfer_data')}}</h2>
+      <div class="qr">
+        <vue-qrcode value="bafkuyygq4ffaw6gxcwytmspvywe3igbptez6nqxh24s5yu52al4pkyi" margin="3" scale="6" :color="qrColor"/>
+      </div>
     </div>
   </article>
 </div>

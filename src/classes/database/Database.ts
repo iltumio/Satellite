@@ -1,14 +1,14 @@
 // @ts-ignore
 import { Identity } from '@textile/hub';
 import Bucket from './Bucket';
-import BucketManager from './BucketManager';
+import BucketManager from './textile/BucketManager';
 import Drawer from './Drawer';
 // @ts-ignore
 import config from '@/config/config';
 // @ts-ignore
 import { LocalStorage, ThreadDB } from './interpreters';
 import { MessageManager } from './MessageManager';
-import ThreadManager from './ThreadManager';
+import ThreadManager from './textile/ThreadManager';
 
 interface Interface {
   _retrieve: CallableFunction,

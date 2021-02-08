@@ -1,10 +1,5 @@
 <template></template>
 <script>
-import {
-  Client,
-  PrivateKey,
-} from '@textile/hub';
-import { Context } from '@textile/context';
 import config from '@/config/config';
 import Crypto from '@/classes/crypto/Crypto.ts';
 
@@ -28,42 +23,24 @@ export default {
         key: config.textile.key,
       };
     },
-    async getIdentity() {
-      /** Restore any cached user identity first */
-      const cached = localStorage.getItem('textile.identity');
-      if (cached !== null) {
-        /** Convert the cached identity string to a PrivateKey and return */
-        return PrivateKey.fromString(cached);
-      }
-      /** No cached identity existed, so create a new one */
-      const identity = await PrivateKey.fromRandom();
-      /** Add the string copy to the cache */
-      // TODO: Encrypt this with user password in the future
-      localStorage.setItem('textile.identity', identity.toString());
-      /** Return the random identity */
-      return identity;
-    },
-    async authorize(key, identity) {
-      // TODO: If in dev mode create a new client, else use the provided key
-      const client = (config.env === 'dev') ?
-        new Client(new Context(config.textile.localURI)) :
-        await Client.withKeyInfo(key);
-
-      const userToken = await client.getToken(identity).catch(() => {
-        this.$store.commit('criticalError', 'Textile.io may be down...');
-      });
-
-      return {
-        client,
-        userToken,
-      };
-    },
   },
   async mounted() {
     this.$store.commit('starting', true);
     if (this.$store.state.databaseEnabled) {
-      const identity = await this.getIdentity();
-      const client = await this.authorize(this.makeKey(), identity);
+      const identity = await this.$Threads.getIdentity();
+      const client = await this.$Threads.authorize(identity);
+
+      // We should depricate this when we move to only using the ThreadDB class
+      await this.$Threads.init(
+        this.$store.state.activeAccount,
+        client.client,
+        client.token,
+      );
+
+      // Initalize ThreadDB
+      // await this.$ThreadDB.init(this.$store.state.activeAccount);
+      // await this.$ThreadDB.auth();
+
       await this.$database.authenticate(
         'textile',
         this.$store.state.activeAccount,

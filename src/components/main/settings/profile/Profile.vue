@@ -2,6 +2,7 @@
 
 <script>
 import Mousetrap from 'mousetrap';
+import VueQrcode from 'vue-qrcode';
 
 import config from '@/config/config';
 import DCUtils from '@/utils/contracts/DwellerContract.ts';
@@ -22,6 +23,7 @@ export default {
   name: 'Profile',
   props: ['customFinalAction', 'embeded'],
   components: {
+    VueQrcode,
     ActionSelector,
     ChangePhoto,
     ChangeUsername,
@@ -31,6 +33,10 @@ export default {
   },
   data() {
     return {
+      qrColor: {
+        dark: '#0f1015',
+        light: '#b3bade',
+      },
       profileFile: false,
       ipfsHash: false,
       error: false,

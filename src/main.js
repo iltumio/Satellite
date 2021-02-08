@@ -4,6 +4,8 @@ import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
 import config from '@/config/config';
 import Database from '@/classes/database/Database.ts';
+import Threads from '@/classes/database/textile/Threads.ts';
+import ThreadDB from '@/classes/database/textile/threads/ThreadDB.ts';
 import WebRTC from '@/classes/webrtc/WebRTC.ts';
 import VueI18n from 'vue-i18n';
 
@@ -56,6 +58,8 @@ window.Vault74 = {
 };
 
 Vue.prototype.$database = new Database('Vault74Data');
+Vue.prototype.$Threads = new Threads();
+Vue.prototype.$ThreadDB = new ThreadDB();
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
 
