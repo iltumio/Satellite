@@ -65,7 +65,12 @@
         </span>
       </div>
       <p class="special-thanks">
-        {{ $t('loading.alpha') }}
+        <!-- {{ $t('loading.alpha') }} -->
+        <span>{{!$store.state.friendsLoaded }}</span>
+         <span>{{!$store.state.p2pOnline}}</span>
+         <span> {{$store.state.dwellerAddress === '0x0000000000000000000000000000000000000000'}} </span>
+          <span>{{!$store.state.dwellerAddress }}</span>
+         <span>{{ $store.state.starting}} </span>
       </p>
     </div>
   </div>

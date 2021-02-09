@@ -170,7 +170,6 @@ export default class Ethereum {
   }
 
   getCurrentAccountBalance() {
-    console.log('active acconut', this.activeAccount);
     if (this.activeAccount) {
       return this.provider.getBalance(this.activeAccount);
     }

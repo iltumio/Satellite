@@ -30,6 +30,7 @@ export default {
       decrypted: false,
       showWarning: !(localStorage.getItem('alpha-warning') === 'false'),
       peerDataHandler: null,
+      friendsLoaded: false,
     };
   },
   methods: {
@@ -99,8 +100,6 @@ export default {
     // Reset media call data
     this.$store.commit('connectMediaStream', false);
     this.$store.commit('clearTypingUsers');
-    // // Clear injectedProvider
-    // this.$store.commit('clearInjectedProvider', null);
     // Connect when a new friend is added
     // we have active chats with.
     this.$store.subscribe((mutation, state) => {
@@ -108,6 +107,16 @@ export default {
         // Connect to new peer.
         // TODO: Update WebRTC
         console.log('state', state);
+      }
+
+      // Use this workaround because vuex $store.watch is not
+      // triggering any update
+      // TODO: find the issue and use $store.wtach together with
+      // getters instead
+      if (!this.friendsLoaded && state.friendsLoaded) {
+        this.initP2P();
+
+        this.friendsLoaded = true;
       }
     });
     // Set i18n locale based on the user preferred language
