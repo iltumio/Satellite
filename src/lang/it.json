@@ -20,9 +20,9 @@
   },
   "loading": {
     "connecting_blockchain": "Connessione alla blockchain in corso...",
-    "connecting_broker": "Connessione a 0.vault74.io in corso...",
+    "connecting_broker": "Connessione a 0.satellite.im in corso...",
     "long_load": "L'operazione sta impiegando più del previsto, {{vaule}} è installato?",
-    "other_tab": "Ancora in caricamento? Vault74 potrebbe essere già aperto in un'altra tab.",
+    "other_tab": "Ancora in caricamento? Satellite potrebbe essere già aperto in un'altra tab.",
     "something_wrong": "Qualcosa potrebbe essere andato storto,",
     "alpha": "Questo prodotto è in alpha, per favore usa la rete di test Goerli!"
   },
@@ -35,7 +35,7 @@
   },
   "friends": {
     "heading": "Amici",
-    "subtext": "Collegati con altre persone attraverso la piattaforma Vault74.",
+    "subtext": "Collegati con altre persone attraverso la piattaforma Satellite.",
     "find_someone": "Trova qualcuno",
     "add_a_friend": "Aggiungi un Amico",
     "enter_address": "Aggiungi l'indirizzo Ethereum di un amico qua sotto per trovarlo...",
@@ -114,10 +114,10 @@
     "personalize": {
       "appearance": "Aspetto",
       "darktheme_heading": "Tema scuro",
-      "darktheme_subtext": "Abilita il tema scuro per una versione di Vault74 più facile per gli occhi.",
+      "darktheme_subtext": "Abilita il tema scuro per una versione di Satellite più facile per gli occhi.",
       "permissions": "Permessi",
       "notifications": "Notifiche",
-      "notifiactions_subtext": "Clicca per consentire a Vault74 di inviarti notifiche ed offrirti un'esperienza migliore."
+      "notifiactions_subtext": "Clicca per consentire a Satellite di inviarti notifiche ed offrirti un'esperienza migliore."
     },
     "storage": {
       "label": "Archiviazione",

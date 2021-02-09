@@ -66,7 +66,7 @@
         return message.payload.type === 'text' && !message.secure;
       },
       debug() {
-        return window.Vault74.debugEnabled;
+        return window.Satellite.debugEnabled;
       },
       handleContext(event) {
         event.preventDefault();

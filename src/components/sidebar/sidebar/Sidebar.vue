@@ -5,7 +5,7 @@ import ServerList from '@/components/serverlist/ServerList';
 import QuickFriends from '@/components/sidebar/quickfriends/QuickFriends';
 import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
-import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import Registry from '@/utils/contracts/Registry.ts';
 import DwellerContract from '@/utils/contracts/DwellerContract.ts';
 import ServerContract from '@/utils/contracts/ServerContract.ts';
 
@@ -39,7 +39,7 @@ export default {
     },
     async updateServers() {
       this.loadingServers = true;
-      const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
+      const dwellerContract = await Registry.getDwellerContract(this.$store.state.activeAccount);
       const serverAddresses = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
       const fetchServers = [];
 

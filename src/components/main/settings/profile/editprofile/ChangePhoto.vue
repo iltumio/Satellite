@@ -21,7 +21,7 @@
 <script>
 import PhotoCropper from 'vue-image-crop-upload';
 import DCUtils from '@/utils/contracts/DwellerContract.ts';
-import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import Registry from '@/utils/contracts/Registry.ts';
 
 export default {
   name: 'ChangePhoto',
@@ -71,7 +71,7 @@ export default {
       this.showCropper = false;
     },
     async changePhoto() {
-      const dwellerIDContract = await Vault74Registry
+      const dwellerIDContract = await Registry
         .getDwellerContract(this.$store.state.activeAccount);
 
       this.$store.commit('setStatus', 'Transaction created, waiting for confirm');

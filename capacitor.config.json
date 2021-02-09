@@ -1,6 +1,6 @@
 {
   "appId": "com.github.retropronghorn",
-  "appName": "Vault74",
+  "appName": "Satellite",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "dist",

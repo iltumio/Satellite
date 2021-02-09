@@ -131,7 +131,7 @@ export class ThreadDB {
         resolve([]);
       }) || [];
       // @ts-ignore
-      window.Vault74.debug(`ThreadDB request made for ThreadID ${this.threadID.toString()}`);
+      window.Satellite.debug(`ThreadDB request made for ThreadID ${this.threadID.toString()}`);
       resolve(<Array<Data>>data);
     });
   }

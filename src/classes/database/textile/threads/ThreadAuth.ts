@@ -54,10 +54,12 @@ export default class ThreadAuth {
     this._identifier = identifier;
     this._db = await new Database(
       // Database will be named after the active account or "identifier"
-      this._identifier,
+      `${this._identifier}-db`,
       // Schemas
-      { name: "ThreadIDs", schema: ThreadIDs },
-      { name: "PublicKeys", schema: PublicKeys },
+      // @ts-ignore
+      { name: ThreadIDs.name, schema: ThreadIDs.schema },
+      // @ts-ignore
+      { name: PublicKeys.name, schema: PublicKeys.schema },
     ).open(1);
   }
 

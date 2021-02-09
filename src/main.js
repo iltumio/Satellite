@@ -23,11 +23,11 @@ Vue.use(VueI18n);
 
 sync(store, router);
 
-window.Vault74 = {
+window.Satellite = {
   debugEnabled: config.debug,
   /* eslint-disable */
   debug: (...args) => {
-    if (window.Vault74.debugEnabled) {
+    if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
         `%c [Vault74 Debug]: ${args[0]}`,
@@ -37,7 +37,7 @@ window.Vault74 = {
     }
   },
   warn: (...args) => {
-    if (window.Vault74.debugEnabled) {
+    if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
         `%c [Vault74 Warn]: ${args[0]}`,

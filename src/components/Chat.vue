@@ -156,7 +156,7 @@ export default {
       this.$store.commit('changeRoute', 'main');
     });
     Mousetrap.bind('option+shift+d', () => {
-      window.Vault74.debugEnabled = !window.Vault74.debugEnabled;
+      window.Satellite.debugEnabled = !window.Satellite.debugEnabled;
     });
     const ipfs = await IPFS.create();
     window.ipfs = ipfs;
