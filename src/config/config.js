@@ -79,4 +79,10 @@ module.exports = {
     reconnect: 3000,
     ping_interval: 5000,
   },
+  web3: {
+    balance_polling_interval: 10000,
+  },
+  toastNotifications: {
+    position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast',
+  },
 };

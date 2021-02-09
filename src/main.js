@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
+import Toasted from 'vue-toasted';
 import config from '@/config/config';
 import Database from '@/classes/database/Database.ts';
 import WebRTC from '@/classes/webrtc/WebRTC.ts';
@@ -17,6 +18,7 @@ Vue.config.productionTip = false;
 Vue.use(VueClipboard);
 Vue.use(vClickOutside);
 Vue.use(VueI18n);
+Vue.use(Toasted, config.toastNotifications);
 
 sync(store, router);
 

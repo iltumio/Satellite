@@ -103,4 +103,21 @@ input:focus, input:focus{
 .faded {
   opacity: 0.4;
 }
+.fullscreen-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #1c1a24;
+  z-index: 100;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+.toasted {
+  &.vault-toast {
+    font-weight: bold;
+  }
+}
 @import "_animations.less";

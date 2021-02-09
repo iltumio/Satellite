@@ -99,8 +99,8 @@ export default {
     // Reset media call data
     this.$store.commit('connectMediaStream', false);
     this.$store.commit('clearTypingUsers');
-    // Clear injectedProvider
-    this.$store.commit('clearInjectedProvider', null);
+    // // Clear injectedProvider
+    // this.$store.commit('clearInjectedProvider', null);
     // Connect when a new friend is added
     // we have active chats with.
     this.$store.subscribe((mutation, state) => {

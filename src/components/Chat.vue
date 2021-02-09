@@ -2,7 +2,6 @@
   <!--@contextmenu="openContext"-->
   <div id="wrapper">
     <Context v-if="showContext" :x="contextCoordsX" :y="contextCoordsY" :close="closeContext" />
-    <Web3 />
     <Error />
     <Database
       v-if="
@@ -25,20 +24,21 @@
           $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
       "
     />
-    <!-- <Loading
-      v-if="
+
+    <!-- 
+      Whenever the account is connected starts a background task that 
+      continuously fetches the balance
+     -->
+    <BalanceFetcher v-if="$store.state.web3connected"/>
+
+    <Web3 v-if="!$store.state.web3connected"/>
+    <Loading
+      v-else-if="
         !$store.state.friendsLoaded ||
           !$store.state.p2pOnline ||
           $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
           !$store.state.dwellerAddress ||
           $store.state.starting
-      "
-    /> -->
-    <!-- if injectedProvider is not present, a special object in the store will be set, 
-    therefore the value will not be null -->
-    <Loading
-      v-if="
-        !$store.state.injectedProvider
       "
     />
     <div v-else>
@@ -102,6 +102,7 @@ import Files from '@/components/files/files/Files';
 import Friends from '@/components/friends/friends/Friends';
 import Settings from '@/components/main/settings/Settings';
 import Web3 from '@/components/functional/web3/Web3';
+import BalanceFetcher from '@/components/functional/web3/BalanceFetcher';
 import Database from '@/components/functional/database/Database';
 import Loading from '@/components/common/Loading';
 import Achievement from '@/components/common/Achievement';
@@ -122,6 +123,7 @@ export default {
     Friends,
     Settings,
     Web3,
+    BalanceFetcher,
     Database,
     Loading,
     MediaManager,
@@ -131,7 +133,6 @@ export default {
     Context,
   },
   data() {
-    console.log('starting', this.$store.state.starting);
     return {
       msg: 'Chat',
       showCreateServer: false,

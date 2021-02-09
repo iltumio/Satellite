@@ -11,17 +11,51 @@ export default class Ethereum {
    * @argument web3Provider optional providewr to be used
    */
   constructor(providerType, signer = null) {
-    console.log('New ethereum', providerType);
     this.netConfig = config.network;
+    this.providerType = providerType;
+    this.signer = signer;
+  }
 
-    if (providerType === 'injected') {
-      this.provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
-    } else if (providerType === 'vault74' && signer) {
+  /**
+   * @description Initializes the provider based on the provider type
+   */
+  async initialize() {
+    if (this.providerType === 'injected') {
+      this.accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      this.provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // If no accounts passed by the constructor, use web3 api to get them
+      this.signer = this.provider.getSigner(0);
+      // this.accounts = await this.provider.listAccounts();
+      [this.activeAccount] = this.accounts;
+
+      // Activate listeners
+      this.onAccountChange = window.ethereum.on('accountsChanged', this.handleAccountChange);
+      this.onNetworkChange = window.ethereum.on('networkChanged', this.handleNetworkChange);
+    } else if (this.providerType === 'vault74' && this.signer) {
       // this.provider = new ethers.providers.InfuraProvider('goerli', '');
       this.provider = ethers.providers.getDefaultProvider('goerli');
     } else {
       console.error('Signer is required for wault74 provider');
     }
+  }
+
+  /**
+   * @description Account change callback
+   * @param {string[]} accounts
+   */
+  handleAccountChange(accounts) {
+    this.accounts = accounts;
+    this.activeAccount = this.selectedAddress;
+  }
+
+  /**
+   * @description Network change callback
+   * @param {string} networkId
+   */
+  handleNetworkChange(networkId) {
+    this.selectedNetwork = networkId;
   }
 
   /**
@@ -99,7 +133,7 @@ export default class Ethereum {
    * @argument address address of the contract on chain
    */
   getContract(abi, address = null) {
-    return new ethers.Contract(address, abi, this.provider);
+    return new ethers.Contract(address, abi, this.signer);
   }
 
   getAccount() {
@@ -133,5 +167,13 @@ export default class Ethereum {
         .once('transactionHash', tx)
         .once('confirmation', done);
     }
+  }
+
+  getCurrentAccountBalance() {
+    console.log('active acconut', this.activeAccount);
+    if (this.activeAccount) {
+      return this.provider.getBalance(this.activeAccount);
+    }
+    return null;
   }
 }

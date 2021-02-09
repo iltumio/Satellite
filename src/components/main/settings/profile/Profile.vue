@@ -6,17 +6,14 @@ import Mousetrap from 'mousetrap';
 import config from '@/config/config';
 import DCUtils from '@/utils/contracts/DwellerContract.ts';
 import Badge from '@/components/common/Badge';
-import Ethereum from '@/classes/Ethereum';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import CircleIcon from '@/components/common/CircleIcon';
 import PhotoCropper from 'vue-image-crop-upload';
-import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';
 
-
-const ethereum = new Ethereum('user-provided');
 
 export default {
   name: 'Profile',
@@ -31,6 +28,7 @@ export default {
   },
   data() {
     return {
+      ethereum: null,
       profileFile: false,
       ipfsHash: false,
       error: false,
@@ -53,25 +51,16 @@ export default {
     };
   },
   mounted() {
+    // Gets provider from window object
+    this.ethereum = window.vault74provider;
     this.getDwellerByAddress(this.$store.state.activeAccount);
-    Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
+
+    // Creates a registry instance
+    this.registry = new Vault74Registry(this.ethereum, config.registry[config.network.chain]);
+
     Mousetrap.bind('esc', () => {
       this.showCropper = false;
     });
-    if (ethereum.localAccount) {
-      const pollBalance = () => {
-        ethereum.eth.getBalance(this.$store.state.activeAccount).then((bal) => {
-          if (bal > 0) {
-            this.funded = true;
-          } else {
-            setTimeout(() => {
-              pollBalance();
-            }, 500);
-          }
-        });
-      };
-      pollBalance();
-    }
   },
   methods: {
     dataURItoBlob(dataURI) {
@@ -126,7 +115,7 @@ export default {
       this.ipfsHash = {
         path: '',
       };
-      const dwellerIDContract = await Vault74Registry
+      const dwellerIDContract = await this.registry
         .getDwellerContract(this.$store.state.activeAccount);
       DCUtils.setPhoto(
         dwellerIDContract,
@@ -145,14 +134,17 @@ export default {
         return;
       }
       this.created = true;
-      Vault74Registry.createDwellerId(
+
+      this.registry.createDwellerId(
         this.$store.state.username,
         this.$store.state.activeAccount,
         (transactionHash) => {
+          console.log(transactionHash);
           this.transactionHash = transactionHash;
         },
-        (confirmationNumber, receipt) => {
-          this.confirmation = confirmationNumber;
+        (receipt) => {
+          console.log(receipt);
+          this.confirmation = receipt.confirmations;
           this.finishProfile(receipt);
         },
       );
@@ -177,24 +169,26 @@ export default {
         return;
       }
 
-      const dwellerIDContract = await Vault74Registry
-        .getDwellerContract(this.$store.state.activeAccount);
+      this.commitEverything(receipt);
 
-      let confirms = 0;
+      // const dwellerIDContract = await this.registry
+      // .getDwellerContract(this.$store.state.activeAccount);
+
+      // const confirms = 0;
       this.$store.commit('setStatus', 'Transaction created, waiting for confirm');
-      DCUtils.setPhoto(
-        dwellerIDContract,
-        this.$store.state.activeAccount,
-        this.ipfsHash,
-        () => {
-          confirms += 1;
-          this.finished = true;
-          this.$store.commit('setStatus', 'Transaction confirmed');
-          if (confirms >= 2 || !this.customFinalAction) {
-            this.commitEverything(dwellerIDContract);
-          }
-        },
-      );
+      // DCUtils.setPhoto(
+      //   dwellerIDContract,
+      //   this.$store.state.activeAccount,
+      //   this.ipfsHash,
+      //   () => {
+      //     confirms += 1;
+      //     this.finished = true;
+      //     this.$store.commit('setStatus', 'Transaction confirmed');
+      //     if (confirms >= 2 || !this.customFinalAction) {
+      //       this.commitEverything(dwellerIDContract);
+      //     }
+      //   },
+      // );
     },
     // Note the changes to the profile locally in the store
     commitEverything(dwellerIDContract) {

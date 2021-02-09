@@ -31,7 +31,7 @@ export default class Vault74Registry {
    * @argument done callback executed on first confirmation
    */
   createDwellerId(_username: string, account: string, tx: CallableFunction, done: CallableFunction) {
-    const username = this.ethereum.fromAscii(_username);
+    const username = ethers.utils.formatBytes32String(_username);
     this.contract.createDweller(username, { gasPrice: 4700000 }).then((transaction) => {
       tx(transaction);
       return transaction.wait();
@@ -48,7 +48,7 @@ export default class Vault74Registry {
    * @argument done callback executed on first confirmation
    */
   createServer(_name: string, account: string, tx: CallableFunction, done: CallableFunction) {
-    const name = this.ethereum.fromAscii(_name);
+    const name = ethers.utils.formatBytes32String(_name);
     this.contract.createServer(name, { gasPrice: 4700000 }).then((transaction) => {
       tx(transaction);
       return transaction.wait();

@@ -1,6 +1,6 @@
 import { AvailableProviders } from './mutations/web3';
 
-const defaultState = {
+export const defaultState = {
   starting: true,
   // Settings
   settings: {
@@ -20,6 +20,7 @@ const defaultState = {
   muted: false,
   deafened: false,
   // Web3
+  web3connected: false,
   web3Stats: false,
   accounts: false,
   gasPrice: 36,
@@ -63,6 +64,7 @@ const defaultState = {
   databaseEnabled: true,
   criticalError: false,
 };
+
 
 const createState = (customState: object) => Object.assign({}, defaultState, customState);
 

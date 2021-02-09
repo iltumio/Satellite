@@ -15,6 +15,10 @@ export const AvailableProviders = {
 };
 
 export default {
+  setWeb3Connected(state: any, connected: boolean) {
+    // eslint-disable-next-line
+    state.web3connected = connected;
+  },
   clearInjectedProvider(state: any) {
     // eslint-disable-next-line
     state.injectedProvider = null;
@@ -37,5 +41,11 @@ export default {
   setSelectedProvider(state: any, provider: any) {
     // eslint-disable-next-line
     state.selectedProvider = provider;
+  },
+  updateBalance(state: any, balance: number) {
+    // eslint-disable-next-line
+    state.balance = balance;
+    // eslint-disable-next-line
+    state.balanceLastUpdate = Date.now();
   },
 };

@@ -1,30 +1,11 @@
 <template>
-  <div :class="`modal ${connected ? '' : 'is-active'}`">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <section class="modal-card-body" style="text-align: center;">
-        <p class="head">
-          <strong>Choose provider</strong>
-        </p>
-        <b>
-          Choose the provider you want to use. If you choose Vault74 provider, you will need to 
-          restore your wallet from the seed phrase, or to create a new one
-        </b>
-        <br /><br />
-        <div class="provider-selection" v-if="!$store.state.selectedProvider">
-          <div class="provider-element" v-for="(provider) in $store.state.availableProviders"  v-bind:key="provider.type" v-on:click.stop="setSelectedProvider(provider)">
-            <img :src="provider.logo"/>
-            <span>{{provider.name}}</span>
-            </div>
-        </div>
-        
-      </section>
-    </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+  <div>
+    <ProviderSelection v-if="!$store.state.selectedProvider"/>
   </div>
 </template>
 
 <script>
+import ProviderSelection from '@/components/common/ProviderSelection';
 // import Web3 from 'web3';
 // import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
 import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
@@ -42,14 +23,30 @@ export default {
       ethereum: null,
     };
   },
+  components: {
+    ProviderSelection,
+  },
   methods: {
-    // Tasks we need to run for Web3 when the application starts
-    async startupActions(acc) {
-      console.log('startup', acc);
+    // Connect the selected provider, based on the user selection
+    async connectProvider(providerInfo) {
+      this.ethereum = new Ethereum(providerInfo.type);
 
+      await this.ethereum.initialize();
+
+      // Bind ethereum provider to the window object
+      window.vault74provider = this.ethereum;
+
+      this.$store.commit('setWeb3Connected', true);
+
+      // Run async get stats action
+      this.getStats();
+      this.startupActions(this.ethereum.activeAccount);
+    },
+    // Tasks we need to run for Web3 when the application starts
+    async startupActions(selectedAccount) {
       const registry = new Vault74Registry(this.ethereum, config.registry[config.network.chain]);
 
-      const dwellerContract = await registry.getDwellerContract(acc);
+      const dwellerContract = await registry.getDwellerContract(selectedAccount);
 
       this.$store.commit('dwellerAddress', dwellerContract);
       if (dwellerContract !== '0x0000000000000000000000000000000000000000') {
@@ -85,33 +82,36 @@ export default {
     // },
     // Try to connect the selected provider and then commit che change to the store
     async setSelectedProvider(provider) {
-      await this.connectProvider(provider);
       this.$store.commit('setSelectedProvider', provider);
     },
-    // Connect the selected provider, based on the user selection
-    async connectProvider(provider) {
-      if (provider.type === 'injected' && provider.name === 'MetaMask') {
-        // Try to connect metamask
-        await this.connectMetaMask(provider);
-      }
-    },
-    // Connect to Metamask Provider
-    async connectMetaMask(provider) {
-      // Connect account
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    // // Connect the selected provider, based on the user selection
+    // async connectProvider(provider) {
+    //   if (provider.type === 'injected' && provider.name === 'MetaMask') {
+    //     // Try to connect metamask
+    //     await this.connectMetaMask(provider);
+    //   }
+    // },
+    // // Connect to Metamask Provider
+    // async connectMetaMask(providerInfo) {
+    //   console.log('Connect metamask', providerInfo);
+    //   // Connect account
+    //   const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-      if (accounts.length) {
-        // Create provider
-        this.ethereum = new Ethereum(provider.type);
+    //   if (accounts.length) {
+    //     // Create provider
+    //     this.ethereum = new Ethereum(providerInfo.type);
 
-        // Run async get stats action
-        this.getStats();
-        this.startupActions(accounts[0]);
+    //     // Bind ethereum provider to the window object
+    //     window.vault74provider = this.ethereum;
 
-        // Set as connected
-        this.connected = true;
-      }
-    },
+    //     // Run async get stats action
+    //     this.getStats();
+    //     this.startupActions(accounts[0]);
+
+    //     // Set as connected
+    //     this.connected = true;
+    //   }
+    // },
     async getStats() {
       // Get stats
       const blockNumber = await this.ethereum.getBlockNumber();
@@ -124,8 +124,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('setStatus', 'Looking for injected Web3 instance');
-
     // Get injected provider using web3modal library
     const injectedProvider = getInjectedProvider();
 
@@ -133,11 +131,14 @@ export default {
     // an injected web3 instance
     this.$store.commit('setInjectedProvider', injectedProvider);
 
-    // If selectedProvider is already present, try to connect
-    const { selectedProvider } = this.$store.state;
-    if (selectedProvider) {
-      this.connectProvider(selectedProvider);
+
+    // Check if provider has already been selected and
+    // try to connect
+    if (this.$store.state.selectedProvider) {
+      this.connectProvider(this.$store.state.selectedProvider);
     }
+
+
     // const ethEnabled = () => {
     //   if (window.ethereum) {
     //     window.web3 = new Web3(window.ethereum);

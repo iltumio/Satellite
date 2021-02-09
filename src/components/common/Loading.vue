@@ -23,7 +23,8 @@
         v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'"
         class="content"
       >
-        <Profile :customFinalAction="reload" />
+        <FundAccount v-if="$store.state.balance == 0"/>
+        <Profile :customFinalAction="reload" v-else />
       </div>
       <div v-else-if="!$store.state.friendsLoaded">
         <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.assembling') }}
@@ -40,7 +41,7 @@
           showWeb3 && $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
         "
       >
-        <span
+        <!-- <span
           v-if="!$store.state.dwellerAddress"
           v-html="
             $t('loading.long_load', {
@@ -49,8 +50,8 @@
               target: '_blank',
             })
           "
-        />
-        <span v-else-if="!$store.state.friendsLoaded">
+        /> -->
+        <span v-if="!$store.state.friendsLoaded">
           {{ $t('loading.textile') }}
         </span>
         <span v-else-if="!$store.state.ICEConnected">
@@ -72,12 +73,14 @@
 
 <script>
 import Profile from '@/components/main/settings/profile/Profile';
+import FundAccount from '@/components/common/FundAccount';
 
 export default {
   name: 'Loading',
   props: ['text'],
   components: {
     Profile,
+    FundAccount,
   },
   data() {
     return {
@@ -132,13 +135,21 @@ export default {
   bottom: 0;
   background: #1c1a24;
   z-index: 100;
+  display: flex;
+  align-items:center;
+  justify-content: center;
 }
 .loading-dispaly {
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  /* margin: 0 auto;
   margin-top: calc(25% - 125px);
   width: 50%;
   height: 250px;
-  text-align: center;
+  text-align: center; */
   font-family: 'Major Mono Display', monospace;
 }
 .showing-content {
