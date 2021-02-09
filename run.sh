@@ -21,3 +21,6 @@ git submodule update --init --recursive
 
 # Install Deps
 yarn
+
+
+yarn dev

@@ -2,6 +2,7 @@
 
 <script>
 import Mousetrap from 'mousetrap';
+import VueQrcode from 'vue-qrcode';
 
 import config from '@/config/config';
 import DCUtils from '@/utils/contracts/DwellerContract.ts';
@@ -10,7 +11,7 @@ import Ethereum from '@/classes/Ethereum';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import CircleIcon from '@/components/common/CircleIcon';
 import PhotoCropper from 'vue-image-crop-upload';
-import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import Registry from '@/utils/contracts/Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';
@@ -22,6 +23,7 @@ export default {
   name: 'Profile',
   props: ['customFinalAction', 'embeded'],
   components: {
+    VueQrcode,
     ActionSelector,
     ChangePhoto,
     ChangeUsername,
@@ -31,6 +33,10 @@ export default {
   },
   data() {
     return {
+      qrColor: {
+        dark: '#0f1015',
+        light: '#b3bade',
+      },
       profileFile: false,
       ipfsHash: false,
       error: false,
@@ -54,7 +60,7 @@ export default {
   },
   mounted() {
     this.getDwellerByAddress(this.$store.state.activeAccount);
-    Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
+    Registry.getDwellerContract(this.$store.state.activeAccount);
     Mousetrap.bind('esc', () => {
       this.showCropper = false;
     });
@@ -126,7 +132,7 @@ export default {
       this.ipfsHash = {
         path: '',
       };
-      const dwellerIDContract = await Vault74Registry
+      const dwellerIDContract = await Registry
         .getDwellerContract(this.$store.state.activeAccount);
       DCUtils.setPhoto(
         dwellerIDContract,
@@ -138,14 +144,14 @@ export default {
         },
       );
     },
-    // Create a new profile via the Vault74Registry for this user
+    // Create a new profile via the Registry for this user
     async submitProfileContract() {
       if (this.$store.state.username.length < 5) {
         this.error = 'Your username needs to be at least 5 characters.';
         return;
       }
       this.created = true;
-      Vault74Registry.createDwellerId(
+      Registry.createDwellerId(
         this.$store.state.username,
         this.$store.state.activeAccount,
         (transactionHash) => {
@@ -177,7 +183,7 @@ export default {
         return;
       }
 
-      const dwellerIDContract = await Vault74Registry
+      const dwellerIDContract = await Registry
         .getDwellerContract(this.$store.state.activeAccount);
 
       let confirms = 0;

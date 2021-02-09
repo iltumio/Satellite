@@ -76,14 +76,14 @@ export default {
         this.peerInit = true;
       } else {
         setTimeout(() => {
-          window.Vault74.warn('Friends not loaded yet, will try again soon.');
+          window.Satellite.warn('Friends not loaded yet, will try again soon.');
           this.initP2P();
         }, 500);
       }
     },
     checkAccount() {
       if (this.$store.state.activeAccount) {
-        window.Vault74.warn('No account found yet, rechecking soon.');
+        window.Satellite.warn('No account found yet, rechecking soon.');
         // Attach to peers
         this.initP2P();
         return;

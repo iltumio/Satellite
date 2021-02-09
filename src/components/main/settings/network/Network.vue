@@ -10,7 +10,7 @@
           <select v-model="network" @change="networkChanged">
             <option value="default">{{$t('global.default')}}</option>
             <option value="infura">Infura</option>
-            <option value="vault74">Vault74</option>
+            <option value="vault74">Satellite</option>
           </select>
         </div>
       </div>
@@ -23,12 +23,12 @@ export default {
   name: 'Network',
   data() {
     return {
-      network: localStorage.getItem('Vault74.provider') || 'default',
+      network: localStorage.getItem('Satellite.provider') || 'default',
     };
   },
   methods: {
     networkChanged() {
-      localStorage.setItem('Vault74.provider', this.network);
+      localStorage.setItem('Satellite.provider', this.network);
       window.location.reload();
     },
   },

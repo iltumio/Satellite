@@ -4,6 +4,8 @@ import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
 import config from '@/config/config';
 import Database from '@/classes/database/Database.ts';
+import Threads from '@/classes/database/textile/Threads.ts';
+import ThreadDB from '@/classes/database/textile/threads/ThreadDB.ts';
 import WebRTC from '@/classes/webrtc/WebRTC.ts';
 import VueI18n from 'vue-i18n';
 
@@ -21,11 +23,11 @@ Vue.use(VueI18n);
 
 sync(store, router);
 
-window.Vault74 = {
+window.Satellite = {
   debugEnabled: config.debug,
   /* eslint-disable */
   debug: (...args) => {
-    if (window.Vault74.debugEnabled) {
+    if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
         `%c [Vault74 Debug]: ${args[0]}`,
@@ -35,7 +37,7 @@ window.Vault74 = {
     }
   },
   warn: (...args) => {
-    if (window.Vault74.debugEnabled) {
+    if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
         `%c [Vault74 Warn]: ${args[0]}`,
@@ -56,6 +58,8 @@ window.Vault74 = {
 };
 
 Vue.prototype.$database = new Database('Vault74Data');
+Vue.prototype.$Threads = new Threads();
+Vue.prototype.$ThreadDB = new ThreadDB();
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
 

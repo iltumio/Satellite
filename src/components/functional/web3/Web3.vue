@@ -15,7 +15,7 @@
 
 <script>
 import Web3 from 'web3';
-import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import Registry from '@/utils/contracts/Registry.ts';
 import DwellerID from '@/utils/contracts/DwellerContract.ts';
 import Ethereum from '@/classes/Ethereum';
 
@@ -32,7 +32,7 @@ export default {
     // Tasks we need to run for Web3 when the application starts
     async startupActions(acc) {
       const [account] = acc ? [acc] : await ethereum.web3.eth.getAccounts();
-      const dwellerContract = await Vault74Registry.getDwellerContract(account);
+      const dwellerContract = await Registry.getDwellerContract(account);
       const dwellerPhoto = await DwellerID.getPhotoAsync(dwellerContract);
       const dwellerName = await DwellerID.getDwellerName(dwellerContract);
       if (dwellerContract !== '0x0000000000000000000000000000000000000000') {
@@ -41,7 +41,7 @@ export default {
         this.$store.commit('username', ethereum.web3.utils.hexToString(dwellerName));
         // Start WebRTC Connections
         this.$WebRTC.init(this.$store.state.activeAccount);
-        window.Vault74.debug('WebRTC Initalized', this.$WebRTC.identifier);
+        window.Satellite.debug('WebRTC Initalized', this.$WebRTC.identifier);
       } else {
         this.$store.commit('dwellerAddress', '0x0000000000000000000000000000000000000000');
       }
@@ -66,7 +66,7 @@ export default {
         ethereum.eth.getBalance(this.$store.state.activeAccount).then((bal) => {
           this.$store.commit('balance', ethereum.utils.fromWei(bal));
         });
-        window.Vault74.debug(
+        window.Satellite.debug(
           'Fetched Web3 Stats ->',
           this.$store.state.web3Stats,
         );
@@ -98,7 +98,7 @@ export default {
           return true;
         });
       }
-      window.Vault74.warn('No Web3 provider found. Looking again soon.');
+      window.Satellite.warn('No Web3 provider found. Looking again soon.');
       return false;
     };
     ethEnabled();

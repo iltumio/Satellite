@@ -13,7 +13,7 @@
 
 <script>
 import DCUtils from '@/utils/contracts/DwellerContract.ts';
-import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import Registry from '@/utils/contracts/Registry.ts';
 
 export default {
   name: 'ChangeUsername',
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     async changeUsername() {
-      const dwellerIDContract = await Vault74Registry
+      const dwellerIDContract = await Registry
         .getDwellerContract(this.$store.state.activeAccount);
 
       this.$store.commit('setStatus', 'Transaction created, waiting for confirm');

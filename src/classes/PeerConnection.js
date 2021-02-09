@@ -61,7 +61,7 @@ export default class PeerConnection {
       this.bindGateway(remPeer);
     });
     remPeer.on('error', () => {
-      window.Vault74.warn(`Failed to connect to ${this.remoteId}. They are probably offline.`);
+      window.Satellite.warn(`Failed to connect to ${this.remoteId}. They are probably offline.`);
       this.connecting = false;
     });
     this.remotePeerConnection = remPeer;

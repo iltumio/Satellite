@@ -2,32 +2,32 @@
     <div id="loading">
         <div :class="`loading-dispaly ${($store.state.dwellerAddress === '0x0000000000000000000000000000000000000000') ? 'showing-content' : ''}`">
             <p id="logo">
-                <img src="@/assets/images/logo_color.png" width="120"/>
+                <Loader size="100" />
             </p>
             <div class="red" v-if="$store.state.criticalError">
                 <i class="fas fa-skull"></i> Failure to load: {{$store.state.criticalError}} <br /><br />
                 <button class="button is-danger is-small" v-on:click="reload">Retry?</button>
             </div>
             <div v-else-if="!$store.state.dwellerAddress">
-                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.connecting_blockchain')}}
+                {{$t('loading.connecting_blockchain')}}
             </div>
             <div v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'" class="content">
                 <Profile :customFinalAction="reload" />
             </div>
             <div v-else-if="!$store.state.authenticated">
-                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.authenticating')}}
+                {{$t('loading.authenticating')}}
             </div>
             <div v-else-if="!$store.state.friendsLoaded">
-                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.assembling')}}
+                {{$t('loading.assembling')}}
             </div>
             <div v-else-if="!$store.state.buckets">
-                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.buckets')}}
+                {{$t('loading.buckets')}}
             </div>
             <div v-else-if="$store.state.starting">
-                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.generic')}}
+                {{$t('loading.generic')}}
             </div>
             <div v-else-if="!$store.state.ICEConnected">
-                <i class="fas fa-circle-notch fa-pulse"></i> {{$t('loading.connecting_broker')}}
+                {{$t('loading.connecting_broker')}}
             </div>
             <div class="metamask" v-if="showWeb3 && $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'">
                 <span v-if="!$store.state.dwellerAddress" v-html="$t('loading.long_load', {text: 'https://metamask.io/', link: 'https://metamask.io/', target: '_blank'})"/>
@@ -50,6 +50,7 @@
 
 <script>
 import Profile from '@/components/main/settings/profile/Profile';
+import Loader from './Loader';
 
 export default {
   name: 'Loading',
@@ -58,6 +59,7 @@ export default {
   ],
   components: {
     Profile,
+    Loader,
   },
   data() {
     return {

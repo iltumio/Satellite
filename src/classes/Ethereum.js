@@ -18,8 +18,8 @@ export default class Ethereum {
     }
     // Abstract bindings to prevent API changes breaking Vault74
     this.createBindings();
-    this.localAccount = localStorage.getItem('Vault74.eth.account') ?
-      JSON.parse(localStorage.getItem('Vault74.eth.account')) : null;
+    this.localAccount = localStorage.getItem('Satellite.eth.account') ?
+      JSON.parse(localStorage.getItem('Satellite.eth.account')) : null;
   }
   /** @function
    * Bind window provided web3 object
@@ -40,7 +40,7 @@ export default class Ethereum {
    * @name fetchProvider
    */
   fetchProvider() {
-    return this.netConfig.eth[localStorage.getItem('Vault74.provider')] || this.netConfig.eth.default;
+    return this.netConfig.eth[localStorage.getItem('Satellite.provider')] || this.netConfig.eth.default;
   }
 
   /** @function
@@ -108,7 +108,7 @@ export default class Ethereum {
         nonce: acc.nonce,
         privateKey: acc.privateKey,
       };
-      localStorage.setItem('Vault74.eth.account', JSON.stringify(this.localAccount));
+      localStorage.setItem('Satellite.eth.account', JSON.stringify(this.localAccount));
     }
     return this.localAccount;
   }

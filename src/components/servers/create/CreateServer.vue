@@ -3,7 +3,7 @@
 <script>
 import PhotoCropper from 'vue-image-crop-upload';
 import CircleIcon from '@/components/common/CircleIcon';
-import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
+import Registry from '@/utils/contracts/Registry.ts';
 import DwellerContract from '@/utils/contracts/DwellerContract.ts';
 import ServerContract from '@/utils/contracts/ServerContract.ts';
 
@@ -85,10 +85,10 @@ export default {
       await this.submitNewServer();
       return true;
     },
-    // Create a new profile via the Vault74Registry for this user
+    // Create a new profile via the Registry for this user
     async submitNewServer() {
       this.created = true;
-      Vault74Registry.createServer(
+      Registry.createServer(
         this.name,
         this.$store.state.activeAccount,
         (transactionHash) => {
@@ -108,7 +108,7 @@ export default {
         return;
       }
       // Get newest server on dweller contract
-      const dwellerContract = await Vault74Registry.getDwellerContract(this.$store.state.activeAccount);
+      const dwellerContract = await Registry.getDwellerContract(this.$store.state.activeAccount);
       const servers = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
       const newServer = servers[servers.length - 1];
 
