@@ -76,11 +76,16 @@ export default {
             message.data,
           );
         }, ['key-offer'], this.$store.state.activeChats);
+
+        // init
+        this.$WebRTC.init(window.vault74provider.activeAccount);
       }
       this.peerInit = true;
     },
     checkAccount() {
-      if (this.$store.state.activeAccount) {
+      // ts-ignore
+      if (window.vault74provider.activeAccount) {
+      // if (this.$store.state.activeAccount) {
         window.Vault74.warn('No account found yet, rechecking soon.');
         // Attach to peers
         this.initP2P();

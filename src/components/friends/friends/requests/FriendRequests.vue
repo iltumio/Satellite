@@ -56,7 +56,7 @@ export default {
     };
   },
   mounted() {
-    this.friendsContract = new Friends(config.friends[config.network.chain]);
+    this.friendsContract = new Friends(window.vault74provider, config.friends[config.network.chain]);
   },
   methods: {
     async acceptRequest(id) {

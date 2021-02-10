@@ -3,7 +3,7 @@ import * as DwellerID from '@/contracts/build/contracts/DwellerID.json';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
 import IIPFSHash from '../../interfaces/IIPFSHash';
-import { Contract } from "web3-eth-contract";
+import { Contract } from 'web3-eth-contract';
 
 const ethereum = new Ethereum('window');
 // useful methods to interact with the DwellerID contract

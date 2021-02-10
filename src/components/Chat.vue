@@ -74,7 +74,7 @@
           <span class="spacer"></span>
           <span v-if="$store.state.accounts">
             <i class="fab fa-ethereum"></i>
-            <b>{{ $t('footer.network') }}:</b> {{ $store.state.web3Stats.nettype.toUpperCase() }}
+            <b>{{ $t('footer.network') }}:</b> {{ $store.state.web3Stats.nettype.name.toUpperCase() }}
             <span class="spacer"> </span>
             <i class="fas fa-hashtag"></i>
             <b>{{ $t('footer.block_number') }}:</b> {{ $store.state.web3Stats.blockNumber }}

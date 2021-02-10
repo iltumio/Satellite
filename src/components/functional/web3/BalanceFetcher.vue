@@ -8,13 +8,13 @@ export default {
   name: 'BalanceFetcher',
   data() {
     return {
-      interval: null, focusListener: null, blurListener: null, ethereum: null,
+      interval: null, focusListener: null, blurListener: null,
     };
   },
   methods: {
     async updateBalance() {
-      if (this.ethereum) {
-        const balance = await this.ethereum.getCurrentAccountBalance();
+      if (this.$ethereum.isInitialized()) {
+        const balance = await this.$ethereum.getCurrentAccountBalance();
 
         this.$store.commit('updateBalance', balance);
       }
@@ -29,7 +29,6 @@ export default {
     },
   },
   mounted() {
-    this.ethereum = window.vault74provider;
     this.startInterval();
     this.focusListener = window.addEventListener('focus', this.startInterval);
     this.blurListener = window.addEventListener('blur', this.stopInterval);

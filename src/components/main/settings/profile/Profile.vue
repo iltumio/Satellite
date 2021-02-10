@@ -28,7 +28,6 @@ export default {
   },
   data() {
     return {
-      ethereum: null,
       profileFile: false,
       ipfsHash: false,
       error: false,
@@ -52,11 +51,10 @@ export default {
   },
   mounted() {
     // Gets provider from window object
-    this.ethereum = window.vault74provider;
     this.getDwellerByAddress(this.$store.state.activeAccount);
 
     // Creates a registry instance
-    this.registry = new Vault74Registry(this.ethereum, config.registry[config.network.chain]);
+    this.registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
 
     Mousetrap.bind('esc', () => {
       this.showCropper = false;

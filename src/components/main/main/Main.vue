@@ -2,7 +2,7 @@
 
 <script>
 import config from '@/config/config';
-import Friends from '@/classes/contracts/Friends.ts';
+// import Friends from '@/classes/contracts/Friends.ts';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import InfoBar from '@/components/main/conversation/infobar/InfoBar';
 import Chatbar from '@/components/main/conversation/chatbar/Chatbar';
@@ -166,7 +166,7 @@ export default {
       }
     });
     this.subscribeToThreads();
-    this.friendsContract = new Friends(config.friends[config.network.chain]);
+    // this.friendsContract = new Friends(config.friends[config.network.chain]);
     this.bindThreads();
   },
 };

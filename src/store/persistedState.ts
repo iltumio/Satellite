@@ -13,9 +13,20 @@ interface IBlacklist {
   [key: string]: boolean;
 }
 
+// Each state in this list will not be
+// persisted
 const blacklist: IBlacklist = {
   web3connected: true,
   injectedProvider: true,
+  p2pOnline: true,
+  dwellerAddress: true,
+  activeCaller: true,
+  starting: true,
+  friends: true,
+  activeMediaStreamPeer: true,
+  pendingMediaStream: true,
+  typingUsers: true,
+  accounts: true,
 };
 
 const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key]);

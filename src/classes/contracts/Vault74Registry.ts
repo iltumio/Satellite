@@ -11,7 +11,7 @@ export default class Vault74Registry {
 
   constructor(ethereum: typeof Ethereum, address: string) {
     this.ethereum = ethereum;
-    this.contract = ethereum.getContract(Vault74RegistryInterface.abi, address);
+    this.contract = this.getContract(address);
   }
 
   /** @function

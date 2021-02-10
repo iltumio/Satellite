@@ -12,6 +12,7 @@ import i18nInit from './utils/i18n';
 import App from './App';
 import router from './router/index.ts';
 import store from './store/index.ts';
+import Ethereum from './classes/Ethereum';
 
 Vue.config.productionTip = false;
 
@@ -59,6 +60,7 @@ window.Vault74 = {
 Vue.prototype.$database = new Database('Vault74Data');
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
+Vue.prototype.$ethereum = new Ethereum();
 
 const i18n = i18nInit('en_US');
 

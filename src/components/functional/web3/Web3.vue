@@ -6,12 +6,10 @@
 
 <script>
 import ProviderSelection from '@/components/common/ProviderSelection';
-// import Web3 from 'web3';
-// import Vault74Registry from '@/utils/contracts/Vault74Registry.ts';
 import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
-// import DwellerID from '@/utils/contracts/DwellerContract.ts';
+import DwellerID from '@/classes/contracts/DwellerContract.ts';
 import config from '@/config/config';
-import Ethereum from '@/classes/Ethereum';
+import { ethers } from 'ethers';
 import { getInjectedProvider } from 'web3modal';
 
 export default {
@@ -29,93 +27,40 @@ export default {
   methods: {
     // Connect the selected provider, based on the user selection
     async connectProvider(providerInfo) {
-      this.ethereum = new Ethereum(providerInfo.type);
-
-      await this.ethereum.initialize();
+      await this.$ethereum.initialize(providerInfo.type);
 
       // Bind ethereum provider to the window object
-      window.vault74provider = this.ethereum;
+      window.vault74provider = this.$ethereum;
 
       this.$store.commit('setWeb3Connected', true);
+      this.$store.commit('accounts', this.$ethereum.getAccounts());
+      this.$store.commit('defaultAccount');
 
       // Run async get stats action
       this.getStats();
-      this.startupActions(this.ethereum.activeAccount);
+      this.startupActions();
     },
     // Tasks we need to run for Web3 when the application starts
-    async startupActions(selectedAccount) {
-      const registry = new Vault74Registry(this.ethereum, config.registry[config.network.chain]);
-
-      const dwellerContract = await registry.getDwellerContract(selectedAccount);
-
+    async startupActions() {
+      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const dwellerContract = await registry.getDwellerContract(this.$ethereum.activeAccount);
       this.$store.commit('dwellerAddress', dwellerContract);
       if (dwellerContract !== '0x0000000000000000000000000000000000000000') {
-        // const dwellerPhoto = await DwellerID.getPhotoAsync(dwellerContract);
-        // const dwellerName = await DwellerID.getDwellerName(dwellerContract);
-        // this.$store.commit('profilePictureHash', dwellerPhoto);
-        // this.$store.commit('username', ethereum.web3.utils.hexToString(dwellerName));
-        // Start WebRTC Connections
-        // this.$WebRTC.init(this.$store.state.activeAccount);
-        // window.Vault74.debug('WebRTC Initalized', this.$WebRTC.identifier);
+        const dwellerID = new DwellerID(this.$ethereum, dwellerContract);
+        const dwellerPhoto = await dwellerID.getPhoto();
+        const dwellerName = await dwellerID.getDwellerName();
+        this.$store.commit('profilePictureHash', dwellerPhoto);
+        this.$store.commit('username', ethers.utils.parseBytes32String(dwellerName));
       }
     },
-    // Repeating polling tasks for Web3 stats gathering
-    // TODO: Fetching balance
-    // web3Polling(account) {
-    //   const promises = [ethereum.eth.getBlockNumber(), ethereum.eth.net.getNetworkType()];
-    //   if (!account) {
-    //     promises.push(ethereum.web3.eth.getAccounts());
-    //   }
-    //   Promise.all(promises).then((stats) => {
-    //     this.$store.commit('web3Stats', {
-    //       defaultBlock: ethereum.eth.defaultBlock,
-    //       blockNumber: stats[0],
-    //       nettype: stats[1],
-    //     });
-    //     this.$store.commit('accounts', stats[2] || [account]);
-    //     this.$store.commit('defaultAccount');
-    //     ethereum.eth.getBalance(this.$store.state.activeAccount).then((bal) => {
-    //       this.$store.commit('balance', ethereum.utils.fromWei(bal));
-    //     });
-    //     window.Vault74.debug('Fetched Web3 Stats ->', this.$store.state.web3Stats);
-    //   });
-    // },
     // Try to connect the selected provider and then commit che change to the store
     async setSelectedProvider(provider) {
       this.$store.commit('setSelectedProvider', provider);
     },
-    // // Connect the selected provider, based on the user selection
-    // async connectProvider(provider) {
-    //   if (provider.type === 'injected' && provider.name === 'MetaMask') {
-    //     // Try to connect metamask
-    //     await this.connectMetaMask(provider);
-    //   }
-    // },
-    // // Connect to Metamask Provider
-    // async connectMetaMask(providerInfo) {
-    //   console.log('Connect metamask', providerInfo);
-    //   // Connect account
-    //   const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-    //   if (accounts.length) {
-    //     // Create provider
-    //     this.ethereum = new Ethereum(providerInfo.type);
-
-    //     // Bind ethereum provider to the window object
-    //     window.vault74provider = this.ethereum;
-
-    //     // Run async get stats action
-    //     this.getStats();
-    //     this.startupActions(accounts[0]);
-
-    //     // Set as connected
-    //     this.connected = true;
-    //   }
-    // },
     async getStats() {
       // Get stats
-      const blockNumber = await this.ethereum.getBlockNumber();
-      const nettype = await this.ethereum.getNetworkType();
+      const blockNumber = await this.$ethereum.getBlockNumber();
+      const nettype = await this.$ethereum.getNetworkType();
 
       this.$store.commit('web3Stats', {
         blockNumber,
@@ -137,35 +82,6 @@ export default {
     if (this.$store.state.selectedProvider) {
       this.connectProvider(this.$store.state.selectedProvider);
     }
-
-
-    // const ethEnabled = () => {
-    //   if (window.ethereum) {
-    //     window.web3 = new Web3(window.ethereum);
-    //     ethereum = new Ethereum('window');
-    //     window.v74Ethereum = ethereum.web3;
-    //     window.ethereum.enable();
-    //     this.connected = true;
-    //     ethereum.web3.eth.getAccounts().then((acc) => {
-    //       if (acc.length) {
-    //         this.startupActions();
-    //         this.web3Polling();
-    //         this.$store.commit('setStatus', 'Web3 is connected');
-    //         setInterval(() => {
-    //           this.web3Polling();
-    //         }, 4000);
-    //         return true;
-    //       }
-    //       setTimeout(() => {
-    //         ethEnabled();
-    //       }, 4000);
-    //       return true;
-    //     });
-    //   }
-    //   window.Vault74.warn('No Web3 provider found. Looking again soon.');
-    //   return false;
-    // };
-    // ethEnabled();
   },
 };
 </script>

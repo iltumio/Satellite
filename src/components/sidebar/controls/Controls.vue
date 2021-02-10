@@ -32,7 +32,7 @@ export default {
      * @name getNetwork
      */
     getNetwork() {
-      switch (this.$store.state.web3Stats.nettype) {
+      switch (this.$store.state.web3Stats.nettype.name) {
         case 'private':
           return 'Testnet';
         case 'main':

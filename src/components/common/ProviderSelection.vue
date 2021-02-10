@@ -21,11 +21,6 @@
 </template>
 
 <script>
-// import Ethereum from '@/classes/Ethereum';
-// import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
-// import DwellerID from '@/utils/contracts/DwellerContract.ts';
-// import config from '@/config/config';
-
 export default {
   name: 'Web3',
   data() {

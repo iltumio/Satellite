@@ -23,7 +23,7 @@
         v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'"
         class="content"
       >
-        <FundAccount v-if="$store.state.balance == 0"/>
+        <FundAccount v-if="$store.state.balance === 0"/>
         <Profile :customFinalAction="reload" v-else />
       </div>
       <div v-else-if="!$store.state.friendsLoaded">

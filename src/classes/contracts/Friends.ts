@@ -17,7 +17,7 @@ export default class Friends {
 
   constructor(ethereum: typeof Ethereum, address: string) {
     this.ethereum = ethereum;
-    this.contract = ethereum.getContract(FriendsInterface.abi, address);
+    this.contract = this.getContract(address);
   }
 
   /** @function

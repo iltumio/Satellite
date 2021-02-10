@@ -4,22 +4,18 @@ import * as Web3Utils from 'web3-utils';
 import config from '@/config/config';
 
 export default class Ethereum {
-  /** @constructor
-   * Construct a Ethereum handler
-   * this class should abstract methods which will change depending
-   * on which network we are using to connect to the chain
-   * @argument web3Provider optional providewr to be used
-   */
-  constructor(providerType, signer = null) {
-    this.netConfig = config.network;
-    this.providerType = providerType;
-    this.signer = signer;
+  constructor() {
+    this.initialized = false;
   }
 
   /**
    * @description Initializes the provider based on the provider type
    */
-  async initialize() {
+  async initialize(providerType, signer = null) {
+    this.netConfig = config.network;
+    this.providerType = providerType;
+    this.signer = signer;
+
     if (this.providerType === 'injected') {
       this.accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
@@ -33,13 +29,23 @@ export default class Ethereum {
       // Activate listeners
       this.onAccountChange = window.ethereum.on('accountsChanged', this.handleAccountChange);
       this.onNetworkChange = window.ethereum.on('networkChanged', this.handleNetworkChange);
+
+      this.initialized = true;
     } else if (this.providerType === 'vault74' && this.signer) {
       // this.provider = new ethers.providers.InfuraProvider('goerli', '');
       this.provider = ethers.providers.getDefaultProvider('goerli');
+
+      this.initialized = true;
     } else {
       console.error('Signer is required for wault74 provider');
     }
   }
+
+  /**
+   * @description Utility function to check if the provider has
+   * been initialized
+   */
+  isInitialized() { return this.isInitialized; }
 
   /**
    * @description Account change callback
@@ -147,6 +153,14 @@ export default class Ethereum {
       localStorage.setItem('Vault74.eth.account', JSON.stringify(this.localAccount));
     }
     return this.localAccount;
+  }
+
+  getAccounts() {
+    return this.accounts;
+  }
+
+  getActiveAccount() {
+    return this.activeAccount;
   }
 
   signTransaction(tx) {
