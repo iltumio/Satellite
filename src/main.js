@@ -30,7 +30,7 @@ window.Satellite = {
     if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
-        `%c [Vault74 Debug]: ${args[0]}`,
+        `%c [Satellite Debug]: ${args[0]}`,
         "color: #9b59b6; font-weight: bold; font-family: 'Major Mono Display', monospace;",
         ...args.slice(1, args.length)
       );
@@ -40,7 +40,7 @@ window.Satellite = {
     if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
-        `%c [Vault74 Warn]: ${args[0]}`,
+        `%c [Satellite Warn]: ${args[0]}`,
         "color: #e67e22; font-weight: bold; font-family: 'Major Mono Display', monospace;",
         ...args.slice(1, args.length)
       );
@@ -49,7 +49,7 @@ window.Satellite = {
   error: (...args) => {
     // eslint-disable-next-line no-console
     console.log(
-      `%c [Vault74 Error]: ${args[0]}`,
+      `%c [Satellite Error]: ${args[0]}`,
       "color: #e74c3c; font-weight: bold; font-family: 'Major Mono Display', monospace;",
       ...args.slice(1, args.length)
     );
@@ -57,7 +57,7 @@ window.Satellite = {
   /* eslint-enable */
 };
 
-Vue.prototype.$database = new Database('Vault74Data');
+Vue.prototype.$database = new Database('SatelliteData');
 Vue.prototype.$Threads = new Threads();
 Vue.prototype.$ThreadDB = new ThreadDB();
 Vue.prototype.$WebRTC = new WebRTC();
