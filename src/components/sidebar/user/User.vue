@@ -30,6 +30,11 @@ export default {
     navigateToUser(address) {
       this.$store.commit('changeRoute', 'main');
       this.$store.commit('activeChat', address);
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.$store.commit('setMobileSidebar', false);
+        }, 0);
+      });
     },
   },
   async mounted() {

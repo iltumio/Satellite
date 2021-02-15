@@ -47,6 +47,7 @@ const defaultState = {
   status: 'Alive',
   p2pOnline: false,
   sidebarOpen: true,
+  sidebarMobileOpen: false,
   // Chat
   activeChats: [],
   activeChat: false,

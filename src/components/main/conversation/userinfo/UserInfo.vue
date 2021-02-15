@@ -140,4 +140,11 @@ export default {
   .badge-container i {
     font-size: 18pt !important;
   }
+
+  @media (max-width: 768px) {
+    #user-info {
+      width: 100%;
+      z-index: 2;
+    }
+  }
 </style>

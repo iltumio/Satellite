@@ -74,6 +74,11 @@ export default {
       this.$store.commit('activeChat', fr.address);
       this.$store.commit('changeRoute', 'main');
       this.close();
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.$store.commit('setMobileSidebar', false);
+        }, 0);
+      });
     },
     /** @method
      * Search through friends and update
@@ -183,5 +188,13 @@ export default {
     right: 0;
     top: 0;
     cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .friends-list .friend .columns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 </style>

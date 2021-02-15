@@ -1,57 +1,51 @@
 <section class="section main-section noselect">
   <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
-  <h1 id="logo">Satellite<span id="tag" class="yellow">α</span></h1>
+  <h1 id="logo">
+    Satellite
+    <span id="tag" class="yellow">α</span>
+    <a href="#" @click.prevent="onClickClose" class="close">
+      <button class="modal-close is-large"></button>
+    </a>
+  </h1>
   <div class="control user-search">
-      <input class="input is-small" type="text" :placeholder="$t('sidebar.find')">
+    <input class="input is-small" type="text" :placeholder="$t('sidebar.find')">
   </div>
   <div class="usersubcontrols">
-    <div 
-      v-on:click="setMainRoute('friends')"
-      :class="`${$store.state.mainRoute == 'friends' ? 'active' : ''} friends`">
-      <i class="fa fa-user-friends"></i>  &nbsp; {{$t('sidebar.friends')}} 
+    <div v-on:click="setMainRoute('friends')" :class="`${$store.state.mainRoute == 'friends' ? 'active' : ''} friends`">
+      <i class="fa fa-user-friends"></i> &nbsp; {{$t('sidebar.friends')}}
       <span v-if="activeRequestCount($store.state.friendRequests) > 0" class="indicator">
         {{activeRequestCount($store.state.friendRequests)}}
       </span>
     </div>
-    <div 
-      v-on:click="setMainRoute('files')"
-      :class="`${$store.state.mainRoute == 'files' ? 'active' : ''} files`">
+    <div v-on:click="setMainRoute('files')" :class="`${$store.state.mainRoute == 'files' ? 'active' : ''} files`">
       <i class="fa fa-folder"></i> &nbsp; {{$t('sidebar.files')}}
     </div>
   </div>
   <div class="tabs">
-      <ul>
-          <li
-              :class="`${route === 'chats' ? 'is-active' : ''}`"
-              v-on:click="setRoute('chats')"><a>{{$t('sidebar.chats')}}</a></li>
-          <li><a>{{$t('sidebar.groups')}}</a></li>
-      </ul>
-      <i class="fa fa-plus add-friend-chat" v-on:click="toggleQuickFriends"></i>
+    <ul>
+      <li :class="`${route === 'chats' ? 'is-active' : ''}`" v-on:click="setRoute('chats')">
+        <a>{{$t('sidebar.chats')}}</a>
+      </li>
+      <li><a>{{$t('sidebar.groups')}}</a></li>
+    </ul>
+    <i class="fa fa-plus add-friend-chat" v-on:click="toggleQuickFriends"></i>
   </div>
-  <QuickFriends v-if="showQuickFriends" :close="toggleQuickFriends"/>
+  <QuickFriends v-if="showQuickFriends" :close="toggleQuickFriends" />
   <div class="usercontainer">
-      <div v-if="route === 'chats'">
-        <User
-          v-if="$store.state.friendsLoaded && getFriend($store.state.friends, chat)"
-          v-for="chat in $store.state.activeChats"
-          :friend="getFriend($store.state.friends, chat)"
-          :active="$store.state.activeChat === chat"
-          :key="`${chat}${getFriend($store.state.friends, chat).status}`"
-          :unread="isUnread(chat)"
-          :typing="$store.state.typingUsers[chat]"
-          :clientId="chat" />
-        <div v-if="$store.state.activeChats.length < 4">
-          <hr class="divider">
-          <span class="label" style="text-align: center;">{{$t('sidebar.add_friends')}}</span>
-          <button
-            class="button is-primary is-small"
-            v-on:click="setMainRoute('friends')"
-            active="false"
-            style="width: 100%;">{{$t('sidebar.button')}}</button>
-            <br>
-            <br>
-        </div>
+    <div v-if="route === 'chats'">
+      <User v-if="$store.state.friendsLoaded && getFriend($store.state.friends, chat)"
+        v-for="chat in $store.state.activeChats" :friend="getFriend($store.state.friends, chat)"
+        :active="$store.state.activeChat === chat" :key="`${chat}${getFriend($store.state.friends, chat).status}`"
+        :unread="isUnread(chat)" :typing="$store.state.typingUsers[chat]" :clientId="chat" />
+      <div v-if="$store.state.activeChats.length < 4">
+        <hr class="divider">
+        <span class="label" style="text-align: center;">{{$t('sidebar.add_friends')}}</span>
+        <button class="button is-primary is-small" v-on:click="setMainRoute('friends')" active="false"
+          style="width: 100%;">{{$t('sidebar.button')}}</button>
+        <br>
+        <br>
       </div>
+    </div>
   </div>
-  <Controls :toggleSettings="toggleSettings"/>
+  <Controls :toggleSettings="toggleSettings" />
 </section>

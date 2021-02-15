@@ -1,24 +1,23 @@
 <div>
   <h3 class="label" v-if="!embeded">{{$t('settings.profile.label')}}</h3>
   <article :class="`${(!embeded) ? 'message is-dark' : ''}`" id="profile">
-    <div :class="`${(!embeded) ? 'message-body' : ''}`" v-if="this.$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'">
+    <div :class="`${(!embeded) ? 'message-body' : ''}`"
+      v-if="this.$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'">
       <h2>{{$t('settings.profile.heading')}}</h2>
       <p>{{$t('settings.profile.subtext')}}</p>
       <br>
       <div v-if="!this.created">
         <div class="columns">
           <div class="column is-one-fifth">
-            <img v-if="profileFile && (profileFile.trim() !== 'https://ipfs.io/ipfs/')" :src="profileFile" class="preview">
+            <img v-if="profileFile && (profileFile.trim() !== 'https://ipfs.io/ipfs/')" :src="profileFile"
+              class="preview">
           </div>
           <div class="column is-four-fifths">
             <p class="label">{{$t('settings.profile.profile_pic')}}</p>
-            <PhotoCropper 
-              field="img"
-              langType="en"
-              @crop-success="cropSuccess"
-              v-model="showCropper"
-              :value="showCropper"/>
-            <button class="button is-primary is-small" v-on:click="toggleCropper">{{$t('settings.profile.upload_profile_pic')}}</button>
+            <PhotoCropper field="img" langType="en" @crop-success="cropSuccess" v-model="showCropper"
+              :value="showCropper" />
+            <button class="button is-primary is-small"
+              v-on:click="toggleCropper">{{$t('settings.profile.upload_profile_pic')}}</button>
             <!--<input class="input" type="file" @change="onFileChange" />-->
             <span v-if="profileFile && !ipfsHash">{{$t('settings.profile.uploading_ipfs')}}</span>
             <small class="address">{{ipfsHash.path}}</small>
@@ -29,14 +28,12 @@
           </div>
           <div class="column is-four-fifths">
             <p class="label">{{$t('settings.profile.username')}}</p>
-            <input v-model="$store.state.username" class="input" :placeholder="$t('settings.profile.username')" />     
+            <input v-model="$store.state.username" class="input" :placeholder="$t('settings.profile.username')" />
           </div>
           <p v-if="error">{{error}}</p>
         </div>
         <p style="text-align: right;">
-          <button 
-            class="button is-primary" 
-            :disabled="profileFile && !ipfsHash"
+          <button class="button is-primary" :disabled="profileFile && !ipfsHash"
             v-on:click="submitProfileContract">{{$t('settings.profile.create_account')}}</button>
         </p>
       </div>
@@ -47,12 +44,14 @@
         </p>
         <br>
         <p>
-          <span :class="`${transactionHash ? 'light' : 'dark'} heading`">{{$t('settings.profile.sending_transaction')}}</span>
+          <span
+            :class="`${transactionHash ? 'light' : 'dark'} heading`">{{$t('settings.profile.sending_transaction')}}</span>
           <span :class="`${transactionHash ? 'light' : 'dark'}`">{{$t('settings.profile.step2')}}</span>
         </p>
         <br>
         <p>
-          <span :class="`${confirmation ? 'light' : 'dark'} heading`">{{$t('settings.profile.confirming_transaction')}}</span>
+          <span
+            :class="`${confirmation ? 'light' : 'dark'} heading`">{{$t('settings.profile.confirming_transaction')}}</span>
           <span :class="`${confirmation ? 'light' : 'dark'}`">{{$t('settings.profile.step3')}}</span>
         </p>
         <br>
@@ -66,12 +65,8 @@
       <div class="profileToggler" v-on:click="actionsOpen = true">
         <i class="fas fa-ellipsis-v"></i>
       </div>
-      <ActionSelector
-        v-if="actionsOpen"
-        :close="hideActionSelector"
-        :changePhoto="changePhoto"
-        :changeUsername="changeUsername"
-        :removePhoto="removePhoto"/>
+      <ActionSelector v-if="actionsOpen" :close="hideActionSelector" :changePhoto="changePhoto"
+        :changeUsername="changeUsername" :removePhoto="removePhoto" />
       <div class="editing" v-if="showChangePhoto || showChangeUsername">
         <h2>{{$t('settings.profile.edit_account')}}</h2>
         <p>{{$t('settings.profile.edit_account_subtext')}}</p>
@@ -82,10 +77,8 @@
       <h2>{{$t('settings.profile.your_account')}}</h2>
       <p>{{$t('settings.profile.your_account_subtext')}}</p>
       <br>
-      <CircleIcon
-      class="preview"
-      :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
-      :address="$store.state.activeAccount" />
+      <CircleIcon class="preview" :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
+        :address="$store.state.activeAccount" />
       <div class="inputs">
         <p class="label">{{$t('settings.profile.display_name')}}</p>
         <input class="input" :value="$store.state.username" readonly />
@@ -100,10 +93,34 @@
       <p>{{$t('settings.profile.id_card')}}</p>
       <input class="input" :value="$store.state.activeAccount" readonly />
       <br>
+      <hr class="spacer">
+      <button class="button is-primary is-small" v-on:click="getDweller" v-if="!this.dweller">Advanced Details</button>
+      <div v-if="this.dweller">
+        <p class="label">{{$t('settings.profile.dweller_address')}}</p>
+        <input class="input" :value="$store.state.dwellerAddress" readonly />
+        <p class="label">{{$t('settings.profile.dweller_owner_address')}}</p>
+        <input class="input" :value="this.dweller[0]" readonly />
+        <p class="label">{{$t('settings.profile.name')}}</p>
+        <input class="input" :value="this.dweller[1]" readonly />
+        <p class="label">{{$t('settings.profile.photo_hash')}}</p>
+        <input class="input" :value="this.onChainPhotoHash" readonly />
+        <hr class="spacer">
+        <div class="bordered margin-2">
+          <div class="columns">
+            <div class="column image-ipfs" style="max-width: 80px;">
+              <img src="https://ipfs.io/ipfs/QmdRkYNxFja3Bg9F9jicRXA3DAEVFFSVcZ6uBjEKkSDrEF" class="margin" alt="" />
+            </div>
+            <div class="column padded">
+              <p class="padded">{{$t('settings.profile.disclaimer')}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <br>
       <h2>{{$t('settings.profile.transfer_data')}}</h2>
       <div class="qr">
-        <vue-qrcode value="bafkuyygq4ffaw6gxcwytmspvywe3igbptez6nqxh24s5yu52al4pkyi" margin="3" scale="6" :color="qrColor"/>
+        <vue-qrcode value="bafkuyygq4ffaw6gxcwytmspvywe3igbptez6nqxh24s5yu52al4pkyi" margin="3" scale="6"
+          :color="qrColor" />
       </div>
     </div>
   </article>

@@ -30,6 +30,13 @@ export default {
     this.updateServers();
   },
   methods: {
+    onClickClose() {
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.$store.commit('setMobileSidebar', false);
+        }, 0);
+      });
+    },
     activeRequestCount(requests) {
       const activeRequests = requests.filter(fr => fr.active);
       return activeRequests.length;

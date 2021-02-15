@@ -15,6 +15,16 @@ export default {
     // eslint-disable-next-line
     state.sidebarOpen = !state.sidebarOpen;
   },
+  setMobileSidebar(state: any, data) {
+    state.sidebarMobileOpen = data;
+  },
+  setSidebar(state: any, data) {
+    state.sidebarOpen = data;
+  },
+  toggleMobileSidebar(state: any) {
+    // eslint-disable-next-line
+    state.sidebarMobileOpen = !state.sidebarMobileOpen;
+  },
   activeChat(state: any, address: string) {
     // eslint-disable-next-line no-param-reassign
     state.activeChat = address;
