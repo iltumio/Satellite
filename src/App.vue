@@ -138,7 +138,14 @@ export default {
   right: 0;
   left: 0;
   overflow: hidden;
-  min-width: 990px;
+  // min-width: 990px;
+}
+
+#app .theme {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  height: 100%;
 }
 </style>
 
@@ -161,3 +168,4 @@ export default {
   margin: 1rem;
 }
 </style>
+<style lang="less" src="@/assets/styles/media.less"></style>

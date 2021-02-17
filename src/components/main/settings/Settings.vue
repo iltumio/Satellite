@@ -1,7 +1,12 @@
 <template>
   <div class="columns">
+    <div class="nav-settings">
+      <a href="#" @click.prevent="isShowSidebar = true">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
     <button v-if="open" class="modal-close is-large" aria-label="close" v-on:click="toggleSettings"></button>
-    <div class="column is-one-third settings-left noselect" style="max-width: 300px;" v-if="open">
+    <div class="column is-one-third settings-left noselect" :class="{'show': isShowSidebar}" style="max-width: 300px;" v-if="open">
       <h1 id="logo">{{$t('settings.logo')}}</h1>
       <aside class="menu">
         <p class="menu-label">
@@ -113,12 +118,21 @@ export default {
   data() {
     return {
       route: 'personalize',
+      isShowSidebar: true,
     };
+  },
+  mounted() {
+    document.body.addEventListener('click', (event) => {
+      if (!event.target.closest('.settings-left')) {
+        this.isShowSidebar = false;
+      }
+    }, true);
   },
   methods: {
     ...mapMutations(['setSetting']),
     setRoute(route) {
       this.route = route;
+      this.isShowSidebar = false;
     },
   },
 };
@@ -178,5 +192,46 @@ export default {
     .active {
       background: #ccc;
       color: black;
+    }
+
+    .nav-settings {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .settings-right {
+        padding-top: 5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+
+      .settings-left {
+        max-width: 300px;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        transform: translate(-300px);
+        transition: all .3s;
+      }
+      .settings-left.show {
+        transform: translate(0);
+      }
+
+      .nav-settings {
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: 80px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background: #e7ebee;
+      }
+
+      .nav-settings i {
+        margin-left: 26px;
+      }
     }
 </style>

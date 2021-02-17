@@ -133,4 +133,14 @@ export default {
         font-family: 'Open Sans', sans-serif;
         text-align: left;
     }
+
+    @media (max-width: 768px) {
+        .loading-dispaly {
+            height: 100vh !important;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
 </style>

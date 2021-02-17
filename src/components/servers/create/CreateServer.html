@@ -1,25 +1,21 @@
 <div class="modal is-active">
   <div class="modal-background"></div>
-  <PhotoCropper 
-      field="img"
-      langType="en"
-      @crop-success="cropSuccess"
-      v-model="showCropper"
-      :value="showCropper"/>
+  <PhotoCropper field="img" langType="en" @crop-success="cropSuccess" v-model="showCropper" :value="showCropper" />
   <div class="modal-card">
     <section class="modal-card-body">
-      <span class="close" v-on:click="close">×</span>
-      <h2 class="person">{{$t('servers.create.heading')}}</h2>
+      <div class="modal-heading">
+        <span class="close" v-on:click="close">×</span>
+        <h2 class="person">{{$t('servers.create.heading')}}</h2>
+      </div>
       <div v-if="!creating">
         <hr class="divider">
         <div class="columns">
           <div class="column" style="max-width: 100px;">
-            <CircleIcon :image="photoUrl"/>
+            <CircleIcon :image="photoUrl" />
           </div>
           <div class="column">
             <p>{{$t('servers.create.photo_text')}}</p>
-            <button
-              class="button is-small is-primary"
+            <button class="button is-small is-primary"
               v-on:click="toggleCropper">{{$t('servers.create.photo_button')}}</button>
           </div>
         </div>
@@ -36,13 +32,18 @@
         <p>{{$t('servers.create.confirm_transaction')}}</p>
         <hr class="divider">
         <p>
-          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('servers.create.waiting_server_confirmation')}}</span>
-          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; {{$t('servers.create.waiting_server_confirmation')}}</span>
+          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp;
+            {{$t('servers.create.waiting_server_confirmation')}}</span>
+          <span v-else><i class="fa fa-circle-notch"></i> &nbsp;
+            {{$t('servers.create.waiting_server_confirmation')}}</span>
           <br>
-          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp; {{$t('servers.create.writing_additional_details')}}</span>
-          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; {{$t('servers.create.writing_additional_details')}}</span>
+          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp;
+            {{$t('servers.create.writing_additional_details')}}</span>
+          <span v-else><i class="fa fa-circle-notch"></i> &nbsp;
+            {{$t('servers.create.writing_additional_details')}}</span>
           <br>
-          <span class="loading" v-if="!done"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp;{{$t('servers.create.done')}}</span>
+          <span class="loading" v-if="!done"><i class="fa fa-circle-notch fa-pulse"></i>
+            &nbsp;{{$t('servers.create.done')}}</span>
           <span v-else><i class="fa fa-circle-notch"></i> &nbsp; {{$t('servers.create.done')}}</span>
         </p>
       </div>

@@ -68,7 +68,7 @@
           <i class="fa fa-heart red" /> Lauren my darling, I love you from now until forever.
         </p>
         <div class="columns">
-          <div class="column" style="max-width: 100px;">
+          <div class="column image-ipfs" style="max-width: 100px;">
             <img v-on:click="love += 1" src="https://ipfs.io/ipfs/QmceqvkYRZesG7r8k9zjsxHhwTNm54ku7RqxWB69YVRN75" class="margin" alt="" />
           </div>
           <div class="column padded">
@@ -161,5 +161,15 @@ export default {
   .padded {
     padding-top: 0.65rem;
     padding-left: 1rem;
+  }
+
+  @media(max-width: 768px) {
+    .image-ipfs {
+      margin: 0 auto;
+    }
+
+    .image-ipfs img {
+      margin: 20px 0 0 0;
+    }
   }
 </style>

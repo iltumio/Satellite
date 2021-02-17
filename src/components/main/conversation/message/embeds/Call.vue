@@ -44,6 +44,7 @@ export default {
     position: relative;
     border-left: 4px solid #00d0a1;
     margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
   }
   .media:hover .logo {
     color: #000;

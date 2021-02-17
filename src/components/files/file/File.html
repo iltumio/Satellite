@@ -1,5 +1,5 @@
-<div id="file" :data-id="index">
-  <a :href="file.remote" target="_blank" class="icon">
+<div id="file" class="item-file" :data-id="index">
+  <a :href="file.url" target="_blank" class="icon">
     <i class="fas fa-file-download nothovered"></i>
     <i :class="`${translateFiletype(file.file.type)} hovered`"></i>
   </a>

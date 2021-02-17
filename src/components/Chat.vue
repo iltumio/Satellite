@@ -33,7 +33,7 @@
       <!--<Polling />-->
 
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
-        <div class="column is-one-third sidebar-wrapper" v-if="$store.state.sidebarOpen">
+        <div class="column is-one-third sidebar-wrapper" :class="{'show': $store.state.sidebarMobileOpen}" v-if="$store.state.sidebarOpen">
           <Sidebar :toggleSettings="toggleSettings" :toggleCreateServer="toggleCreateServer" />
         </div>
         <div class="column chat-wrapper">
@@ -126,7 +126,27 @@ export default {
       contextCoordsY: 0,
     };
   },
+  computed: {
+    mainRoute() {
+      return this.$store.state.mainRoute;
+    },
+  },
+  watch: {
+    mainRoute() {
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.$store.commit('setMobileSidebar', false);
+        }, 0);
+      });
+    },
+  },
   methods: {
+    checkMobile() {
+      const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      if (width <= 768) {
+        this.$store.commit('setSidebar', true);
+      }
+    },
     openContext(event) {
       event.preventDefault();
       this.contextCoordsX = event.clientX;
@@ -170,6 +190,8 @@ export default {
       }
     };
     checkPeer();
+    this.checkMobile();
+    window.addEventListener('resize', this.checkMobile, true);
   },
 };
 </script>
@@ -188,7 +210,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    min-width: 900px;
+    /* min-width: 900px; */
   }
   .settings {
     position: absolute;
@@ -209,6 +231,7 @@ export default {
   .settings-open-container {
     right: 0;
     left: 0;
+    z-index: 99;
   }
   .fas {
     font-size: 8pt;
@@ -260,5 +283,22 @@ export default {
   }
   .green {
     color: #00d0a1;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar-wrapper {
+      position: fixed;
+      z-index: 10;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      transition: all .3s;
+      transform: translateX(-100%);
+    }
+
+    .sidebar-wrapper.show {
+      transform: translateX(0);
+    }
   }
 </style>

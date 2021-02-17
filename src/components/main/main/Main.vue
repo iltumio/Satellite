@@ -132,7 +132,7 @@ export default {
       this.$store.commit('activeCall', this.$store.state.activeChat);
       this.voice = true;
       this.mediaOpen = true;
-      this.sendMessage(Date.now(), 'call');
+      // this.sendMessage(Date.now(), 'call');
     },
     callAnswered() {
       this.voice = true;

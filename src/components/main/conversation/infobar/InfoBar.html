@@ -1,24 +1,27 @@
 <section class="infobar noselect">
-  <DwellerID :active="idActive" :toggle="toggleFingerprint" :address="$store.state.activeChat" :key="$store.state.activeChat"/>
-  <div class="columns">
-      <div class="column is-half">
-          <div class="profile">
-              <i class="fas fa-bars" v-on:click="$store.commit('toggleSidebar')"></i>
-          </div>
-          <div class="profile-details">
-            <p>
-            {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}
-            </p>
-          </div>
-      </div>
-      <div class="column is-half">
-          <div class="profile-actions">
-              <i class="fa fa-phone-volume" v-on:click="makeCall"></i>
-              <i class="fa fa-video disabled-icon"></i>
-              <i class="fas fa-desktop" v-on:click="requestScreenShare"></i>
-              <input class="input is-small searchuser" type="text" :placeholder="$t('conversation.infobar.search_placeholder')">
-              <i class="fas fa-address-card" v-on:click="toggleFingerprint"></i>
-          </div>
-      </div>
-  </div>
+    <DwellerID :active="idActive" :toggle="toggleFingerprint" :address="$store.state.activeChat"
+        :key="$store.state.activeChat" />
+    <div class="columns">
+        <div class="column is-half">
+            <div class="profile">
+                <i class="fas fa-bars" v-on:click="$store.commit('toggleSidebar')"></i>
+                <i class="fas fa-bars mobile" v-on:click="$store.commit('toggleMobileSidebar')"></i>
+            </div>
+            <div class="profile-details">
+                <p>
+                    {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}
+                </p>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="profile-actions">
+                <i class="fa fa-phone-volume" v-on:click="makeCall"></i>
+                <i class="fa fa-video disabled-icon"></i>
+                <i class="fas fa-desktop" v-on:click="requestScreenShare"></i>
+                <input class="input is-small searchuser" type="text"
+                    :placeholder="$t('conversation.infobar.search_placeholder')">
+                <i class="fas fa-address-card" v-on:click="toggleFingerprint"></i>
+            </div>
+        </div>
+    </div>
 </section>

@@ -41,6 +41,9 @@
     padding-top: 1rem;
     padding-bottom: 2rem;
 }
+#logo .close {
+    display: none;
+}
 #tag {
     font-size:8pt;
 }
@@ -92,4 +95,17 @@
     -webkit-box-shadow: none;
     box-shadow: none;
     border: 1px solid #00d0a1;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    #logo .close {
+        display: inline-block;
+    }
 }

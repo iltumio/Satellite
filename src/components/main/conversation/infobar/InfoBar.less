@@ -55,7 +55,11 @@
     font-size: 18pt;
     padding: 0.45rem 0.6rem;
     color: #e7ebee;
+    display: none;
 }
+.fa-bars:not(.mobile) {
+  display: inline;
+} 
 .fa-bars:hover {
   color: #e7ebee !important;
   cursor: pointer;
@@ -90,7 +94,31 @@ i:hover {
     top: 0;
     margin-right: 0.2rem;
   }
+  // .fa-address-card {
+  //   display: none;
+  // }
+}
+
+@media only screen and (max-width: 600px) { 
   .fa-address-card {
+    position: unset;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .fa-bars:not(.mobile) {
     display: none;
+  }
+
+  .fa-bars.mobile {
+    display: inline;
+  } 
+
+  .infobar {
+    height: fit-content;
+  }
+
+  .infobar .profile {
+    padding: 0.45rem 0.25rem 0.45rem 0.7rem;
   }
 }
