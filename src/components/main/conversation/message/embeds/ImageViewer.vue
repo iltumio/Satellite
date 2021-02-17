@@ -65,4 +65,12 @@ export default {
   img {
     border-radius: 4px;
   }
+
+  @media (max-width: 768px) {
+    .img img {
+      max-width: unset;
+      min-width: unset;
+      width: 100%;
+    }
+  }
 </style>

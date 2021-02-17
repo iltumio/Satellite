@@ -6,7 +6,7 @@ import Friends from "../../classes/contracts/Friends";
 import IFriend from "../../interfaces/IFriend";
 import { parse } from 'uuid';
 
-const friendsContract =  new Friends(config.friends[config.network.chain]);
+const friendsContract = new Friends(config.friends[config.network.chain]);
 const dwellerCachingHelper = new DwellerCachingHelper(
   config.registry[config.network.chain],
   config.cacher.dwellerLifespan,

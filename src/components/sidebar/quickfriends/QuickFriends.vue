@@ -196,5 +196,9 @@ export default {
       justify-content: center;
       align-items: center;
     }
+
+    .friends-list {
+      height: 100% !important;
+    }
   }
 </style>

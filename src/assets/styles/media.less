@@ -7,12 +7,18 @@
     
     /* modal */
     .modal-card {
-        padding: 0 30px;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-height: unset !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 1000 !important;
     }
 
     .modal-card-body {
-        padding: 1rem !important;
+        margin: 0 !important;
         width: 100% !important;
+        height: 100vh;
     }
 
     .modal-card-body .modal-heading {
@@ -31,8 +37,8 @@
     }
 
     .vue-image-crop-upload .vicp-wrap {
-        width: calc(100% - 60px) !important;
-        height: 480px !important;
+        width: 100% !important;
+        height: 100vh !important;
         display: flex !important;
         justify-content: center !important;
     }
@@ -158,9 +164,6 @@
         padding: 0 15px;
     }
 
-    .vue-image-crop-upload .vicp-wrap {
-        width: calc(100% - 30px) !important;
-    }
 
     .vue-image-crop-upload .vicp-wrap .vicp-close {
         right: -5px !important;

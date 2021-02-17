@@ -7,7 +7,7 @@
       <span v-if="outgoing">{{$t('friends.requests.no-outgoing')}}</span>
       <span v-else>{{$t('friends.requests.no-incoming')}}</span>
     </div>
-    <div v-for="request in friendRequests" :key="request.id">
+    <div class="requests" v-for="request in friendRequests" :key="request.id">
       <div class="friend request" v-if="!request.accepted && request.active">
         <div class="left">
           <h1 class="label name">{{request.sender.name}}</h1>
@@ -135,6 +135,29 @@ export default {
       float: right;
       width: 7rem;
       padding-top: 0.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .requests {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .request {
+      width: 100%;
+      max-width: unset;
+    }
+
+    .request .left {
+      max-width: calc(100% - 8rem);
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .request .right {
+      width: auto;
     }
   }
 </style>
