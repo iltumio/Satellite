@@ -5,6 +5,8 @@ import vClickOutside from 'v-click-outside';
 import Toasted from 'vue-toasted';
 import config from '@/config/config';
 import Database from '@/classes/database/Database.ts';
+import Threads from '@/classes/database/textile/Threads.ts';
+import ThreadDB from '@/classes/database/textile/threads/ThreadDB.ts';
 import WebRTC from '@/classes/webrtc/WebRTC.ts';
 import VueI18n from 'vue-i18n';
 
@@ -13,6 +15,7 @@ import App from './App';
 import router from './router/index.ts';
 import store from './store/index.ts';
 import Ethereum from './classes/Ethereum';
+import StreamManager from './classes/webrtc/StreamManager.ts';
 
 Vue.config.productionTip = false;
 
@@ -23,11 +26,11 @@ Vue.use(Toasted, config.toastNotifications);
 
 sync(store, router);
 
-window.Vault74 = {
+window.Satellite = {
   debugEnabled: config.debug,
   /* eslint-disable */
   debug: (...args) => {
-    if (window.Vault74.debugEnabled) {
+    if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
         `%c [Vault74 Debug]: ${args[0]}`,
@@ -37,7 +40,7 @@ window.Vault74 = {
     }
   },
   warn: (...args) => {
-    if (window.Vault74.debugEnabled) {
+    if (window.Satellite.debugEnabled) {
       // eslint-disable-next-line no-console
       console.log(
         `%c [Vault74 Warn]: ${args[0]}`,
@@ -58,9 +61,25 @@ window.Vault74 = {
 };
 
 Vue.prototype.$database = new Database('Vault74Data');
+Vue.prototype.$Threads = new Threads();
+Vue.prototype.$ThreadDB = new ThreadDB();
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
 Vue.prototype.$ethereum = new Ethereum();
+
+const constraints = {
+  audio: {
+    autoGainControl: false,
+    channelCount: 2,
+    echoCancellation: true,
+    latency: 0,
+    noiseSuppression: false,
+    sampleRate: 96 * 1000,
+    sampleSize: 24,
+    volume: 1.0,
+  },
+};
+Vue.prototype.$streamManager = new StreamManager(constraints);
 
 const i18n = i18nInit('en_US');
 

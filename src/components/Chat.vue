@@ -6,16 +6,11 @@
     <Database
       v-if="
         $store.state.p2pOnline ||
-          $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000' ||
-          $store.state.dwellerAddress
-      "
-    />
-    <MediaManager
-      v-if="
-        windowBound &&
-          $store.state.p2pOnline &&
           $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
       "
+    />
+    <Voice v-if="$store.state.p2pOnline &&
+      $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'"
     />
     <ScreenCapture
       v-if="
@@ -93,7 +88,7 @@
 
 <script>
 import Mousetrap from 'mousetrap';
-import MediaManager from '@/components/media/MediaManager';
+import Voice from '@/components/media/Voice';
 import ScreenCapture from '@/components/media/ScreenCapture';
 import Sidebar from '@/components/sidebar/sidebar/Sidebar';
 import Main from '@/components/main/main/Main';
@@ -109,6 +104,7 @@ import Achievement from '@/components/common/Achievement';
 import Calling from '@/components/main/popups/calling/Calling';
 import CreateServer from '@/components/servers/create/CreateServer';
 import Context from '@/components/common/context/Context';
+import Polling from '@/components/functional/Polling';
 
 import IPFS from 'ipfs-core';
 
@@ -116,6 +112,7 @@ export default {
   name: 'chat',
   components: {
     Achievement,
+    Polling,
     Sidebar,
     Main,
     Error,
@@ -126,7 +123,7 @@ export default {
     BalanceFetcher,
     Database,
     Loading,
-    MediaManager,
+    Voice,
     ScreenCapture,
     Calling,
     CreateServer,
@@ -176,7 +173,7 @@ export default {
       this.$store.commit('changeRoute', 'main');
     });
     Mousetrap.bind('option+shift+d', () => {
-      window.Vault74.debugEnabled = !window.Vault74.debugEnabled;
+      window.Satellite.debugEnabled = !window.Satellite.debugEnabled;
     });
     const ipfs = await IPFS.create();
     window.ipfs = ipfs;

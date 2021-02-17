@@ -70,6 +70,7 @@ export default {
       if (this.muted) muteAudio.play();
       if (!this.muted) unmuteAudio.play();
       this.$store.commit('muted', this.muted);
+      this.$streamManager.toggleLocalStreams(this.muted);
     },
     /** @method
      * Mute the active stream &
@@ -81,6 +82,8 @@ export default {
       if (this.deafened) deafenAudio.play();
       if (!this.deafened) unDeafenAudio.play();
       this.$store.commit('deafened', this.deafened);
+      this.$streamManager.toggleLocalStreams(this.muted || this.deafened);
+      this.$streamManager.toggleRemoteStreams(this.deafened);
     },
   },
   mounted() {

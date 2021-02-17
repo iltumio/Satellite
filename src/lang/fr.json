@@ -20,9 +20,9 @@
   },
   "loading": {
     "connecting_blockchain": "En train de connecter au blockchain...",
-    "connecting_broker": "En train de connecter à 0.vault74.io...",
+    "connecting_broker": "En train de connecter à 0.satellite.im...",
     "long_load": "Ça fait longtemps, est-ce que vous avez installé {{vaule}}?",
-    "other_tab": "Encore en train de charger? Vault74 pourrait être ouvert dans un autre onglet.",
+    "other_tab": "Encore en train de charger? Satellite pourrait être ouvert dans un autre onglet.",
     "something_wrong": "Quelque chose est peut-être allé male,",
     "alpha": "Ceci est un produit en état alpha, veuillez utiliser Goerli Testnet!"
   },
@@ -35,7 +35,7 @@
   },
   "friends": {
     "heading": "Amis",
-    "subtext": "Connectez-vous à d'autres personnes sur la plateforme Vault74.",
+    "subtext": "Connectez-vous à d'autres personnes sur la plateforme Satellite.",
     "find_someone": "Trouvez Quelqu'un",
     "add_a_friend": "Ajoutez un ami",
     "enter_address": "Entrez l'addresse Ethereum d'un ami pour les trouver.",
@@ -114,10 +114,10 @@
     "personalize": {
       "appearance": "Apparence",
       "darktheme_heading": "Thème Sombre",
-      "darktheme_subtext": "Utilisez un thème sombre pour une version de Vault74 plus douce sur les yeux.",
+      "darktheme_subtext": "Utilisez un thème sombre pour une version de Satellite plus douce sur les yeux.",
       "permissions": "Permissions",
       "notifications": "Notifications",
-      "notifiactions_subtext": "Cliquez pour permettre à Vault74 de faire des notifications et vous donner une meilleure expérience."
+      "notifiactions_subtext": "Cliquez pour permettre à Satellite de faire des notifications et vous donner une meilleure expérience."
     },
     "storage": {
       "label": "Stockage",
@@ -159,9 +159,10 @@
     }
   },
   "payments": {
-    "send": "Envoyer {{amount}} ether",
+    "send": "Envoyer {{amount}} ether ${dollar_equivalent}",
     "balance": "Solde",
-    "button": "Envoyer"
+    "button": "Envoyer",
+    "prices_disclaimer": " - Prices from CoinCap.io"
   },
   "sidebar": {
     "find": "Trouver un vault dweller",

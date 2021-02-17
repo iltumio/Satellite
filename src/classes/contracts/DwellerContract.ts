@@ -40,7 +40,7 @@ export default class DwellerContract {
   //       arguments: [username],
   //     }).send({
   //       from: account,
-  //       gas: 4700000,
+  //       gasPrice: 4700000,
   //     })
   //       // @ts-ignore
   //       .once('transactionHash', tx)
@@ -58,7 +58,7 @@ export default class DwellerContract {
     this.contract.setPhoto([
       ethers.utils.formatBytes32String(ipfsHash.path.substring(0, 23)),
       ethers.utils.formatBytes32String(ipfsHash.path.substring(23)),
-    ], { gas: 4700000 })
+    ], { gasPrice: 4700000 })
       .then(transaction => transaction.wait())
       .then(receipt => done(receipt));
   }
@@ -70,7 +70,7 @@ export default class DwellerContract {
    */
   setUsername(username: string, done: CallableFunction) {
     this.contract.setDwellerName(ethers.utils.formatBytes32String(username), {
-      gas: 4700000,
+      gasPrice: 4700000,
     })
       .then(transaction => transaction.wait())
       .then(receipt => done(receipt));
@@ -85,7 +85,8 @@ export default class DwellerContract {
     if (!dweller) {
       throw new Error('Dweller not found');
     }
-    const onChainPhotoHash = await this.contract.getPhoto().catch(err => console.log('error', err));
+    // const onChainPhotoHash = await this.contract.getPhoto().catch(err => console.log('error', err));
+    const onChainPhotoHash = '';
     // onChainPhotoHash = onChainPhotoHash.substr(0, 48) + onChainPhotoHash.substr(66, 46);
     // onChainPhotoHash = ethers.utils.hexToString(onChainPhotoHash);
 
@@ -122,7 +123,6 @@ export default class DwellerContract {
    */
   async getPhoto() {
     const photo = await this.contract.getPhoto();
-    console.log(`${photo.substr(0, 48)} 0x${photo.substr(66, 46)}`);
-    return ethers.utils.parseBytes32String(photo);
+    return ethers.utils.toUtf8String(photo);
   }
 }

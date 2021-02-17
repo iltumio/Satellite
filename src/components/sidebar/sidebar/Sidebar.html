@@ -1,6 +1,6 @@
 <section class="section main-section noselect">
   <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
-  <h1 id="logo">Vault74<span id="tag" class="yellow">alpha 0.2</span></h1>
+  <h1 id="logo">Satellite<span id="tag" class="yellow">α</span></h1>
   <div class="control user-search">
       <input class="input is-small" type="text" :placeholder="$t('sidebar.find')">
   </div>
@@ -8,7 +8,10 @@
     <div 
       v-on:click="setMainRoute('friends')"
       :class="`${$store.state.mainRoute == 'friends' ? 'active' : ''} friends`">
-      <i class="fa fa-user-friends"></i>  &nbsp; {{$t('sidebar.friends')}}
+      <i class="fa fa-user-friends"></i>  &nbsp; {{$t('sidebar.friends')}} 
+      <span v-if="activeRequestCount($store.state.friendRequests) > 0" class="indicator">
+        {{activeRequestCount($store.state.friendRequests)}}
+      </span>
     </div>
     <div 
       v-on:click="setMainRoute('files')"

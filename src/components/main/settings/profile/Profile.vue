@@ -2,9 +2,10 @@
 
 <script>
 import Mousetrap from 'mousetrap';
+import VueQrcode from 'vue-qrcode';
 
 import config from '@/config/config';
-import DCUtils from '@/utils/contracts/DwellerContract.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 import Badge from '@/components/common/Badge';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import CircleIcon from '@/components/common/CircleIcon';
@@ -19,6 +20,7 @@ export default {
   name: 'Profile',
   props: ['customFinalAction', 'embeded'],
   components: {
+    VueQrcode,
     ActionSelector,
     ChangePhoto,
     ChangeUsername,
@@ -28,6 +30,10 @@ export default {
   },
   data() {
     return {
+      qrColor: {
+        dark: '#0f1015',
+        light: '#b3bade',
+      },
       profileFile: false,
       ipfsHash: false,
       error: false,
@@ -113,19 +119,19 @@ export default {
       this.ipfsHash = {
         path: '',
       };
-      const dwellerIDContract = await this.registry
-        .getDwellerContract(this.$store.state.activeAccount);
-      DCUtils.setPhoto(
-        dwellerIDContract,
-        this.$store.state.activeAccount,
-        this.ipfsHash,
-        () => {
-          this.$store.commit('setStatus', 'Transaction confirmed');
-          this.$store.commit('profilePictureHash', this.ipfsHash.path);
-        },
-      );
+      // const dwellerIDContract = await this.registry
+      //   .getDwellerContract(this.$store.state.activeAccount);
+      // DCUtils.setPhoto(
+      //   dwellerIDContract,
+      //   this.$store.state.activeAccount,
+      //   this.ipfsHash,
+      //   () => {
+      //     this.$store.commit('setStatus', 'Transaction confirmed');
+      //     this.$store.commit('profilePictureHash', this.ipfsHash.path);
+      //   },
+      // );
     },
-    // Create a new profile via the Vault74Registry for this user
+    // Create a new profile via the Registry for this user
     async submitProfileContract() {
       if (this.$store.state.username.length < 5) {
         this.error = 'Your username needs to be at least 5 characters.';
@@ -167,13 +173,21 @@ export default {
         return;
       }
 
-      this.commitEverything(receipt);
 
-      // const dwellerIDContract = await this.registry
-      // .getDwellerContract(this.$store.state.activeAccount);
+      const dwellerContractAddress = await this.registry
+        .getDwellerContract(this.$store.state.activeAccount);
 
       // const confirms = 0;
       this.$store.commit('setStatus', 'Transaction created, waiting for confirm');
+
+      const dwellerContractInstance = new DwellerContract(this.$ethereum, dwellerContractAddress);
+
+      dwellerContractInstance.setPhoto(this.ipfsHash, (txReceipt) => {
+        console.log('Set photo', txReceipt);
+        this.finished = true;
+        this.$store.commit('setStatus', 'Transaction confirmed');
+        this.commitEverything(txReceipt);
+      });
       // DCUtils.setPhoto(
       //   dwellerIDContract,
       //   this.$store.state.activeAccount,
@@ -187,6 +201,7 @@ export default {
       //     }
       //   },
       // );
+      // this.commitEverything(receipt);
     },
     // Note the changes to the profile locally in the store
     commitEverything(dwellerIDContract) {
@@ -194,17 +209,17 @@ export default {
       this.$store.commit('dwellerAddress', dwellerIDContract);
       if (this.customFinalAction) this.customFinalAction();
     },
-    // Get a dweler from the registry
-    async getDweller() {
-      this.$store.commit('setStatus', 'Fetching dweller from chain');
-      DCUtils.getDweller(
-        this.$store.state.dwellerAddress,
-        (dweller, onChainPhotoHash) => {
-          this.dweller = dweller;
-          this.onChainPhotoHash = onChainPhotoHash;
-        },
-      );
-    },
+    // // Get a dweler from the registry
+    // async getDweller() {
+    //   this.$store.commit('setStatus', 'Fetching dweller from chain');
+    //   DCUtils.getDweller(
+    //     this.$store.state.dwellerAddress,
+    //     (dweller, onChainPhotoHash) => {
+    //       this.dweller = dweller;
+    //       this.onChainPhotoHash = onChainPhotoHash;
+    //     },
+    //   );
+    // },
     async getDwellerByAddress(address) {
       this.dweller = await this.dwellerCachingHelper.getDweller(address);
     },

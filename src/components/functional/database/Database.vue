@@ -1,22 +1,22 @@
 <template></template>
 <script>
-import {
-  Client,
-  PrivateKey,
-} from '@textile/hub';
-import { Context } from '@textile/context';
 import config from '@/config/config';
 import Crypto from '@/classes/crypto/Crypto.ts';
 
 export default {
   name: 'database',
+  data() {
+    return { activeAccount: false };
+  },
   methods: {
     async startup() {
       // Generate local pub/priv keys if none exist.
       const crypto = new Crypto();
       await crypto.keygen();
 
-      this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      // -----moved in Web3vue->startupActions
+      // this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      // ------------------------------
       setTimeout(() => {
         // Really shouldn't be used, but prevents
         // some potenial race conditions with globals
@@ -28,57 +28,44 @@ export default {
         key: config.textile.key,
       };
     },
-    async getIdentity() {
-      /** Restore any cached user identity first */
-      const cached = localStorage.getItem('textile.identity');
-      if (cached !== null) {
-        /** Convert the cached identity string to a PrivateKey and return */
-        return PrivateKey.fromString(cached);
-      }
-      /** No cached identity existed, so create a new one */
-      const identity = await PrivateKey.fromRandom();
-      /** Add the string copy to the cache */
-      // TODO: Encrypt this with user password in the future
-      localStorage.setItem('textile.identity', identity.toString());
-      /** Return the random identity */
-      return identity;
-    },
-    async authorize(key, identity) {
-      // TODO: If in dev mode create a new client, else use the provided key
-      const client = (config.env === 'dev') ?
-        new Client(new Context(config.textile.localURI)) :
-        await Client.withKeyInfo(key);
-
-      const userToken = await client.getToken(identity).catch(() => {
-        this.$store.commit('criticalError', 'Textile.io may be down...');
-      });
-
-      return {
-        client,
-        userToken,
-      };
-    },
   },
   async mounted() {
     this.$store.commit('starting', true);
     if (this.$store.state.databaseEnabled) {
-      const identity = await this.getIdentity();
-      const client = await this.authorize(this.makeKey(), identity);
-      this.$database.authenticate(
+      const identity = await this.$Threads.getIdentity();
+      const client = await this.$Threads.authorize(identity);
+
+      // We should depricate this when we move to only using the ThreadDB class
+      await this.$Threads.init(
+        this.$store.state.activeAccount,
+        client.client,
+        client.token,
+      );
+
+      // Initalize ThreadDB
+      // await this.$ThreadDB.init(this.$store.state.activeAccount);
+      // await this.$ThreadDB.auth();
+
+      await this.$database.authenticate(
         'textile',
         this.$store.state.activeAccount,
         window.v74pin,
         client,
+        identity,
       );
-      window.Vault74.Database = this.$database;
+      this.$store.commit('authenticated');
+      window.Satellite.Database = this.$database;
       this.startup();
+      await this.$database.initBuckets();
+      this.$store.commit('buckets');
     } else {
-      this.$database.authenticate(
+      await this.$database.authenticate(
         'localStorage',
         this.$store.state.activeAccount,
         window.v74pin,
       );
-      window.Vault74.Database = this.$database;
+      this.$store.commit('authenticated');
+      window.Satellite.Database = this.$database;
       this.startup();
     }
   },

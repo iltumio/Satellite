@@ -187,7 +187,7 @@ export class MessageManager {
       }) || [];
 
       // @ts-ignore
-      window.Vault74.debug(`ThreadDB request made for ThreadID ${safeThread.toString()}`);
+      window.Satellite.debug(`ThreadDB request made for ThreadID ${safeThread.toString()}`);
 
       resolve(<Array<Message>>messages);
     });

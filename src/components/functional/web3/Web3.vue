@@ -30,7 +30,7 @@ export default {
       await this.$ethereum.initialize(providerInfo.type);
 
       // Bind ethereum provider to the window object
-      window.vault74provider = this.$ethereum;
+      window.satelliteProvider = this.$ethereum;
 
       this.$store.commit('setWeb3Connected', true);
       this.$store.commit('accounts', this.$ethereum.getAccounts());
@@ -51,11 +51,9 @@ export default {
         const dwellerName = await dwellerID.getDwellerName();
         this.$store.commit('profilePictureHash', dwellerPhoto);
         this.$store.commit('username', ethers.utils.parseBytes32String(dwellerName));
+
+        this.$store.commit('fetchFriends', this.$store.state.activeAccount);
       }
-    },
-    // Try to connect the selected provider and then commit che change to the store
-    async setSelectedProvider(provider) {
-      this.$store.commit('setSelectedProvider', provider);
     },
     async getStats() {
       // Get stats
@@ -82,6 +80,14 @@ export default {
     if (this.$store.state.selectedProvider) {
       this.connectProvider(this.$store.state.selectedProvider);
     }
+
+
+    // Subscribe to store changes
+    this.unsubscribe = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'setSelectedProvider') {
+        this.connectProvider(mutation.payload);
+      }
+    });
   },
 };
 </script>

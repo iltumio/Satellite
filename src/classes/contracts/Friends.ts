@@ -100,7 +100,7 @@ export default class Friends {
         ethers.utils.formatBytes32String(hash.substring(0, 28)),
         this.ethereum.formatBytes32String(hash.substring(28)),
       ],
-      { gas: 4700000 },
+      { gasPrice: 4700000 },
     ).then(tx => tx.wait());
   }
 
@@ -111,7 +111,7 @@ export default class Friends {
    */
   async acceptRequest(id: number) : Promise<any> {
     return this.contract.acceptRequest(id, {
-      gas: 4700000,
+      gasPrice: 4700000,
     }).then(tx => tx.wait());
   }
 
@@ -122,7 +122,7 @@ export default class Friends {
    */
   async denyRequest(id: number) : Promise<any> {
     return this.contract.acceptRequest(id, {
-      gas: 4700000,
+      gasPrice: 4700000,
     }).then(tx => tx.wait());
   }
 }

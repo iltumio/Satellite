@@ -1,4 +1,6 @@
-# Vault74
+# Satellite
+
+Browse the codebase fast: https://github1s.com/Satellite-im/Satellite
 
 ![](https://ipfs.io/ipfs/QmW2Kbkx2APq8rmGDnGaMPZy4amTk4fzhrMiDq257h745J)
 

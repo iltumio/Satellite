@@ -9,12 +9,12 @@
       <div class="media-participant">
         <CircleIcon 
         :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
-        :address="$store.state.activeChat" />
+        :address="$store.state.activeAccount" />
       </div>
     </div>
     <div class="media-controls">
-      <button v-if="voice" class="button is-dark is-small" v-on:click="switchTo(false)"><i class="fas fa-video"></i> {{$t('conversation.voicevideo.switch_to_video')}}</button>
-      <button v-else class="button is-dark is-small" v-on:click="switchTo(true)"><i class="fas fa-phone"></i> {{$t('conversation.voicevideo.switch_to_voice')}}</button>
+      <button v-if="voice" class="button is-dark is-small" v-on:click="switchTo(false)" disabled><i class="fas fa-video"></i> {{$t('conversation.voicevideo.switch_to_video')}}</button>
+      <button v-else class="button is-dark is-small" v-on:click="switchTo(true)" disabled><i class="fas fa-phone"></i> {{$t('conversation.voicevideo.switch_to_voice')}}</button>
       <span class="spacer"></span>
       <button class="button is-danger is-small" v-on:click="disconnect"><i class="fas fa-phone-slash"></i> {{$t('conversation.voicevideo.disconnect')}}</button>
     </div>

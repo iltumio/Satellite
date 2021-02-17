@@ -16,7 +16,11 @@
             class="input inputfile"
             @change="setFile"
             type="file" />
-          <label for="file" class="button is-small is-primary">{{$t('fileupload.chosefile')}}</label>
+          <label
+            v-if="!$store.state.buckets"
+            for=""
+            class="button is-dark">{{$t('fileupload.waiting')}}</label>
+          <label v-else for="file" class="button is-small is-primary">{{$t('fileupload.chosefile')}}</label>
         </div>
         <div v-else>
           <span class="heading">{{$t('fileupload.file')}}</span>
@@ -26,7 +30,7 @@
             v-if="ipfsHash"
             autofocus
             readonly
-            :value="`${config.ipfs.browser}${ipfsHash}`"
+            :value="imageURL"
             class="input is-small hash"
             type="text" />
           <div class="heading" v-else>
@@ -37,6 +41,9 @@
             class="progress is-primary is-small"
             :value="progress"
             max="100">{{progress}}%</progress>
+        </div>
+        <div v-if="error">
+          <span class="red">{{error}}</span>
         </div>
         <input 
           autofocus

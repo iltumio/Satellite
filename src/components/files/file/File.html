@@ -1,16 +1,20 @@
 <div id="file" :data-id="index">
-  <a :href="file.url" target="_blank" class="icon">
+  <a :href="file.remote" target="_blank" class="icon">
     <i class="fas fa-file-download nothovered"></i>
-    <i :class="`${translateFiletype(file.type)} hovered`"></i>
+    <i :class="`${translateFiletype(file.file.type)} hovered`"></i>
   </a>
-  <div class="fileInfo">
-    <div class="filename">{{file.filename}}</div>
-    <span class="heading">{{bytesToSize(file.size)}} {{file.type}}</span>
+  <div class="fileInfo" v-if="!unpinned">
+    <div class="filename">{{file.file.name}}</div>
+    <span class="heading">{{bytesToSize(file.file.size)}} {{file.file.type}}</span>
   </div>
-  <div class="close" v-on:click="deleteFile">
+  <div class="fileInfo" v-else>
+    <div class="filename">{{$t('file.removed')}}</div>
+    <span class="heading">{{$t('file.unpinned')}}</span>
+  </div>
+  <div class="close" v-on:click="deleteFile" v-if="!unpinned">
     <i class="fa fa-times"></i>
   </div>
   <div class="preview">
-    <img :src="file.url" alt="" />
+    <img :src="file.remote" alt="" />
   </div>
 </div>

@@ -37,7 +37,13 @@ export default {
   },
   clear(state: any) {
     // eslint-disable-next-line no-param-reassign
+    state.buckets = false;
+    state.authenticated = false;
     state.criticalError = false;
+    state.ICEConnected = false;
+    state.dwellerAddress = false;
+    state.activeCall = null;
+    state.incomingCall = null;
   },
   setLanguage(state, lang) {
     // eslint-disable-next-line

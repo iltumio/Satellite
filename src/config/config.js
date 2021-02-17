@@ -2,7 +2,8 @@ module.exports = {
   env: 'prod',
   textile: {
     localURI: 'http://localhost:6007',
-    key: 'blhtljyplc4oeoxqso4ypwlei3y',
+    key: 'btzhpzqf5fiq4qjqwa2j5ugt74y',
+    browser: 'https://hub.textile.io',
   },
   network: {
     explorer: 'https://goerli.etherscan.io',

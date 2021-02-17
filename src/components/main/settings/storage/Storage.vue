@@ -20,7 +20,9 @@
 
         <p v-html="$t('settings.storage.threadDB_enable')"/>
         <br>
-        <ToggleSwitch v-model="$store.state.databaseEnabled"/>
+        <!--<ToggleSwitch :disabled="true" v-model="$store.state.databaseEnabled"/>-->
+        <span class="yellow">Disabling database not available during Alpha.</span>
+        <!--
         <hr class="spacer">
         <h2>{{$t('settings.storage.threadDB_data_id')}}</h2>
         <p>
@@ -28,6 +30,7 @@
           <br> <br>
           <input v-model="dataid" readonly class="input is-small" placeholder="data..." />     
         </p>
+        -->
       </div>
     </article>
     <h3 class="label">{{$t('settings.storage.storage_label')}}</h3>

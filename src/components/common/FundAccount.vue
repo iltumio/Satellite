@@ -23,7 +23,7 @@ export default {
     WalletAddress,
   },
   data() {
-    return { activeAccount: window.vault74provider.activeAccount };
+    return { activeAccount: this.$ethereum.activeAccount };
   },
 };
 </script>

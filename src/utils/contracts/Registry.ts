@@ -1,5 +1,9 @@
+/**
+ * @deprecated
+ */
+
 // @ts-ignore
-import * as Vault74Registry from '@/contracts/build/contracts/Vault74Registry.json';
+import * as Registry from '@/contracts/build/contracts/Vault74Registry.json';
 // @ts-ignore
 import config from '@/config/config';
 // @ts-ignore
@@ -8,15 +12,15 @@ import Ethereum from '@/classes/Ethereum';
 const ethereum = new Ethereum('window');
 const address = config.registry[config.network.chain];
 
-// Helper functions to interact with the Vault74Registry
+// Helper functions to interact with the Registry
 export default {
   /** @function
    * @name getContract
    * @returns returns a contract instance of the registry
    */
   getContract() {
-    const contract = ethereum.getContract(Vault74Registry.abi, address);
-    contract.options.data = Vault74Registry.bytecode.object;
+    const contract = ethereum.getContract(Registry.abi, address);
+    contract.options.data = Registry.bytecode.object;
     return contract;
   },
   /** @function

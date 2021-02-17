@@ -2,7 +2,7 @@
 import config from '@/config/config';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
-import Vault74Registry from '../utils/contracts/Vault74Registry';
+import Registry from '../utils/contracts/Registry';
 import DwellerContract from '../utils/contracts/DwellerContract';
 import IDweller from '../interfaces/IDweller';
 
@@ -68,7 +68,7 @@ export default class DwellerCachingHelper {
    */
   async updateDweller(address: string) : Promise<IDweller | null> {
     let dweller : any;
-    const dwellerIDAddress = await Vault74Registry.getDwellerContract(address);
+    const dwellerIDAddress = await Registry.getDwellerContract(address);
     if (dwellerIDAddress === '0x0000000000000000000000000000000000000000') return null;
     dweller = {
       name: await DwellerContract.getDwellerName(dwellerIDAddress),

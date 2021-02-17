@@ -10,7 +10,7 @@
       "
     >
       <p id="logo">
-        <img src="@/assets/images/logo_color.png" width="120" />
+        <Loader size="100" />
       </p>
       <div class="red" v-if="$store.state.criticalError">
         <i class="fas fa-skull"></i> Failure to load: {{ $store.state.criticalError }} <br /><br />
@@ -23,7 +23,7 @@
         v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'"
         class="content"
       >
-        <FundAccount v-if="$store.state.balance === 0"/>
+        <FundAccount v-if="$store.state.balance && $store.state.balance.eq(0)"/>
         <Profile :customFinalAction="reload" v-else />
       </div>
       <div v-else-if="!$store.state.friendsLoaded">
@@ -65,12 +65,7 @@
         </span>
       </div>
       <p class="special-thanks">
-        <!-- {{ $t('loading.alpha') }} -->
-        <span>{{!$store.state.friendsLoaded }}</span>
-         <span>{{!$store.state.p2pOnline}}</span>
-         <span> {{$store.state.dwellerAddress === '0x0000000000000000000000000000000000000000'}} </span>
-          <span>{{!$store.state.dwellerAddress }}</span>
-         <span>{{ $store.state.starting}} </span>
+        {{ $t('loading.alpha') }}
       </p>
     </div>
   </div>
@@ -79,6 +74,7 @@
 <script>
 import Profile from '@/components/main/settings/profile/Profile';
 import FundAccount from '@/components/common/FundAccount';
+import Loader from './Loader';
 
 export default {
   name: 'Loading',
@@ -86,19 +82,14 @@ export default {
   components: {
     Profile,
     FundAccount,
+    Loader,
   },
   data() {
     return {
       showWeb3: false,
     };
   },
-  mounted() {
-    setTimeout(() => {
-      if (!this.$store.state.criticalError) {
-        this.showWeb3 = true;
-      }
-    }, 8000);
-  },
+  mounted() {},
   methods: {
     reload() {
       window.location.reload();

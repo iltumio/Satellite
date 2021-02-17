@@ -1,3 +1,7 @@
+/**
+ * @deprecated
+ */
+
 // @ts-ignore
 import * as DwellerID from '@/contracts/build/contracts/DwellerID.json';
 // @ts-ignore

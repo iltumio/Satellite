@@ -20,9 +20,9 @@
     },
     "loading": {
       "connecting_blockchain": "blockchain से अभी जुड़ रहे है ",
-      "connecting_broker": " 0.vault74.io से अभी जुड़ रहे है ",
+      "connecting_broker": " 0.satellite.im से अभी जुड़ रहे है ",
       "long_load": "इसमें काफी समय लग रहा है क्या अपने {{vaule}} स्तापिथ करा है?",
-      "other_tab": "कया अभी भी लोड हो रहा है? अगर हा तो शायद से Vault74 कही और पहले से ही खुला हुआ है  ",
+      "other_tab": "कया अभी भी लोड हो रहा है? अगर हा तो शायद से Satellite कही और पहले से ही खुला हुआ है  ",
       "something_wrong": "शायद से कुछ  गलत हो गया है ",
       "alpha": "यह उत्पाद अभी भी परिक्षण में है, क्रप्या करके  Goerli Testnet का उपयोग कीजिये"
     },
@@ -114,10 +114,10 @@
       "personalize": {
         "appearance": "रूप",
         "darktheme_heading": "डार्क वाली रूप ",
-        "darktheme_subtext": "अखो के लिए Vault74 की डार्क वाली रूप इस्तमाल कीजिये ",
+        "darktheme_subtext": "अखो के लिए Satellite की डार्क वाली रूप इस्तमाल कीजिये ",
         "permissions": "अनुमति ",
         "notifications": "नोतिफिकेष्ण ",
-        "notifiactions_subtext": "Vault74 के साथ बहतर अनुभव के लिए सूचनाओ को चालू करे इसकेलिए इसको क्लिक करें"
+        "notifiactions_subtext": "Satellite के साथ बहतर अनुभव के लिए सूचनाओ को चालू करे इसकेलिए इसको क्लिक करें"
       },
       "storage": {
         "label": "स्टोरेज ",

@@ -27,6 +27,7 @@ const blacklist: IBlacklist = {
   pendingMediaStream: true,
   typingUsers: true,
   accounts: true,
+  balance: true,
 };
 
 const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key]);

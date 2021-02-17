@@ -3,18 +3,20 @@
     <ImagePreview v-if="showImage" :src="image" :close="hideImage" />
     <img :src="image" alt="" @load="doLoad" :class="`${loaded ? 'loaded' : ''}`" @click="showImage = true"/>
     <div class="not-loaded" v-if="!loaded">
-      <i class="fas fa-circle-notch fa-spin"></i>
+      <Loader size="64" />
     </div>
   </div>
 </template>
 
 <script>
 import ImagePreview from '@/components/common/ImagePreview';
+import Loader from '@/components/common/Loader';
 
 export default {
   name: 'ImageViewer',
   components: {
     ImagePreview,
+    Loader,
   },
   props: [
     'image',

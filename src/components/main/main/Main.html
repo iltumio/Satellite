@@ -4,16 +4,17 @@
       :toggleMedia="toggleMedia"
       :makeCall="makeCall"/>
     <div :class="`${($store.state.showUser) ? 'main-user-info main-user-info-open' : 'main-user-info'}`">
-      <Conversation 
+      <LoadingConvorsation v-if="$store.state.loadingMessages" />
+      <Conversation
         :fetchMessages="fetchMessages"
         :sendMessage="sendMessage"
-        :mediaOpen="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer"
-        :voice="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer && voice"
-        v-if="$store.state.messages.length"/>
+        :mediaOpen="$store.state.activeCall && $store.state.activeCall === $store.state.activeChat"
+        :voice="$store.state.activeCall && $store.state.activeCall === $store.state.activeChat && voice"
+        v-else-if="$store.state.messages.length"/>
       <NoConversation v-else />
       <VoiceVideo
-        v-if="$store.state.activeMediaStreamPeer && $store.state.activeChat === $store.state.activeMediaStreamPeer"
-        :mediaOpen="$store.state.activeMediaStreamPeer"
+        v-if="$store.state.activeCall && $store.state.activeCall === $store.state.activeChat"
+        :mediaOpen="$store.state.activeCall && $store.state.activeCall === $store.state.activeChat"
         :voice="voice"
         :disconnect="hangup"
         :switchTo="switchTo"/>

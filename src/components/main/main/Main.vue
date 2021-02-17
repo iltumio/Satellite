@@ -9,6 +9,7 @@ import Chatbar from '@/components/main/conversation/chatbar/Chatbar';
 import VoiceVideo from '@/components/main/conversation/voicevideo/VoiceVideo';
 import Conversation from '@/components/main/conversation/conversation/Conversation';
 import NoConversation from '@/components/main/conversation/conversation/NoConversation';
+import LoadingConvorsation from '@/components/main/conversation/conversation/LoadingConvorsation';
 import UserInfo from '@/components/main/conversation/userinfo/UserInfo';
 import Crypto from '@/classes/crypto/Crypto.ts';
 
@@ -18,6 +19,7 @@ export default {
     InfoBar,
     Chatbar,
     Conversation,
+    LoadingConvorsation,
     VoiceVideo,
     NoConversation,
     UserInfo,
@@ -37,9 +39,9 @@ export default {
   },
   methods: {
     async fetchMessages(remoteAddress) {
-      // this.$store.commit('loadingMessages');
       const friend = this.$store.state.friends.find(f => f.address === remoteAddress);
       if (!friend) return;
+      this.$store.commit('loadingMessages');
       const messages = await this.$database.messageManager.getMessages(friend.threadID);
       const key = this.crypto.getKey(this.$store.state.activeChat);
       const decrypted = await this.$database.messageManager.bulkDecrypt(messages, key);
@@ -73,8 +75,12 @@ export default {
               }
               if (key) {
                 const decrypted = await this.$database.messageManager.decryptMessage(update.instance, key);
-                this.$store.commit('appendMessage', decrypted);
-              } else {
+                if (update.instance.sender === this.$store.state.activeChat ||
+                  update.instance.sender === this.$store.state.activeAccount) {
+                  this.$store.commit('appendMessage', decrypted);
+                }
+              } else if (update.instance.sender === this.$store.state.activeChat ||
+                update.instance.sender === this.$store.state.activeAccount) {
                 this.$store.commit('appendMessage', update.instance);
               }
             });
@@ -88,15 +94,55 @@ export default {
       this.mediaOpen = true;
       this.voice = voice;
     },
-    makeCall() {
-      this.$store.commit('connectMediaStream', this.$store.state.activeChat);
-      window.Vault74.Peer2Peer.call(this.$store.state.activeChat);
+
+    // TODO: Move all this somewhere more relevant...
+    /** @method
+     * Clear the usage of the audio devices
+     * @name stopStream
+     */
+    stopStream() {
+      if (!this.$streamManager) return;
+      this.$streamManager.killStreams();
+    },
+    async makeCall() {
+      if (this.$store.state.activeCall) {
+        this.hangup();
+      }
+      const constraints = {
+        audio: {
+          autoGainControl: false,
+          channelCount: 2,
+          echoCancellation: this.$store.state.echoCancellation,
+          latency: 0,
+          noiseSuppression: this.$store.state.noiseSuppression,
+          sampleRate: this.$store.state.audioQuality * 1000,
+          sampleSize: this.$store.state.audioSamples,
+          volume: 1.0,
+        },
+      };
+      const stream = await this.$WebRTC.getMediaStream(constraints);
+      this.$streamManager.addLocalStream(stream);
+      this.$WebRTC.call(this.$store.state.activeChat, this.$streamManager.localStreams[0]);
+      if (this.$store.state.deafened) {
+        this.$streamManager.toggleLocalStreams();
+        this.$streamManager.toggleRemoteStreams();
+      } else if (this.$store.state.muted) {
+        this.$streamManager.toggleLocalStreams();
+      }
+      this.$store.commit('activeCall', this.$store.state.activeChat);
+      this.voice = true;
+      this.mediaOpen = true;
+      this.sendMessage(Date.now(), 'call');
+    },
+    callAnswered() {
       this.voice = true;
       this.mediaOpen = true;
     },
     hangup() {
-      window.Vault74.Peer2Peer.hangup();
-      window.Vault74.Peer2Peer.send(this.$store.state.activeChat, 'call-status', 'ended');
+      this.stopStream();
+      const id = this.$store.state.incomingCall || this.$store.state.activeCall;
+      this.$WebRTC.hangup(id);
+      this.$store.commit('activeCall', false);
       this.voice = false;
       this.mediaOpen = false;
     },
@@ -123,19 +169,6 @@ export default {
           },
         );
         this.$store.commit('appendMessage', msg);
-        /*
-        const peer = this.$WebRTC.find(this.$store.state.activeChat);
-        if (peer && peer.isAlive) {
-          peer.send(
-            'message',
-            {
-              type: type || 'text',
-              data: type === 'text' ?
-                encodeURI(data) : data,
-            },
-          );
-        }
-        */
         const id = this.$database.threadManager
           .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
         const threadExists = await this.$database.threadManager.fetchThread(id);
@@ -165,6 +198,22 @@ export default {
         }
       }
     });
+    const WebRTC = this.$WebRTC;
+    WebRTC.subscribe(() => {
+      this.hangup();
+    }, ['REMOTE-HANGUP']);
+    WebRTC.mediaSubscription(
+      ['INCOMING-CALL', 'HANGUP', 'ANSWER', 'OUTGOING-CALL'],
+      (event, identifier) => {
+        switch (event) {
+          case 'ANSWER':
+            this.callAnswered(identifier);
+            break;
+          default:
+            break;
+        }
+      },
+    );
     this.subscribeToThreads();
     // this.friendsContract = new Friends(config.friends[config.network.chain]);
     this.bindThreads();

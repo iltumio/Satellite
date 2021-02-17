@@ -2,6 +2,8 @@ import { AvailableProviders } from './mutations/web3';
 
 export const defaultState = {
   starting: true,
+  authenticated: false,
+  buckets: false,
   // Settings
   settings: {
     darkMode: true,
@@ -56,10 +58,12 @@ export const defaultState = {
   typingUsers: {},
   userNotes: {},
   showUser: false,
+  loadingMessages: false,
   // Direct Calling Media Streams
   pendingMediaStream: false,
   activeMediaStreamPeer: false,
-  activeCaller: false,
+  incomingCall: false,
+  activeCall: false,
   // Database
   databaseEnabled: true,
   criticalError: false,

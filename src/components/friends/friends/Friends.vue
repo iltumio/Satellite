@@ -48,7 +48,7 @@ export default {
         this.friends = state.friends;
       }
     });
-    this.friendsContract = new Friends(window.vault74provider, config.friends[config.network.chain]);
+    this.friendsContract = new Friends(this.$ethereum, config.friends[config.network.chain]);
 
     this.update();
 

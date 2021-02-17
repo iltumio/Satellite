@@ -40,6 +40,13 @@
 <script>
 import config from '@/config/config';
 import Friends from '@/classes/contracts/Friends.ts';
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
+
+const dwellerCachingHelper = new DwellerCachingHelper(
+  config.registryAddress,
+  config.cacher.dwellerLifespan,
+);
+
 
 export default {
   name: 'FriendRequests',
@@ -56,7 +63,7 @@ export default {
     };
   },
   mounted() {
-    this.friendsContract = new Friends(window.vault74provider, config.friends[config.network.chain]);
+    this.friendsContract = new Friends(this.$ethereum, config.friends[config.network.chain]);
   },
   methods: {
     async acceptRequest(id) {
@@ -71,10 +78,13 @@ export default {
             `${this.$store.state.activeAccount}-${request.sender.address}`,
             threadID,
           );
-          const friend = { ...request.sender, status: 'unchecked' };
-          this.$store.commit('addFriend', friend);
-          this.action(friend.address);
+          // const friend = { ...request.sender, status: 'unchecked' };
           this.fetchFriendRequests();
+          const friend = await dwellerCachingHelper.getDweller(request.sender.address);
+          this.$store.commit('addFriend', {
+            ...friend,
+            threadID,
+          });
           this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
         })
         .catch(() => {

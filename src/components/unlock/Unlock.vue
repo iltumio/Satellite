@@ -75,6 +75,7 @@ export default {
       localStorage.setItem('v74.pinhash', encryptedPin);
       if (this.storePin) localStorage.setItem('v74.pin', this.pin);
       window.v74pin = this.pin;
+      this.$pin = this.pin;
       this.decrypted();
     },
     async testPin() {
@@ -82,6 +83,7 @@ export default {
         .then(() => {
           this.error = false;
           window.v74pin = this.pin;
+          this.$pin = this.pin;
           if (this.storePin) localStorage.setItem('v74.pin', this.pin);
           this.decrypted();
         })
@@ -112,6 +114,7 @@ export default {
   .main {
     width: 500px;
     margin: calc(33.33% - 200px) auto;
+    margin-bottom: 0;
   }
   .label {
     padding: 0 !important;

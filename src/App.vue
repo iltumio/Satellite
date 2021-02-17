@@ -18,7 +18,6 @@ import 'bulma/css/bulma.css';
 import config from '@/config/config';
 import Crypto from '@/classes/crypto/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
-import PeerDataHandler from '@/classes/PeerDataHandler.ts';
 
 export default {
   name: 'app',
@@ -29,7 +28,6 @@ export default {
     return {
       decrypted: false,
       showWarning: !(localStorage.getItem('alpha-warning') === 'false'),
-      peerDataHandler: null,
       friendsLoaded: false,
     };
   },
@@ -78,15 +76,21 @@ export default {
         }, ['key-offer'], this.$store.state.activeChats);
 
         // init
-        this.$WebRTC.init(window.vault74provider.activeAccount);
+        this.$WebRTC.init(this.$ethereum.activeAccount);
+        this.peerInit = true;
       }
-      this.peerInit = true;
+      // @deprecated In mounted component there is a watcher that is looking for friendsLoaded
+      // to become true before trying to init p2p
+      // else {
+      //   setTimeout(() => {
+      //     window.Satellite.warn('Friends not loaded yet, will try again soon.');
+      //     this.initP2P();
+      //   }, 500);
+      // }
     },
     checkAccount() {
-      // ts-ignore
-      if (window.vault74provider.activeAccount) {
-      // if (this.$store.state.activeAccount) {
-        window.Vault74.warn('No account found yet, rechecking soon.');
+      if (this.$store.state.activeAccount) {
+        window.Satellite.warn('No account found yet, rechecking soon.');
         // Attach to peers
         this.initP2P();
         return;
@@ -95,15 +99,10 @@ export default {
     },
   },
   mounted() {
-    this.peerDataHandler = new PeerDataHandler(this.$store);
-    this.$store.commit('ICEConnected', false);
-    this.$store.commit('dwellerAddress', false);
-    this.$store.commit('activeCaller', false);
     this.$store.commit('starting', true);
     this.$store.commit('clearFriends');
     this.$store.commit('clear');
     // Reset media call data
-    this.$store.commit('connectMediaStream', false);
     this.$store.commit('clearTypingUsers');
     // Connect when a new friend is added
     // we have active chats with.
@@ -128,20 +127,6 @@ export default {
     if (this.$store.state.settings.language) {
       this.$i18n.locale = this.$store.state.settings.language;
     }
-
-    // ----- Lazy Load of languages from IPFS (currently disabled)
-    // Check preferred lang and switch
-    // If something goes wrong during the lazy load the language
-    // state will be reverted back to the default value
-    //
-    // getLang(this.$store.state.settings.language).then((messages) => {
-    //   this.$i18n.setLocaleMessage(this.$store.state.settings.language, messages);
-    //   this.$i18n.locale = this.$store.state.language;
-    // }).catch((error) => {
-    //   console.error(error);
-    //   this.$store.commit('setLanguage', config.defaultLanguage);
-    // });
-    // -----------------------------------------------------------
   },
 };
 </script>

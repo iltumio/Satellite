@@ -1,4 +1,4 @@
-import Peer, { PeerJSOption } from 'peerjs';
+import Peer, { MediaConnection, PeerJSOption } from 'peerjs';
 // @ts-ignore
 import config from '@/config/config';
 import P2PUser from './P2PUser';
@@ -21,11 +21,25 @@ interface Connection {
   identifier: string,
 }
 
+type RTCEvent = '*' |
+  'key-offer' |
+  'connection-established' |
+  'ping' |
+  'pong' |
+  'heartbeat' |
+  'flatlined' |
+  'message' |
+  'typing-notice' |
+  'call-status' |
+  'stream' |
+  'data' |
+  'REMOTE-HANGUP';
+
 export default class WebRTC extends WebRTCMedia {
   public protocol: string;
   private _identifier: string;
   protected _subscribers: Subscriber[];
-  private _events: string[];
+  private _events: RTCEvent[];
   peer: Peer | null;
   connections: Connection[];
   registry: string[];
@@ -45,15 +59,32 @@ export default class WebRTC extends WebRTCMedia {
     this.registry = [];
   }
 
+  /** @method
+   * Get the global identifier
+   * @name identifier
+   * @argument identifier string identifier, usually an Ethereum address.
+   * @returns local identifier
+   */
   get identifier() : string {
     return this.buildIdentifier(this._identifier);
   }
 
+  /** @method
+   * Get a list of current subscribers
+   * @name subscribers
+   * @returns array of Subscribers
+   */
   get subscribers() : Subscriber[] {
     return this._subscribers;
   }
 
-  get events() : string[] {
+  /** @method
+   * Get a list of current subscribers
+   * @name events
+   * @returns Returns array of acceptable RTC Event enums
+   */
+  get events() : RTCEvent[] {
+    // TODO: Convert this to a string union
     return [
       '*',
       'key-offer',
@@ -64,11 +95,16 @@ export default class WebRTC extends WebRTCMedia {
       'flatlined',
       'message',
       'typing-notice',
-      'call-status',
       'data',
+      'REMOTE-HANGUP',
     ];
   }
 
+  /** @method
+   * Get PeerJS options built from the config
+   * @name settings
+   * @returns returns settings object
+   */
   get settings() : PeerJSOption {
     return {
       host: config.peer.network[config.env].host,
@@ -83,29 +119,34 @@ export default class WebRTC extends WebRTCMedia {
     };
   }
 
-  public buildIdentifier(identifier: string) : string {
-    return identifier.replace('0x', 'WRTCx');
-  }
-
-  public revertIdentifier(identifier: string) : string {
-    return identifier.replace('WRTCx', '0x');
-  }
-
+  /** @method
+   * Find a peer by identifier
+   * @name find
+   * @argument identifier string identifier, usually an Ethereum address.
+   * @returns returns either a peer, or undefined if not found
+   */
   public find(identifier: string) : P2PUser | undefined {
     const connection = this.connections
       .find(conn => conn.identifier === this.buildIdentifier(identifier));
     return connection?.user;
   }
 
+  /** @method
+   * Initalize the WebRTC class, we sometimes need to wait for other thigns to be done
+   * before initalizing to prevent race conditions.
+   * @name init
+   * @argument identifier string identifier, usually an Ethereum address.
+   * @returns returns a promise which will resolve the created WebRTC class
+   */
   public init(identifier: string) : Promise<WebRTC> {
     this._identifier = identifier;
-
+    this.bindInstance(this);
     return new Promise(resolve => {
       const peer = new Peer(this.identifier, this.settings);
       // Emitted once we've connected to the handshake service
-      peer.on('call', function(call) { });
       peer.on('open', () => {
         this.peer = peer;
+        this.initMedia(this.peer);
         // We're connected to the PeerJS server and ready to make connections
         this.connectToRegistry();
         this.publish(
@@ -119,6 +160,10 @@ export default class WebRTC extends WebRTCMedia {
         peer.on('connection', (conn: Peer.DataConnection) => {
           this.connect(conn);
         });
+
+        peer.on('call', (call: MediaConnection) => {
+          this.addPendingCall(call.peer, call);
+        });
         resolve(this);
       });
 
@@ -131,11 +176,17 @@ export default class WebRTC extends WebRTCMedia {
       peer.on('error', (err: any) => {
         // This is fine, we don't need to care if they are offline.
         // @ts-ignore
-        window.Vault74.debug('PeerJS Error: ', err);
+        window.Satellite.debug('PeerJS Error: ', err);
       });
     });
   }
 
+  /** @method
+   * Bind a peer connection to an identifier in memory
+   * @name registerPeer
+   * @argument identifier string identifier, usually an Ethereum address.
+   * @argument peer P2PUser to bind identifier to
+   */
   private registerPeer(identifier: string, peer: P2PUser) {
     this.connections.push({
       identifier,

@@ -20,9 +20,9 @@
   },
   "loading": {
     "connecting_blockchain": "Connecting to the blockchain...",
-    "connecting_broker": "Connecting to 0.vault74.io...",
+    "connecting_broker": "Connecting to 0.satellite.im...",
     "long_load": "This is taking a bit, do you have {{vaule}} installed?",
-    "other_tab": "Still loading? Vault74 may already be open in another tab.",
+    "other_tab": "Still loading? Satellite may already be open in another tab.",
     "something_wrong": "Something may have gone wrong,",
     "alpha": "This is an alpha product, Please use Goerli Testnet!"
   },
@@ -35,7 +35,7 @@
   },
   "friends": {
     "heading": "Friends",
-    "subtext": "Get connected with other people on the Vault74 platform.",
+    "subtext": "Get connected with other people on the Satellite platform.",
     "find_someone": "Find Someone",
     "add_a_friend": "Add a Friend",
     "enter_address": "Enter a friends Ethereum address below to find them...",
@@ -114,10 +114,10 @@
     "personalize": {
       "appearance": "Appearance",
       "darktheme_heading": "Dark Theme",
-      "darktheme_subtext": "Enable dark theme for an easy on the eyes version of Vault74.",
+      "darktheme_subtext": "Enable dark theme for an easy on the eyes version of Satellite.",
       "permissions": "Permissions",
       "notifications": "Notifications",
-      "notifiactions_subtext": "Click to enable notifications with Vault74 for a better experience."
+      "notifiactions_subtext": "Click to enable notifications with Satellite for a better experience."
     },
     "storage": {
       "label": "Storage",
@@ -159,7 +159,7 @@
     }
   },
   "payments": {
-    "send": "Send {{amount}} ether",
+    "send": "Send {amount} ether ${dollar_equivalent}",
     "balance": "Balance",
     "button": "Send"
   },
