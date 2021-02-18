@@ -157,7 +157,7 @@ export default {
     overflow-y: scroll;
   }
   h3 {
-    font-family: 'Major Mono Display', monospace;
+    font-family: 'Space Mono', monospace;
     font-size: 20pt;
   }
   .modal-close {

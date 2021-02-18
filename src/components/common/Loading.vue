@@ -101,7 +101,7 @@ export default {
         visibility: hidden;
     }
     #logo {
-        font-family: 'Major Mono Display', monospace;
+        font-family: 'Space Mono', monospace;       
         font-size: 35pt;
         padding-top: 1rem;
         margin-bottom: 1rem;
@@ -121,7 +121,7 @@ export default {
         width: 50%;
         height: 250px;
         text-align: center;
-        font-family: 'Major Mono Display', monospace;
+        font-family: 'Space Mono', monospace;
     }
     .showing-content {
         margin-top: 1rem;

@@ -1,5 +1,6 @@
 const path = require('path');
-const friendlyFormatter = require('eslint-friendly-formatter');
+const ESLintPlugin = require('eslint-webpack-plugin');
+
 const { VueLoaderPlugin } = require('vue-loader');
 
 const utils = require('./utils');
@@ -31,18 +32,10 @@ module.exports = {
   stats: 'minimal',
   plugins: [
     new VueLoaderPlugin(),
+    new ESLintPlugin(),
   ],
   module: {
     rules: [
-      {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
-        options: {
-          formatter: friendlyFormatter,
-        },
-      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

@@ -108,7 +108,7 @@ export default {
 
 <style scoped lang="less">
   .head {
-    font-family: 'Major Mono Display', monospace;
+    font-family: 'Space Mono', monospace;
     font-size: 20pt;
     padding-top: 1rem;
     padding-bottom: 2rem;

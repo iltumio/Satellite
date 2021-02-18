@@ -140,98 +140,98 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .close {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      font-size: 16pt;
-      padding: 0.5rem;
-      line-height: 0;
-      height: 30px;
-      width: 30px;
-      border: none;
-    }
-    .close i {
-      margin: 0;
-      line-height: 0;
-    }
-    #logo {
-      font-family: 'Major Mono Display', monospace;
-      font-size: 20pt;
-      padding-top: 0;
-      padding-bottom: 2rem;
-    }
-    .columns {
-      height: 100%;
-      position: relative;
-      margin-left: 0;
-      margin-right: 0;
-      margin-top: 0;
-    }
-    .settings-left {
-      padding: 3rem;
-      padding-top: 1rem;
-      background: #fff;
-      height: 100%;
-    }
+  .close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    font-size: 16pt;
+    padding: 0.5rem;
+    line-height: 0;
+    height: 30px;
+    width: 30px;
+    border: none;
+  }
+  .close i {
+    margin: 0;
+    line-height: 0;
+  }
+  #logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 20pt;
+    padding-top: 0;
+    padding-bottom: 2rem;
+  }
+  .columns {
+    height: 100%;
+    position: relative;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+  }
+  .settings-left {
+    padding: 3rem;
+    padding-top: 1rem;
+    background: #fff;
+    height: 100%;
+  }
+  .settings-right {
+    padding: 3rem;
+    padding-right: 3rem;
+    padding-top: 1rem;
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .menu {
+    height: 90%;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+  }
+  .menu a:hover {
+    color: #00d0a1;
+  }
+  .active {
+    background: #ccc;
+    color: black;
+  }
+
+  .nav-settings {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
     .settings-right {
-      padding: 3rem;
-      padding-right: 3rem;
-      padding-top: 1rem;
-      height: 100%;
-      overflow-y: scroll;
+      padding-top: 5rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
-    .menu {
-      height: 90%;
-      overflow-y: scroll;
-      scrollbar-width: thin;
+
+    .settings-left {
+      max-width: 300px;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      transform: translate(-300px);
+      transition: all .3s;
     }
-    .menu a:hover {
-      color: #00d0a1;
-    }
-    .active {
-      background: #ccc;
-      color: black;
+    .settings-left.show {
+      transform: translate(0);
     }
 
     .nav-settings {
-      display: none;
+      position: fixed;
+      z-index: 999;
+      width: 100%;
+      height: 80px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      background: #e7ebee;
     }
 
-    @media (max-width: 768px) {
-      .settings-right {
-        padding-top: 5rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
-      }
-
-      .settings-left {
-        max-width: 300px;
-        position: fixed;
-        z-index: 999;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        transform: translate(-300px);
-        transition: all .3s;
-      }
-      .settings-left.show {
-        transform: translate(0);
-      }
-
-      .nav-settings {
-        position: fixed;
-        z-index: 999;
-        width: 100%;
-        height: 80px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        background: #e7ebee;
-      }
-
-      .nav-settings i {
-        margin-left: 26px;
-      }
+    .nav-settings i {
+      margin-left: 26px;
     }
+  }
 </style>
