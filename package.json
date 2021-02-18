@@ -28,7 +28,7 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "cross-env PORT=8081 node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "eslint": "eslint --ext .js,.vue build config src test/unit/specs test/e2e/specs"
+    "eslint": "eslint --ext .js src"
   },
   "dependencies": {
     "@capacitor/cli": "^2.4.6",
