@@ -93,29 +93,6 @@
       <p>{{$t('settings.profile.id_card')}}</p>
       <input class="input" :value="$store.state.activeAccount" readonly />
       <br>
-      <hr class="spacer">
-      <button class="button is-primary is-small" v-on:click="getDweller" v-if="!this.dweller">Advanced Details</button>
-      <div v-if="this.dweller">
-        <p class="label">{{$t('settings.profile.dweller_address')}}</p>
-        <input class="input" :value="$store.state.dwellerAddress" readonly />
-        <p class="label">{{$t('settings.profile.dweller_owner_address')}}</p>
-        <input class="input" :value="this.dweller[0]" readonly />
-        <p class="label">{{$t('settings.profile.name')}}</p>
-        <input class="input" :value="this.dweller[1]" readonly />
-        <p class="label">{{$t('settings.profile.photo_hash')}}</p>
-        <input class="input" :value="this.onChainPhotoHash" readonly />
-        <hr class="spacer">
-        <div class="bordered margin-2">
-          <div class="columns">
-            <div class="column image-ipfs" style="max-width: 80px;">
-              <img src="https://ipfs.io/ipfs/QmdRkYNxFja3Bg9F9jicRXA3DAEVFFSVcZ6uBjEKkSDrEF" class="margin" alt="" />
-            </div>
-            <div class="column padded">
-              <p class="padded">{{$t('settings.profile.disclaimer')}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
       <br>
       <h2>{{$t('settings.profile.transfer_data')}}</h2>
       <div class="qr">

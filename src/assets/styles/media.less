@@ -5,6 +5,10 @@
         min-width: unset !important;
     }
 
+    .charlimit {
+        opacity: 0.5;
+    }
+
     .theme .unlock {
         width: 100%;
         margin: 0;
@@ -13,7 +17,7 @@
             display: none;
         }
     }
-    
+
     /* modal */
     .modal-card {
         padding: 0 !important;
@@ -84,7 +88,8 @@
     }
 
     #conversation {
-        top: 5rem !important;
+        top: 3rem !important;
+        bottom: 6.5rem !important;
     }
 
     #conversation .circle-icon {
@@ -99,6 +104,14 @@
 
     #conversation .c-message-content {
         padding-left: 3.8rem;
+    }
+
+    #conversation .separator::before {
+        margin-left: 1rem;
+    }
+
+    #conversation .separator::after {
+        margin-right: 1rem;
     }
 
     .wrapper {
