@@ -8,11 +8,11 @@
     v-for="(server, index) in servers"
     v-bind:key="server.address"
     :data-tooltip="server.name">
-    <div v-if="server.photo.length > 1">
+    <div v-if="server.photo.length > 1" class="server-icon">
       <CircleIcon :image="`https://ipfs.io/ipfs/${server.photo}`" />
     </div>
     <div v-else>
-      <CircleIcon :address="server.address"/>
+      <CircleIcon :address="server.address" class="server-icon" />
     </div>
   </div>
   <hr class="divider">

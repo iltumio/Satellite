@@ -1,6 +1,6 @@
 <template>
   <div id="unlock">
-    <div class="columns main">
+    <div class="columns main unlock">
       <div class="column is-one-fifth">
         <i class="fas fa-key"></i>
       </div>
