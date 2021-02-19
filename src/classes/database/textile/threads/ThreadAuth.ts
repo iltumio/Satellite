@@ -110,9 +110,8 @@ export default class ThreadAuth {
    */
   async connectCreateThread(remote: Remote) {
     const cached = localStorage.getItem('textile.threadID');
-    this._threadID = (cached != null) ?
-      await remote.initialize(cached) :
-      await remote.initialize();
-    if (!cached) localStorage.setItem('textile.threadID', this._threadID);
+    console.log('cached', cached);
+    // this._threadID = await remote.initialize(cached || undefined);
+    // if (!cached) localStorage.setItem('textile.threadID', this._threadID);
   }
 }

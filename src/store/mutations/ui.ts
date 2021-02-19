@@ -4,7 +4,6 @@ export default {
   },
   buckets(state: any) {
     state.buckets = true;
-    console.log('buckets done');
   },
   // Used to hotswitch dark mode from anywhere in the app
   toggleDarkMode(state: any) {

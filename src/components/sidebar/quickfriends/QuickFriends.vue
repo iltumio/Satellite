@@ -23,7 +23,7 @@
         </div>
         <div v-for="friend in friends" class="friend" :key="friend.address">
           <div class="columns">
-            <div class="column is-one-quarter">
+            <div class="column is-one-quarter quick-friends-photo">
               <CircleIcon :image="friend.photo" :address="friend.address"/>
             </div>
             <div class="column is-half nameholder">
@@ -34,7 +34,7 @@
             </div>
             <div class="column is-one-quarter">
               <button
-                class="button is-small is-primary"
+                class="button is-small is-primary quick-friends-chat"
                 v-on:click="handleChat(friend)">
                 <i class="fas fa-comment-alt"></i>
               </button>
@@ -200,5 +200,24 @@ export default {
     .friends-list {
       height: 100% !important;
     }
+
+    .quick-friends-photo {
+      max-width: 80px;
+    }
+
+    .quick-friends-chat {
+      float: right;
+      padding: 0.55rem 1rem;
+      font-size: 11pt;
+    }
+
+    .close {
+      font-size: 18pt;
+    }
+
+    .header .label {
+      font-size: 14pt;
+    }
+
   }
 </style>

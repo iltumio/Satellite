@@ -1,5 +1,5 @@
 <template>
-  <div id="payment">
+  <div id="file-embed">
     <a :href="message.payload.data.url" :download="message.payload.data.filename" target="_blank">
       <article class="media">
         <div class="media-content">
@@ -39,7 +39,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  #payment {
+  #file-embed {
     margin-top: 0.5rem;
     max-width: 400px;
   }

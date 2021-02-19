@@ -148,6 +148,7 @@ export default {
     .request {
       width: 100%;
       max-width: unset;
+      margin: 0.5rem 0;
     }
 
     .request .left {

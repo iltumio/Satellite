@@ -38,8 +38,8 @@ export default {
       );
 
       // Initalize ThreadDB
-      // await this.$ThreadDB.init(this.$store.state.activeAccount);
-      // await this.$ThreadDB.auth();
+      await this.$ThreadDB.init(this.$store.state.activeAccount);
+      await this.$ThreadDB.auth();
 
       await this.$database.authenticate(
         'textile',
