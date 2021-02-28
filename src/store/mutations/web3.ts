@@ -48,4 +48,8 @@ export default {
     // eslint-disable-next-line
     state.balanceLastUpdate = Date.now();
   },
+  setMnemonic(state:any, mnemonic: string) {
+    // eslint-disable-next-line
+    state.mnemonic = mnemonic;
+  },
 };

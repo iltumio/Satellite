@@ -29,6 +29,7 @@ export const defaultState = {
   activeAccount: false,
   balance: 0,
   localAccount: false,
+  mnemonic: '',
   // Network
   availableProviders: [AvailableProviders.VAULT_74],
   selectedProvider: null,

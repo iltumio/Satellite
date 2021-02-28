@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'Web3',
+  name: 'ProviderSelection',
   data() {
     return {
       connected: false,

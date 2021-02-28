@@ -1,11 +1,13 @@
 <template>
   <div>
     <ProviderSelection v-if="!$store.state.selectedProvider"/>
+    <WalletCreation v-if="$store.state.selectedProvider && !$store.state.accounts && !$store.state.mnemonic" :onWalletCreated="onWalletCreated"/>
   </div>
 </template>
 
 <script>
 import ProviderSelection from '@/components/common/ProviderSelection';
+import WalletCreation from '@/components/common/WalletCreation';
 import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
 import DwellerID from '@/classes/contracts/DwellerContract.ts';
 import config from '@/config/config';
@@ -23,13 +25,19 @@ export default {
   },
   components: {
     ProviderSelection,
+    WalletCreation,
   },
   methods: {
+    onWalletCreated(wallet) {
+      const { selectedProvider } = this.$store.state;
+      this.connectProvider(selectedProvider, wallet);
+    },
     // Connect the selected provider, based on the user selection
-    async connectProvider(providerInfo) {
-      await this.$ethereum.initialize(providerInfo.type);
+    async connectProvider(providerInfo, wallet = null) {
+      await this.$ethereum.initialize(providerInfo.type, wallet);
 
       // Bind ethereum provider to the window object
+      // TODO: remove deprecated injected instance
       window.satelliteProvider = this.$ethereum;
 
       this.$store.commit('setWeb3Connected', true);
@@ -78,14 +86,25 @@ export default {
     // Check if provider has already been selected and
     // try to connect
     if (this.$store.state.selectedProvider) {
-      this.connectProvider(this.$store.state.selectedProvider);
+      if (this.$store.state.selectedProvider.type === 'injected') {
+        this.connectProvider(this.$store.state.selectedProvider);
+      } else if (this.$store.state.mnemonic) {
+        const wallet = ethers.Wallet.fromMnemonic(this.$store.state.mnemonic);
+        this.onWalletCreated(wallet);
+      } else {
+        console.log('Need to generate first');
+      }
     }
 
 
     // Subscribe to store changes
     this.unsubscribe = this.$store.subscribe((mutation) => {
       if (mutation.type === 'setSelectedProvider') {
-        this.connectProvider(mutation.payload);
+        if (mutation.payload.type === 'injected') {
+          this.connectProvider(mutation.payload);
+        } else if (mutation.payload.type === 'vault74') {
+          console.log('Need to generate first');
+        }
       }
     });
   },

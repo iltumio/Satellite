@@ -84,7 +84,7 @@ Vue.prototype.$streamManager = new StreamManager(constraints);
 const i18n = i18nInit('en_US');
 
 /* eslint-disable */
-new Vue({
+const app = new Vue({
   el: '#app',
   functional: true,
   router,
@@ -94,4 +94,7 @@ new Vue({
     return h(App);
   },
 });
+
+// Extend store with Vue context for actions
+store.$app = app;
 /* eslint-enable */

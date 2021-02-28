@@ -11,12 +11,14 @@ export default class Ethereum {
   /**
    * @description Initializes the provider based on the provider type
    */
-  async initialize(providerType, signer = null) {
+  async initialize(providerType, wallet = null) {
     this.netConfig = config.network;
     this.providerType = providerType;
-    this.signer = signer;
+
+    console.log('Initialize', providerType, wallet);
 
     if (this.providerType === 'injected') {
+      console.log('Injected');
       this.accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       this.provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -31,9 +33,15 @@ export default class Ethereum {
       this.onNetworkChange = window.ethereum.on('networkChanged', this.handleNetworkChange);
 
       this.initialized = true;
-    } else if (this.providerType === 'vault74' && this.signer) {
-      // this.provider = new ethers.providers.InfuraProvider('goerli', '');
+    } else if (this.providerType === 'vault74' && wallet) {
       this.provider = ethers.providers.getDefaultProvider('goerli');
+      this.wallet = wallet;
+
+      this.signer = wallet.connect(this.provider);
+
+      this.accounts = [this.signer.address];
+
+      this.activeAccount = this.signer.address;
 
       this.initialized = true;
     } else {
