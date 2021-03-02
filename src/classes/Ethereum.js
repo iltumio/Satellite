@@ -15,10 +15,7 @@ export default class Ethereum {
     this.netConfig = config.network;
     this.providerType = providerType;
 
-    console.log('Initialize', providerType, wallet);
-
     if (this.providerType === 'injected') {
-      console.log('Injected');
       this.accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       this.provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -33,7 +30,7 @@ export default class Ethereum {
       this.onNetworkChange = window.ethereum.on('networkChanged', this.handleNetworkChange);
 
       this.initialized = true;
-    } else if (this.providerType === 'vault74' && wallet) {
+    } else if (this.providerType === 'satellite' && wallet) {
       this.provider = ethers.providers.getDefaultProvider('goerli');
       this.wallet = wallet;
 

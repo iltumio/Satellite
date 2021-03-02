@@ -2,24 +2,24 @@
   <div class="fullscreen-pane">
     <section class="wallet-creation-container" v-if="step===0">
       <p class="head">
-        <strong>Wallet generation</strong>
+        <strong>{{$t(`web3.wallet_creation.step.${step}.heading`)}}</strong>
       </p>
       <b>
-        Your wallet is going to be generated
+        {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
 
       <button
         class="button is-primary"
         v-on:click="createWallet()">
-        Next
+        {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
       </button>
     </section>
     <section class="wallet-creation-container" v-if="step===1">
       <p class="head">
-        <strong>Recovery phrase</strong>
+        <strong>{{$t(`web3.wallet_creation.step.${step}.heading`)}}</strong>
       </p>
       <b>
-        Please ensure to copy this words in order to recover this wallet in the future
+        {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
 
       <div class="mnemonic-container">
@@ -34,16 +34,17 @@
 
       <button
         class="button is-primary"
-        v-on:click="next()">
-        I got it!
+        v-on:click="walletCreated()">
+        {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
       </button>
     </section>
-    <section class="wallet-creation-container" v-if="step===2">
+    <!-- TODO: encrypt wallet and download encrypted json file -->
+    <!-- <section class="wallet-creation-container" v-if="step===2">
       <p class="head">
-        <strong>Phrase check</strong>
+        <strong>{{$t(`web3.wallet_creation.step.${step}.heading`)}}</strong>
       </p>
       <b>
-        Write the missing words in the right position before to continue
+        {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
 
       <div class="mnemonic-container">
@@ -61,9 +62,9 @@
         :disabled="!checkWords()"
         class="button is-primary"
         v-on:click="walletCreated()">
-        Next
+        {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
       </button>
-    </section>
+    </section> -->
   </div>
 </template>
 

@@ -6,6 +6,8 @@ import Friends from '../../classes/contracts/Friends';
 import IFriend from '../../interfaces/IFriend';
 // import { parse } from 'uuid';
 
+
+// TODO: add this.ethereum instance
 const dwellerCachingHelper = new DwellerCachingHelper(
   config.registry[config.network.chain],
   config.cacher.dwellerLifespan,

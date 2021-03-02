@@ -12,8 +12,9 @@
 </template>
 
 <script>
-import DCUtils from '@/utils/contracts/DwellerContract.ts';
-import Registry from '@/utils/contracts/Registry.ts';
+import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
+import config from '@/config/config';
 
 export default {
   name: 'ChangeUsername',
@@ -26,13 +27,16 @@ export default {
   },
   methods: {
     async changeUsername() {
-      const dwellerIDContract = await Registry
-        .getDwellerContract(this.$store.state.activeAccount);
+      // Create a registry contract instance
+      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const dwellerContractAddress = await registry.getDwellerContract(this.$ethereum.activeAccount);
+
+      // Create a dweller contract instance
+      const dwellerContract = new DwellerContract(this.$ethereum, dwellerContractAddress);
 
       this.$store.commit('setStatus', 'Transaction created, waiting for confirm');
-      DCUtils.setUsername(
-        dwellerIDContract,
-        this.$store.state.activeAccount,
+
+      dwellerContract.setUsername(
         this.username,
         () => {
           this.close();

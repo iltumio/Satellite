@@ -37,6 +37,7 @@ export default {
       friendAddress: '',
       makingRequest: {},
       dwellerCachingHelper: new DwellerCachingHelper(
+        this.$ethereum,
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,
       ),

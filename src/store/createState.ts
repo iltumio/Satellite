@@ -31,7 +31,7 @@ export const defaultState = {
   localAccount: false,
   mnemonic: '',
   // Network
-  availableProviders: [AvailableProviders.VAULT_74],
+  availableProviders: [AvailableProviders.SATELLITE],
   selectedProvider: null,
   injectedProvider: null,
   // Profile

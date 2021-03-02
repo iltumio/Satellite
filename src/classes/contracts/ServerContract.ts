@@ -82,7 +82,7 @@ export default class Server {
         );
       },
       setThreadID: async (hash: string) => {
-        return this.contract.methods.setDBHash([
+        return this.contract.setDBHash([
           ethers.utils.formatBytes32String(hash.substring(0, 23)),
           ethers.utils.formatBytes32String(hash.substring(23)),
         ], {
@@ -90,7 +90,7 @@ export default class Server {
           });
       },
       setPhoto: async (hash: string) => {
-        return this.contract.methods.setPhoto([
+        return this.contract.setPhoto([
           ethers.utils.formatBytes32String(hash.substring(0, 23)),
           ethers.utils.formatBytes32String(hash.substring(23)),
         ],{

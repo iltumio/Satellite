@@ -9,8 +9,7 @@
                 class="input address-input"
                 disabled
                 autofocus
-                :value="address"
-                :placeholder="$t('unlock.pin_placeholder')"/>
+                :value="address"/>
         </div>
         <div 
             lass="control" 

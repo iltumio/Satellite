@@ -24,7 +24,7 @@
         class="content"
       >
         <FundAccount v-if="$store.state.balance && $store.state.balance.eq(0)"/>
-        <Profile v-else />
+        <Profile :customFinalAction="reload" v-else />
         <!-- <Profile :customFinalAction="reload" v-else /> -->
       </div>
       <div v-else-if="!$store.state.friendsLoaded">

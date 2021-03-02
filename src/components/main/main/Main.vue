@@ -32,6 +32,7 @@ export default {
       subscribed: {},
       crypto: new Crypto(),
       dwellerCachingHelper: new DwellerCachingHelper(
+        this.$ethereum,
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,
       ),

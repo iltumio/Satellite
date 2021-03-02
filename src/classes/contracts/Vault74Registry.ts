@@ -47,7 +47,7 @@ export default class Vault74Registry {
    * @argument tx callback executed on first transaction
    * @argument done callback executed on first confirmation
    */
-  createServer(_name: string, account: string, tx: CallableFunction, done: CallableFunction) {
+  createServer(_name: string, tx: CallableFunction, done: CallableFunction) {
     const name = ethers.utils.formatBytes32String(_name);
     this.contract.createServer(name, { gasPrice: 4700000 }).then((transaction) => {
       tx(transaction);

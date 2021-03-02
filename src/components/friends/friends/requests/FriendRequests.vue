@@ -42,11 +42,6 @@ import config from '@/config/config';
 import Friends from '@/classes/contracts/Friends.ts';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 
-const dwellerCachingHelper = new DwellerCachingHelper(
-  config.registryAddress,
-  config.cacher.dwellerLifespan,
-);
-
 
 export default {
   name: 'FriendRequests',
@@ -64,6 +59,11 @@ export default {
   },
   mounted() {
     this.friendsContract = new Friends(this.$ethereum, config.friends[config.network.chain]);
+    this.dwellerCachingHelper = new DwellerCachingHelper(
+      this.$ethereum,
+      config.registryAddress,
+      config.cacher.dwellerLifespan,
+    );
   },
   methods: {
     async acceptRequest(id) {
@@ -80,7 +80,7 @@ export default {
           );
           // const friend = { ...request.sender, status: 'unchecked' };
           this.fetchFriendRequests();
-          const friend = await dwellerCachingHelper.getDweller(request.sender.address);
+          const friend = await this.dwellerCachingHelper.getDweller(request.sender.address);
           this.$store.commit('addFriend', {
             ...friend,
             threadID,

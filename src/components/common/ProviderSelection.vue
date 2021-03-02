@@ -2,11 +2,10 @@
   <div class="fullscreen-pane">
     <section class="provider-selection-container">
       <p class="head">
-        <strong>Choose provider</strong>
+        <strong>{{$t('web3.provider_selection.heading')}}</strong>
       </p>
       <b>
-        Choose the provider you want to use. If you choose Vault74 provider, you will need to 
-        restore your wallet from the seed phrase, or to create a new one
+        {{$t('web3.provider_selection.subtext')}}
       </b>
       <br /><br />
       <div class="provider-selection">

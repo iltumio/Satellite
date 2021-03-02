@@ -50,6 +50,7 @@ export default {
       config,
       funded: false,
       dwellerCachingHelper: new DwellerCachingHelper(
+        this.$ethereum,
         config.registryAddress,
         config.cacher.dwellerLifespan,
       ),
