@@ -3,9 +3,10 @@
 <script>
 import PhotoCropper from 'vue-image-crop-upload';
 import CircleIcon from '@/components/common/CircleIcon';
-import Registry from '@/utils/contracts/Registry.ts';
-import DwellerContract from '@/utils/contracts/DwellerContract.ts';
-import ServerContract from '@/utils/contracts/ServerContract.ts';
+import ServerContract from '@/classes/contracts/ServerContract.ts';
+import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
+import config from '@/config/config';
 
 export default {
   name: 'CreateServer',
@@ -88,14 +89,14 @@ export default {
     // Create a new profile via the Registry for this user
     async submitNewServer() {
       this.created = true;
-      Registry.createServer(
+      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      registry.createServer(
         this.name,
-        this.$store.state.activeAccount,
         (transactionHash) => {
           this.transactionHash = transactionHash;
         },
-        (confirmationNumber, receipt) => {
-          this.confirmation = confirmationNumber;
+        (receipt) => {
+          this.confirmation = receipt.confirmations;
           this.finishServer(receipt);
         },
       );
@@ -108,13 +109,17 @@ export default {
         return;
       }
       // Get newest server on dweller contract
-      const dwellerContract = await Registry.getDwellerContract(this.$store.state.activeAccount);
-      const servers = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
+      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const dwellerContractAddress = await registry.getDwellerContract(this.$ethereum.activeAccount);
+
+      // Create a DwellerContract instance
+      const dwellerContract = new DwellerContract(this.$ethereum, dwellerContractAddress);
+      const servers = await dwellerContract.getServers();
       const newServer = servers[servers.length - 1];
 
-      ServerContract.setPhoto(
-        newServer,
-        this.$store.state.activeAccount,
+      // Create a server contract instance
+      const serverContract = new ServerContract(this.$ethereum, newServer);
+      serverContract.setPhoto(
         this.ipfsHash,
         () => {
           this.done = true;

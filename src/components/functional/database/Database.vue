@@ -5,13 +5,18 @@ import Crypto from '@/classes/crypto/Crypto.ts';
 
 export default {
   name: 'database',
+  data() {
+    return { activeAccount: false };
+  },
   methods: {
     async startup() {
       // Generate local pub/priv keys if none exist.
       const crypto = new Crypto();
       await crypto.keygen();
 
-      this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      // -----moved in Web3vue->startupActions
+      // this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      // ------------------------------
       setTimeout(() => {
         // Really shouldn't be used, but prevents
         // some potenial race conditions with globals

@@ -1,64 +1,88 @@
 <template>
-    <div id="loading">
-        <div :class="`loading-dispaly ${($store.state.dwellerAddress === '0x0000000000000000000000000000000000000000') ? 'showing-content' : ''}`">
-            <p id="logo">
-                <Loader size="100" />
-            </p>
-            <div class="red" v-if="$store.state.criticalError">
-                <i class="fas fa-skull"></i> Failure to load: {{$store.state.criticalError}} <br /><br />
-                <button class="button is-danger is-small" v-on:click="reload">Retry?</button>
-            </div>
-            <div v-else-if="!$store.state.dwellerAddress">
-                {{$t('loading.connecting_blockchain')}}
-            </div>
-            <div v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'" class="content">
-                <Profile :customFinalAction="reload" />
-            </div>
-            <div v-else-if="!$store.state.authenticated">
-                {{$t('loading.authenticating')}}
-            </div>
-            <div v-else-if="!$store.state.friendsLoaded">
-                {{$t('loading.assembling')}}
-            </div>
-            <div v-else-if="!$store.state.buckets">
-                {{$t('loading.buckets')}}
-            </div>
-            <div v-else-if="$store.state.starting">
-                {{$t('loading.generic')}}
-            </div>
-            <div v-else-if="!$store.state.ICEConnected">
-                {{$t('loading.connecting_broker')}}
-            </div>
-            <div class="metamask" v-if="showWeb3 && $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'">
-                <span v-if="!$store.state.dwellerAddress" v-html="$t('loading.long_load', {text: 'https://metamask.io/', link: 'https://metamask.io/', target: '_blank'})"/>
-                <span v-else-if="!$store.state.friendsLoaded">
-                    {{$t('loading.textile')}}
-                </span>
-                <span v-else-if="!$store.state.ICEConnected">
-                    {{$t('loading.other_tab')}}
-                </span>
-                <span v-else>
-                    {{$t('loading.something_wrong')}} <a href="#" target="_blank" v-on:click="window.location.reload()">{{$t('loading.retry')}}</a>
-                </span>
-            </div>
-            <p class="special-thanks">
-                {{$t('loading.alpha')}}
-            </p>
-        </div>
+  <div id="loading">
+    <div
+      :class="
+        `loading-dispaly ${
+          $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000'
+            ? 'showing-content'
+            : ''
+        }`
+      "
+    >
+      <p id="logo">
+        <Loader size="100" />
+      </p>
+      <div class="red" v-if="$store.state.criticalError">
+        <i class="fas fa-skull"></i> Failure to load: {{ $store.state.criticalError }} <br /><br />
+        <button class="button is-danger is-small" v-on:click="reload">Retry?</button>
+      </div>
+      <div v-else-if="!$store.state.dwellerAddress">
+        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.connecting_blockchain') }}
+      </div>
+      <div
+        v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'"
+        class="content"
+      >
+        <FundAccount v-if="$store.state.balance && $store.state.balance.eq(0)"/>
+        <Profile :customFinalAction="reload" v-else />
+        <!-- <Profile :customFinalAction="reload" v-else /> -->
+      </div>
+      <div v-else-if="!$store.state.friendsLoaded">
+        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.assembling') }}
+      </div>
+      <div v-else-if="$store.state.starting">
+        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.generic') }}
+      </div>
+      <div v-else-if="!$store.state.ICEConnected">
+        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.connecting_broker') }}
+      </div>
+      <div
+        class="metamask"
+        v-if="
+          showWeb3 && $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
+        "
+      >
+        <!-- <span
+          v-if="!$store.state.dwellerAddress"
+          v-html="
+            $t('loading.long_load', {
+              text: 'https://metamask.io/',
+              link: 'https://metamask.io/',
+              target: '_blank',
+            })
+          "
+        /> -->
+        <span v-if="!$store.state.friendsLoaded">
+          {{ $t('loading.textile') }}
+        </span>
+        <span v-else-if="!$store.state.ICEConnected">
+          {{ $t('loading.other_tab') }}
+        </span>
+        <span v-else>
+          {{ $t('loading.something_wrong') }}
+          <a href="#" target="_blank" v-on:click="window.location.reload()">{{
+            $t('loading.retry')
+          }}</a>
+        </span>
+      </div>
+      <p class="special-thanks">
+        {{ $t('loading.alpha') }}
+      </p>
     </div>
+  </div>
 </template>
 
 <script>
 import Profile from '@/components/main/settings/profile/Profile';
+import FundAccount from '@/components/common/FundAccount';
 import Loader from './Loader';
 
 export default {
   name: 'Loading',
-  props: [
-    'text',
-  ],
+  props: ['text'],
   components: {
     Profile,
+    FundAccount,
     Loader,
   },
   data() {
@@ -66,13 +90,7 @@ export default {
       showWeb3: false,
     };
   },
-  mounted() {
-    setTimeout(() => {
-      if (!this.$store.state.criticalError) {
-        this.showWeb3 = true;
-      }
-    }, 8000);
-  },
+  mounted() {},
   methods: {
     reload() {
       window.location.reload();

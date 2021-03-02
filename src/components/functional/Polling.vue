@@ -16,10 +16,10 @@ export default {
   },
   methods: {
     friends() {
-      this.friendsTimer = setInterval(() => {
-        this.$store.commit('fetchFriends', this.$store.state.activeAccount);
-      }, config.polling.friends);
-      this.friendsTimer();
+      // this.friendsTimer = setInterval(() => {
+      //   this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      // }, config.polling.friends);
+      // this.friendsTimer();
     },
     requests() {
       this.requestsTimer = setInterval(() => {

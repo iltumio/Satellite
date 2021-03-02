@@ -28,6 +28,7 @@ export default {
     return {
       decrypted: false,
       showWarning: !(localStorage.getItem('alpha-warning') === 'false'),
+      friendsLoaded: false,
     };
   },
   methods: {
@@ -73,13 +74,19 @@ export default {
             message.data,
           );
         }, ['key-offer'], this.$store.state.activeChats);
+
+        // init
+        this.$WebRTC.init(this.$ethereum.activeAccount);
         this.peerInit = true;
-      } else {
-        setTimeout(() => {
-          window.Satellite.warn('Friends not loaded yet, will try again soon.');
-          this.initP2P();
-        }, 500);
       }
+      // @deprecated In mounted component there is a watcher that is looking for friendsLoaded
+      // to become true before trying to init p2p
+      // else {
+      //   setTimeout(() => {
+      //     window.Satellite.warn('Friends not loaded yet, will try again soon.');
+      //     this.initP2P();
+      //   }, 500);
+      // }
     },
     checkAccount() {
       if (this.$store.state.activeAccount) {
@@ -105,25 +112,21 @@ export default {
         // TODO: Update WebRTC
         console.log('state', state);
       }
+
+      // Use this workaround because vuex $store.watch is not
+      // triggering any update
+      // TODO: find the issue and use $store.wtach together with
+      // getters instead
+      if (!this.friendsLoaded && state.friendsLoaded) {
+        this.initP2P();
+
+        this.friendsLoaded = true;
+      }
     });
     // Set i18n locale based on the user preferred language
     if (this.$store.state.settings.language) {
       this.$i18n.locale = this.$store.state.settings.language;
     }
-
-    // ----- Lazy Load of languages from IPFS (currently disabled)
-    // Check preferred lang and switch
-    // If something goes wrong during the lazy load the language
-    // state will be reverted back to the default value
-    //
-    // getLang(this.$store.state.settings.language).then((messages) => {
-    //   this.$i18n.setLocaleMessage(this.$store.state.settings.language, messages);
-    //   this.$i18n.locale = this.$store.state.language;
-    // }).catch((error) => {
-    //   console.error(error);
-    //   this.$store.commit('setLanguage', config.defaultLanguage);
-    // });
-    // -----------------------------------------------------------
   },
 };
 </script>

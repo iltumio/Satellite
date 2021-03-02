@@ -1,12 +1,10 @@
 // @ts-ignore
 import config from '@/config/config';
 // @ts-ignore
-import Ethereum from '@/classes/Ethereum';
-import Registry from '../utils/contracts/Registry';
-import DwellerContract from '../utils/contracts/DwellerContract';
-import IDweller from '../interfaces/IDweller';
-
-const ethereum = new Ethereum('user-provided');
+import Vault74Registry from '@/classes/contracts/Vault74Registry';
+import DwellerContract from '@/classes/contracts/DwellerContract';
+import IDweller from '@/interfaces/IDweller';
+import { ethers } from 'ethers';
 
 /**
  * Class representing a caching helper.
@@ -18,12 +16,14 @@ export default class DwellerCachingHelper {
   expiry: number;
   cache: any;
   registryAddress: string;
+  ethereum: any;
   /**
    * @constructs DwellerCachingHelper
    * @augments registryAddress Address to the on chain contract of the registry
    * @augments expiry how long should dwellers last in the cache
    */
-  constructor(registryAddress: string, expiry: number = 86000) {
+  constructor(ethereum: any, registryAddress: string, expiry: number = 86000) {
+    this.ethereum = ethereum;
     this.expiry = expiry;
     const localCache = localStorage.getItem('vault74.dwellerCache') || false;
     this.cache = localCache ? JSON.parse(localCache) : {};
@@ -67,20 +67,24 @@ export default class DwellerCachingHelper {
    * @returns the dweller from the chain
    */
   async updateDweller(address: string) : Promise<IDweller | null> {
-    let dweller : any;
-    const dwellerIDAddress = await Registry.getDwellerContract(address);
-    if (dwellerIDAddress === '0x0000000000000000000000000000000000000000') return null;
-    dweller = {
-      name: await DwellerContract.getDwellerName(dwellerIDAddress),
-      photo: await DwellerContract.getPhotoAsync(dwellerIDAddress),
+    // Create a registry contract instance
+    const registry = new Vault74Registry(this.ethereum, config.registry[config.network.chain]);
+    const dwellerContractAddress = await registry.getDwellerContract(this.ethereum.activeAccount);
+
+    if (dwellerContractAddress === '0x0000000000000000000000000000000000000000') return null;
+
+    const dwellerContract = new DwellerContract(this.ethereum, dwellerContractAddress);
+
+    const dwellerName = await dwellerContract.getDwellerName();
+    const dwellerPhoto = await dwellerContract.getPhoto();
+
+    const dweller = {
+      name: ethers.utils.parseBytes32String(dwellerName),
+      photo: `${config.ipfs.browser}${dwellerPhoto}`,
       address,
       expiry: Date.now() + this.expiry,
     };
-    dweller = {
-      ...dweller,
-      photo: `${config.ipfs.browser}${dweller.photo}`,
-      name: ethereum.utils.hexToString(dweller.name),
-    };
+
     this.cache[address] = dweller;
     this.updateCache();
     return dweller;

@@ -5,19 +5,16 @@ import Mousetrap from 'mousetrap';
 import VueQrcode from 'vue-qrcode';
 
 import config from '@/config/config';
-import DCUtils from '@/utils/contracts/DwellerContract.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 import Badge from '@/components/common/Badge';
-import Ethereum from '@/classes/Ethereum';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import CircleIcon from '@/components/common/CircleIcon';
 import PhotoCropper from 'vue-image-crop-upload';
-import Registry from '@/utils/contracts/Registry.ts';
+import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';
 
-
-const ethereum = new Ethereum('user-provided');
 
 export default {
   name: 'Profile',
@@ -53,31 +50,22 @@ export default {
       config,
       funded: false,
       dwellerCachingHelper: new DwellerCachingHelper(
+        this.$ethereum,
         config.registryAddress,
         config.cacher.dwellerLifespan,
       ),
     };
   },
   mounted() {
+    // Gets provider from window object
     this.getDwellerByAddress(this.$store.state.activeAccount);
-    Registry.getDwellerContract(this.$store.state.activeAccount);
+
+    // Creates a registry instance
+    this.registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+
     Mousetrap.bind('esc', () => {
       this.showCropper = false;
     });
-    if (ethereum.localAccount) {
-      const pollBalance = () => {
-        ethereum.eth.getBalance(this.$store.state.activeAccount).then((bal) => {
-          if (bal > 0) {
-            this.funded = true;
-          } else {
-            setTimeout(() => {
-              pollBalance();
-            }, 500);
-          }
-        });
-      };
-      pollBalance();
-    }
   },
   methods: {
     dataURItoBlob(dataURI) {
@@ -132,17 +120,17 @@ export default {
       this.ipfsHash = {
         path: '',
       };
-      const dwellerIDContract = await Registry
-        .getDwellerContract(this.$store.state.activeAccount);
-      DCUtils.setPhoto(
-        dwellerIDContract,
-        this.$store.state.activeAccount,
-        this.ipfsHash,
-        () => {
-          this.$store.commit('setStatus', 'Transaction confirmed');
-          this.$store.commit('profilePictureHash', this.ipfsHash.path);
-        },
-      );
+      // const dwellerIDContract = await this.registry
+      //   .getDwellerContract(this.$store.state.activeAccount);
+      // DCUtils.setPhoto(
+      //   dwellerIDContract,
+      //   this.$store.state.activeAccount,
+      //   this.ipfsHash,
+      //   () => {
+      //     this.$store.commit('setStatus', 'Transaction confirmed');
+      //     this.$store.commit('profilePictureHash', this.ipfsHash.path);
+      //   },
+      // );
     },
     // Create a new profile via the Registry for this user
     async submitProfileContract() {
@@ -151,14 +139,17 @@ export default {
         return;
       }
       this.created = true;
-      Registry.createDwellerId(
+
+      this.registry.createDwellerId(
         this.$store.state.username,
         this.$store.state.activeAccount,
         (transactionHash) => {
+          console.log(transactionHash);
           this.transactionHash = transactionHash;
         },
-        (confirmationNumber, receipt) => {
-          this.confirmation = confirmationNumber;
+        (receipt) => {
+          console.log(receipt);
+          this.confirmation = receipt.confirmations;
           this.finishProfile(receipt);
         },
       );
@@ -183,24 +174,35 @@ export default {
         return;
       }
 
-      const dwellerIDContract = await Registry
+
+      const dwellerContractAddress = await this.registry
         .getDwellerContract(this.$store.state.activeAccount);
 
-      let confirms = 0;
+      // const confirms = 0;
       this.$store.commit('setStatus', 'Transaction created, waiting for confirm');
-      DCUtils.setPhoto(
-        dwellerIDContract,
-        this.$store.state.activeAccount,
-        this.ipfsHash,
-        () => {
-          confirms += 1;
-          this.finished = true;
-          this.$store.commit('setStatus', 'Transaction confirmed');
-          if (confirms >= 2 || !this.customFinalAction) {
-            this.commitEverything(dwellerIDContract);
-          }
-        },
-      );
+
+      const dwellerContractInstance = new DwellerContract(this.$ethereum, dwellerContractAddress);
+
+      dwellerContractInstance.setPhoto(this.ipfsHash, (txReceipt) => {
+        console.log('Set photo', txReceipt);
+        this.finished = true;
+        this.$store.commit('setStatus', 'Transaction confirmed');
+        this.commitEverything(txReceipt);
+      });
+      // DCUtils.setPhoto(
+      //   dwellerIDContract,
+      //   this.$store.state.activeAccount,
+      //   this.ipfsHash,
+      //   () => {
+      //     confirms += 1;
+      //     this.finished = true;
+      //     this.$store.commit('setStatus', 'Transaction confirmed');
+      //     if (confirms >= 2 || !this.customFinalAction) {
+      //       this.commitEverything(dwellerIDContract);
+      //     }
+      //   },
+      // );
+      // this.commitEverything(receipt);
     },
     // Note the changes to the profile locally in the store
     commitEverything(dwellerIDContract) {
@@ -208,17 +210,17 @@ export default {
       this.$store.commit('dwellerAddress', dwellerIDContract);
       if (this.customFinalAction) this.customFinalAction();
     },
-    // Get a dweler from the registry
-    async getDweller() {
-      this.$store.commit('setStatus', 'Fetching dweller from chain');
-      DCUtils.getDweller(
-        this.$store.state.dwellerAddress,
-        (dweller, onChainPhotoHash) => {
-          this.dweller = dweller;
-          this.onChainPhotoHash = onChainPhotoHash;
-        },
-      );
-    },
+    // // Get a dweler from the registry
+    // async getDweller() {
+    //   this.$store.commit('setStatus', 'Fetching dweller from chain');
+    //   DCUtils.getDweller(
+    //     this.$store.state.dwellerAddress,
+    //     (dweller, onChainPhotoHash) => {
+    //       this.dweller = dweller;
+    //       this.onChainPhotoHash = onChainPhotoHash;
+    //     },
+    //   );
+    // },
     async getDwellerByAddress(address) {
       this.dweller = await this.dwellerCachingHelper.getDweller(address);
     },

@@ -1,4 +1,4 @@
-import { Contract } from "web3-eth-contract";
+import { ethers } from 'ethers';
 // @ts-ignore
 import * as FriendsInterface from '@/contracts/build/contracts/Friends.json';
 // @ts-ignore
@@ -13,10 +13,10 @@ const dwellerCache = new DwellerCache(config.registryAddress, config.cacher.dwel
 
 export default class Friends {
   ethereum: any;
-  contract: Contract;
+  contract: any;
 
-  constructor(address: string) {
-    this.ethereum = new Ethereum('window');
+  constructor(ethereum: typeof Ethereum, address: string) {
+    this.ethereum = ethereum;
     this.contract = this.getContract(address);
   }
 
@@ -26,9 +26,7 @@ export default class Friends {
    * @returns contract instance ready for method execution
    */
   getContract(address: string) {
-    let contract: Contract;
-    contract = this.ethereum.getContract(FriendsInterface.abi, address);
-    return contract;
+    return this.ethereum.getContract(FriendsInterface.abi, address);
   }
 
   /** @function
@@ -36,13 +34,8 @@ export default class Friends {
    * @argument account Address to get friend requests from
    * @returns array of friend request IDs
    */
-  async getRequests(account: string) : Promise<string[]>{
-    const requests = await this.contract.methods
-      .getRequests()
-      .call({
-        from: account,
-      });
-    return requests;
+  async getRequests() : Promise<string[]> {
+    return this.contract.getRequests();
   }
 
   /** @function
@@ -51,26 +44,25 @@ export default class Friends {
    * @returns friend request object
    */
   async getRequest(id: number) {
-    const request = await this.contract.methods
-      .getRequest(id)
-      .call();
-    return request;
+    return this.contract
+      .getRequest(id);
   }
 
   /** @function
    * @name parseRequest
-   * @argument account request array to parse to request object
+   * @argument request request object
    * @returns friend request object
    */
-  async parseRequest(request: any[]) {
+  async parseRequest(request: any) {
+    console.log(this);
     return {
-      id: request['id'].toString(),
-      active: request['active'],
-      accepted: request['accepted'],
-      reciever: await dwellerCache.getDweller(request['reciver']),
-      sender: await dwellerCache.getDweller(request['sender']),
-      threadHash: `${this.ethereum.utils.hexToAscii(request['threadHash1'])}${this.ethereum.utils.hexToAscii(request['threadHash2'])}`,
-    }
+      id: request.id.toString(),
+      active: request.active,
+      accepted: request.accepted,
+      reciever: await dwellerCache.getDweller(request.reciver),
+      sender: await dwellerCache.getDweller(request.sender),
+      threadHash: `${ethers.utils.parseBytes32String(request.threadHash1)}${ethers.utils.parseBytes32String(request.threadHash2)}`,
+    };
   }
 
 
@@ -79,85 +71,58 @@ export default class Friends {
    * @argument account request array to parse to request object
    * @returns friend request object
    */
-  async parseFriend(fr: any[]) {
+  async parseFriend(fr: any) {
+    console.log(this);
     return {
-      id: fr[0],
-      threadHash: `${this.ethereum.utils.hexToAscii(fr['threadHash1'])}${this.ethereum.utils.hexToAscii(fr['threadHash2'])}`,
-    }
+      id: fr,
+      threadHash: `${ethers.utils.parseBytes32String(fr.threadHash1)}${ethers.utils.parseBytes32String(fr.threadHash2)}`,
+    };
   }
 
   /** @function
    * @name getFriends
-   * @argument account account to get friends from
    * @returns friend request object
    */
-  async getFriends(account: string) {
-    const friends = await this.contract.methods
-      .getFriends()
-      .call({
-        from: account,
-      });
-    return friends;
+  async getFriends() {
+    return this.contract.getFriends();
   }
 
   /** @function
    * @name makeRequest
-   * @argument account account to send request from
    * @argument to account to send the request to
    * @argument hash threadID for the friend group
    * @returns transaction hash
    */
-  async makeRequest(account: string, to: string, hash: string) : Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.contract.methods.makeRequest(
-        to,
-        [
-          this.ethereum.fromAscii(hash.substring(0, 28)),
-          this.ethereum.fromAscii(hash.substring(28)),
-        ],
-      )
-        .send({
-          from: account,
-          gas: 4700000,
-        })
-        .once('confirmation', resolve)
-        .on('error', reject);
-    });
+  async makeRequest(to: string, hash: string) : Promise<any> {
+    return this.contract.makeRequest(
+      to,
+      [
+        ethers.utils.formatBytes32String(hash.substring(0, 28)),
+        this.ethereum.formatBytes32String(hash.substring(28)),
+      ],
+      { gasPrice: 4700000 },
+    ).then(tx => tx.wait());
   }
 
   /** @function
    * @name acceptRequest
-   * @argument account account to accept friend request on behalf of
    * @argument id friend request identifier to accept
    * @returns transaction hash
    */
-  async acceptRequest(account: string, id: number) : Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.contract.methods.acceptRequest(id)
-        .send({
-          from: account,
-          gas: 4700000,
-        })
-        .once('confirmation', resolve)
-        .on('error', reject);
-    });
+  async acceptRequest(id: number) : Promise<any> {
+    return this.contract.acceptRequest(id, {
+      gasPrice: 4700000,
+    }).then(tx => tx.wait());
   }
 
   /** @function
    * @name denyRequest
-   * @argument account account to deny friend request on behalf of
    * @argument id friend request identifier to deny
    * @returns transaction hash
    */
-  async denyRequest(account: string, id: number) : Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.contract.methods.acceptRequest(id)
-        .send({
-          from: account,
-          gas: 4700000,
-        })
-        .once('confirmation', resolve)
-        .on('error', reject);
-    });
+  async denyRequest(id: number) : Promise<any> {
+    return this.contract.acceptRequest(id, {
+      gasPrice: 4700000,
+    }).then(tx => tx.wait());
   }
 }

@@ -1,38 +1,86 @@
-import Web3 from 'web3';
+// import Web3 from 'web3';
+import { ethers } from 'ethers';
 import * as Web3Utils from 'web3-utils';
 import config from '@/config/config';
 
 export default class Ethereum {
-  /** @constructor
-   * Construct a Ethereum handler
-   * this class should abstract methods which will change depending
-   * on which network we are using to connect to the chain
-   * @argument web3Provider optional providewr to be used
-   */
-  constructor(web3Provider) {
-    this.netConfig = config.network;
-    if (web3Provider === 'window') {
-      this.web3 = new Web3(window.ethereum);
-    } else {
-      this.web3 = new Web3(web3Provider === 'user-provided' ? this.fetchProvider() : Web3.givenProvider);
-    }
-    // Abstract bindings to prevent API changes breaking Vault74
-    this.createBindings();
-    this.localAccount = localStorage.getItem('Satellite.eth.account') ?
-      JSON.parse(localStorage.getItem('Satellite.eth.account')) : null;
+  constructor() {
+    this.initialized = false;
   }
-  /** @function
-   * Bind window provided web3 object
-   * @name pollBindWeb3
+
+  /**
+   * @description Initializes the provider based on the provider type
    */
-  pollBindWeb3() {
-    if (window.ethereum) {
-      this.web3 = new Web3(window.ethereum);
+  async initialize(providerType, wallet = null) {
+    this.netConfig = config.network;
+    this.providerType = providerType;
+
+    if (this.providerType === 'injected') {
+      this.accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      this.provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // If no accounts passed by the constructor, use web3 api to get them
+      this.signer = this.provider.getSigner(0);
+      // this.accounts = await this.provider.listAccounts();
+      [this.activeAccount] = this.accounts;
+
+      // Activate listeners
+      this.onAccountChange = window.ethereum.on('accountsChanged', this.handleAccountChange);
+      this.onNetworkChange = window.ethereum.on('networkChanged', this.handleNetworkChange);
+
+      this.initialized = true;
+    } else if (this.providerType === 'satellite' && wallet) {
+      this.provider = ethers.providers.getDefaultProvider('goerli');
+      this.wallet = wallet;
+
+      this.signer = wallet.connect(this.provider);
+
+      this.accounts = [this.signer.address];
+
+      this.activeAccount = this.signer.address;
+
+      this.initialized = true;
     } else {
-      setTimeout(() => {
-        this.pollBindWeb3();
-      }, 500);
+      console.error('Signer is required for wault74 provider');
     }
+  }
+
+  /**
+   * @description Utility function to check if the provider has
+   * been initialized
+   */
+  isInitialized() { return this.isInitialized; }
+
+  /**
+   * @description Account change callback
+   * @param {string[]} accounts
+   */
+  handleAccountChange(accounts) {
+    this.accounts = accounts;
+    this.activeAccount = this.selectedAddress;
+  }
+
+  /**
+   * @description Network change callback
+   * @param {string} networkId
+   */
+  handleNetworkChange(networkId) {
+    this.selectedNetwork = networkId;
+  }
+
+  /**
+   * @description Retrieve the current block number from the network
+   */
+  async getBlockNumber() {
+    return this.provider.getBlockNumber();
+  }
+
+  /**
+   * @description Retrieve the network from the network
+   */
+  async getNetworkType() {
+    return this.provider.getNetwork();
   }
 
   /** @function
@@ -96,8 +144,7 @@ export default class Ethereum {
    * @argument address address of the contract on chain
    */
   getContract(abi, address = null) {
-    return (address) ? new this.web3.eth.Contract(abi, address) :
-      new this.web3.eth.Contract(abi);
+    return new ethers.Contract(address, abi, this.signer);
   }
 
   getAccount() {
@@ -111,6 +158,14 @@ export default class Ethereum {
       localStorage.setItem('Satellite.eth.account', JSON.stringify(this.localAccount));
     }
     return this.localAccount;
+  }
+
+  getAccounts() {
+    return this.accounts;
+  }
+
+  getActiveAccount() {
+    return this.activeAccount;
   }
 
   signTransaction(tx) {
@@ -131,5 +186,12 @@ export default class Ethereum {
         .once('transactionHash', tx)
         .once('confirmation', done);
     }
+  }
+
+  getCurrentAccountBalance() {
+    if (this.activeAccount) {
+      return this.provider.getBalance(this.activeAccount);
+    }
+    return null;
   }
 }

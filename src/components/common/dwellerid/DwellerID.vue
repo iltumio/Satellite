@@ -17,6 +17,7 @@ export default {
     return {
       dweller: false,
       dwellerCachingHelper: new DwellerCachingHelper(
+        this.$ethereum,
         config.registryAddress,
         config.cacher.dwellerLifespan,
       ),
