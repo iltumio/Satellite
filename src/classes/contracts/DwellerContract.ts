@@ -123,6 +123,10 @@ export default class DwellerContract {
    */
   async getPhoto() {
     const photo = await this.contract.getPhoto();
-    return ethers.utils.toUtf8String(photo);
+    const sliced = photo.slice(2);
+    const firstHalf = sliced.substr(0, 64);
+    const secondHalf = sliced.substr(64, 128);
+
+    return ethers.utils.parseBytes32String(`0x${firstHalf}`) + ethers.utils.parseBytes32String(`0x${secondHalf}`);
   }
 }
