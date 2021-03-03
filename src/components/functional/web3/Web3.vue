@@ -8,7 +8,7 @@
 <script>
 import ProviderSelection from '@/components/common/ProviderSelection';
 import WalletCreation from '@/components/common/WalletCreation';
-import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
+import Registry from '@/classes/contracts/Registry.ts';
 import DwellerID from '@/classes/contracts/DwellerContract.ts';
 import config from '@/config/config';
 import { ethers } from 'ethers';
@@ -50,7 +50,7 @@ export default {
     },
     // Tasks we need to run for Web3 when the application starts
     async startupActions() {
-      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
       const dwellerContract = await registry.getDwellerContract(this.$ethereum.activeAccount);
       this.$store.commit('dwellerAddress', dwellerContract);
       if (dwellerContract !== '0x0000000000000000000000000000000000000000') {
@@ -102,8 +102,6 @@ export default {
       if (mutation.type === 'setSelectedProvider') {
         if (mutation.payload.type === 'injected') {
           this.connectProvider(mutation.payload);
-        } else if (mutation.payload.type === 'vault74') {
-          console.log('Need to generate first');
         }
       }
     });

@@ -10,7 +10,7 @@ import Badge from '@/components/common/Badge';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import CircleIcon from '@/components/common/CircleIcon';
 import PhotoCropper from 'vue-image-crop-upload';
-import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
+import Registry from '@/classes/contracts/Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';
@@ -61,7 +61,7 @@ export default {
     this.getDwellerByAddress(this.$store.state.activeAccount);
 
     // Creates a registry instance
-    this.registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+    this.registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
 
     Mousetrap.bind('esc', () => {
       this.showCropper = false;

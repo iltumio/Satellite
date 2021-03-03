@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
+import Registry from '@/classes/contracts/Registry.ts';
 import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 import config from '@/config/config';
 
@@ -28,7 +28,7 @@ export default {
   methods: {
     async changeUsername() {
       // Create a registry contract instance
-      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
       const dwellerContractAddress = await registry.getDwellerContract(this.$ethereum.activeAccount);
 
       // Create a dweller contract instance

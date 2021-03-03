@@ -5,7 +5,7 @@ import ServerList from '@/components/serverlist/ServerList';
 import QuickFriends from '@/components/sidebar/quickfriends/QuickFriends';
 import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
-import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
+import Registry from '@/classes/contracts/Registry.ts';
 import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 import ServerContract from '@/classes/contracts/ServerContract.ts';
 import config from '@/config/config';
@@ -47,7 +47,7 @@ export default {
     },
     async updateServers() {
       this.loadingServers = true;
-      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
       const dwellerContractAddress = await registry.getDwellerContract(this.$store.state.activeAccount);
       const dwellerContract = new DwellerContract(this.$ethereum, dwellerContractAddress);
       const serverAddresses = await dwellerContract.getServers(this.$store.state.activeAccount);

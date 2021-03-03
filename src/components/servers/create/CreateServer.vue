@@ -4,7 +4,7 @@
 import PhotoCropper from 'vue-image-crop-upload';
 import CircleIcon from '@/components/common/CircleIcon';
 import ServerContract from '@/classes/contracts/ServerContract.ts';
-import Vault74Registry from '@/classes/contracts/Vault74Registry.ts';
+import Registry from '@/classes/contracts/Registry.ts';
 import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 import config from '@/config/config';
 
@@ -89,7 +89,7 @@ export default {
     // Create a new profile via the Registry for this user
     async submitNewServer() {
       this.created = true;
-      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
       registry.createServer(
         this.name,
         (transactionHash) => {
@@ -109,7 +109,7 @@ export default {
         return;
       }
       // Get newest server on dweller contract
-      const registry = new Vault74Registry(this.$ethereum, config.registry[config.network.chain]);
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
       const dwellerContractAddress = await registry.getDwellerContract(this.$ethereum.activeAccount);
 
       // Create a DwellerContract instance

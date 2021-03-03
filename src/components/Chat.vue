@@ -39,7 +39,7 @@
     <div v-else>
       <Achievement v-if="false" achievement="addFriend" />
       <CreateServer v-if="showCreateServer" :close="closeCreateServer" />
-      <Calling :active="$store.state.activeCaller" :callerId="$store.state.activeCaller" />
+      <Calling :active="$store.state.incomingCall" :callerId="$store.state.incomingCall" />
 
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
         <div class="column is-one-third sidebar-wrapper" :class="{'show': $store.state.sidebarMobileOpen}" v-if="$store.state.sidebarOpen">
