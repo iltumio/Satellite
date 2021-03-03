@@ -1,20 +1,17 @@
 <template>
   <div id="payment">
-    <a :href="message.payload.data.url" :download="message.payload.data.filename" target="_blank">
-      <article class="media">
-        <div class="media-content">
-          <div class="content">
-            <video controls :src="message.payload.data.url" v-html="$t('conversation.message.video.not_supported')"/>
-            <p>
-              <i class="fas fa-file-download logo"></i>
-              <strong class="filename">{{message.payload.data.filename}}</strong>
-              <br>
-              <span class="label">{{bytesToSize(message.payload.data.size)}}</span>
-            </p>
-          </div>
+    <article class="media">
+      <div class="media-content">
+        <div class="content">
+          <video controls :src="message.payload.data.url" v-html="$t('conversation.message.video.not_supported')"/>
+          <p>
+            <strong class="filename">{{message.payload.data.filename}}</strong>
+            <br>
+            <span class="label">{{bytesToSize(message.payload.data.size)}}</span>
+          </p>
         </div>
-      </article>
-    </a>
+      </div>
+    </article>
   </div>
 </template>
 
@@ -41,8 +38,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   audio {
-    width: calc(100% + 3rem);
-    margin-left: -3rem;
+    width: 100%;
   }
   .media {
     background: #fff;
@@ -69,7 +65,7 @@ export default {
     font-size: 10pt;
   }
   .content {
-    padding: 0.5rem 0 0.5rem 3rem;
+    padding: 0.5rem 0 0.5rem 0;
   }
   .logo {
     font-size: 24pt;

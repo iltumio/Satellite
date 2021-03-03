@@ -9,6 +9,16 @@ export default {
   components: {
     CircleIcon,
   },
+  methods: {
+    openServer(server) {
+      console.log('server set ', server);
+      this.$store.commit('activeServer', server);
+      this.$store.commit('changeRoute', 'server');
+    },
+    goHome() {
+      this.$store.commit('changeRoute', 'main');
+    },
+  },
 };
 </script>
 

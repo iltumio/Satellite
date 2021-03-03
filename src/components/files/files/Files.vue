@@ -12,7 +12,6 @@
     <h2 class="label">{{$t('files.history')}}</h2>
     <article class="message is-dark">
       <div class="message-body noselect">
-        <h2>{{$t('files.your_files')}}</h2>
         <p>{{$t('files.your_files_subtext')}}</p>
         <div v-if="!loading">
           <FileContext

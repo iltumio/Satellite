@@ -130,7 +130,7 @@ export default {
         margin-top: 3rem;
     }
     .content {
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Poppins', sans-serif;
         text-align: left;
     }
 

@@ -166,7 +166,7 @@ export default {
     position: absolute;
     z-index: 10;
     width: 300px;
-    top: 13.5rem;
+    top: 9.5rem;
     right: -285px;
     box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
   }

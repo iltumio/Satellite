@@ -1,0 +1,43 @@
+<div>
+  <section class="chat-group" @paste="handlePaste">
+      <FileUpload v-if="showFileUpload" :file="file" :relayResult="handleNewMessage" :close="closeFileUpload" />
+      <p id="typing"
+        class="loading"
+        v-if="$store.state.typingUsers[$store.state.activeChat]"
+        key="$store.state.typingUsers[$store.state.activeChat]">
+        <b v-if="$store.state.friends.length">
+          NOT IMPLEMENTED
+        </b>
+        {{$t('conversation.chatbar.typing')}}
+      </p>
+      <div :class="`input-collection ${messageText.length > limit ? 'input-collection-red' : ''}`">
+          <p :class="`charlimit ${messageText.length > limit ? 'red' : ''}`" v-if="messageText.length <= limit">
+            {{$t('conversation.chatbar.characters_left',{characters: limit - messageText.length})}}
+          </p>
+          <p :class="`charlimit ${messageText.length > limit ? 'red' : ''}`"  v-else>
+            {{$t('conversation.chatbar.characters_left',{characters: limit - messageText.length})}}
+          </p>
+          <i class="fas fa-arrow-circle-right send" v-on:click="sendMessage"></i>
+          <i class="far fa-smile-wink emoji" v-on:click="toggleEmoji"></i>
+          <i class="fas fa-file-upload upload" v-on:click="openFileUpload"></i>
+          <picker
+            v-if="selectingEmoji"
+            native 
+            :data="emojiIndex"
+            :title="$t('conversation.chatbar.pick_emoji')" 
+            emoji="point_up" 
+            color="#00d0a1"
+            :showPreview="false"
+            @select="this.selectEmoji" />
+          <input 
+            class="input is-small messageuser" 
+            type="text" 
+            autofocus
+            @input="isTyping"
+            v-on:keyup="startTyping"
+            :placeholder="`Message in #${$store.state.channel.name}`"
+            v-model="messageText"
+            v-on:keyup.enter="sendMessage">
+      </div>
+  </section>
+</div>

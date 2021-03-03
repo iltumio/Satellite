@@ -37,9 +37,9 @@
 }
 #logo {
   font-family: 'Space Mono', monospace;
-  font-size: 25pt;
+  font-size: 16pt;
   padding-top: 1rem;
-  padding-bottom: 2rem;
+  padding-bottom: 0.3rem;
 }
 #logo .close {
     display: none;
@@ -55,7 +55,19 @@
   bottom: 6.5rem;
   right: 1.5rem;
   left: 1.5rem;
-  top: 14.2rem;
+  top: 12rem;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.server-container {
+  position: absolute;
+  bottom: 6.5rem;
+  right: 1.5rem;
+  left: 1.5rem;
+  top: 9rem;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;  /* IE and Edge */
@@ -110,6 +122,10 @@
   }
 
   #logo {
-    padding-bottom: 1rem;
+    padding-bottom: 0;
+  }
+
+  .usercontainer {
+    top: 12rem !important;
   }
 }

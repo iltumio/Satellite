@@ -1,0 +1,11 @@
+<div class="server-info">
+  <h3>{{$store.state.server.name}}</h3>
+  <h5 v-if="$store.state.channel.type === 'text'"><i class="fas fa-hashtag"></i> {{$store.state.channel.name}}</h5>
+  <h5 v-if="$store.state.channel.type === 'feed'"><i class="fas fa-rss"></i> {{$store.state.channel.name}}</h5>
+  <hr class="divider">
+  <Actions />
+  <hr class="divider">
+  <Users />
+  <hr class="divider">
+  <Files />
+</div>

@@ -5,6 +5,7 @@ import media from './mutations/media';
 import messaging from './mutations/messaging';
 import peer from './mutations/peer';
 import account from './mutations/account';
+import server from './mutations/server';
 
 export default {
   ...friends,
@@ -14,6 +15,7 @@ export default {
   ...messaging,
   ...peer,
   ...account,
+  ...server,
   screenShareRequest(state: any) {
     // eslint-disable-next-line
     state.screenShareRequest = Date.now();

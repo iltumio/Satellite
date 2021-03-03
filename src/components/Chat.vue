@@ -31,15 +31,17 @@
       <CreateServer v-if="showCreateServer" :close="closeCreateServer"/>
       <Calling :active="$store.state.incomingCall" :callerId="$store.state.incomingCall" />
       <!--<Polling />-->
-
+      
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
+        <!--Main Chat-->
         <div class="column is-one-third sidebar-wrapper" :class="{'show': $store.state.sidebarMobileOpen}" v-if="$store.state.sidebarOpen">
           <Sidebar :toggleSettings="toggleSettings" :toggleCreateServer="toggleCreateServer" />
         </div>
         <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
-          <Files v-if="$store.state.mainRoute == 'files'"/>
-          <Friends v-if="$store.state.mainRoute == 'friends'"/>
+          <Server v-if="$store.state.mainRoute == 'server'" />
+          <Files v-else-if="$store.state.mainRoute == 'files'" />
+          <Friends v-else-if="$store.state.mainRoute == 'friends'" />
         </div>
       </div>
       <div :class="`settings ${settingsOpen ? 'settings-open-container' : ''}`" v-if="settingsOpen">
@@ -89,6 +91,7 @@ import Calling from '@/components/main/popups/calling/Calling';
 import CreateServer from '@/components/servers/create/CreateServer';
 import Context from '@/components/common/context/Context';
 import Polling from '@/components/functional/Polling';
+import Server from '@/components/server/Server';
 
 import IPFS from 'ipfs-core';
 
@@ -111,6 +114,7 @@ export default {
     Calling,
     CreateServer,
     Context,
+    Server,
   },
   data() {
     return {

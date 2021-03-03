@@ -8,6 +8,8 @@ import Controls from '@/components/sidebar/controls/Controls';
 import Registry from '@/utils/contracts/Registry.ts';
 import DwellerContract from '@/utils/contracts/DwellerContract.ts';
 import ServerContract from '@/utils/contracts/ServerContract.ts';
+// Servers
+import ServerSidebar from '@/components/server/sidebar/Sidebar';
 
 export default {
   name: 'Sidebar',
@@ -17,6 +19,7 @@ export default {
     User,
     Controls,
     QuickFriends,
+    ServerSidebar,
   },
   data() {
     return {

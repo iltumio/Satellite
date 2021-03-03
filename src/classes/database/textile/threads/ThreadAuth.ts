@@ -54,7 +54,7 @@ export default class ThreadAuth {
     this._identifier = identifier;
     this._db = await new Database(
       // Database will be named after the active account or "identifier"
-      `${this._identifier}-db`,
+      `${this._identifier}-threaddb`,
       // Schemas
       // @ts-ignore
       { name: ThreadIDs.name, schema: ThreadIDs.schema },
@@ -110,8 +110,12 @@ export default class ThreadAuth {
    */
   async connectCreateThread(remote: Remote) {
     const cached = localStorage.getItem('textile.threadID');
-    console.log('cached', cached);
-    // this._threadID = await remote.initialize(cached || undefined);
-    // if (!cached) localStorage.setItem('textile.threadID', this._threadID);
+    if (cached) {
+      this._threadID = await remote.initialize(cached);
+    } else {
+      this._threadID = await remote.initialize();
+    }
+    // this._threadID = await remote.initialize();
+    localStorage.setItem('textile.threadID', this._threadID);
   }
 }
