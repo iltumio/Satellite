@@ -1,116 +1,141 @@
 <template>
-  <div :class="`modal ${connected ? '' : 'is-active'}`">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <section class="modal-card-body" style="text-align: center;">
-        <p class="head"><strong>{{$t('web3.connecting')}}</strong></p>
-        <b>{{$t('web3.provider_suggestion')}} </b>
-        <br /><br>
-        <a href="https://metamask.io/" target="_blank">https://metamask.io/</a>
-      </section>
-    </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+  <div>
+    <ProviderSelection v-if="!$store.state.selectedProvider"/>
+    <WalletCreation v-if="$store.state.selectedProvider && !$store.state.accounts && !$store.state.mnemonic" :onWalletCreated="onWalletCreated"/>
   </div>
 </template>
 
 <script>
-import Web3 from 'web3';
-import Registry from '@/utils/contracts/Registry.ts';
-import DwellerID from '@/utils/contracts/DwellerContract.ts';
-import Ethereum from '@/classes/Ethereum';
-
-let ethereum = null;
+import ProviderSelection from '@/components/common/ProviderSelection';
+import WalletCreation from '@/components/common/WalletCreation';
+import Registry from '@/classes/contracts/Registry.ts';
+import DwellerID from '@/classes/contracts/DwellerContract.ts';
+import config from '@/config/config';
+import { ethers } from 'ethers';
+import { getInjectedProvider } from 'web3modal';
 
 export default {
   name: 'Web3',
   data() {
     return {
       connected: false,
+      selectedProvider: null,
+      ethereum: null,
     };
   },
+  components: {
+    ProviderSelection,
+    WalletCreation,
+  },
   methods: {
+    onWalletCreated(wallet) {
+      const { selectedProvider } = this.$store.state;
+      this.connectProvider(selectedProvider, wallet);
+    },
+    // Connect the selected provider, based on the user selection
+    async connectProvider(providerInfo, wallet = null) {
+      await this.$ethereum.initialize(providerInfo.type, wallet);
+
+      // Bind ethereum provider to the window object
+      // TODO: remove deprecated injected instance
+      window.satelliteProvider = this.$ethereum;
+
+      this.$store.commit('setWeb3Connected', true);
+      this.$store.commit('accounts', this.$ethereum.getAccounts());
+      this.$store.commit('defaultAccount');
+
+      // Run async get stats action
+      this.getStats();
+      this.startupActions();
+    },
     // Tasks we need to run for Web3 when the application starts
-    async startupActions(acc) {
-      const [account] = acc ? [acc] : await ethereum.web3.eth.getAccounts();
-      const dwellerContract = await Registry.getDwellerContract(account);
-      const dwellerPhoto = await DwellerID.getPhotoAsync(dwellerContract);
-      const dwellerName = await DwellerID.getDwellerName(dwellerContract);
+    async startupActions() {
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
+      const dwellerContract = await registry.getDwellerContract(this.$ethereum.activeAccount);
+      this.$store.commit('dwellerAddress', dwellerContract);
       if (dwellerContract !== '0x0000000000000000000000000000000000000000') {
-        this.$store.commit('dwellerAddress', dwellerContract);
+        const dwellerID = new DwellerID(this.$ethereum, dwellerContract);
+        const dwellerPhoto = await dwellerID.getPhoto();
+        const dwellerName = await dwellerID.getDwellerName();
         this.$store.commit('profilePictureHash', dwellerPhoto);
-        this.$store.commit('username', ethereum.web3.utils.hexToString(dwellerName));
-        // Start WebRTC Connections
-        this.$WebRTC.init(this.$store.state.activeAccount);
-        window.Satellite.debug('WebRTC Initalized', this.$WebRTC.identifier);
-      } else {
-        this.$store.commit('dwellerAddress', '0x0000000000000000000000000000000000000000');
+        this.$store.commit('username', ethers.utils.parseBytes32String(dwellerName));
+
+        this.$store.commit('fetchFriends', this.$store.state.activeAccount);
       }
     },
-    // Repeating polling tasks for Web3 stats gathering
-    web3Polling(account) {
-      const promises = [
-        ethereum.eth.getBlockNumber(),
-        ethereum.eth.net.getNetworkType(),
-      ];
-      if (!account) {
-        promises.push(ethereum.web3.eth.getAccounts());
-      }
-      Promise.all(promises).then((stats) => {
-        this.$store.commit('web3Stats', {
-          defaultBlock: ethereum.eth.defaultBlock,
-          blockNumber: stats[0],
-          nettype: stats[1],
-        });
-        this.$store.commit('accounts', stats[2] || [account]);
-        this.$store.commit('defaultAccount');
-        ethereum.eth.getBalance(this.$store.state.activeAccount).then((bal) => {
-          this.$store.commit('balance', ethereum.utils.fromWei(bal));
-        });
-        window.Satellite.debug(
-          'Fetched Web3 Stats ->',
-          this.$store.state.web3Stats,
-        );
+    async getStats() {
+      // Get stats
+      const blockNumber = await this.$ethereum.getBlockNumber();
+      const nettype = await this.$ethereum.getNetworkType();
+
+      this.$store.commit('web3Stats', {
+        blockNumber,
+        nettype,
       });
     },
   },
   mounted() {
-    this.$store.commit('setStatus', 'Connecting to Web3');
-    const ethEnabled = () => {
-      if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
-        ethereum = new Ethereum('window');
-        window.v74Ethereum = ethereum.web3;
-        window.ethereum.enable();
-        this.connected = true;
-        ethereum.web3.eth.getAccounts().then((acc) => {
-          if (acc.length) {
-            this.startupActions();
-            this.web3Polling();
-            this.$store.commit('setStatus', 'Web3 is connected');
-            setInterval(() => {
-              this.web3Polling();
-            }, 4000);
-            return true;
-          }
-          setTimeout(() => {
-            ethEnabled();
-          }, 4000);
-          return true;
-        });
+    // Get injected provider using web3modal library
+    const injectedProvider = getInjectedProvider();
+
+    // Tell the store that we completed our check and we found
+    // an injected web3 instance
+    this.$store.commit('setInjectedProvider', injectedProvider);
+
+
+    // Check if provider has already been selected and
+    // try to connect
+    if (this.$store.state.selectedProvider) {
+      if (this.$store.state.selectedProvider.type === 'injected') {
+        this.connectProvider(this.$store.state.selectedProvider);
+      } else if (this.$store.state.mnemonic) {
+        const wallet = ethers.Wallet.fromMnemonic(this.$store.state.mnemonic);
+        this.onWalletCreated(wallet);
+      } else {
+        console.log('Need to generate first');
       }
-      window.Satellite.warn('No Web3 provider found. Looking again soon.');
-      return false;
-    };
-    ethEnabled();
+    }
+
+
+    // Subscribe to store changes
+    this.unsubscribe = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'setSelectedProvider') {
+        if (mutation.payload.type === 'injected') {
+          this.connectProvider(mutation.payload);
+        }
+      }
+    });
   },
 };
 </script>
 
 <style scoped lang="less">
-  .head {
-    font-family: 'Space Mono', monospace;
-    font-size: 20pt;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+.head {
+  font-family: 'Space Mono', monospace;
+  font-size: 20pt;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+.provider-selection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  .provider-element {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    justify-content: space-between;
+
+    &:hover {
+      // Lighter blue gray
+      background-color: #545974;
+    }    
   }
+}
 </style>

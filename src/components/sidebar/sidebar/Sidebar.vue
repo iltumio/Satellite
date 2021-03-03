@@ -5,9 +5,10 @@ import ServerList from '@/components/serverlist/ServerList';
 import QuickFriends from '@/components/sidebar/quickfriends/QuickFriends';
 import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
-import Registry from '@/utils/contracts/Registry.ts';
-import DwellerContract from '@/utils/contracts/DwellerContract.ts';
-import ServerContract from '@/utils/contracts/ServerContract.ts';
+import Registry from '@/classes/contracts/Registry.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
+import ServerContract from '@/classes/contracts/ServerContract.ts';
+import config from '@/config/config';
 
 export default {
   name: 'Sidebar',
@@ -46,14 +47,16 @@ export default {
     },
     async updateServers() {
       this.loadingServers = true;
-      const dwellerContract = await Registry.getDwellerContract(this.$store.state.activeAccount);
-      const serverAddresses = await DwellerContract.getServers(dwellerContract, this.$store.state.activeAccount);
-      const fetchServers = [];
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
+      const dwellerContractAddress = await registry.getDwellerContract(this.$store.state.activeAccount);
+      const dwellerContract = new DwellerContract(this.$ethereum, dwellerContractAddress);
+      const serverAddresses = await dwellerContract.getServers(this.$store.state.activeAccount);
 
-      serverAddresses.forEach(async (s) => {
-        fetchServers.push(ServerContract.get(s, this.$store.state.activeAccount));
+
+      const fetchServers = serverAddresses.map((serverAddress) => {
+        const serverContract = new ServerContract(this.$ethereum, serverAddress);
+        return serverContract.get(serverAddress);
       });
-
       const servers = await Promise.all(fetchServers);
 
       this.servers = servers;

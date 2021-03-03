@@ -1,4 +1,5 @@
 @import "_variables.less";
+@import "_animations.less";
 body {
   overscroll-behavior: none;
   font-family: 'Open Sans', sans-serif;
@@ -113,5 +114,21 @@ input:focus, input:focus{
   font-weight: bold;
   font-size: 1rem;
   font-variant-caps: all-petite-caps;
+.fullscreen-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #1c1a24;
+  z-index: 100;
+  display: flex;
+  align-items:center;
+  justify-content: center;
 }
-@import "_animations.less";
+.toasted {
+  &.vault-toast {
+    font-weight: bold;
+  }
+}
+}

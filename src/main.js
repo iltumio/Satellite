@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
+import Toasted from 'vue-toasted';
 import config from '@/config/config';
 import Database from '@/classes/database/Database.ts';
 import Threads from '@/classes/database/textile/Threads.ts';
@@ -13,6 +14,7 @@ import i18nInit from './utils/i18n';
 import App from './App';
 import router from './router/index.ts';
 import store from './store/index.ts';
+import Ethereum from './classes/Ethereum';
 import StreamManager from './classes/webrtc/StreamManager.ts';
 
 Vue.config.productionTip = false;
@@ -20,6 +22,7 @@ Vue.config.productionTip = false;
 Vue.use(VueClipboard);
 Vue.use(vClickOutside);
 Vue.use(VueI18n);
+Vue.use(Toasted, config.toastNotifications);
 
 sync(store, router);
 
@@ -62,6 +65,7 @@ Vue.prototype.$Threads = new Threads();
 Vue.prototype.$ThreadDB = new ThreadDB();
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
+Vue.prototype.$ethereum = new Ethereum();
 
 const constraints = {
   audio: {
@@ -80,7 +84,7 @@ Vue.prototype.$streamManager = new StreamManager(constraints);
 const i18n = i18nInit('en_US');
 
 /* eslint-disable */
-new Vue({
+const app = new Vue({
   el: '#app',
   functional: true,
   router,
@@ -90,4 +94,7 @@ new Vue({
     return h(App);
   },
 });
+
+// Extend store with Vue context for actions
+store.$app = app;
 /* eslint-enable */

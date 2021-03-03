@@ -1,4 +1,5 @@
 import createPersistedState from 'vuex-persistedstate';
+import { defaultState } from './createState';
 
 export const cookieStorage = {
   getItem: (key: string) => localStorage.getItem(key),
@@ -8,12 +9,36 @@ export const cookieStorage = {
   removeItem: (key: string) => delete localStorage[key],
 };
 
+interface IBlacklist {
+  [key: string]: boolean;
+}
+
+// Each state in this list will not be
+// persisted
+const blacklist: IBlacklist = {
+  web3connected: true,
+  injectedProvider: true,
+  p2pOnline: true,
+  dwellerAddress: true,
+  activeCaller: true,
+  starting: true,
+  friends: true,
+  activeMediaStreamPeer: true,
+  pendingMediaStream: true,
+  typingUsers: true,
+  accounts: true,
+  balance: true,
+};
+
+const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key]);
+
 export const persistedStateConfig = {
   key: '_vuex',
   filter({ type }) {
     // Don't store route state in cookie
     return !type.startsWith('route/');
   },
+  paths: persistedPaths,
   storage: cookieStorage,
 };
 

@@ -1,4 +1,4 @@
-//@ts-ignore
+// @ts-ignore
 import DwellerContract from '../../utils/contracts/DwellerContract';
 
 export default class Dweller {

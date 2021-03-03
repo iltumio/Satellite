@@ -5,11 +5,6 @@ import config from '@/config/config';
 import CircleIcon from '@/components/common/CircleIcon';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 
-const dwellerCachingHelper = new DwellerCachingHelper(
-  config.registryAddress,
-  config.cacher.dwellerLifespan,
-);
-
 export default {
   name: 'Calling',
   props: ['active', 'callerId'],
@@ -47,13 +42,19 @@ export default {
     },
   },
   async mounted() {
+    this.dwellerCachingHelper = new DwellerCachingHelper(
+      this.$ethereum,
+      config.registryAddress,
+      config.cacher.dwellerLifespan,
+    );
+
     this.$WebRTC.subscribe(() => {
       this.denyCall();
     }, ['REMOTE-HANGUP']);
     this.$WebRTC.mediaSubscription(
       ['INCOMING-CALL'],
       async (event, identifier) => {
-        this.dweller = await dwellerCachingHelper.getDweller(identifier);
+        this.dweller = await this.dwellerCachingHelper.getDweller(identifier);
       },
     );
   },

@@ -1,4 +1,6 @@
-const defaultState = {
+import { AvailableProviders } from './mutations/web3';
+
+export const defaultState = {
   starting: true,
   authenticated: false,
   buckets: false,
@@ -20,15 +22,18 @@ const defaultState = {
   muted: false,
   deafened: false,
   // Web3
+  web3connected: false,
   web3Stats: false,
   accounts: false,
   gasPrice: 36,
   activeAccount: false,
   balance: 0,
   localAccount: false,
+  mnemonic: '',
   // Network
-  availableProviders: ['MetaMask'],
-  selectedProvider: 'MetaMask',
+  availableProviders: [AvailableProviders.SATELLITE],
+  selectedProvider: null,
+  injectedProvider: null,
   // Profile
   dwellerAddress: false,
   username: '',
@@ -65,6 +70,7 @@ const defaultState = {
   databaseEnabled: true,
   criticalError: false,
 };
+
 
 const createState = (customState: object) => Object.assign({}, defaultState, customState);
 

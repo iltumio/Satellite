@@ -1,36 +1,45 @@
 <template>
-<!--@contextmenu="openContext"-->
-  <div id="wrapper" >
-    <Context
-      v-if="showContext"
-      :x="contextCoordsX"
-      :y="contextCoordsY"
-      :close="closeContext" />
-    <Web3 />
+  <!--@contextmenu="openContext"-->
+  <div id="wrapper">
+    <Context v-if="showContext" :x="contextCoordsX" :y="contextCoordsY" :close="closeContext" />
     <Error />
-    <Database v-if="$store.state.p2pOnline ||
-      $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000' ||
-      $store.state.dwellerAddress"
+    <Database
+      v-if="
+        $store.state.p2pOnline ||
+          $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
+      "
     />
     <Voice v-if="$store.state.p2pOnline &&
       $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'"
     />
-    <ScreenCapture v-if="windowBound &&
-      $store.state.p2pOnline &&
-      $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'"
+    <ScreenCapture
+      v-if="
+        windowBound &&
+          $store.state.p2pOnline &&
+          $store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000'
+      "
     />
-    <Loading v-if="!$store.state.friendsLoaded ||
-      !$store.state.buckets ||
-      !$store.state.p2pOnline ||
-      $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
-      !$store.state.dwellerAddress ||
-      $store.state.starting"
+
+    <!-- 
+      Whenever the account is connected starts a background task that 
+      continuously fetches the balance
+     -->
+    <BalanceFetcher v-if="$store.state.web3connected"/>
+
+    <Web3 v-if="!$store.state.web3connected"/>
+    <Loading
+      v-else-if="
+        !$store.state.friendsLoaded ||
+          !$store.state.p2pOnline ||
+          $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
+          !$store.state.dwellerAddress ||
+          $store.state.starting
+      "
     />
     <div v-else>
       <Achievement v-if="false" achievement="addFriend" />
-      <CreateServer v-if="showCreateServer" :close="closeCreateServer"/>
+      <CreateServer v-if="showCreateServer" :close="closeCreateServer" />
       <Calling :active="$store.state.incomingCall" :callerId="$store.state.incomingCall" />
-      <!--<Polling />-->
 
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
         <div class="column is-one-third sidebar-wrapper" :class="{'show': $store.state.sidebarMobileOpen}" v-if="$store.state.sidebarOpen">
@@ -38,8 +47,8 @@
         </div>
         <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
-          <Files v-if="$store.state.mainRoute == 'files'"/>
-          <Friends v-if="$store.state.mainRoute == 'friends'"/>
+          <Files v-if="$store.state.mainRoute == 'files'" />
+          <Friends v-if="$store.state.mainRoute == 'friends'" />
         </div>
       </div>
       <div :class="`settings ${settingsOpen ? 'settings-open-container' : ''}`" v-if="settingsOpen">
@@ -47,23 +56,23 @@
       </div>
       <div class="footer">
         <p>
-          <i :class="`fas fa-heartbeat ${($store.state.p2pOnline) ? 'green' : 'red'}`"></i> P2P
-          <span class="spacer"></span> 
+          <i :class="`fas fa-heartbeat ${$store.state.p2pOnline ? 'green' : 'red'}`"></i> P2P
+          <span class="spacer"></span>
           <i class="fas fa-info-circle"></i>
-          {{$store.state.status}}
+          {{ $store.state.status }}
           <span class="spacer"></span>
           <span v-if="$store.state.accounts">
             <i class="fab fa-ethereum"></i>
-            <b>{{$t('footer.network')}}:</b> {{$store.state.web3Stats.nettype.toUpperCase()}}
-            <span class="spacer"> </span> 
+            <b>{{ $t('footer.network') }}:</b> {{ $store.state.web3Stats.nettype.name.toUpperCase() }}
+            <span class="spacer"> </span>
             <i class="fas fa-hashtag"></i>
-            <b>{{$t('footer.block_number')}}:</b> {{$store.state.web3Stats.blockNumber}} 
-            <span class="spacer"> </span> 
+            <b>{{ $t('footer.block_number') }}:</b> {{ $store.state.web3Stats.blockNumber }}
+            <span class="spacer"> </span>
             <i class="fas fa-id-badge"></i>
-            <b>{{$t('footer.account')}}:</b> {{$store.state.accounts[0]}}
+            <b>{{ $t('footer.account') }}:</b> {{ $store.state.accounts[0] }}
           </span>
           <span v-else>
-            {{$t('footer.connecting')}}
+            {{ $t('footer.connecting') }}
           </span>
         </p>
       </div>
@@ -82,6 +91,7 @@ import Files from '@/components/files/files/Files';
 import Friends from '@/components/friends/friends/Friends';
 import Settings from '@/components/main/settings/Settings';
 import Web3 from '@/components/functional/web3/Web3';
+import BalanceFetcher from '@/components/functional/web3/BalanceFetcher';
 import Database from '@/components/functional/database/Database';
 import Loading from '@/components/common/Loading';
 import Achievement from '@/components/common/Achievement';
@@ -104,6 +114,7 @@ export default {
     Friends,
     Settings,
     Web3,
+    BalanceFetcher,
     Database,
     Loading,
     Voice,

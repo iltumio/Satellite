@@ -20,8 +20,9 @@
 
 <script>
 import PhotoCropper from 'vue-image-crop-upload';
-import DCUtils from '@/utils/contracts/DwellerContract.ts';
-import Registry from '@/utils/contracts/Registry.ts';
+import Registry from '@/classes/contracts/Registry.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
+import config from '@/config/config';
 
 export default {
   name: 'ChangePhoto',
@@ -71,13 +72,15 @@ export default {
       this.showCropper = false;
     },
     async changePhoto() {
-      const dwellerIDContract = await Registry
-        .getDwellerContract(this.$store.state.activeAccount);
+      // Create a registry contract instance
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
+      const dwellerContractAddress = await registry.getDwellerContract(this.$ethereum.activeAccount);
+
+      // Create a dweller contract instance
+      const dwellerContract = new DwellerContract(this.$ethereum, dwellerContractAddress);
 
       this.$store.commit('setStatus', 'Transaction created, waiting for confirm');
-      DCUtils.setPhoto(
-        dwellerIDContract,
-        this.$store.state.activeAccount,
+      dwellerContract.setPhoto(
         this.ipfsHash,
         () => {
           this.close();
