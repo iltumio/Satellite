@@ -6,6 +6,7 @@ import config from '@/config/config';
 export default class Ethereum {
   constructor() {
     this.initialized = false;
+    this.utils = ethers.utils;
   }
 
   /**
@@ -193,5 +194,9 @@ export default class Ethereum {
       return this.provider.getBalance(this.activeAccount);
     }
     return null;
+  }
+
+  isAddress(text) {
+    return this.utils.isAddress(text);
   }
 }

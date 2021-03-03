@@ -445,12 +445,14 @@
         "1": {
           "heading": "Recovery phrase",
           "subtext": "Please ensure to copy this words in order to recover this wallet in the future",
-          "primary_cta": "I got it!"
+          "primary_cta": "I got it!",
+          "secondary_cta": "Back"
         },
         "2": {
           "heading": "Phrase check",
           "subtext": "Write the missing words in the right position before to continue",
-          "primary_cta": "Next"
+          "primary_cta": "Next",
+          "secondary_cta": "Back"
         }
       }
     }

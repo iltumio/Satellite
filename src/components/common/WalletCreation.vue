@@ -8,11 +8,15 @@
         {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
 
-      <button
-        class="button is-primary"
-        v-on:click="createWallet()">
-        {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
-      </button>
+      <div class="buttons-container">
+        <!-- empty div to align the "next" button to the right -->
+        <div />
+        <button
+          class="button is-primary"
+          v-on:click="createWallet()">
+          {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
+        </button>
+      </div>
     </section>
     <section class="wallet-creation-container" v-if="step===1">
       <p class="head">
@@ -32,14 +36,21 @@
         </span>
       </div>
 
-      <button
-        class="button is-primary"
-        v-on:click="walletCreated()">
-        {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
-      </button>
+      <div class="buttons-container">
+        <button
+          class="button is-primary"
+          v-on:click="back()">
+          {{$t(`web3.wallet_creation.step.${step}.secondary_cta`)}}
+        </button>
+
+        <button
+          class="button is-primary"
+          v-on:click="next()">
+          {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
+        </button>
+      </div>
     </section>
-    <!-- TODO: encrypt wallet and download encrypted json file -->
-    <!-- <section class="wallet-creation-container" v-if="step===2">
+    <section class="wallet-creation-container" v-if="step===2">
       <p class="head">
         <strong>{{$t(`web3.wallet_creation.step.${step}.heading`)}}</strong>
       </p>
@@ -58,13 +69,21 @@
         </div>
       </div>
 
-      <button
-        :disabled="!checkWords()"
-        class="button is-primary"
-        v-on:click="walletCreated()">
-        {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
-      </button>
-    </section> -->
+      <div class="buttons-container">
+        <button
+          class="button is-primary"
+          v-on:click="back()">
+          {{$t(`web3.wallet_creation.step.${step}.secondary_cta`)}}
+        </button>
+        
+        <button
+          :disabled="!checkWords()"
+          class="button is-primary"
+          v-on:click="walletCreated()">
+          {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
+        </button>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -83,8 +102,11 @@ export default {
     };
   },
   methods: {
+    back() {
+      this.step -= 1;
+    },
     next() {
-      this.step = this.step + 1;
+      this.step += 1;
     },
     createWallet() {
       this.wallet = ethers.Wallet.createRandom();
@@ -148,7 +170,13 @@ export default {
     }
 
     margin: 10px 0;
-  }  
+  }
+
+  .buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
 </style>

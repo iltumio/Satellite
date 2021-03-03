@@ -69,7 +69,7 @@ export default class DwellerCachingHelper {
   async updateDweller(address: string) : Promise<IDweller | null> {
     // Create a registry contract instance
     const registry = new Vault74Registry(this.ethereum, config.registry[config.network.chain]);
-    const dwellerContractAddress = await registry.getDwellerContract(this.ethereum.activeAccount);
+    const dwellerContractAddress = await registry.getDwellerContract(address);
 
     if (dwellerContractAddress === '0x0000000000000000000000000000000000000000') return null;
 

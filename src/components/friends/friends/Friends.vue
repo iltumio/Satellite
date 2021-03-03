@@ -16,6 +16,7 @@ import FriendRequests from '@/components/friends/friends/requests/FriendRequests
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Friend from '@/components/friends/friend/Friend';
 import Ethereum from '@/classes/Ethereum';
+import {ethers} from "ethers";
 
 const ethereum = new Ethereum('user-provided');
 
@@ -147,7 +148,7 @@ export default {
      * @name addFriend
      */
     async addFriend() {
-      if (!ethereum.utils.isAddress(this.friendAddress)) {
+      if (!this.$ethereum.utils.isAddress(this.friendAddress)) {
         this.error = 'Whoops, that\'s not a valid address';
         return;
       }
