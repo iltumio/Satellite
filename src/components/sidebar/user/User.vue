@@ -38,7 +38,7 @@ export default {
     },
   },
   async mounted() {
-    const dwellerCachingHelper = new DwellerCachingHelper(config.registryAddress);
+    const dwellerCachingHelper = new DwellerCachingHelper(this.$ethereum, config.registryAddress);
     const dweller = await dwellerCachingHelper.getDweller(this.clientId);
     this.name = dweller.name;
     this.icon = dweller.photo;

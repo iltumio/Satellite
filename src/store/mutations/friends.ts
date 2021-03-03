@@ -2,11 +2,12 @@
 import config from '@/config/config.js';
 // @ts-ignore
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
-import Friends from "../../classes/contracts/Friends";
-import IFriend from "../../interfaces/IFriend";
-import { parse } from 'uuid';
+import Friends from '../../classes/contracts/Friends';
+import IFriend from '../../interfaces/IFriend';
+// import { parse } from 'uuid';
 
-const friendsContract = new Friends(config.friends[config.network.chain]);
+
+// TODO: add this.ethereum instance
 const dwellerCachingHelper = new DwellerCachingHelper(
   config.registry[config.network.chain],
   config.cacher.dwellerLifespan,
@@ -29,28 +30,33 @@ export default {
     // eslint-disable-next-line
     state.friendRequests = requests;
   },
-  async fetchFriends(state: any, account: string) {
+  async fetchFriends(state: any) {
+    // @ts-ignore
+    const ethereum = window.satelliteProvider;
+    const friendsContract = new Friends(ethereum, config.friends[config.network.chain]);
     // Data we need to care about when comparing if friends
     // data has changed. We check to make sure the friends are
     // different to avoid updating state un-nessisarily across the app.
     const metadata = ['photo', 'name'];
 
     // Get the friends from chain
-    let friends = await friendsContract.getFriends(account);
+    const friends = await friendsContract.getFriends();
     const friendAddresses = friends.map(f => f[0]);
     if (friendAddresses.length === 0) {
+      // eslint-disable-next-line
       state.friends = [];
+      // eslint-disable-next-line
       state.friendsLoaded = true;
     }
     const parsedFriends: any[] = [];
     // If true, we will update the friends list.
-    let updateNeeded = (state.friends) ? false : true;
+    let updateNeeded = !(state.friends);
 
     let skipped = 0;
     friendAddresses.forEach(async (f, i) => {
       const friend = await dwellerCachingHelper.getDweller(f);
       const parsedFriend = await friendsContract.parseFriend(friends[i]);
-      const hasFriend = parsedFriends.find((fr) => fr.address === f);
+      const hasFriend = parsedFriends.find(fr => fr.address === f);
 
       if (!hasFriend) {
         parsedFriends.push({ ...friend, threadID: parsedFriend.threadHash });
@@ -58,7 +64,7 @@ export default {
         if (!updateNeeded) { // If we already need to update, don't bother checking again
           const storedFriend = state.friends.filter(f => f.address === friend.address);
 
-          Object.keys(storedFriend).forEach(key => {
+          Object.keys(storedFriend).forEach((key) => {
             if (metadata.includes(key) && storedFriend[key] !== friend[key]) {
               updateNeeded = true;
             }
@@ -72,8 +78,10 @@ export default {
         // eslint-disable-next-line
         parsedFriends.sort((a: IFriend, b: IFriend) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1);
         if (JSON.stringify(state.friends) !== JSON.stringify(parsedFriends) && updateNeeded) {
+          // eslint-disable-next-line
           state.friends = parsedFriends;
         }
+        // eslint-disable-next-line
         state.friendsLoaded = true;
       }
     });
@@ -81,6 +89,7 @@ export default {
   clearFriends(state: any) {
     // eslint-disable-next-line
     state.friends = null;
+    // eslint-disable-next-line
     state.friendsLoaded = false;
   },
 };

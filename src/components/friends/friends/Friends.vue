@@ -16,6 +16,7 @@ import FriendRequests from '@/components/friends/friends/requests/FriendRequests
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Friend from '@/components/friends/friend/Friend';
 import Ethereum from '@/classes/Ethereum';
+import {ethers} from "ethers";
 
 const ethereum = new Ethereum('user-provided');
 
@@ -37,6 +38,7 @@ export default {
       friendAddress: '',
       makingRequest: {},
       dwellerCachingHelper: new DwellerCachingHelper(
+        this.$ethereum,
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,
       ),
@@ -48,7 +50,7 @@ export default {
         this.friends = state.friends;
       }
     });
-    this.friendsContract = new Friends(config.friends[config.network.chain]);
+    this.friendsContract = new Friends(this.$ethereum, config.friends[config.network.chain]);
 
     this.update();
 
@@ -146,7 +148,7 @@ export default {
      * @name addFriend
      */
     async addFriend() {
-      if (!ethereum.utils.isAddress(this.friendAddress)) {
+      if (!this.$ethereum.utils.isAddress(this.friendAddress)) {
         this.error = 'Whoops, that\'s not a valid address';
         return;
       }

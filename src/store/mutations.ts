@@ -6,6 +6,7 @@ import messaging from './mutations/messaging';
 import peer from './mutations/peer';
 import account from './mutations/account';
 import server from './mutations/server';
+import web3 from './mutations/web3';
 
 export default {
   ...friends,
@@ -16,6 +17,7 @@ export default {
   ...peer,
   ...account,
   ...server,
+  ...web3,
   screenShareRequest(state: any) {
     // eslint-disable-next-line
     state.screenShareRequest = Date.now();
@@ -52,5 +54,5 @@ export default {
   starting(state, isStarting) {
     // eslint-disable-next-line
     state.starting = isStarting;
-  }
+  },
 };

@@ -344,7 +344,7 @@
       "pick_emoji": "Pick your emoji...",
       "securely_message": "Securely Message {name}..."
     },
-    "conversation":{
+    "conversation": {
       "invite_offline": "Invite {name} to message offline.",
       "must_be_online": "{name} must be online.",
       "invite": "Invite {name}",
@@ -360,7 +360,7 @@
       "address": {
         "external_link_text": "Click to view on Etherscan.io"
       },
-      "audio":{
+      "audio": {
         "not_supported": "Your browser does not support the <code>audio</code> element."
       },
       "call": {
@@ -430,6 +430,31 @@
   },
   "web3": {
     "connecting": "Connecting to network...",
-    "provider_suggestion": "If you do not have a Ethereum provider installed, please consider installing MetaMask."
+    "provider_suggestion": "If you do not have a Ethereum provider installed, please consider installing MetaMask.",
+    "provider_selection": {
+      "heading": "Choose provider",
+      "subtext": "Choose the provider you want to use. If you choose Vault74 provider, you will need to restore your wallet from the seed phrase, or to create a new one"
+    },
+    "wallet_creation": {
+      "step": {
+        "0": {
+          "heading": "Wallet creation",
+          "subtext": "Your wallet is going to be generated",
+          "primary_cta": "Next"
+        },
+        "1": {
+          "heading": "Recovery phrase",
+          "subtext": "Please ensure to copy this words in order to recover this wallet in the future",
+          "primary_cta": "I got it!",
+          "secondary_cta": "Back"
+        },
+        "2": {
+          "heading": "Phrase check",
+          "subtext": "Write the missing words in the right position before to continue",
+          "primary_cta": "Next",
+          "secondary_cta": "Back"
+        }
+      }
+    }
   }
 }
