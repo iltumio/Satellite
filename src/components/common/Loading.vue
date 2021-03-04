@@ -9,7 +9,9 @@
         }`
       "
     >
-      <p id="logo">
+      <p 
+        id="logo" 
+        :style="`${($store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000') ? 'margin-top: 15rem' : ''}`">
         <Loader size="100" />
       </p>
       <div class="red" v-if="$store.state.criticalError">

@@ -28,8 +28,7 @@
 
     <Web3 v-if="!$store.state.web3connected"/>
     <Loading
-      v-else-if="
-        !$store.state.friendsLoaded ||
+      v-else-if="!$store.state.friendsLoaded ||
           !$store.state.p2pOnline ||
           $store.state.dwellerAddress === '0x0000000000000000000000000000000000000000' ||
           !$store.state.dwellerAddress ||
