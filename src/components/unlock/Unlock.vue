@@ -113,8 +113,10 @@ export default {
   }
   .main {
     width: 500px;
-    margin: calc(33.33% - 200px) auto;
+    margin: 33.33% calc(33.33% - 40px);
     margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 20%;
   }
   .label {
     padding: 0 !important;

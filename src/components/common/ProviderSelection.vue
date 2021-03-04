@@ -47,6 +47,7 @@ export default {
   background: rgba(10, 10, 10, 0.86);
   padding: 50px;
   border-radius: 15px;
+  margin: calc(50% - 500px) auto;
   
   .provider-selection {
     display: flex;

@@ -132,6 +132,10 @@ export default {
 </script>
 
 <style scoped lang="less">
+.notification {
+  position: absolute;
+}
+
 
 #app {
   height: 100%;

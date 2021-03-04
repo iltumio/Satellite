@@ -150,6 +150,7 @@ export default {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
+  margin: calc(50% - 500px) auto;
 
   .mnemonic-container {
     display: grid;

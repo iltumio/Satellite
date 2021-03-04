@@ -6,9 +6,9 @@ import ServerList from '@/components/serverlist/ServerList';
 import QuickFriends from '@/components/sidebar/quickfriends/QuickFriends';
 import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
-import Registry from '@/utils/contracts/Registry.ts';
-import DwellerContract from '@/utils/contracts/DwellerContract.ts';
-import ServerContract from '@/utils/contracts/ServerContract.ts';
+import Registry from '@/classes/contracts/Registry.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
+import ServerContract from '@/classes/contracts/ServerContract.ts';
 // Servers
 import ServerSidebar from '@/components/server/sidebar/Sidebar';
 
