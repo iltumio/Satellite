@@ -5,8 +5,7 @@
       </p>
       <p class="fund-account-message">
         You need to fund your account to register on the network.
-        <br/><br />
-        <i class="fas fa-circle-notch fa-pulse"></i> Waiting...
+        <br/>
       </p>
       <div class="input-container">
         <WalletAddress :address="activeAccount"/>  
@@ -37,20 +36,22 @@ export default {
     border-radius: 15px;
 
     .head {
-        font-family: 'Major Mono Display', monospace;
-        font-size: 20pt;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
-
-    .fund-account-message {
-        font-weight: bold;
-    }
+      font-family: 'Space Mono', monospace;  
+      font-size: 20pt;
+      padding-bottom: 1rem;     
+    } 
 
     .input-container {
         padding: 2rem 0;
     }
 }
 
-
+@media (max-width: 768px) {
+  .fund-account-container {
+    width: 100%;
+    margin: 0;
+    margin-top: -4rem;
+    background: transparent;
+  }
+}
 </style>

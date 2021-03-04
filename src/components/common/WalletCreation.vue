@@ -1,16 +1,14 @@
 <template>
   <div class="fullscreen-pane">
     <section class="wallet-creation-container" v-if="step===0">
-      <p class="head">
-        <strong>{{$t(`web3.wallet_creation.step.${step}.heading`)}}</strong>
-      </p>
+      <h1 class="head">{{$t(`web3.wallet_creation.step.${step}.heading`)}}</h1>
       <b>
         {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
 
       <div class="buttons-container">
         <!-- empty div to align the "next" button to the right -->
-        <div />
+      <div />
         <button
           class="button is-primary"
           v-on:click="createWallet()">
@@ -19,9 +17,7 @@
       </div>
     </section>
     <section class="wallet-creation-container" v-if="step===1">
-      <p class="head">
-        <strong>{{$t(`web3.wallet_creation.step.${step}.heading`)}}</strong>
-      </p>
+      <h1 class="head">{{$t(`web3.wallet_creation.step.${step}.heading`)}}</h1>
       <b>
         {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
@@ -32,7 +28,7 @@
           v-bind:key="index"
           class="mnemonic-word"
         >
-          {{`${index+1}. ${word}`}}
+          <span class="number">{{`${index+1}.`}}</span>{{word}}
         </span>
       </div>
 
@@ -51,9 +47,7 @@
       </div>
     </section>
     <section class="wallet-creation-container" v-if="step===2">
-      <p class="head">
-        <strong>{{$t(`web3.wallet_creation.step.${step}.heading`)}}</strong>
-      </p>
+      <h1 class="head">{{$t(`web3.wallet_creation.step.${step}.heading`)}}</h1>
       <b>
         {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
@@ -64,8 +58,13 @@
           v-bind:key="index"
           class="mnemonic-word"
         >
-          <span v-if="wordsToCheck.indexOf(index)=== -1">{{`${index+1}. ${word}`}}</span>
-          <input v-else v-model="input[index]"/>
+          <span v-if="wordsToCheck.indexOf(index)=== -1">
+            <span class="number">{{`${index+1}.`}}</span>{{word}}
+          </span>
+          <span v-else>
+            <span class="number">{{`${index+1}.`}}</span>
+            <input v-model="input[index]"/>
+          </span>
         </div>
       </div>
 
@@ -152,6 +151,16 @@ export default {
   flex-direction: column;
   margin: calc(50% - 500px) auto;
 
+  .head {
+    font-family: 'Space Mono', monospace;  
+    font-size: 20pt;
+    padding-bottom: 1rem;     
+  }
+
+  button {
+    margin-top: 2rem;
+  }
+
   .mnemonic-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -168,6 +177,11 @@ export default {
 
     input {
       width: 100%;
+      background-color: transparent !important;
+      text-align: center;
+      color: #fff !important;
+      font-size: 13pt;
+      font-weight: bold;
     }
 
     margin: 10px 0;
@@ -178,6 +192,37 @@ export default {
     flex-direction: row;
     justify-content: space-between;
   }
+}
+
+@media (max-width: 768px) {
+  .wallet-creation-container {
+    width: 100%;
+    margin: 0;
+    margin-top: calc(50% - 4rem);
+    background: transparent;
+  }
+
+  .mnemonic-container {
+    width: calc(100% + 4rem);
+    margin-left: -2rem !important;
+  }
+
+  .mnemonic-word {
+    position: relative;
+    padding-left: 1rem;
+    text-align: center;
+
+
+    .number {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 22px;
+      font-size: 10pt;
+      border-radius: 3px;
+    }
+  }
+
 }
 
 </style>

@@ -223,7 +223,7 @@
       "username": "Username",
       "create_account": "Create Account",
       "creating_transaction": "Creating Transaction",
-      "step1": "Please approve the transaction on your wallet or MetaMask.",
+      "step1": "Awaiting transaction approval.",
       "sending_transaction": "Sending Transaction",
       "step2": "Please wait while your transaction is sent...",
       "confirming_transactoin": "Confirming Transaction",
@@ -432,8 +432,8 @@
     "connecting": "Connecting to network...",
     "provider_suggestion": "If you do not have a Ethereum provider installed, please consider installing MetaMask.",
     "provider_selection": {
-      "heading": "Choose provider",
-      "subtext": "Choose the provider you want to use. If you choose Vault74 provider, you will need to restore your wallet from the seed phrase, or to create a new one"
+      "heading": "Pick Your Poison",
+      "subtext": "Choose the provider you want to use. Choosing Satellite.im will create a new wallet, just for you."
     },
     "wallet_creation": {
       "step": {

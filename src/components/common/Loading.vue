@@ -153,12 +153,21 @@ export default {
     }
 
     @media (max-width: 768px) {
-        .loading-dispaly {
-            height: 100vh !important;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-        }
+      .loading-dispaly {
+          width: 100%;
+          height: 100vh !important;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+      }
+
+      .label {
+        display: none;
+      }
+
+      .message.is-dark .message-body {
+        border: none !important;
+      }
     }
 </style>

@@ -1,9 +1,7 @@
 <template>
   <div class="fullscreen-pane">
     <section class="provider-selection-container">
-      <p class="head">
-        <strong>{{$t('web3.provider_selection.heading')}}</strong>
-      </p>
+      <h1 class="head">{{$t('web3.provider_selection.heading')}}</h1>
       <b>
         {{$t('web3.provider_selection.subtext')}}
       </b>
@@ -49,6 +47,17 @@ export default {
   border-radius: 15px;
   margin: calc(50% - 500px) auto;
   
+  .head {
+    font-family: 'Space Mono', monospace;  
+    font-size: 20pt;
+    padding-bottom: 1rem;     
+  }
+
+  img {
+    height: auto;
+    max-width: 100px;
+    max-height: 100px;
+  }
   .provider-selection {
     display: flex;
     flex-direction: row;
@@ -69,7 +78,17 @@ export default {
         background-color: #545974;
       }    
     }
+  }
 }
+
+@media (max-width: 768px) {
+  .provider-selection-container {
+    width: 100%;
+    margin: 0;
+    margin-top: calc(50% - 4rem);
+    background: transparent;
+  }
 }
+
 
 </style>
