@@ -6,6 +6,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 const utils = require('./utils');
 const config = require('../config');
 const vueLoaderConfig = require('./vue-loader.conf');
+const Dotenv = require('dotenv-webpack');
 
 const resolve = dir => path.join(__dirname, '..', dir);
 
@@ -31,6 +32,7 @@ module.exports = {
   },
   stats: 'minimal',
   plugins: [
+    new Dotenv(),
     new VueLoaderPlugin(),
     new ESLintPlugin(),
   ],

@@ -32,7 +32,12 @@ export default class Ethereum {
 
       this.initialized = true;
     } else if (this.providerType === 'satellite' && wallet) {
-      this.provider = ethers.providers.getDefaultProvider('goerli');
+      if (process.env.VUE_APP_INFURA_API_KEY) {
+        console.log('Connected with goerli using api key');
+        this.provider = new ethers.providers.InfuraProvider('goerli', process.env.VUE_APP_INFURA_API_KEY);
+      } else {
+        this.provider = ethers.providers.getDefaultProvider('goerli');
+      }
       this.wallet = wallet;
 
       this.signer = wallet.connect(this.provider);
@@ -43,7 +48,7 @@ export default class Ethereum {
 
       this.initialized = true;
     } else {
-      console.error('Signer is required for wault74 provider');
+      console.error('Signer is required for satellite provider');
     }
   }
 

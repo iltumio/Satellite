@@ -19,3 +19,6 @@ selenium-debug.log
 electron
 ios
 android
+
+# Environment
+.env
