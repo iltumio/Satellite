@@ -446,8 +446,8 @@
         },
         "1": {
           "heading": "Recovery phrase",
-          "subtext": "Please ensure to copy this words in order to recover this wallet in the future",
-          "primary_cta": "I Saved It",
+          "subtext": "Please store these words somewhere safe so you can recover your account in the future.",
+          "primary_cta": "I Saved Them",
           "secondary_cta": "Back"
         },
         "2": {
