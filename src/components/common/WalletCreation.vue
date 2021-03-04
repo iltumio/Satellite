@@ -123,7 +123,9 @@ export default {
     },
     checkWords() {
       const areWordsRight = this.wordsToCheck.reduce(
-        (acc, next) => acc && this.input[next] === this.splittedMnemonic[next],
+        (acc, next) => {
+          return acc && this.input[next] && this.input[next].toLowerCase().trim() === this.splittedMnemonic[next]
+        },
         true,
       );
 
