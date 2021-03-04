@@ -191,9 +191,6 @@ export default {
       this.settingsOpen = false;
       this.$store.commit('changeRoute', 'main');
     });
-    Mousetrap.bind('option+shift+d', () => {
-      window.Satellite.debugEnabled = !window.Satellite.debugEnabled;
-    });
     const ipfs = await IPFS.create();
     window.ipfs = ipfs;
     const checkPeer = () => {

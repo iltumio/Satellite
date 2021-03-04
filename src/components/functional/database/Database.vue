@@ -54,7 +54,6 @@ export default {
         identity,
       );
       this.$store.commit('authenticated');
-      window.Satellite.Database = this.$database;
       this.startup();
       await this.$database.initBuckets();
       this.$store.commit('buckets');
@@ -65,7 +64,6 @@ export default {
         window.v74pin,
       );
       this.$store.commit('authenticated');
-      window.Satellite.Database = this.$database;
       this.startup();
     }
   },

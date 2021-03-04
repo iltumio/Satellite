@@ -79,18 +79,9 @@ export default {
         this.$WebRTC.init(this.$ethereum.activeAccount);
         this.peerInit = true;
       }
-      // @deprecated In mounted component there is a watcher that is looking for friendsLoaded
-      // to become true before trying to init p2p
-      // else {
-      //   setTimeout(() => {
-      //     window.Satellite.warn('Friends not loaded yet, will try again soon.');
-      //     this.initP2P();
-      //   }, 500);
-      // }
     },
     checkAccount() {
       if (this.$store.state.activeAccount) {
-        window.Satellite.warn('No account found yet, rechecking soon.');
         // Attach to peers
         this.initP2P();
         return;

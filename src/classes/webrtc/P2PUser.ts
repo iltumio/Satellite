@@ -42,8 +42,6 @@ export default class P2PUser {
   }
 
   public bind(connection: Peer.DataConnection) {
-    // @ts-ignore
-    window.Satellite.debug(`Connection made to peer ${this.identifier}`);
     this.connection = connection;
     this.connection.on('data', (data: any) => {
       this.handleData(data);

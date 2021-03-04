@@ -186,9 +186,6 @@ export class MessageManager {
         resolve([]);
       }) || [];
 
-      // @ts-ignore
-      window.Satellite.debug(`ThreadDB request made for ThreadID ${safeThread.toString()}`);
-
       resolve(<Array<Message>>messages);
     });
   }

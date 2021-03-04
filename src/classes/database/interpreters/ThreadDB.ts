@@ -130,8 +130,6 @@ export class ThreadDB {
         // Collection not found
         resolve([]);
       }) || [];
-      // @ts-ignore
-      window.Satellite.debug(`ThreadDB request made for ThreadID ${this.threadID.toString()}`);
       resolve(<Array<Data>>data);
     });
   }

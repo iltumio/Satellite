@@ -26,40 +26,6 @@ Vue.use(Toasted, config.toastNotifications);
 
 sync(store, router);
 
-window.Satellite = {
-  debugEnabled: config.debug,
-  /* eslint-disable */
-  debug: (...args) => {
-    if (window.Satellite.debugEnabled) {
-      // eslint-disable-next-line no-console
-      console.log(
-        `%c [Satellite Debug]: ${args[0]}`,
-        "color: #9b59b6; font-weight: bold; font-family: 'Major Mono Display', monospace;",
-        ...args.slice(1, args.length)
-      );
-    }
-  },
-  warn: (...args) => {
-    if (window.Satellite.debugEnabled) {
-      // eslint-disable-next-line no-console
-      console.log(
-        `%c [Satellite Warn]: ${args[0]}`,
-        "color: #e67e22; font-weight: bold; font-family: 'Major Mono Display', monospace;",
-        ...args.slice(1, args.length)
-      );
-    }
-  },
-  error: (...args) => {
-    // eslint-disable-next-line no-console
-    console.log(
-      `%c [Satellite Error]: ${args[0]}`,
-      "color: #e74c3c; font-weight: bold; font-family: 'Major Mono Display', monospace;",
-      ...args.slice(1, args.length)
-    );
-  },
-  /* eslint-enable */
-};
-
 Vue.prototype.$database = new Database('SatelliteData');
 Vue.prototype.$Threads = new Threads();
 Vue.prototype.$ThreadDB = new ThreadDB();

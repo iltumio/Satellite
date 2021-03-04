@@ -39,7 +39,6 @@ export default class Peer2Peer {
     peer.on('open', () => {
       this.ICEEstablished = true;
       this.watcher(peerId, 'alive', true);
-      window.Satellite.debug('Connected to ICE service');
       // Attempt connection to peers
       this.connectToPeers();
       // A new client has made a connection to us
@@ -67,9 +66,9 @@ export default class Peer2Peer {
     });
     peer.on('error', (err) => {
       if (err.type === 'peer-unavailable') {
-        window.Satellite.debug(err);
+        console.warn('Peer unavailable');
       } else {
-        window.Satellite.error('The peer sent us an error:', err);
+        console.warn('The peer sent us an error:', err);
       }
     });
   }
@@ -109,7 +108,6 @@ export default class Peer2Peer {
   peerTracker(peerId) {
     this.ping(peerId);
     setInterval(() => {
-      window.Satellite.debug('Registered Peers');
       this.ping(peerId);
     }, config.peer.ping_interval);
   }

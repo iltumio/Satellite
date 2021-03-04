@@ -72,7 +72,7 @@ export default class WebRTCMedia {
         resolve(stream);
       }, (err) => {
         // @ts-ignore
-        window.Satellite.warn('Failed to get Media Stream.', err);
+        console.warn('Failed to get Media Stream.', err);
       });
     });
   }

@@ -67,7 +67,7 @@
         return message.payload.type === 'text' && !message.secure;
       },
       debug() {
-        return window.Satellite.debugEnabled;
+        return config.debug;
       },
       handleContext(event) {
         event.preventDefault();

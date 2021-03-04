@@ -176,7 +176,7 @@ export default class WebRTC extends WebRTCMedia {
       peer.on('error', (err: any) => {
         // This is fine, we don't need to care if they are offline.
         // @ts-ignore
-        window.Satellite.debug('PeerJS Error: ', err);
+        console.warn('PeerJS Error: ', err);
       });
     });
   }
