@@ -7,7 +7,7 @@
       <h2>{{$t('friends.add_a_friend')}}</h2>
       <p>{{$t('friends.enter_address')}}</p>
       <br>
-      <div class="field has-addons" >
+      <div class="field has-addons">
         <div class="control" style="width: 100%;">
           <input class="input" type="text" placeholder="0x00000000000000000000000000..." v-model="friendAddress">
         </div>
@@ -34,6 +34,15 @@
         <div style="clear:both"></div>
       </div>
     </div>
+  </article>
+  <h2 class="label">{{$t('friends.your_address')}}</h2>
+  <article class="message is-dark">
+    <div class="message-body">
+      <h2>{{$t('friends.your_address_desc')}}</h2>
+      <div class="input-container">
+        <WalletAddress :address="$store.state.activeAccount"/>  
+      </div>
+    </div> 
   </article>
   <h2 class="label">{{$t('friends.requests.incoming')}}</h2>
   <article class="message is-dark">
