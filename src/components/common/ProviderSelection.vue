@@ -85,7 +85,7 @@ export default {
   .provider-selection-container {
     width: 100%;
     margin: 0;
-    margin-top: calc(50% - 4rem);
+    margin-top: calc(25% - 4rem);
     background: transparent;
   }
   .fullscreen-pane {

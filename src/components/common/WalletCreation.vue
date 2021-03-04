@@ -10,7 +10,7 @@
         <!-- empty div to align the "next" button to the right -->
       <div />
         <button
-          class="button is-primary"
+          class="button is-primary centered"
           v-on:click="createWallet()">
           {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
         </button>
@@ -197,11 +197,19 @@ export default {
 }
 
 @media (max-width: 768px) {
+  button {
+    width: calc(50% - 0.15rem);
+    margin: 0.15rem;
+  }
   .wallet-creation-container {
     width: 100%;
     margin: 0;
     margin-top: calc(25% - 4rem);
     background: transparent;
+  }
+  
+  .buttons-container {
+    justify-content: center !important;
   }
 
   .mnemonic-container {
