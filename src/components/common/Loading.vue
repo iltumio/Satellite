@@ -103,10 +103,10 @@ export default {
 <style scoped>
     .special-thanks {
         position: absolute;
-        bottom: 1rem;
+        bottom: 3rem;
         text-align: center;
-        left: 0;
-        right: 0;
+        left: 1rem;
+        right: 1rem;
         color: #00cec9;
     }
     .loading-image {
@@ -153,13 +153,35 @@ export default {
     }
 
     @media (max-width: 768px) {
+      .loading {
+        background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+        background-position: bottom;
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
       .loading-dispaly {
           width: 100%;
           height: 100vh !important;
           display: flex;
-          justify-content: center;
           flex-direction: column;
           align-items: center;
+          background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+          background-position: bottom;
+          background-size: contain;
+          background-repeat: no-repeat;
+          position: absolute;
+          padding-top: 10%;
+          padding-bottom: 4rem;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
       }
 
       .label {

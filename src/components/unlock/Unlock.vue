@@ -1,6 +1,7 @@
 <template>
   <div id="unlock">
     <div class="columns main unlock">
+      <img id="logo" src="https://ipfs.io/ipfs/QmRtjK89FBuNRQHVCfyk8bespju61q4MB6Y4PNJENb6RTv" />
       <div class="column is-one-fifth">
         <i class="fas fa-key"></i>
       </div>
@@ -103,6 +104,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  #logo {
+    display: none;
+  }
   #unlock {
     position: absolute;
     top: 0;
@@ -141,5 +145,26 @@ export default {
   }
   button {
     margin-top: 1.5rem;
+  }
+  @media (max-width: 768px) {
+    #logo {
+      position: absolute;
+      top: 4rem;
+      left: calc(50% - 50px);
+      width: 100px;
+      height: 100px;
+      display: block;
+    }
+    #unlock {
+      background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+      background-position: bottom;
+      background-size: contain;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
   }
 </style>

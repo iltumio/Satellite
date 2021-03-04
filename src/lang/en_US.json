@@ -441,13 +441,13 @@
       "step": {
         "0": {
           "heading": "Wallet creation",
-          "subtext": "Your wallet is going to be generated",
+          "subtext": "We're going to create a blockchain wallet for you. This wallet controls your account and information associated to it, so be sure to back it up!",
           "primary_cta": "Next"
         },
         "1": {
           "heading": "Recovery phrase",
           "subtext": "Please ensure to copy this words in order to recover this wallet in the future",
-          "primary_cta": "I got it!",
+          "primary_cta": "I Saved It",
           "secondary_cta": "Back"
         },
         "2": {

@@ -165,7 +165,7 @@ export default {
 
   .mnemonic-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 2fr);
     column-gap: 4px;
     row-gap: 4px;
     
@@ -200,20 +200,23 @@ export default {
   .wallet-creation-container {
     width: 100%;
     margin: 0;
-    margin-top: calc(50% - 4rem);
+    margin-top: calc(25% - 4rem);
     background: transparent;
   }
 
   .mnemonic-container {
-    width: calc(100% + 4rem);
-    margin-left: -2rem !important;
+    grid-template-columns: repeat(2, 2fr) !important;
+    width: 100%;
+    margin-top: 2rem !important;
   }
 
   .mnemonic-word {
     position: relative;
     padding-left: 1rem;
     text-align: center;
-
+    font-size: 14pt;
+    padding: 0.5rem !important;
+    border-radius: 2px !important;
 
     .number {
       position: absolute;
@@ -225,6 +228,17 @@ export default {
     }
   }
 
+  .fullscreen-pane {
+    background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+    background-position: bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 </style>
