@@ -24,7 +24,7 @@
         class="content"
       >
         <FundAccount v-if="$store.state.balance && $store.state.balance.eq(0)"/>
-        <Profile :customFinalAction="reload" v-else />
+        <EmbededProfile :customFinalAction="reload" v-else />
         <!-- <Profile :customFinalAction="reload" v-else /> -->
       </div>
       <div v-else-if="!$store.state.friendsLoaded">
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import Profile from '@/components/main/settings/profile/Profile';
+import EmbededProfile from '@/components/main/settings/profile/EmbededProfile';
 import FundAccount from '@/components/common/FundAccount';
 import Loader from './Loader';
 
@@ -81,7 +81,7 @@ export default {
   name: 'Loading',
   props: ['text'],
   components: {
-    Profile,
+    EmbededProfile,
     FundAccount,
     Loader,
   },
