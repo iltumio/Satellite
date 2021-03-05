@@ -33,7 +33,6 @@ export default class Ethereum {
       this.initialized = true;
     } else if (this.providerType === 'satellite' && wallet) {
       if (process.env.VUE_APP_INFURA_API_KEY) {
-        console.log('Connected with goerli using api key');
         this.provider = new ethers.providers.InfuraProvider('goerli', process.env.VUE_APP_INFURA_API_KEY);
       } else {
         this.provider = ethers.providers.getDefaultProvider('goerli');

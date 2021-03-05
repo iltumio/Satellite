@@ -73,7 +73,6 @@ export default class Threads {
         });
 
       const token = await client.getToken(identity).catch((e) => {
-        console.log('e', e);
         resolve(new Error('Couldn\'t connect to Textile.io'));
       });
       

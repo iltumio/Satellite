@@ -8,18 +8,18 @@
         <br/>
       </p>
       <div class="input-container">
-        <WalletAddress :address="activeAccount"/>  
+        <WalletAddressMini :address="activeAccount"/>  
       </div>
     </section>
 </template>
 
 <script>
-import WalletAddress from '@/components/common/WalletAddress';
+import WalletAddressMini from '@/components/common/WalletAddressMini';
 
 export default {
   name: 'FundAccount',
   components: {
-    WalletAddress,
+    WalletAddressMini,
   },
   data() {
     return { activeAccount: this.$ethereum.activeAccount };

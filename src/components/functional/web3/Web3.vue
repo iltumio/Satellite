@@ -87,8 +87,6 @@ export default {
       } else if (this.$store.state.mnemonic) {
         const wallet = ethers.Wallet.fromMnemonic(this.$store.state.mnemonic);
         this.onWalletCreated(wallet);
-      } else {
-        console.log('Need to generate first');
       }
     }
 

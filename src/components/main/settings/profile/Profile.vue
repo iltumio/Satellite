@@ -144,11 +144,9 @@ export default {
         this.$store.state.username,
         this.$store.state.activeAccount,
         (transactionHash) => {
-          console.log(transactionHash);
           this.transactionHash = transactionHash;
         },
         (receipt) => {
-          console.log(receipt);
           this.confirmation = receipt.confirmations;
           this.finishProfile(receipt);
         },
@@ -184,7 +182,6 @@ export default {
       const dwellerContractInstance = new DwellerContract(this.$ethereum, dwellerContractAddress);
 
       dwellerContractInstance.setPhoto(this.ipfsHash, (txReceipt) => {
-        console.log('Set photo', txReceipt);
         this.finished = true;
         this.$store.commit('setStatus', 'Transaction confirmed');
         this.commitEverything(txReceipt);
