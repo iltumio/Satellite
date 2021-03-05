@@ -1,0 +1,97 @@
+.break {
+  visibility: hidden;
+  padding-bottom: 1rem;
+}
+small {
+  font-size: 9pt;
+}
+.left-head {
+  width: 50px;
+  float: left;
+}
+.name {
+  font-size: 16pt;
+}
+.button {
+  height: 53px;
+}
+.faded-bg {
+  background: linear-gradient(180deg, rgba(22,22,30,0) 0%, rgba(22,22,30,1) 28%, rgba(22,22,30,1) 68%, rgba(22,22,30,0) 100%);
+}
+.dollar-value {
+  font-size: 28pt;
+}
+.left-head b {
+  font-size: 16pt;
+}
+.right-head {
+  width: calc(100% - 50px);
+  padding-left: 0.75rem;
+  float: left;
+}
+.circle-icon {
+  float: left;
+  width: 90px;
+  height: 90px;
+  margin-left: calc(50% - 45px);
+  margin-bottom: 1rem;
+}
+.close {
+  position: absolute;
+  top: 1.75rem;
+  right: 1.75rem;
+  font-size: 14pt;
+  color: #999;
+}
+.close:hover {
+  cursor: pointer;
+  color: #000;
+}
+.small {
+  font-weight: bold;
+}
+.input {
+  width: 200px;
+  margin-bottom: 2rem;
+  font-size: 18pt;
+  text-align: center;
+}
+.label {
+  margin-top: 3rem;
+}
+.make-payment {
+  background: #fff;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 1000 !important;
+}
+.button {
+  position: absolute;
+  bottom: 2rem;
+  width: calc(100% - 2rem) !important;
+  left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .make-payment {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+  }
+  #mobile-make-payment {
+    background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV) !important;
+    background-position: bottom !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+  }
+  .head {
+    margin-top: 3rem;
+    font-family: 'Space Mono', monospace;  
+    font-size: 20pt;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+  }
+}

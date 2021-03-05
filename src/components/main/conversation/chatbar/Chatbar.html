@@ -2,7 +2,13 @@
   <section class="chat-group" @paste="handlePaste">
       <FileUpload v-if="showFileUpload" :file="file" :relayResult="handleNewMessage" :close="closeFileUpload" />
       <MiniPayment 
-        v-if="$store.state.friends.length && payments"
+        v-if="$store.state.friends.length && payments && !isMobile()"
+        :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name" 
+        :address="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].address"
+        :photo="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
+        :toggle="togglePayments" />
+      <MiniPaymentMobile
+        v-if="$store.state.friends.length && payments && isMobile()"
         :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name" 
         :address="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].address"
         :photo="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
