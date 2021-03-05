@@ -5,7 +5,7 @@
   List all friends a user has. Allows for searching and chatting
 -->
 <script>
-import WalletAddress from '@/components/common/WalletAddress';
+import WalletAddressMini from '@/components/common/WalletAddressMini';
 
 import Fuse from 'fuse.js';
 
@@ -25,7 +25,7 @@ export default {
     CircleIcon,
     Friend,
     FriendRequests,
-    WalletAddress,
+    WalletAddressMini,
   },
   data() {
     return {

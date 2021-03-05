@@ -7,7 +7,7 @@
           <img :src="getURL()" />
         </div>
         <div class="column">
-            <h3 class="heading">{{$t('fileupload.heading')}}</h3>
+            <h3 class="heading title">{{$t('fileupload.heading')}}</h3>
             {{$t('fileupload.description')}}
             <br>
             <br>
@@ -26,18 +26,20 @@
               <label v-else for="file" class="button is-small is-primary">{{$t('fileupload.chosefile')}}</label>
             </div>
             <div v-else>
-              <span class="heading">File</span>
-              <input readonly :value="selectedFile.name" class="input is-small" type="text" />
-              <span class="heading padtop">{{$t('fileupload.link')}}</span>
-              <input 
-                v-if="ipfsHash"
-                autofocus
-                readonly
-                :value="imageURL"
-                class="input is-small hash"
-                type="text" />
-              <div class="heading" v-else>
-                {{$t('fileupload.uploading')}}
+              <div class="inputs">
+                <span class="heading">File</span>
+                <input readonly :value="selectedFile.name" class="input is-small" type="text" />
+                <span class="heading padtop">{{$t('fileupload.link')}}</span>
+                <input 
+                  v-if="ipfsHash"
+                  autofocus
+                  readonly
+                  :value="imageURL"
+                  class="input is-small hash"
+                  type="text" />
+                <div class="heading" v-else>
+                  {{$t('fileupload.uploading')}}
+                </div>
               </div>
               <progress 
                 v-if="progress != 100"

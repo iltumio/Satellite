@@ -11,7 +11,7 @@
     >
       <p 
         id="logo" 
-        :style="`${($store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000') ? 'margin-top: 15rem' : ''}`">
+        :style="`${($store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000') ? 'margin-top: 5rem' : ''}`">
         <Loader size="100" />
       </p>
       <div class="red" v-if="$store.state.criticalError">
@@ -184,6 +184,7 @@ export default {
           bottom: 0;
           left: 0;
           right: 0;
+          margin-top: 0 !important;
       }
 
       .label {
