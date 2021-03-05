@@ -50,7 +50,8 @@ export default {
   .head {
     font-family: 'Space Mono', monospace;  
     font-size: 20pt;
-    padding-bottom: 1rem;     
+    padding-bottom: 1rem;
+    text-transform: uppercase;
   }
 
   img {

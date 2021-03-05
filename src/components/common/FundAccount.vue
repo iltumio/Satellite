@@ -39,6 +39,7 @@ export default {
       font-family: 'Space Mono', monospace;  
       font-size: 20pt;
       padding-bottom: 1rem;     
+      text-transform: uppercase;
     } 
 
     .input-container {

@@ -156,6 +156,7 @@ export default {
   .head {
     font-family: 'Space Mono', monospace;  
     font-size: 20pt;
+    text-transform: uppercase;
     padding-bottom: 1rem;     
   }
 
