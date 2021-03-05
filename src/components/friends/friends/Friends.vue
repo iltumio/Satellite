@@ -18,9 +18,6 @@ import FriendRequests from '@/components/friends/friends/requests/FriendRequests
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Friend from '@/components/friends/friend/Friend';
 import Ethereum from '@/classes/Ethereum';
-import {ethers} from "ethers";
-
-const ethereum = new Ethereum('user-provided');
 
 export default {
   name: 'Friends',
@@ -45,6 +42,7 @@ export default {
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,
       ),
+      friendsContract: null
     };
   },
   mounted() {
@@ -177,14 +175,17 @@ export default {
      * @name sendFriendRequest
      */
     async sendFriendRequest() {
+      console.log("Send Friend Request");
       const id = this.$database.threadManager.makeIdentifier(
         this.$store.state.activeAccount,
         this.friendAddress,
       );
+      console.log(id);
       this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: true });
       const threadID = await this.$database.threadManager.threadAt(id);
+
+      console.log(threadID)
       this.friendsContract.makeRequest(
-        this.$store.state.activeAccount,
         this.friendAddress,
         threadID.toString(),
       )
@@ -192,7 +193,8 @@ export default {
           this.reset();
           this.getFriends();
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log("error", e)
           this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: false });
         });
     },

@@ -4,20 +4,20 @@ import * as FriendsInterface from '@/contracts/build/contracts/Friends.json';
 // @ts-ignore
 import Ethereum from '@/classes/Ethereum';
 // @ts-ignore
-import DwellerCache from '@/classes/DwellerCachingHelper';
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper';
 // @ts-ignore
 import config from '@/config/config';
 
-const dwellerCache = new DwellerCache(config.registryAddress, config.cacher.dwellerLifespan);
-
 
 export default class Friends {
-  ethereum: any;
+  ethereum: Ethereum;
   contract: any;
+  dwellerCache: DwellerCachingHelper;
 
-  constructor(ethereum: typeof Ethereum, address: string) {
+  constructor(ethereum: Ethereum, address: string) {
     this.ethereum = ethereum;
     this.contract = this.getContract(address);
+    this.dwellerCache = new DwellerCachingHelper(ethereum, config.registryAddress, config.cacher.dwellerLifespan);
   }
 
   /** @function
@@ -54,13 +54,12 @@ export default class Friends {
    * @returns friend request object
    */
   async parseRequest(request: any) {
-    console.log(this);
     return {
       id: request.id.toString(),
       active: request.active,
       accepted: request.accepted,
-      reciever: await dwellerCache.getDweller(request.reciver),
-      sender: await dwellerCache.getDweller(request.sender),
+      reciever: await this.dwellerCache.getDweller(request.reciver),
+      sender: await this.dwellerCache.getDweller(request.sender),
       threadHash: `${ethers.utils.parseBytes32String(request.threadHash1)}${ethers.utils.parseBytes32String(request.threadHash2)}`,
     };
   }
@@ -72,7 +71,6 @@ export default class Friends {
    * @returns friend request object
    */
   async parseFriend(fr: any) {
-    console.log(this);
     return {
       id: fr,
       threadHash: `${ethers.utils.parseBytes32String(fr.threadHash1)}${ethers.utils.parseBytes32String(fr.threadHash2)}`,
@@ -98,7 +96,7 @@ export default class Friends {
       to,
       [
         ethers.utils.formatBytes32String(hash.substring(0, 28)),
-        this.ethereum.formatBytes32String(hash.substring(28)),
+        ethers.utils.formatBytes32String(hash.substring(28)),
       ],
       { gasPrice: 4700000 },
     ).then(tx => tx.wait());
