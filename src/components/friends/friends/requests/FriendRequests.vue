@@ -72,7 +72,7 @@ export default {
       const [request] = this.friendRequests.filter(req => req.id === id);
       const threadID = request.threadHash;
       this.requestPending = Object.assign({}, this.requestPending, { [id]: true });
-      this.friendsContract.acceptRequest(this.$store.state.activeAccount, parsedId)
+      this.friendsContract.acceptRequest(parsedId)
         .then(async () => {
           await this.$database.threadManager.storeThread(
             `${this.$store.state.activeAccount}-${request.sender.address}`,

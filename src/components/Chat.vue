@@ -50,7 +50,9 @@
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
           <Server v-if="$store.state.mainRoute == 'server'" />
           <Files v-if="$store.state.mainRoute == 'files'" />
-          <Friends v-if="$store.state.mainRoute == 'friends'" />
+          <Friends v-if="$store.state.mainRoute == 'friends' 
+                         && $store.state.web3connected" 
+          />
         </div>
       </div>
       <div :class="`settings ${settingsOpen ? 'settings-open-container' : ''}`" v-if="settingsOpen">
