@@ -1,5 +1,6 @@
 <template>
   <div id="unlock">
+    <PWAInstallPrompt />
     <div class="columns main unlock">
       <img id="logo" src="https://ipfs.io/ipfs/QmRtjK89FBuNRQHVCfyk8bespju61q4MB6Y4PNJENb6RTv" />
       <div class="column is-one-fifth">
@@ -41,6 +42,7 @@
 </template>
 <script>
 import ToggleSwitch from '@/components/common/ToggleSwitch';
+import PWAInstallPrompt from '@/components/common/mobile/PWAInstallPrompt';
 import crypto from '@/utils/Crypto.ts';
 
 export default {
@@ -48,6 +50,7 @@ export default {
   props: ['decrypted'],
   components: {
     ToggleSwitch,
+    PWAInstallPrompt
   },
   data() {
     return {
