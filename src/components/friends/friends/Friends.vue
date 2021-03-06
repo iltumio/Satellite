@@ -5,7 +5,7 @@
   List all friends a user has. Allows for searching and chatting
 -->
 <script>
-import WalletAddress from '@/components/common/WalletAddress';
+import WalletAddressMini from '@/components/common/WalletAddressMini';
 
 import Fuse from 'fuse.js';
 
@@ -18,9 +18,6 @@ import FriendRequests from '@/components/friends/friends/requests/FriendRequests
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Friend from '@/components/friends/friend/Friend';
 import Ethereum from '@/classes/Ethereum';
-import {ethers} from "ethers";
-
-const ethereum = new Ethereum('user-provided');
 
 export default {
   name: 'Friends',
@@ -28,7 +25,7 @@ export default {
     CircleIcon,
     Friend,
     FriendRequests,
-    WalletAddress,
+    WalletAddressMini,
   },
   data() {
     return {
@@ -45,6 +42,7 @@ export default {
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan,
       ),
+      friendsContract: null
     };
   },
   mounted() {
@@ -181,10 +179,11 @@ export default {
         this.$store.state.activeAccount,
         this.friendAddress,
       );
+
       this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: true });
       const threadID = await this.$database.threadManager.threadAt(id);
+
       this.friendsContract.makeRequest(
-        this.$store.state.activeAccount,
         this.friendAddress,
         threadID.toString(),
       )
@@ -192,7 +191,7 @@ export default {
           this.reset();
           this.getFriends();
         })
-        .catch(() => {
+        .catch((e) => {
           this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: false });
         });
     },

@@ -2,7 +2,13 @@
   <section class="chat-group" @paste="handlePaste">
       <FileUpload v-if="showFileUpload" :file="file" :relayResult="handleNewMessage" :close="closeFileUpload" />
       <MiniPayment 
-        v-if="$store.state.friends.length && payments"
+        v-if="$store.state.friends.length && payments && !isMobile()"
+        :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name" 
+        :address="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].address"
+        :photo="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
+        :toggle="togglePayments" />
+      <MiniPaymentMobile
+        v-if="$store.state.friends.length && payments && isMobile()"
         :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name" 
         :address="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].address"
         :photo="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
@@ -25,7 +31,7 @@
           </p>
           <i class="fas fa-arrow-circle-right send" v-on:click="sendMessage"></i>
           <i class="far fa-smile-wink emoji" v-on:click="toggleEmoji"></i>
-          <i class="fab fa-ethereum sendEther" v-on:click="togglePayments"></i>
+          <i class="fas fa-dollar-sign sendEther" v-on:click="togglePayments"></i>
           <i class="fas fa-file-upload upload" v-on:click="openFileUpload"></i>
           <!--<MiniPayment person="Sophie Chain" :toggle="togglePayments" v-if="payments" />-->
           <picker

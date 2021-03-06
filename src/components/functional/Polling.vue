@@ -23,7 +23,7 @@ export default {
     },
     requests() {
       this.requestsTimer = setInterval(() => {
-        console.log('fetching friend requests');
+        // Fetching
       }, config.polling.requests);
     },
   },

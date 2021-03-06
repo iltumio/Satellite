@@ -7,12 +7,6 @@ import IFriend from '../../interfaces/IFriend';
 // import { parse } from 'uuid';
 
 
-// TODO: add this.ethereum instance
-const dwellerCachingHelper = new DwellerCachingHelper(
-  config.registry[config.network.chain],
-  config.cacher.dwellerLifespan,
-);
-
 export default {
   // Add a new friend to the local cache
   addFriend(state: any, friend: IFriend) {
@@ -32,8 +26,7 @@ export default {
   },
   async fetchFriends(state: any) {
     // @ts-ignore
-    const ethereum = window.satelliteProvider;
-    const friendsContract = new Friends(ethereum, config.friends[config.network.chain]);
+    const friendsContract = new Friends(this.$app.$ethereum, config.friends[config.network.chain]);
     // Data we need to care about when comparing if friends
     // data has changed. We check to make sure the friends are
     // different to avoid updating state un-nessisarily across the app.
@@ -41,6 +34,7 @@ export default {
 
     // Get the friends from chain
     const friends = await friendsContract.getFriends();
+
     const friendAddresses = friends.map(f => f[0]);
     if (friendAddresses.length === 0) {
       // eslint-disable-next-line
@@ -51,6 +45,13 @@ export default {
     const parsedFriends: any[] = [];
     // If true, we will update the friends list.
     let updateNeeded = !(state.friends);
+
+    const dwellerCachingHelper = new DwellerCachingHelper(
+      // @ts-ignore
+      this.$app.$ethereum,
+      config.registry[config.network.chain],
+      config.cacher.dwellerLifespan,
+    );
 
     let skipped = 0;
     friendAddresses.forEach(async (f, i) => {

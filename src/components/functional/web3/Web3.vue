@@ -36,10 +36,6 @@ export default {
     async connectProvider(providerInfo, wallet = null) {
       await this.$ethereum.initialize(providerInfo.type, wallet);
 
-      // Bind ethereum provider to the window object
-      // TODO: remove deprecated injected instance
-      window.satelliteProvider = this.$ethereum;
-
       this.$store.commit('setWeb3Connected', true);
       this.$store.commit('accounts', this.$ethereum.getAccounts());
       this.$store.commit('defaultAccount');
@@ -91,8 +87,6 @@ export default {
       } else if (this.$store.state.mnemonic) {
         const wallet = ethers.Wallet.fromMnemonic(this.$store.state.mnemonic);
         this.onWalletCreated(wallet);
-      } else {
-        console.log('Need to generate first');
       }
     }
 

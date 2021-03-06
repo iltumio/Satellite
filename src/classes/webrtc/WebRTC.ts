@@ -120,6 +120,19 @@ export default class WebRTC extends WebRTCMedia {
   }
 
   /** @method
+   * Check if a peer by ID is online
+   * @name isConnected
+   * @argument identifier string identifier, usually an Ethereum address.
+   * @returns returns if the peer is online or not, represented by a boolean
+   */
+  public isConnected(identifier: string) : boolean {
+    const peer = this.find(identifier);
+    if (!peer) return false;
+    if (peer.isAlive) return true;
+    return false;
+  }
+
+  /** @method
    * Find a peer by identifier
    * @name find
    * @argument identifier string identifier, usually an Ethereum address.
@@ -230,6 +243,14 @@ export default class WebRTC extends WebRTCMedia {
       peer.bind(conn);
       this.registerPeer(identifier, peer);
     });
+  }
+
+  public connectIfNotConnected(_identifier: string) {
+    if (!this.peer) return new Error('You cannot connect before initalizing.');
+    const identifier = this.buildIdentifier(_identifier);
+    if (this.isConnected(identifier)) return;
+    const connection = this.peer.connect(identifier);
+    this.connect(connection);
   }
 
   public connectToPeer(_identifier: string) : Error | null {

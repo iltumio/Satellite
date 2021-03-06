@@ -50,7 +50,8 @@ export default {
   .head {
     font-family: 'Space Mono', monospace;  
     font-size: 20pt;
-    padding-bottom: 1rem;     
+    padding-bottom: 1rem;
+    text-transform: uppercase;
   }
 
   img {
@@ -85,7 +86,7 @@ export default {
   .provider-selection-container {
     width: 100%;
     margin: 0;
-    margin-top: calc(50% - 4rem);
+    margin-top: calc(25% - 4rem);
     background: transparent;
   }
   .fullscreen-pane {

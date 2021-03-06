@@ -1,0 +1,35 @@
+<section class="make-payment" id="mobile-make-payment" v-click-outside="toggle">
+    <div class="faded-bg">
+        <h1 class="head">Send Crypto</h1>
+        <CircleIcon :image="icon" :address="address" :diameter="70"/>
+        <div style="clear:both;"></div>
+        <div class="center-info">
+            <p class="name"><b>{{name}}</b><br>
+            <small class="dollar-value green">${{numberWithCommas(+(Math.round((amount * priceUsd) + "e+2")  + "e-2"))}}</small></p>
+        </div>
+        <div style="clear:both;"></div>
+        <span class="label">Enter Amount</span>
+        <input 
+        class="input" 
+        type="number" 
+        placeholder="0.1"
+        v-model="amount">
+        <div style="clear:both;"></div>
+
+        <p>
+        <br>
+        <small>
+            <b>{{$t('payments.balance')}}: </b>
+            {{+(Math.round($store.state.balance + "e+3")  + "e-3")}} ETH
+            <span v-if="error">
+            <br>
+            <b class="red">{{error}}</b>
+            </span>
+            <br>
+            <b class="yellow">{{$t('payments.prices_disclaimer')}}</b>
+        </small>
+        </p>
+    </div>
+  <i class="fa fa-times close" v-on:click="toggle"></i>
+  <button class="button is-success" v-on:click="sendTransaction">{{$t('payments.button')}} ${{numberWithCommas(+(Math.round((amount * priceUsd) + "e+2")  + "e-2"))}}</button>
+</section>

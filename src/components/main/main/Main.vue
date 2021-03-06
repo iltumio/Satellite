@@ -71,6 +71,8 @@ export default {
             const threadID = await this.$database.threadManager.threadAt(id);
             const closer = await this.$database.messageManager.subscribe(threadID, async (update) => {
               const key = await this.crypto.getKey(this.$store.state.activeChat);
+              // If we're recieving messages from a peer and they are not connected, try to connect.
+              this.$WebRTC.connectIfNotConnected(update.instance.sender);
               if (update.instance.sender !== this.$store.state.activeChat) {
                 this.$store.commit('markUnread', update.instance.sender);
               }
@@ -123,6 +125,7 @@ export default {
       };
       const stream = await this.$WebRTC.getMediaStream(constraints);
       this.$streamManager.addLocalStream(stream);
+      this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat);
       this.$WebRTC.call(this.$store.state.activeChat, this.$streamManager.localStreams[0]);
       if (this.$store.state.deafened) {
         this.$streamManager.toggleLocalStreams();
