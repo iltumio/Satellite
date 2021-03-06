@@ -12,7 +12,7 @@
                 :value="address"/>
         </div>
         <div 
-            lass="control" 
+            class="control" 
             v-clipboard:copy="address"
             v-clipboard:success="copySuccess"
             v-clipboard:error="copyError"

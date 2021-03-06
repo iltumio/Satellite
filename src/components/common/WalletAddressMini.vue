@@ -4,10 +4,10 @@
     </section> -->
     <div class="field has-addons" id="wallet-copy-button">
        <div 
-            lass="control" 
-            v-clipboard:copy="address"
-            v-clipboard:success="copySuccess"
-            v-clipboard:error="copyError">
+          class="control" 
+          v-clipboard:copy="address"
+          v-clipboard:success="copySuccess"
+          v-clipboard:error="copyError">
         <a class="button is-primary">
           <i class="fas fa-copy"></i> &nbsp; &nbsp; Copy Account ID
         </a>
