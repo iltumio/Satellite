@@ -9,6 +9,7 @@ import Threads from '@/classes/database/textile/Threads.ts';
 import ThreadDB from '@/classes/database/textile/threads/ThreadDB.ts';
 import WebRTC from '@/classes/webrtc/WebRTC.ts';
 import VueI18n from 'vue-i18n';
+import VueCurrencyInput from 'vue-currency-input';
 
 import i18nInit from './utils/i18n';
 import App from './App';
@@ -22,6 +23,14 @@ Vue.config.productionTip = false;
 Vue.use(VueClipboard);
 Vue.use(vClickOutside);
 Vue.use(VueI18n);
+
+const pluginOptions = {
+  globalOptions: {
+    currency: 'USD',
+  },
+};
+
+Vue.use(VueCurrencyInput, pluginOptions);
 Vue.use(Toasted, config.toastNotifications);
 
 sync(store, router);

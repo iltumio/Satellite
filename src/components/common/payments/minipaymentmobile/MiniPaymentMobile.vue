@@ -5,6 +5,7 @@ import config from '@/config/config';
 import CircleIcon from '@/components/common/CircleIcon';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Ethereum from '@/classes/Ethereum';
+import PrimaryHeading from '@/components/common/typography/PrimaryHeading';
 
 const ethereum = new Ethereum('user-provided');
 
@@ -17,10 +18,11 @@ export default {
   ],
   components: {
     CircleIcon,
+    PrimaryHeading,
   },
   data() {
     return {
-      amount: null,
+      amount: 0,
       icon: false,
       name: false,
       error: false,

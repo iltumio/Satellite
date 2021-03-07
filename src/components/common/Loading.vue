@@ -12,7 +12,7 @@
       <p 
         id="logo" 
         :style="`${($store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000') ? 'margin-top: 5rem' : ''}`">
-        <Loader size="100" />
+        <Loader size="100"  />
       </p>
       <div class="red" v-if="$store.state.criticalError">
         <i class="fas fa-skull"></i> Failure to load: {{ $store.state.criticalError }} <br /><br />
@@ -165,6 +165,10 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
+      }
+      
+      .special-thanks {
+        display: none;
       }
 
       .loading-dispaly {
