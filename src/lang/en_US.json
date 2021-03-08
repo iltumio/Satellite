@@ -112,10 +112,10 @@
     "disconnect": "Disconnect"
   },
   "main": {
-    "heading": "Better with Friends",
-    "subtext_one": "You don't have to be alone.",
+    "heading": "Liftoff!",
+    "subtext_one": "You're in orbit and ready to go.",
     "subtext_two": "Add some friends and get chatting, sharing and streaming!",
-    "button": "Add Friends to Chat"
+    "button": "Add Friends"
   },
   "settings": {
     "logo": "Settings",

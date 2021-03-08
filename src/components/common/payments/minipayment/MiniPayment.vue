@@ -4,7 +4,6 @@
 import config from '@/config/config';
 import CircleIcon from '@/components/common/CircleIcon';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
-import Ethereum from '@/classes/Ethereum';
 
 export default {
   name: 'MiniPayment',
