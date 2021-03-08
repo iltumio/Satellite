@@ -1,11 +1,16 @@
 <template>
-    <div class="pwa-install-prompt">
+    <div class="pwa-install-prompt" v-if="showPWA">
       <img class="pwa-exit-btn" v-on:click="dontShowPrompt" src="static/img/icons/exit-btn.png">
       <div class="pwa-install-prompt-body">
         <div class="pwa-img-wrapper"><img class="pwa-img" src="static/img/icons/apple-touch-icon.png"></div>
         <div class="pwa-header-text">Install Satellite</div>
         <p class="pwa-body-text">Install Satellite on your homescreen for easy access to your favorite privacy driven chat network</p>
-        <div class="pwa-footer">Just tap your phones share/media button then 'Add to homescreen'</div>
+        <!-- Android -->
+        <div class="pwa-footer" v-if="mobileType() == '/Android/i'">Just tap <img src="static/img/icons/android-pwa-icon.jpg" class="pwa-homescreen-icon" style="width: 15px; margin: 0px 8px;"> then 'Add to homescreen'</div>
+        <!-- IOS -->
+        <div class="pwa-footer" v-if="mobileType() == ('/iPhone/i' || '/iPad/i' || '/iPod/i')">Just tap <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon" style="width: 15px; margin: 0px 8px;"> then 'Add to homescreen'</div>
+        <!-- Unknown Device -->
+        <div class="pwa-footer" v-if="mobileType() == undefined">We\'re unsure of you're devices type, search for "How to install PWA apps on [your device]" for instructions if you're interested in downloading our app</div>
       </div>
     </div>
 </template>
@@ -16,24 +21,12 @@ export default {
   mounted() {
     // Issue 1: footer text stacks instead of spreeads on on a couple devices (Galaxy fold, iPhone 5/SE)
     // Issue 2: isMobile not currently recognizing iPad / iPad Pro
-
-    // Check's that user is on mobile and wants to see the prompt
-    let dontShowPWA = localStorage.getItem('dontShowPWA');
-    if (dontShowPWA || !this.isMobile()) {
-      document.querySelector('.pwa-install-prompt').style.display = 'none'
-      return
+    // Issue 3: Divs need to be made for Windows Phone, WebOS, etc. (functionality already setup, v-if="mobileType() == [userAgent code]")
+  },
+  data() {
+    return {
+      showPWA: (!localStorage.getItem('dontShowPWA') && this.isMobile())
     }
-    // PWA messages based on device
-    let pwaMessages = {
-      '/Android/i': 'Just tap <img src="static/img/icons/android-pwa-icon.jpg" class="pwa-homescreen-icon" style="width: 15px; margin: 0px 8px;"> then \'Add to homescreen\'',
-      '/iPhone/i': 'Just tap <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon" style="width: 15px; margin: 0px 8px;"> then \'Add to homescreen\'',
-      '/iPad/i': 'Just tap <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon" style="width: 15px; margin: 0px 8px;"> then \'Add to homescreen\'',
-      '/iPod/i': 'Just tap <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon" style="width: 15px; margin: 0px 8px;"> then \'Add to homescreen\'',
-      'Other': 'We\'re unsure of you\'re devices type, search for "How to install PWA apps on [your device]" for instructions if you\'re interested in downloading our app'
-    }
-    // Displays the proper PWA message accordingly
-    let footer = document.querySelector('.pwa-footer')
-    this.mobileType() ? footer.innerHTML = pwaMessages[this.mobileType()] : pwaMessags['Other']
   },
   methods: {
     // Returns if user device is mobile
@@ -45,11 +38,10 @@ export default {
     // Returns users device type
     mobileType() {
       let toMatch = [ /Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i ];
-      let match = 'None'
+      let match
       toMatch.some((toMatchItem) => {
         if (navigator.userAgent.match(toMatchItem)) {
           match = toMatchItem.toString()
-          return true
         }
       });
       return match
