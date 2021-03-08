@@ -49,7 +49,7 @@ export default {
     // Stop from continuously showing prompt to user
     dontShowPrompt() {
       localStorage.setItem('dontShowPWA', true);
-      document.querySelector('.pwa-install-prompt').style.display = 'none'
+      this.showPWA = false;
     }
   }
 };
