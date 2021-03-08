@@ -120,20 +120,6 @@ export default class Ethereum {
     };
 
     this.signer.sendTransaction(transaction).then(tx => cb(tx.hash));
-    // window.ethereum
-    //   .request({
-    //     method: 'eth_sendTransaction',
-    //     params: [
-    //       {
-    //         from,
-    //         to,
-    //         value: this.utils.toHex(this.utils.toWei(value, 'ether')),
-    //         gasPrice: '0x61a8',
-    //         gas: '0x61a8',
-    //       },
-    //     ],
-    //   })
-    //   .then(txHash => cb(txHash));
   }
 
   /** @function
