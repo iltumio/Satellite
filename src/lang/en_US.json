@@ -117,6 +117,10 @@
     "subtext_two": "Add some friends and get chatting, sharing and streaming!",
     "button": "Add Friends"
   },
+  "PWA": {
+    "prompt_title": "Install Satellite",
+    "prompt_desc": "Quickly install our app on your phone for a seemless experience, it's really easy!"
+  },
   "settings": {
     "logo": "Settings",
     "h_general": "General",
