@@ -114,21 +114,27 @@ export default class Ethereum {
    * @argument value amount (in Ether) to send
    * @argument cb callback function to send tx hash to
    */
-  sendEther(to, from, value, cb) {
-    window.ethereum
-      .request({
-        method: 'eth_sendTransaction',
-        params: [
-          {
-            from,
-            to,
-            value: this.utils.toHex(this.utils.toWei(value, 'ether')),
-            gasPrice: '0x61a8',
-            gas: '0x61a8',
-          },
-        ],
-      })
-      .then(txHash => cb(txHash));
+  sendEther(to, value, cb) {
+    const transaction = {
+      to,
+      value: ethers.utils.parseEther(value),
+    };
+
+    this.signer.sendTransaction(transaction).then(tx => cb(tx.hash));
+    // window.ethereum
+    //   .request({
+    //     method: 'eth_sendTransaction',
+    //     params: [
+    //       {
+    //         from,
+    //         to,
+    //         value: this.utils.toHex(this.utils.toWei(value, 'ether')),
+    //         gasPrice: '0x61a8',
+    //         gas: '0x61a8',
+    //       },
+    //     ],
+    //   })
+    //   .then(txHash => cb(txHash));
   }
 
   /** @function
