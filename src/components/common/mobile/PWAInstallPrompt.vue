@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      showPWA: (!localStorage.getItem('dontShowPWA') && this.isMobile())
+      showPWA: (!localStorage.getItem('pwa_prompt_dismissed') && this.isMobile())
     }
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
     },
     // Stop from continuously showing prompt to user
     dontShowPrompt() {
-      localStorage.setItem('dontShowPWA', true);
+      localStorage.setItem('pwa_prompt_dismissed', true);
       this.showPWA = false;
     }
   }
