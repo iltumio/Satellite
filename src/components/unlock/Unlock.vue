@@ -2,7 +2,7 @@
   <div id="unlock">
     <PWAInstallPrompt />
     <div class="columns main unlock">
-      <img id="logo" src="https://ipfs.io/ipfs/QmRtjK89FBuNRQHVCfyk8bespju61q4MB6Y4PNJENb6RTv" />
+      <img id="logo" src="static/img/icons/logo-white.png" />
       <div class="column is-one-fifth">
         <i class="fas fa-key"></i>
       </div>
@@ -159,7 +159,7 @@ export default {
       display: block;
     }
     #unlock {
-      background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+      background-image: url(../../../static/img/mobile-background.png);
       background-position: bottom;
       background-size: contain;
       background-repeat: no-repeat;

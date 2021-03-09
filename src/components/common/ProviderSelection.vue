@@ -12,7 +12,7 @@
           <span>{{provider.name}}</span>
           </div>
       </div>
-      
+
     </section>
   </div>
 </template>
@@ -46,9 +46,9 @@ export default {
   padding: 50px;
   border-radius: 15px;
   margin: calc(50% - 500px) auto;
-  
+
   .head {
-    font-family: 'Space Mono', monospace;  
+    font-family: 'Space Mono', monospace;
     font-size: 20pt;
     padding-bottom: 1rem;
     text-transform: uppercase;
@@ -77,7 +77,7 @@ export default {
       &:hover {
         // Lighter blue gray
         background-color: #545974;
-      }    
+      }
     }
   }
 }
@@ -90,7 +90,7 @@ export default {
     background: transparent;
   }
   .fullscreen-pane {
-    background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+    background-image: url(../../../static/img/mobile-background.png);
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;

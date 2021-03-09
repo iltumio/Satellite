@@ -1,7 +1,7 @@
 <template>
     <span class="loading-indicator" :style="`width: ${size}px; height: ${size}px`">
-      <img src="https://gateway.pinata.cloud/ipfs/QmcWWAQeGdRaEPKRRYFgFXp8FFLRFn1a7DCdMiRcpAMe3D" class="ring"/>
-      <img src="https://gateway.pinata.cloud/ipfs/QmWCaaSbpD66aaKabTeW5cckEp9VzkCR6GHitkgiJXYQnh" class="center"/>
+      <img src="static/img/icons/loading-icon-satellite.png" class="ring"/>
+      <img src="static/img/icons/loading-icon-moon.png" class="center"/>
     </span>
 </template>
 
