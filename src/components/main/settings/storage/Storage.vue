@@ -7,7 +7,7 @@
         <div class="bordered margin-2">
           <div class="columns">
             <div class="column" style="max-width: 200px;">
-              <img src="https://textile.io/images/logo.png" class="margin" alt="" />
+              <img src="static/img/icons/textile-logo.png" class="margin" alt="" />
             </div>
             <div class="column padded">
               <p class="padded">
@@ -28,7 +28,7 @@
         <p>
           {{$t('settings.storage.threadDB_data_id_text')}}
           <br> <br>
-          <input v-model="dataid" readonly class="input is-small" placeholder="data..." />     
+          <input v-model="dataid" readonly class="input is-small" placeholder="data..." />
         </p>
         -->
       </div>

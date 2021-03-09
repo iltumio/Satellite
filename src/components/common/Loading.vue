@@ -9,8 +9,8 @@
         }`
       "
     >
-      <p 
-        id="logo" 
+      <p
+        id="logo"
         :style="`${($store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000') ? 'margin-top: 5rem' : ''}`">
         <Loader size="100" />
       </p>
@@ -121,7 +121,7 @@ export default {
         visibility: hidden;
     }
     #logo {
-        font-family: 'Space Mono', monospace;       
+        font-family: 'Space Mono', monospace;
         font-size: 35pt;
         padding-top: 1rem;
         margin-bottom: 1rem;
@@ -156,7 +156,7 @@ export default {
 
     @media (max-width: 768px) {
       .loading {
-        background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+        background-image: url(../../../static/img/mobile-background.png);
         background-position: bottom;
         background-size: contain;
         background-repeat: no-repeat;
@@ -173,7 +173,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+          background-image: url(../../../static/img/mobile-background.png);
           background-position: bottom;
           background-size: contain;
           background-repeat: no-repeat;
