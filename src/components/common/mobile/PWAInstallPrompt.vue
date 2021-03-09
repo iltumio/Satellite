@@ -3,14 +3,14 @@
       <img class="pwa-exit-btn" v-on:click="dontShowPrompt" src="static/img/icons/exit-btn.png">
       <div class="pwa-install-prompt-body">
         <div class="pwa-img-wrapper"><img class="pwa-img" src="static/img/icons/apple-touch-icon.png"></div>
-        <div class="pwa-header-text">Install Satellite</div>
-        <p class="pwa-body-text">Install Satellite on your homescreen for easy access to your favorite privacy driven chat network</p>
+        <div class="pwa-header-text">{{ $t('PWA.prompt_title') }}</div>
+        <p class="pwa-body-text">{{ $t('PWA.prompt_desc') }}</p>
         <!-- Android -->
-        <div class="pwa-footer" v-if="mobileType() == '/Android/i'">Just tap <img src="static/img/icons/android-pwa-icon.jpg" class="pwa-homescreen-icon"> (Chrome) <br> then 'Add to homescreen'</div>
+        <div class="pwa-footer" v-if="mobileType() == '/Android/i'">Just tap <img src="static/img/icons/android-pwa-icon.jpg" class="pwa-homescreen-icon"> then 'Add to homescreen'</div>
         <!-- IOS -->
-        <div class="pwa-footer" v-if="(mobileType() == '/iPhone/i') || (mobileType() == '/iPad/i') || (mobileType() == '/iPod/i')">Just tap <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon"> (Safari) <br> then 'Add to homescreen'</div>
+        <div class="pwa-footer" v-if="(mobileType() == '/iPhone/i') || (mobileType() == '/iPad/i') || (mobileType() == '/iPod/i')">Just tap <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon"> then 'Add to homescreen'</div>
         <!-- Windows Phone -->
-        <div class="pwa-footer" v-if="(mobileType() == '/Windows Phone/i')">Just tap <img src="static/img/icons/microsoft-edge-share-icon.png" class="pwa-homescreen-icon"> (Edge) <br> then 'Add to screen'</div>
+        <div class="pwa-footer" v-if="(mobileType() == '/Windows Phone/i')">Just tap <img src="static/img/icons/microsoft-edge-share-icon.png" class="pwa-homescreen-icon"> then 'Add to screen'</div>
         <!-- Unknown Device -->
         <div class="pwa-footer" v-if="mobileType() == undefined">We\'re unsure of you're devices type, search for "How to install PWA apps on [your device]" for instructions if you're interested in downloading our app</div>
       </div>
@@ -67,11 +67,11 @@ export default {
     flex-direction: column;
     // border: 1px solid rgb(255, 143, 79);
     .pwa-install-prompt-body {
-      background-color: rgb(24, 24, 24);
+      background-color: #fff;
       border-radius: 8px;
     }
     .pwa-exit-btn {
-      position: relative;
+      position: absolute;
       width: 24px;
       margin: 12px;
       align-self: flex-end;
@@ -102,7 +102,7 @@ export default {
       // border: 1px solid rgb(235, 17, 255);
       text-align: center;
       padding: 10px;
-      background-color: rgb(18, 18, 18);
+      background-color: #eee;
       border-radius: 0px 0px 8px 8px;
       img {
         width: 15px;

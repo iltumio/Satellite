@@ -3,11 +3,15 @@
 <script>
 import config from '@/config/config';
 import FileC from '@/classes/FileC.ts';
+import PrimaryHeading from '@/components/common/typography/PrimaryHeading';
 
 const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`);
 
 export default {
   name: 'FileUpload',
+  components: {
+    PrimaryHeading,
+  },
   props: [
     'file',
     'relayResult',

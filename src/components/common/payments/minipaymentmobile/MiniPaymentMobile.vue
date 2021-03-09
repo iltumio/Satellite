@@ -4,9 +4,7 @@
 import config from '@/config/config';
 import CircleIcon from '@/components/common/CircleIcon';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
-import Ethereum from '@/classes/Ethereum';
-
-const ethereum = new Ethereum('user-provided');
+import PrimaryHeading from '@/components/common/typography/PrimaryHeading';
 
 export default {
   name: 'MiniPaymentMobile',
@@ -17,10 +15,11 @@ export default {
   ],
   components: {
     CircleIcon,
+    PrimaryHeading,
   },
   data() {
     return {
-      amount: null,
+      amount: 0,
       icon: false,
       name: false,
       error: false,
@@ -95,7 +94,7 @@ export default {
         return false;
       }
       this.error = false;
-      ethereum.sendEther(
+      this.$ethereum.sendEther(
         this.address,
         this.$store.state.activeAccount,
         this.amount,

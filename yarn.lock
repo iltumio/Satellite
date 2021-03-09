@@ -15335,6 +15335,11 @@ vue-clipboard2@^0.3.1:
   dependencies:
     clipboard "^2.0.0"
 
+vue-currency-input@^1.22.6:
+  version "1.22.6"
+  resolved "https://registry.yarnpkg.com/vue-currency-input/-/vue-currency-input-1.22.6.tgz#1fed0dabb8a46a5537daca9371942f3d4f3a08fc"
+  integrity sha512-BUq8aysiZ1pdRyyWyIgxYz4+PBQwgVeAqxNr8ZOGaudA8YqEv2S5Plze0LjI/pbinX4+ma1sIIzStXZPxMy0/Q==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

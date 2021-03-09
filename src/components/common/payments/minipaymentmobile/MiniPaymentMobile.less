@@ -16,7 +16,7 @@ small {
   height: 53px;
 }
 .faded-bg {
-  background: linear-gradient(180deg, rgba(22,22,30,0) 0%, rgba(22,22,30,1) 28%, rgba(22,22,30,1) 68%, rgba(22,22,30,0) 100%);
+  // background: linear-gradient(180deg, rgba(22,22,30,0) 0%, rgba(22,22,30,1) 28%, rgba(22,22,30,1) 68%, rgba(22,22,30,0) 100%);
 }
 .dollar-value {
   font-size: 28pt;
@@ -51,13 +51,19 @@ small {
   font-weight: bold;
 }
 .input {
-  width: 200px;
-  margin-bottom: 2rem;
+  margin-top: 25%;
+  width: 100%;
   font-size: 18pt;
   text-align: center;
 }
 .label {
   margin-top: 3rem;
+}
+.sub-info {
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  right: 0;
 }
 .make-payment {
   background: #fff;
@@ -80,6 +86,7 @@ small {
     transform: translateX(-50%);
     width: 100%;
     text-align: center;
+    padding-top: 3rem;
   }
   /*#mobile-make-payment {
     background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV) !important;
@@ -94,5 +101,11 @@ small {
     padding-bottom: 1rem;
     text-transform: uppercase;
     margin-bottom: 3rem;
+  }
+
+  .input {
+    color: #49aebc !important;
+    background-color: transparent !important;
+    font-size: 2.4em;
   }
 }
