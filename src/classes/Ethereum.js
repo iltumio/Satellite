@@ -182,7 +182,7 @@ export default class Ethereum {
       method
         .send({
           from: account,
-          gas: 4700000,
+          gasLimit: 4700000,
         })
         .once('transactionHash', tx)
         .once('confirmation', done);

@@ -123,7 +123,9 @@ export default {
         this.ipfsHash,
         () => {
           this.done = true;
-          this.update();
+          // TODO: find out what this.update() should do
+          // this.update();
+          this.close();
         },
       );
     },
