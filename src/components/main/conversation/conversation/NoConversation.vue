@@ -3,9 +3,11 @@
       id="conversation"
       :class="`${(mediaOpen) ? 'media-open' : 'media-closed'} ${(voice) ? 'media-voice' : ''}`"
       ref="chat">
-        <hr class="divider">
-        <h2 class="heading">{{$t('conversation.conversation.no_conversation_heading')}}</h2>
-        <span>{{$t('conversation.conversation.no_conversation_subtext')}}</span>
+        <div class="noconvo">
+          <hr class="divider">
+          <h2 class="heading">{{$t('conversation.conversation.no_conversation_heading')}}</h2>
+          <span>{{$t('conversation.conversation.no_conversation_subtext')}}</span>
+        </div>
     </div>
 </template>
 

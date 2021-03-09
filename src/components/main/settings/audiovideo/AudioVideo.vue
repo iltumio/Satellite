@@ -69,7 +69,7 @@
         </p>
         <div class="columns">
           <div class="column image-ipfs" style="max-width: 100px;">
-            <img v-on:click="love += 1" src="https://ipfs.io/ipfs/QmceqvkYRZesG7r8k9zjsxHhwTNm54ku7RqxWB69YVRN75" class="margin" alt="" />
+            <img v-on:click="love += 1" src="static/img/icons/opus-logo.png" class="margin" alt="" />
           </div>
           <div class="column padded">
             <p class="padded">
