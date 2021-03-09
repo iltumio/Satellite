@@ -87,11 +87,15 @@ export default {
      */
     async fetchFriendRequests() {
       const frIds = await this.friendsContract.getRequests(this.$store.state.activeAccount);
+
+      console.log("REQUESTS",frIds);
       let requests = [];
       frIds.forEach(async (id) => {
         const req = await this.friendsContract.getRequest(id);
         const parsed = await this.friendsContract.parseRequest(req);
         requests = [...requests, parsed];
+
+        console.log("PARSED", parsed)
         if (requests.length === frIds.length) {
           this.$store.commit('updateFriendRequests', requests);
           this.friendRequests = requests;

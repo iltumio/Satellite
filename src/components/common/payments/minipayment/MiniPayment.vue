@@ -4,7 +4,9 @@
 import config from '@/config/config';
 import CircleIcon from '@/components/common/CircleIcon';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
-import Ethereum from '@/classes/Ethereum';
+// import Ethereum from '@/classes/Ethereum';
+import {marketDataByNetwork, getTokenSymbolByNetwork} from "@/utils/EthereumProvider.ts"
+import {ethers} from "ethers";
 
 export default {
   name: 'MiniPayment',
@@ -23,6 +25,8 @@ export default {
       name: false,
       error: false,
       priceUsd: 0,
+      tokenSymbol: "ether",
+      parsedBalance: ethers.utils.formatEther(this.$store.state.balance)
     };
   },
   methods: {
@@ -74,10 +78,9 @@ export default {
      * @name getMarketPrice
      */
     async getMarketPrice() {
-      // pull prices from https://api.coincap.io/v2/assets/ethereum
-      const response = await fetch('https://api.coincap.io/v2/assets/ethereum');
-      const json = await response.json();
-      this.priceUsd = json.data.priceUsd;
+      const marketData = await marketDataByNetwork(config.network.chain);
+      this.priceUsd = marketData.priceUsd;
+      this.tokenSymbol = marketData.symbol;
     },
     /** @method
      * Setter
@@ -100,6 +103,7 @@ export default {
               to: this.address,
               from: this.$store.state.activeAccount,
               tx: hash,
+              tokenSymbol: getTokenSymbolByNetwork(config.network.chain)
             },
             'payment',
           );

@@ -5,19 +5,19 @@
         <div class="content">
           <p>
             <i class="fab fa-ethereum logo"></i>
-            <strong class="amount">{{message.data.amount}} Ether</strong><br />
+            <strong class="amount">{{message.data.amount}} {{message.data.tokenSymbol}}</strong><br />
             <small>{{message.data.from}}</small><br>
             <i class="fas fa-arrow-down"></i>
             <i class="fas fa-arrow-down"></i>
             <i class="fas fa-arrow-down"></i>
-            <b>{{message.data.amount}} ETH</b>
+            <b>{{message.data.amount}} {{message.data.tokenSymbol}}</b>
             <i class="fas fa-arrow-down"></i>
             <i class="fas fa-arrow-down"></i>
             <i class="fas fa-arrow-down"></i>
             <small>{{message.data.to}}</small>
             <br>
             <ExternalLink 
-              :link="`${config.network.explorer}/tx/${message.data.tx}`" 
+              :link="`${explorer}/tx/${message.data.tx}`" 
               :text="$t('global.view_on_etherscan')">
             </ExternalLink>
           </p>
@@ -30,6 +30,7 @@
 <script>
 import config from '@/config/config';
 import ExternalLink from '@/components/common/ExternalLink';
+import {getExplorerByNetwork} from "@/utils/EthereumProvider.ts"
 
 export default {
   name: 'Payment',
@@ -43,6 +44,7 @@ export default {
     return {
       name: false,
       config,
+      explorer: getExplorerByNetwork(config.network.chain)
     };
   },
 };

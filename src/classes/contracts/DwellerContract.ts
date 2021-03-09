@@ -58,7 +58,7 @@ export default class DwellerContract {
     this.contract.setPhoto([
       ethers.utils.formatBytes32String(ipfsHash.path.substring(0, 23)),
       ethers.utils.formatBytes32String(ipfsHash.path.substring(23)),
-    ], { gasPrice: 4700000 })
+    ])
       .then(transaction => transaction.wait())
       .then(receipt => done(receipt));
   }
@@ -69,9 +69,7 @@ export default class DwellerContract {
    * @argument done callback which will be called on the first TX & confirm.
    */
   setUsername(username: string, done: CallableFunction) {
-    this.contract.setDwellerName(ethers.utils.formatBytes32String(username), {
-      gasPrice: 4700000,
-    })
+    this.contract.setDwellerName(ethers.utils.formatBytes32String(username))
       .then(transaction => transaction.wait())
       .then(receipt => done(receipt));
   }
