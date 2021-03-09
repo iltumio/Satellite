@@ -124,6 +124,14 @@ export default {
       this.messageText += emoji.native;
       this.selectingEmoji = false;
     },
+    autoGrow() {
+      let messageBox = document.querySelector('.messageuser')
+      let chatGroup = document.querySelector('.chat-group')
+      if(messageBox.scrollHeight < 110) {
+        messageBox.style.height = (messageBox.scrollHeight)+"px";
+        chatGroup.style.height = (40 + messageBox.scrollHeight)+"px";
+      }
+    }
   },
 };
 </script>

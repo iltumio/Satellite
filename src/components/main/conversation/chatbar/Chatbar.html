@@ -1,15 +1,15 @@
 <div>
   <section class="chat-group" @paste="handlePaste">
       <FileUpload v-if="showFileUpload" :file="file" :relayResult="handleNewMessage" :close="closeFileUpload" />
-      <MiniPayment 
+      <MiniPayment
         v-if="$store.state.friends.length && payments && !isMobile()"
-        :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name" 
+        :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name"
         :address="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].address"
         :photo="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
         :toggle="togglePayments" />
       <MiniPaymentMobile
         v-if="$store.state.friends.length && payments && isMobile()"
-        :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name" 
+        :person="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name"
         :address="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].address"
         :photo="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
         :toggle="togglePayments" />
@@ -36,23 +36,22 @@
           <!--<MiniPayment person="Sophie Chain" :toggle="togglePayments" v-if="payments" />-->
           <picker
             v-if="selectingEmoji"
-            native 
+            native
             :data="emojiIndex"
-            :title="$t('conversation.chatbar.pick_emoji')" 
-            emoji="point_up" 
+            :title="$t('conversation.chatbar.pick_emoji')"
+            emoji="point_up"
             color="#00d0a1"
             :showPreview="false"
             @select="this.selectEmoji" />
-          <input 
+          <textarea
             v-if="$store.state.friends.length"
-            class="input is-small messageuser" 
-            type="text" 
+            class="input is-small messageuser"
             autofocus
-            @input="isTyping"
+            @input="isTyping(); autoGrow();"
             v-on:keyup="startTyping"
             :placeholder="$t('conversation.chatbar.securely_message', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})"
             v-model="messageText"
-            v-on:keyup.enter="sendMessage">
+            v-on:keyup.enter="sendMessage"></textarea>
           <!--<div class="input is-small messageuser" contenteditable role="textbox">
             Securley Message Sophie Chain...
           </div>-->

@@ -96,14 +96,15 @@
     box-shadow: none;
     font-size: 12pt !important;
     width: calc(100% - 10.5rem);
+    resize: none;
 }
-input:focus, input:focus{
+textarea:focus, textarea:focus{
     outline: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
     border: none !important;
 }
-input::placeholder {
+textarea::placeholder {
     color: #666;
     opacity: 0.75;
 }
@@ -114,7 +115,7 @@ i:hover {
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
-  -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+  -webkit-animation: ellipsis steps(4,end) 900ms infinite;
   animation: ellipsis steps(4,end) 900ms infinite;
   content: "\2026"; /* ascii code for the ellipsis character */
   width: 0px;
@@ -122,12 +123,12 @@ i:hover {
 
 @keyframes ellipsis {
   to {
-    width: 20px;    
+    width: 20px;
   }
 }
 
 @-webkit-keyframes ellipsis {
   to {
-    width: 20px;    
+    width: 20px;
   }
 }
