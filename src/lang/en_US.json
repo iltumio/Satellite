@@ -8,7 +8,7 @@
     "nevermind": "Nevermind",
     "view_all_achievements": "view all achievements",
     "not_yet_implemented": "Not yet implemented",
-    "view_on_etherscan": "View on Etherscan",
+    "view_on_etherscan": "View on blockchain explorer",
     "accept": "Accept",
     "deny": "Deny",
     "default": "Default"
@@ -277,7 +277,7 @@
     }
   },
   "payments": {
-    "send": "Send {amount} ether ${dollar_equivalent}",
+    "send": "Send {amount} {symbol} ${dollar_equivalent}",
     "balance": "Balance",
     "button": "Send",
     "prices_disclaimer": " - Prices from CoinCap.io"

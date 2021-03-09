@@ -44,7 +44,7 @@
       <div :class="`columns wrapper ${$store.state.sidebarOpen ? '' : 'wrapper-closed'} ${settingsOpen ? 'settings-open' : ''}`">
         <!--Main Chat-->
         <div class="column is-one-third sidebar-wrapper" :class="{'show': $store.state.sidebarMobileOpen}" v-if="$store.state.sidebarOpen">
-          <Sidebar :toggleSettings="toggleSettings" :toggleCreateServer="toggleCreateServer" />
+          <Sidebar :toggleSettings="toggleSettings" :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
         </div>
         <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
@@ -107,6 +107,11 @@ import Server from '@/components/server/Server';
 
 import IPFS from 'ipfs-core';
 
+import config from '@/config/config';
+import Registry from '@/classes/contracts/Registry.ts';
+import DwellerContract from '@/classes/contracts/DwellerContract.ts';
+import ServerContract from '@/classes/contracts/ServerContract.ts';
+
 export default {
   name: 'chat',
   components: {
@@ -141,6 +146,8 @@ export default {
       showContext: false,
       contextCoordsX: 0,
       contextCoordsY: 0,
+      loadingServers: false,
+      servers: []
     };
   },
   computed: {
@@ -175,6 +182,7 @@ export default {
     },
     closeCreateServer() {
       this.showCreateServer = false;
+      this.updateServers();
     },
     toggleCreateServer() {
       this.showCreateServer = !this.showCreateServer;
@@ -182,6 +190,22 @@ export default {
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
       if (this.settingsOpen) this.$store.commit('changeRoute', 'main');
+    },
+    async updateServers() {
+      this.loadingServers = true;
+      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
+      const dwellerContractAddress = await registry.getDwellerContract(this.$store.state.activeAccount);
+      const dwellerContract = new DwellerContract(this.$ethereum, dwellerContractAddress);
+      const serverAddresses = await dwellerContract.getServers(this.$store.state.activeAccount);
+
+      const fetchServers = serverAddresses.map((serverAddress) => {
+        const serverContract = new ServerContract(this.$ethereum, serverAddress);
+        return serverContract.get(serverAddress);
+      });
+      const servers = await Promise.all(fetchServers);
+
+      this.servers = servers;
+      this.loadingServers = false;
     },
   },
   async mounted() {
@@ -206,6 +230,8 @@ export default {
     checkPeer();
     this.checkMobile();
     window.addEventListener('resize', this.checkMobile, true);
+
+    this.updateServers();
   },
 };
 </script>

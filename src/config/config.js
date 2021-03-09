@@ -6,14 +6,9 @@ module.exports = {
     browser: 'https://hub.textile.io',
   },
   network: {
-    explorer: 'https://goerli.etherscan.io',
-    api: 'http://api-goerli.etherscan.io/api',
-    eth: {
-      default: 'wss://goerli.infura.io/ws/v3/c15a812a12c746d0a5b0c74c6133f1b2',
-      infura: 'wss://goerli.infura.io/ws/v3/c15a812a12c746d0a5b0c74c6133f1b2',
-      vault74: 'ws://goerli.vault74.io:8545',
-    },
-    chain: 'goerli',
+    // explorer: 'https://goerli.etherscan.io',
+    // api: 'http://api-goerli.etherscan.io/api',
+    chain: 'mumbai',
   },
   ipfs: {
     browser: 'https://ipfs.io/ipfs/',
@@ -42,10 +37,12 @@ module.exports = {
   registry: {
     mainnet: '0x0',
     goerli: '0xfA22498c3F2bc836d9347F2e8c718E7820eAb308',
+    mumbai: '0x6ef1fcb3a695d962B97C2012D3B831356C199ebF',
   },
   friends: {
     mainnet: '0x0',
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
+    mumbai: '0x27F7DF4f1af2D61FE815901ad456dFf3355Ca9c3',
   },
   debug: false,
   cacher: {

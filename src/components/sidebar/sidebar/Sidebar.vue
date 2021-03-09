@@ -1,20 +1,20 @@
 <template src="./Sidebar.html"></template>
 
 <script>
-import config from '@/config/config';
+// import config from '@/config/config';
 import ServerList from '@/components/serverlist/ServerList';
 import QuickFriends from '@/components/sidebar/quickfriends/QuickFriends';
 import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
-import Registry from '@/classes/contracts/Registry.ts';
-import DwellerContract from '@/classes/contracts/DwellerContract.ts';
-import ServerContract from '@/classes/contracts/ServerContract.ts';
+// import Registry from '@/classes/contracts/Registry.ts';
+// import DwellerContract from '@/classes/contracts/DwellerContract.ts';
+// import ServerContract from '@/classes/contracts/ServerContract.ts';
 // Servers
 import ServerSidebar from '@/components/server/sidebar/Sidebar';
 
 export default {
   name: 'Sidebar',
-  props: ['toggleSettings', 'toggleCreateServer'],
+  props: ['toggleSettings', 'toggleCreateServer', 'loadingServers', 'servers'],
   components: {
     ServerList,
     User,
@@ -26,12 +26,10 @@ export default {
     return {
       route: 'chats',
       showQuickFriends: false,
-      servers: [],
-      loadingServers: false,
     };
   },
   mounted() {
-    this.updateServers();
+    // this.updateServers();
   },
   methods: {
     onClickClose() {
@@ -48,23 +46,7 @@ export default {
     getFriend(friends, address) {
       return friends.filter(f => f.address === address)[0];
     },
-    async updateServers() {
-      this.loadingServers = true;
-      const registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
-      const dwellerContractAddress = await registry.getDwellerContract(this.$store.state.activeAccount);
-      const dwellerContract = new DwellerContract(this.$ethereum, dwellerContractAddress);
-      const serverAddresses = await dwellerContract.getServers(this.$store.state.activeAccount);
-
-
-      const fetchServers = serverAddresses.map((serverAddress) => {
-        const serverContract = new ServerContract(this.$ethereum, serverAddress);
-        return serverContract.get(serverAddress);
-      });
-      const servers = await Promise.all(fetchServers);
-
-      this.servers = servers;
-      this.loadingServers = false;
-    },
+    
     isUnread(address) {
       return this.$store.state.unreads.includes(address);
     },

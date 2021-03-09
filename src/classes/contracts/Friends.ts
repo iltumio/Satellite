@@ -98,7 +98,7 @@ export default class Friends {
         ethers.utils.formatBytes32String(hash.substring(0, 28)),
         ethers.utils.formatBytes32String(hash.substring(28)),
       ],
-      { gasPrice: 4700000 },
+      { gasLimit: 300000 },
     ).then(tx => tx.wait());
   }
 
@@ -108,9 +108,7 @@ export default class Friends {
    * @returns transaction hash
    */
   async acceptRequest(id: number) : Promise<any> {
-    return this.contract.acceptRequest(id, {
-      gasPrice: 4700000,
-    }).then(tx => tx.wait());
+    return this.contract.acceptRequest(id, { gasLimit: 300000 }).then(tx => tx.wait());
   }
 
   /** @function
@@ -119,8 +117,6 @@ export default class Friends {
    * @returns transaction hash
    */
   async denyRequest(id: number) : Promise<any> {
-    return this.contract.acceptRequest(id, {
-      gasPrice: 4700000,
-    }).then(tx => tx.wait());
+    return this.contract.acceptRequest(id, { gasLimit: 300000 }).then(tx => tx.wait());
   }
 }

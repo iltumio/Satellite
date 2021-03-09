@@ -20,6 +20,7 @@
 <script>
 import ExternalLink from '@/components/common/ExternalLink';
 import config from '@/config/config';
+import {getExplorerByNetwork} from "@/utils/EthereumProvider.ts"
 
 export default {
   name: 'Address',
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     getEtherscanLink() {
-      return `${config.network.explorer}/address/${this.address[0]}`;
+      return `${getExplorerByNetwork(config.network.chain)}/address/${this.address[0]}`;
     },
   },
 };

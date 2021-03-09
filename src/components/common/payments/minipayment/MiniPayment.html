@@ -9,11 +9,11 @@
   <hr class="divider">
   <div style="clear:both;"></div>
   <p>
-      <i class="fab fa-ethereum"></i> {{$t('payments.send', {amount: amount, dollar_equivalent: +(Math.round((amount * priceUsd) + "e+2")  + "e-2")})}}
+      <i class="fab fa-ethereum"></i> {{$t('payments.send', {amount: amount, symbol: tokenSymbol , dollar_equivalent: parseFloat(amount * priceUsd).toFixed(4)})}}
       <br>
       <small>
           <b>{{$t('payments.balance')}}: </b>
-          {{+(Math.round($store.state.balance + "e+3")  + "e-3")}} ETH
+          {{parsedBalance}} {{tokenSymbol}}
           <span v-if="error">
             <br>
             <b class="red">{{error}}</b>
