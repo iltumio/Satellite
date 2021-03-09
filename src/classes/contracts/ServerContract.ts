@@ -42,7 +42,7 @@ export default class Server {
       ethers.utils.formatBytes32String(ipfsHash.path.substring(0, 23)),
       ethers.utils.formatBytes32String(ipfsHash.path.substring(23)),
     ],{
-        gas: 4700000,
+        gasLimit: 4700000,
       })
       .then(tx=>tx.wait())
       .then(done);
@@ -53,7 +53,7 @@ export default class Server {
     const server = <IServer>{
       address,
       registry: await this.contract.registry(),
-      name: await this.contract.name(),
+      name: ethers.utils.parseBytes32String(await this.contract.name()),
       channels: await this.contract.getChannels(),
       threadID: await this.contract.getDBHash(),
       members: await this.contract.getMembers(),
@@ -77,7 +77,7 @@ export default class Server {
         return this.contract.setName(
           ethers.utils.formatBytes32String(name),
           {
-            gas: 4700000,
+            gasLimit: 4700000,
           }
         );
       },
@@ -86,7 +86,7 @@ export default class Server {
           ethers.utils.formatBytes32String(hash.substring(0, 23)),
           ethers.utils.formatBytes32String(hash.substring(23)),
         ], {
-            gas: 4700000,
+            gasLimit:4700000,
           });
       },
       setPhoto: async (hash: string) => {
@@ -94,12 +94,12 @@ export default class Server {
           ethers.utils.formatBytes32String(hash.substring(0, 23)),
           ethers.utils.formatBytes32String(hash.substring(23)),
         ],{
-            gas: 4700000,
+            gasLimit:4700000,
           })
       },
       addAdmin: async (address: string) => {
         return this.contract.addAdmin(address,{
-            gas: 4700000,
+            gasLimit:4700000,
           });
       },
       addChannel: async (name: string, type: number) => {
@@ -107,14 +107,14 @@ export default class Server {
           ethers.utils.formatBytes32String(name),
           type,
           {
-            gas: 4700000,
+            gasLimit:4700000,
           })
       },
       addChannelGroup: async (name: string) => {
         return this.contract.createGroup(
           ethers.utils.formatBytes32String(name),
           {
-            gas: 4700000,
+            gasLimit:4700000,
           }
         )
       },
@@ -123,18 +123,18 @@ export default class Server {
           ethers.utils.formatBytes32String(group),
           ethers.utils.formatBytes32String(channel),
           {
-            gas: 4700000,
+            gasLimit:4700000,
           }
         )
       },
       delChannel: async (id: number) => {
         return this.contract.delChannel(id, {
-            gas: 4700000,
+            gasLimit:4700000,
           })
       },
       delGroup: async (id: number) => {
         return this.contract.delGroup(id, {
-            gas: 4700000,
+            gasLimit:4700000,
           })
       },
       delChannelFromGroup: async (group: string, id: number) => {
@@ -142,33 +142,30 @@ export default class Server {
           ethers.utils.formatBytes32String(group),
           id,
           {
-            gas: 4700000,
+            gasLimit:4700000,
           }
         )
       },
       inviteMember: async (address: string) => {
         return this.contract.inviteMember(address, {
-            gas: 4700000,
+            gasLimit:4700000,
           })
       },
     };
 
     const nil = '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
-    server.photo = server.photo.substr(0, 48) + server.photo.substr(66, 46);
+    
     if (server.photo !== nil) {
-      server.photo = ethers.utils.parseBytes32String(server.photo);
+      const sliced = server.photo.slice(2);
+      const firstHalf = sliced.substr(0, 64);
+      const secondHalf = sliced.substr(64, 128);
+      server.photo = ethers.utils.parseBytes32String(`0x${firstHalf}`) + ethers.utils.parseBytes32String(`0x${secondHalf}`);
     } else {
       server.photo = '';
     }
-    server.threadID = server.threadID.substr(0, 48) + server.threadID.substr(66, 46);
-    
-    const exemptions = ['registry', 'address', 'photo'];
 
-    Object.keys(server).forEach(key => {
-      if (typeof server[key] === 'string' && !exemptions.includes(key)) {
-        server[key] = ethers.utils.parseBytes32String(server[key]);
-      }
-    });
+    // TODO: check threadID
+    server.threadID = server.threadID.substr(0, 48) + server.threadID.substr(66, 46);
 
     return server;
   }

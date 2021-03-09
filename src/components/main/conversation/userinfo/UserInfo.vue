@@ -55,6 +55,7 @@
 import Badge from '@/components/common/Badge';
 import CircleIcon from '@/components/common/CircleIcon';
 import config from '@/config/config';
+import {getExplorerByNetwork} from "@/utils/EthereumProvider.ts"
 
 export default {
   name: 'UserInfo',
@@ -79,7 +80,7 @@ export default {
      * @argument address address to open to
      */
     etherscan(address) {
-      window.open(`${config.network.explorer}/address/${address}`);
+      window.open(`${getExplorerByNetwork(config.network.chain)}/address/${address}`);
     },
   },
 };

@@ -23,7 +23,7 @@
       </b>
 
       <div class="mnemonic-container">
-        <span 
+        <span
           v-for="(word, index) in this.splittedMnemonic"
           v-bind:key="index"
           class="mnemonic-word"
@@ -53,7 +53,7 @@
       </b>
 
       <div class="mnemonic-container">
-        <div 
+        <div
           v-for="(word, index) in this.splittedMnemonic"
           v-bind:key="index"
           class="mnemonic-word"
@@ -74,7 +74,7 @@
           v-on:click="back()">
           {{$t(`web3.wallet_creation.step.${step}.secondary_cta`)}}
         </button>
-        
+
         <button
           :disabled="!checkWords()"
           class="button is-primary"
@@ -154,10 +154,10 @@ export default {
   margin: calc(50% - 500px) auto;
 
   .head {
-    font-family: 'Space Mono', monospace;  
+    font-family: 'Space Mono', monospace;
     font-size: 20pt;
     text-transform: uppercase;
-    padding-bottom: 1rem;     
+    padding-bottom: 1rem;
   }
 
   button {
@@ -169,7 +169,7 @@ export default {
     grid-template-columns: repeat(4, 2fr);
     column-gap: 4px;
     row-gap: 4px;
-    
+
     .mnemonic-word {
       padding: 4px;
       background-color: #545974;
@@ -208,7 +208,7 @@ export default {
     margin-top: calc(25% - 4rem);
     background: transparent;
   }
-  
+
   .buttons-container {
     justify-content: center !important;
   }
@@ -238,7 +238,7 @@ export default {
   }
 
   .fullscreen-pane {
-    background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV);
+    background-image: url(../../../static/img/mobile-background.png);
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;

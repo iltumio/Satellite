@@ -32,12 +32,12 @@ export default class Vault74Registry {
    */
   createDwellerId(_username: string, account: string, tx: CallableFunction, done: CallableFunction) {
     const username = ethers.utils.formatBytes32String(_username);
-    this.contract.createDweller(username, { gasPrice: 4700000 }).then((transaction) => {
+    this.contract.createDweller(username).then((transaction) => {
       tx(transaction);
       return transaction.wait();
     }).then((confirmation) => {
       done(confirmation);
-    });
+    }).catch(console.log);
   }
 
   /** @function
@@ -49,7 +49,7 @@ export default class Vault74Registry {
    */
   createServer(_name: string, tx: CallableFunction, done: CallableFunction) {
     const name = ethers.utils.formatBytes32String(_name);
-    this.contract.createServer(name, { gasPrice: 4700000 }).then((transaction) => {
+    this.contract.createServer(name).then((transaction) => {
       tx(transaction);
       return transaction.wait();
     }).then((confirmation) => {

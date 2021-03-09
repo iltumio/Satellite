@@ -2,6 +2,7 @@
 import { ethers } from 'ethers';
 import * as Web3Utils from 'web3-utils';
 import config from '@/config/config';
+import { getEthereumProviderByNetwork } from '@/utils/EthereumProvider.ts';
 
 export default class Ethereum {
   constructor() {
@@ -12,7 +13,7 @@ export default class Ethereum {
   /**
    * @description Initializes the provider based on the provider type
    */
-  async initialize(providerType, wallet = null) {
+  async initialize(providerType, wallet = null, networkRpc = null) {
     this.netConfig = config.network;
     this.providerType = providerType;
 
@@ -32,11 +33,14 @@ export default class Ethereum {
 
       this.initialized = true;
     } else if (this.providerType === 'satellite' && wallet) {
-      if (process.env.VUE_APP_INFURA_API_KEY) {
-        this.provider = new ethers.providers.InfuraProvider('goerli', process.env.VUE_APP_INFURA_API_KEY);
+      // If no network rpc url is provided, the app will automatically connect to
+      // goerli testnet
+      if (!networkRpc) {
+        this.provider = getEthereumProviderByNetwork(config.network.chain);
       } else {
-        this.provider = ethers.providers.getDefaultProvider('goerli');
+        this.provider = new ethers.providers.JsonRpcProvider(networkRpc);
       }
+
       this.wallet = wallet;
 
       this.signer = wallet.connect(this.provider);
@@ -178,7 +182,7 @@ export default class Ethereum {
       method
         .send({
           from: account,
-          gas: 4700000,
+          gasLimit: 4700000,
         })
         .once('transactionHash', tx)
         .once('confirmation', done);
