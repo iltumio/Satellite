@@ -97,6 +97,7 @@ export default {
         this.handleNewMessage(this.messageText, 'text');
         this.messageText = '';
         this.stopTyping();
+        this.resetSize();
       }
     },
     startTyping() {
@@ -127,10 +128,22 @@ export default {
     autoGrow() {
       let messageBox = document.querySelector('.messageuser')
       let chatGroup = document.querySelector('.chat-group')
-      if(messageBox.scrollHeight < 110) {
-        messageBox.style.height = (messageBox.scrollHeight)+"px";
-        chatGroup.style.height = (40 + messageBox.scrollHeight)+"px";
+
+      messageBox.style.height = 'auto';
+      if(messageBox.scrollHeight < 112) {
+        messageBox.style.height = (messageBox.scrollHeight + 2)+"px";
+        chatGroup.style.height = (messageBox.scrollHeight + 40)+"px";
+      } else {
+        messageBox.style.height = "112px";
+        chatGroup.style.height = "152px";
       }
+      messageBox.scrollTop = messageBox.scrollHeight;
+    },
+    resetSize() {
+      let messageBox = document.querySelector('.messageuser')
+      let chatGroup = document.querySelector('.chat-group')
+      messageBox.style.height = "2.5rem";
+      chatGroup.style.height = "5rem";
     }
   },
 };

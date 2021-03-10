@@ -47,7 +47,9 @@
             v-if="$store.state.friends.length"
             class="input is-small messageuser"
             autofocus
+            rows="1"
             @input="isTyping(); autoGrow();"
+            @change="autoGrow"
             v-on:keyup="startTyping"
             :placeholder="$t('conversation.chatbar.securely_message', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})"
             v-model="messageText"
