@@ -83,7 +83,8 @@ export default {
       justify-content: center;
       padding: 32px 0px 12px 0px;
       img {
-        width: 25%;
+        width: 64px;
+        height: 64px;
       }
     }
     .pwa-header-text {
