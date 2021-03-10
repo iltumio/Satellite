@@ -142,7 +142,23 @@ export default {
 </script>
 
 <style scoped lang="less">
+.mnemonic-word {
+  position: relative;
+  padding-left: 1rem;
+  text-align: center;
+  font-size: 14pt;
+  padding: 0.5rem !important;
+  border-radius: 2px !important;
 
+  .number {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 22px;
+    font-size: 10pt;
+    border-radius: 3px;
+  }
+}
 .wallet-creation-container {
   text-align: center;
   width: 50%;

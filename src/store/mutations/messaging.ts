@@ -33,17 +33,8 @@ export default {
   },
   appendMessage(state: any, message: IMessage) {
     let filtered = [...state.messages];
-    filtered = filtered.filter(msg => {
-      // HOTFIX: Figure out why the message ids are mixing up later
-      // @ts-ignore
-      return msg._id !== message._id &&
-        // @ts-ignore
-        msg.id !== message.id &&
-        // @ts-ignore
-        msg._id !== message.id &&
-        // @ts-ignore
-        msg.id !== message._id;
-    });
+    // @ts-ignore
+    filtered = filtered.filter(msg => msg.id !== message.id);
     filtered.push(message);
     state.messages = filtered;
   },
