@@ -101,7 +101,7 @@ export default {
         this.sendToIpfs(this.selectedFile);
       }
     },
-    isNSFW : async(file) => {
+    async isNSFW(file) {
       let fileTypePrefix = file.type.split('/')[0]
       if (fileTypePrefix !== 'image') { return false }
 
@@ -109,15 +109,15 @@ export default {
       let imgElement = document.createElement('IMG')
       imgElement.src = fileURL;
       return nsfwjs.load()
-      .then(function (model) {
+      .then((model) => {
         return model.classify(imgElement)
       })
-      .then(function (predictionsArr) {
+      .then((predictionsArr) => {
         let predictionObj = {};
         for (let prediction of predictionsArr) {
           predictionObj[prediction.className] = prediction.probability
         }
-        let predictionParams = predictionObj.Porn > 0.6 || predictionObj.Hentai > 0.6
+        let predictionParams = (predictionObj.Porn > 0.6 || predictionObj.Hentai > 0.6)
         return predictionParams
       })
     },
