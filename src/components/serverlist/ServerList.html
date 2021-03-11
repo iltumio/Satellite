@@ -5,6 +5,18 @@
       icon="fa fa-globe-americas" />
   </div>
   <hr class="divider">
+  <div 
+    v-for="unread in unreads"
+    class="unread-user has-tooltip-arrow has-tooltip-right"
+    v-bind:key="unread.address"
+    v-on:click="viewUnread(unread)"
+    :data-tooltip="unread.name">
+    <i class="fas fa-comment-dots unread-icon"></i>
+    <CircleIcon
+      :image="unread.photo"
+      :address="unread.address"  />
+  </div>
+  <hr class="divider">
   <div class="server" v-if="loadingServers">
     <CircleIcon icon="fa fa-circle-notch fa-pulse" />
   </div>

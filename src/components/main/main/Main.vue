@@ -74,7 +74,10 @@ export default {
               // If we're recieving messages from a peer and they are not connected, try to connect.
               this.$WebRTC.connectIfNotConnected(update.instance.sender);
               if (update.instance.sender !== this.$store.state.activeChat) {
+                // Add an unread message indicator and if the user isn't in our sidebar,
+                // add a new chat group for them.
                 this.$store.commit('markUnread', update.instance.sender);
+                this.$store.commit('newChat', update.instance.sender);
               }
               if (key) {
                 const decrypted = await this.$database.messageManager.decryptMessage(update.instance, key);
