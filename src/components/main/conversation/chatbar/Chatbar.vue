@@ -41,6 +41,8 @@ export default {
   },
   mounted() {
     console.log('is mobile?', this.isMobile());
+    let messageBox = document.querySelector('.messageuser')
+    messageBox.style.setProperty("background", "transparent", "important");
   },
   methods: {
     isMobile() {
@@ -97,6 +99,7 @@ export default {
         this.handleNewMessage(this.messageText, 'text');
         this.messageText = '';
         this.stopTyping();
+        this.resetSize();
       }
     },
     startTyping() {
@@ -124,6 +127,26 @@ export default {
       this.messageText += emoji.native;
       this.selectingEmoji = false;
     },
+    autoGrow() {
+      let messageBox = document.querySelector('.messageuser')
+      let chatGroup = document.querySelector('.chat-group')
+
+      messageBox.style.height = 'auto';
+      if(messageBox.scrollHeight < 112) {
+        messageBox.style.height = (messageBox.scrollHeight + 2)+"px";
+        chatGroup.style.height = (messageBox.scrollHeight + 40)+"px";
+      } else {
+        messageBox.style.height = "112px";
+        chatGroup.style.height = "152px";
+      }
+      messageBox.scrollTop = messageBox.scrollHeight;
+    },
+    resetSize() {
+      let messageBox = document.querySelector('.messageuser')
+      let chatGroup = document.querySelector('.chat-group')
+      messageBox.style.height = "2.5rem";
+      chatGroup.style.height = "5rem";
+    }
   },
 };
 </script>
