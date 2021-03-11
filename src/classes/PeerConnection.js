@@ -1,5 +1,5 @@
 import config from '@/config/config';
-import Crypto from '@/classes/crypto/Crypto.ts';
+import Crypto from '@/classes/crypto/Crypto';
 
 const messageParser = msg => JSON.parse(msg);
 const messageFormatter = (type, data) => JSON.stringify({ type, data });
