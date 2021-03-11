@@ -2,7 +2,7 @@
   <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
   <h1 id="logo">
     Satellite
-    <span id="tag" class="yellow">α</span>
+    <span id="tag" class="yellow">{{version}}</span>
     <a href="#" @click.prevent="onClickClose" class="close">
       <i class="fa fa-bars"></i>
     </a>

@@ -6,6 +6,8 @@ import ServerList from '@/components/serverlist/ServerList';
 import QuickFriends from '@/components/sidebar/quickfriends/QuickFriends';
 import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
+import Package from '../../../../package.json';
+
 // import Registry from '@/classes/contracts/Registry.ts';
 // import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 // import ServerContract from '@/classes/contracts/ServerContract.ts';
@@ -26,6 +28,7 @@ export default {
     return {
       route: 'chats',
       showQuickFriends: false,
+      version: Package.version,
     };
   },
   mounted() {

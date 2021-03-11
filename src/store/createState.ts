@@ -69,6 +69,9 @@ export const defaultState = {
   // Database
   databaseEnabled: true,
   criticalError: false,
+  // Servers
+  server: false,
+  channel: false,
 };
 
 
