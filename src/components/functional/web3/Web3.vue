@@ -1,7 +1,10 @@
 <template>
   <div>
-    <ProviderSelection v-if="!$store.state.selectedProvider"/>
-    <WalletCreation v-if="$store.state.selectedProvider && !$store.state.accounts && !$store.state.mnemonic" :onWalletCreated="onWalletCreated"/>
+    <ProviderSelection v-if="!$store.state.selectedProvider" />
+    <WalletCreation
+      v-if="$store.state.selectedProvider && !$store.state.accounts && !$store.state.mnemonic"
+      :onWalletCreated="onWalletCreated"
+    />
   </div>
 </template>
 
@@ -55,8 +58,7 @@ export default {
         const dwellerName = await dwellerID.getDwellerName();
         this.$store.commit('profilePictureHash', dwellerPhoto);
         this.$store.commit('username', ethers.utils.parseBytes32String(dwellerName));
-
-        this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+        this.$store.dispatch('fetchFriends', this.$store.state.activeAccount);
       }
     },
     async getStats() {
@@ -78,7 +80,6 @@ export default {
     // an injected web3 instance
     this.$store.commit('setInjectedProvider', injectedProvider);
 
-
     // Check if provider has already been selected and
     // try to connect
     if (this.$store.state.selectedProvider) {
@@ -90,9 +91,8 @@ export default {
       }
     }
 
-
     // Subscribe to store changes
-    this.unsubscribe = this.$store.subscribe((mutation) => {
+    this.unsubscribe = this.$store.subscribe(mutation => {
       if (mutation.type === 'setSelectedProvider') {
         if (mutation.payload.type === 'injected') {
           this.connectProvider(mutation.payload);
@@ -129,7 +129,7 @@ export default {
     &:hover {
       // Lighter blue gray
       background-color: #545974;
-    }    
+    }
   }
 }
 </style>
