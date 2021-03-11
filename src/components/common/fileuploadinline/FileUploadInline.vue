@@ -42,16 +42,42 @@ export default {
       }
     },
     // Set the file from the input ready for processing
-    setFile(event) {
+    async setFile(event) {
       this.error = false;
       [this.selectedFile] = event.target.files;
       const size = this.selectedFile.size / 1024 / 1024; // MiB
+      let isNSFW = await this.isNSFW(this.selectedFile);
+
       if (size > 40) {
         this.error = 'Please select a file smaller than 40 MiB';
+        this.selectedFile = false;
+      } else if (isNSFW) {
+        this.error = 'Our AI thinks this image is NSFW';
         this.selectedFile = false;
       } else {
         this.sendToIpfs(this.selectedFile);
       }
+    },
+    // Checks if file is NSFW
+    isNSFW : async(file) => {
+      let fileTypePrefix = file.type.split('/')[0]
+      if (fileTypePrefix !== 'image') { return false }
+
+      let fileURL = URL.createObjectURL(file)
+      let imgElement = document.createElement('IMG')
+      imgElement.src = fileURL;
+      return nsfwjs.load()
+      .then(function (model) {
+        return model.classify(imgElement)
+      })
+      .then(function (predictionsArr) {
+        let predictionObj = {};
+        for (let prediction of predictionsArr) {
+          predictionObj[prediction.className] = prediction.probability
+        }
+        let predictionParams = predictionObj.Porn > 0.6 || predictionObj.Hentai > 0.6
+        return predictionParams
+      })
     },
     // Uploads the file to the connected IPFS node
     async sendToIpfs(file) {
