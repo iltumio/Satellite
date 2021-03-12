@@ -27,10 +27,13 @@ export default {
       ethereum: null,
     };
   },
+  props: ['onProviderSelected'],
   methods: {
     // Record the choosen provider in Vuex
     async setSelectedProvider(provider) {
-      this.$store.commit('setSelectedProvider', provider);
+      if(typeof this.onProviderSelected === 'function'){
+        this.onProviderSelected(provider)
+      }
     },
   },
   mounted() {},
