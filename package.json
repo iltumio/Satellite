@@ -34,6 +34,7 @@
     "@capacitor/cli": "^2.4.6",
     "@capacitor/core": "^2.4.6",
     "@capacitor/ios": "2.4.6",
+    "@tensorflow/tfjs": "^3.3.0",
     "@textile/context": "^0.10.0",
     "@textile/hub": "^4.0.0",
     "@textile/threaddb": "^0.0.6",

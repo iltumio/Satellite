@@ -4,17 +4,9 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <i class="fab fa-ethereum logo"></i>
-            <strong class="amount">{{message.data.amount}} {{message.data.tokenSymbol}}</strong><br />
-            <small>{{message.data.from}}</small><br>
-            <i class="fas fa-arrow-down"></i>
-            <i class="fas fa-arrow-down"></i>
-            <i class="fas fa-arrow-down"></i>
-            <b>{{message.data.amount}} {{message.data.tokenSymbol}}</b>
-            <i class="fas fa-arrow-down"></i>
-            <i class="fas fa-arrow-down"></i>
-            <i class="fas fa-arrow-down"></i>
-            <small>{{message.data.to}}</small>
+            <i class="fas fa-dollar-sign logo"></i>
+            <strong class="amount green">${{ (message.data.amount * priceUsd).toFixed(2) }}</strong><br />
+            <small> {{ message.data.amount }} {{tokenSymbol}}</small><br>
             <br>
             <ExternalLink 
               :link="`${explorer}/tx/${message.data.tx}`" 
@@ -30,7 +22,7 @@
 <script>
 import config from '@/config/config';
 import ExternalLink from '@/components/common/ExternalLink';
-import {getExplorerByNetwork} from "@/utils/EthereumProvider.ts"
+import { getExplorerByNetwork, marketDataByNetwork } from "@/utils/EthereumProvider.ts"
 
 export default {
   name: 'Payment',
@@ -44,8 +36,26 @@ export default {
     return {
       name: false,
       config,
+      priceUsd: 0,
+      tokenSymbol: '',
       explorer: getExplorerByNetwork(config.network.chain)
     };
+  },
+  methods: {
+    /** @method
+     * Setter
+     * Reach out to the CoinCap.io API for current market
+     * prices of Ethereum to USD
+     * @name getMarketPrice
+     */
+    async getMarketPrice() {
+      const marketData = await marketDataByNetwork(config.network.chain);
+      this.priceUsd = marketData.priceUsd;
+      this.tokenSymbol = marketData.symbol;
+    },
+  },
+  mounted() {
+    this.getMarketPrice();
   },
 };
 </script>
@@ -81,7 +91,7 @@ export default {
   }
   .amount {
     color: #00d0a1;
-    font-size: 15pt;
+    font-size: 20pt;
   }
   img {
     border-radius: 4px;
