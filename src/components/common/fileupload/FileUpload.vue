@@ -4,6 +4,7 @@
 import config from '@/config/config';
 import FileC from '@/classes/FileC.ts';
 import PrimaryHeading from '@/components/common/typography/PrimaryHeading';
+import * as nsfwjs from 'nsfwjs'
 
 const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`);
 
