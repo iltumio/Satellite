@@ -26,6 +26,7 @@ export default {
       config,
       fileClass: false,
       error: false,
+      aiScanning: false
     };
   },
   mounted() {
@@ -89,7 +90,9 @@ export default {
       this.error = false;
       [this.selectedFile] = event.target.files;
       const size = this.selectedFile.size / 1024 / 1024; // MiB
-      let isNSFW = await this.isNSFW(this.selectedFile)
+      this.aiScanning = true;
+      let isNSFW = await this.isNSFW(this.selectedFile);
+      this.aiScanning = false;
 
       if (size > 40) {
         this.error = 'Please select a file smaller than 40 MiB';
