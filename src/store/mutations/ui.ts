@@ -1,48 +1,44 @@
+import { IState } from '../createState';
+
 export default {
-  authenticated(state: any) {
+  authenticated(state: IState) {
     state.authenticated = true;
   },
-  buckets(state: any) {
+  buckets(state: IState) {
     state.buckets = true;
   },
   // Used to hotswitch dark mode from anywhere in the app
-  toggleDarkMode(state: any) {
-    // eslint-disable-next-line no-param-reassign
+  toggleDarkMode(state: IState) {
     state.settings.darkMode = !state.settings.darkMode;
   },
-  toggleSidebar(state: any) {
-    // eslint-disable-next-line
+  toggleSidebar(state: IState) {
     state.sidebarOpen = !state.sidebarOpen;
   },
-  setMobileSidebar(state: any, data) {
+  setMobileSidebar(state: IState, data) {
     state.sidebarMobileOpen = data;
   },
-  setSidebar(state: any, data) {
+  setSidebar(state: IState, data) {
     state.sidebarOpen = data;
   },
-  toggleMobileSidebar(state: any) {
-    // eslint-disable-next-line
+  toggleMobileSidebar(state: IState) {
     state.sidebarMobileOpen = !state.sidebarMobileOpen;
   },
-  activeChat(state: any, address: string) {
-    // eslint-disable-next-line no-param-reassign
+  activeChat(state: IState, address: string) {
     state.activeChat = address;
   },
   // Change the mian route of the application
-  changeRoute(state: any, route: string) {
-    // eslint-disable-next-line no-param-reassign
+  changeRoute(state: IState, route: string) {
     state.mainRoute = route;
   },
-  // eslint-disable-next-line
-  chatWith(state: any, address: string) {
+
+  chatWith(state: IState, address: string) {
     const { activeChats } = state;
     const filteredOutAddy = activeChats.filter((a: string) => a !== address);
     filteredOutAddy.unshift(address);
-    // eslint-disable-next-line
+
     state.activeChats = filteredOutAddy;
   },
-  toggleUserInfo(state: any) {
-    // eslint-disable-next-line
+  toggleUserInfo(state: IState) {
     state.showUser = !state.showUser;
   },
 };

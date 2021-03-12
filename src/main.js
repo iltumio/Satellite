@@ -4,19 +4,20 @@ import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
 import Toasted from 'vue-toasted';
 import config from '@/config/config';
-import Database from '@/classes/database/Database.ts';
-import Threads from '@/classes/database/textile/Threads.ts';
-import ThreadDB from '@/classes/database/textile/threads/ThreadDB.ts';
-import WebRTC from '@/classes/webrtc/WebRTC.ts';
+import Database from '@/classes/database/Database';
+import Threads from '@/classes/database/textile/Threads';
+import ThreadDB from '@/classes/database/textile/threads/ThreadDB';
+import WebRTC from '@/classes/webrtc/WebRTC';
 import VueI18n from 'vue-i18n';
 import VueCurrencyInput from 'vue-currency-input';
 
 import i18nInit from './utils/i18n';
 import App from './App';
-import router from './router/index.ts';
-import store from './store/index.ts';
+import router from './router/index';
+import store from './store/index';
 import Ethereum from './classes/Ethereum';
-import StreamManager from './classes/webrtc/StreamManager.ts';
+import StreamManager from './classes/webrtc/StreamManager';
+
 
 Vue.config.productionTip = false;
 
@@ -58,7 +59,6 @@ Vue.prototype.$streamManager = new StreamManager(constraints);
 
 const i18n = i18nInit('en_US');
 
-/* eslint-disable */
 const app = new Vue({
   el: '#app',
   functional: true,
@@ -72,4 +72,3 @@ const app = new Vue({
 
 // Extend store with Vue context for actions
 store.$app = app;
-/* eslint-enable */

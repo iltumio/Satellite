@@ -1,22 +1,24 @@
+import { IState } from '../createState';
+
 export default {
   // Set the audio device
-  setAudioDevice(state: any, device: string) {
+  setAudioDevice(state: IState, device: string) {
     state.audioDevice = device;
   },
   // Set the audio device
-  setVideoDevice(state: any, device: string) {
+  setVideoDevice(state: IState, device: string) {
     state.videoDevice = device;
   },
-  muted(state: any, muted: boolean) {
+  muted(state: IState, muted: boolean) {
     state.muted = muted;
   },
-  deafened(state: any, deafened: boolean) {
+  deafened(state: IState, deafened: boolean) {
     state.deafened = deafened;
   },
-  incomingCall(state: any, identifier: string) {
+  incomingCall(state: IState, identifier: string) {
     state.incomingCall = identifier;
   },
-  activeCall(state: any, identifier: string) {
+  activeCall(state: IState, identifier: string) {
     state.activeCall = identifier;
-  }
+  },
 };

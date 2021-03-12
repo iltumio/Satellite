@@ -1,13 +1,21 @@
 import VueI18n from 'vue-i18n';
 /* eslint-disable */
-import en_US from '../lang/en_US.json';
-import en_UK from  '../lang/en_UK.json';
-import de from  '../lang/de.json';
-import fr from  '../lang/fr.json';
-import ru from  '../lang/ru.json';
-import it from  '../lang/it.json';
-import hy from  '../lang/hy.json';
-import hi from  '../lang/hi.json';
+// @ts-ignore
+import en_US from '@/lang/en_US.json';
+// @ts-ignore
+import en_UK from '@/lang/en_UK.json';
+// @ts-ignore
+import de from '@/lang/de.json';
+// @ts-ignore
+import fr from '@/lang/fr.json';
+// @ts-ignore
+import ru from '@/lang/ru.json';
+// @ts-ignore
+import it from '@/lang/it.json';
+// @ts-ignore
+import hy from '@/lang/hy.json';
+// @ts-ignore
+import hi from '@/lang/hi.json';
 
 import { ipfs, languages, defaultLanguage } from '../config/config';
 
@@ -20,7 +28,7 @@ import { ipfs, languages, defaultLanguage } from '../config/config';
 export async function getLang(langCode) {
   // Check if the given language code is the default one
   // and returns the bundled messages
-  if(langCode === defaultLanguage){
+  if (langCode === defaultLanguage) {
     return en_US;
   }
 
@@ -29,7 +37,7 @@ export async function getLang(langCode) {
     return null;
   }
 
-  const storagePath = `v74.languages.${langCode}`;
+  const storagePath = `satellite.languages.${langCode}`;
 
   // Check if the current lang has already been cached
   const cachedLang = localStorage.getItem(storagePath);
@@ -54,19 +62,27 @@ export async function getLang(langCode) {
   }
 }
 
+export type LangCodes = "en_US" | "en_UK" | "de" | "fr" | "it" | "ru" | "hy" | "hi";
+
+interface Messages {
+  [key: string]: any;
+}
+
+const messages: Messages = {
+  en_US,
+  en_UK,
+  de,
+  fr,
+  it,
+  ru,
+  hy,
+  hi,
+};
+
 export default (locale, fallbackLocale) =>
   new VueI18n({
     locale,
-    messages: {
-      en_US,
-      en_UK,
-      de,
-      fr,
-      it,
-      ru,
-      hy,
-      hi,
-    },
+    messages,
     fallbackLocale: fallbackLocale || locale,
   });
 /* eslint-enable */

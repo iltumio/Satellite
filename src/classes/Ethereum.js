@@ -2,7 +2,7 @@
 import { ethers } from 'ethers';
 import * as Web3Utils from 'web3-utils';
 import config from '@/config/config';
-import { getEthereumProviderByNetwork } from '@/utils/EthereumProvider.ts';
+import { getEthereumProviderByNetwork } from '@/utils/EthereumProvider';
 
 export default class Ethereum {
   constructor() {
