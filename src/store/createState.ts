@@ -1,8 +1,9 @@
+import { LangCodes } from '../utils/i18n';
 import { AvailableProviders } from './mutations/web3';
 
 interface ISettings {
   darkMode: boolean;
-  language: 'en_US';
+  language: LangCodes;
 }
 
 type ThemeName = 'tokyo';
@@ -104,9 +105,9 @@ export const defaultState: IState = {
   // Web3
   web3connected: false,
   web3Stats: false,
-  // accounts: false, // undefined at first load
+  accounts: [],
   gasPrice: 36,
-  // activeAccount: false, // undefined at first load
+  activeAccount: undefined,
   balance: 0,
   localAccount: false,
   mnemonic: '',
@@ -115,13 +116,14 @@ export const defaultState: IState = {
   selectedProvider: null,
   injectedProvider: null,
   // Profile
-  // dwellerAddress: false, // undefined at first load
+  dwellerAddress: undefined,
   username: '',
-  // profilePictureHash: false, // undefined at first load
+  profilePictureHash: undefined,
   files: [],
   mainRoute: 'main',
   // Friends
-  // friends: null, // undefined at first load
+  friends: [],
+  friendsLoaded: false,
   friendRequests: [],
   peerHealth: {},
   unreads: [],
@@ -150,8 +152,8 @@ export const defaultState: IState = {
   databaseEnabled: true,
   criticalError: false,
   // Servers
-  // server: false, // undefined at first load
-  // channel: false, // undefined at first load
+  server: undefined,
+  channel: undefined,
 };
 
 const createState = (customState: any): IState => Object.assign({}, defaultState, customState);
