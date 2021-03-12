@@ -14,11 +14,11 @@
             </div>
             <div v-if="!selectedFile">
               <span class="heading">{{$t('fileupload.select')}}</span>
-              <input 
-                name="file" 
-                id="file" 
+              <input
+                name="file"
+                id="file"
                 class="input inputfile"
-                @change="setFile" 
+                @change="setFile"
                 type="file" />
               <label
                 v-if="!$store.state.buckets"
@@ -31,7 +31,7 @@
                 <span class="heading">File</span>
                 <input readonly :value="selectedFile.name" class="input is-small" type="text" />
                 <span class="heading padtop">{{$t('fileupload.link')}}</span>
-                <input 
+                <input
                   v-if="ipfsHash"
                   autofocus
                   readonly
@@ -39,10 +39,11 @@
                   class="input is-small hash"
                   type="text" />
                 <div class="heading" v-else>
-                  {{$t('fileupload.uploading')}}
+                  <span v-if="aiScanning">AI scanning image...</span>
+                  <span v-else>{{$t('fileupload.uploading')}}</span>
                 </div>
               </div>
-              <progress 
+              <progress
                 v-if="progress != 100"
                 class="progress is-primary is-small"
                 :value="progress"
@@ -51,18 +52,18 @@
             <div v-if="error">
               <span class="red">{{error}}</span>
             </div>
-            <input 
+            <input
               autofocus
               value=" "
               class="hidden"
               ref="hidden"
-              type="text" 
+              type="text"
               v-on:keyup.enter="sendFileMessage"/>
-            <button 
+            <button
               v-if="ipfsHash"
               :disabled="!ipfsHash"
               class="button is-primary send-file"
-              autofocus 
+              autofocus
               v-on:click="sendFileMessage">
               {{ipfsHash ? $t('fileupload.button_done') : $t('fileupload.button_uploading')}}
             </button>

@@ -26,7 +26,7 @@
           <span class="heading">{{$t('fileupload.file')}}</span>
           <input readonly :value="selectedFile.name" class="input is-small" type="text" />
           <span class="heading padtop">{{$t('fileupload.link')}}</span>
-          <input 
+          <input
             v-if="ipfsHash"
             autofocus
             readonly
@@ -34,9 +34,10 @@
             class="input is-small hash"
             type="text" />
           <div class="heading" v-else>
-            {{$t('fileupload.uploading')}}
+            <span v-if="aiScanning">AI scanning image...</span>
+            <span v-else>{{$t('fileupload.uploading')}}</span>
           </div>
-          <progress 
+          <progress
             v-if="progress != 100"
             class="progress is-primary is-small"
             :value="progress"
@@ -45,18 +46,18 @@
         <div v-if="error">
           <span class="red">{{error}}</span>
         </div>
-        <input 
+        <input
           autofocus
           value=" "
           class="hidden"
           ref="hidden"
-          type="text" 
+          type="text"
           v-on:keyup.enter="sendFileMessage"/>
-        <button 
+        <button
           v-if="ipfsHash"
           :disabled="!ipfsHash"
           class="button is-primary is-small"
-          autofocus 
+          autofocus
           v-on:click="reset">
           {{ipfsHash ? $t('fileupload.button_upload_another') : $t('fileupload.button_uploading')}}
         </button>
