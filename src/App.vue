@@ -163,6 +163,9 @@ export default {
 .tokyo {
   @import "assets/styles/tokyo.less";
 }
+.next {
+  @import "assets/styles/next.less";
+}
 .zenburn {
   @import "assets/styles/zenburn.less";
 }

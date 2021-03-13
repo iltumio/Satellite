@@ -2,12 +2,14 @@
 
 <script>
 import DwellerID from '@/components/common/dwellerid/DwellerID';
+import CircleIcon from '@/components/common/CircleIcon';
 
 export default {
   name: 'InfoBar',
   props: ['toggleMedia', 'makeCall'],
   components: {
     DwellerID,
+    CircleIcon,
   },
   data() {
     return {

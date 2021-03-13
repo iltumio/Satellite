@@ -9,6 +9,7 @@ interface ISettings {
 type ThemeName = 'tokyo';
 
 export interface IState {
+  pin: string | boolean;
   starting: boolean;
   authenticated: boolean;
   buckets: boolean;

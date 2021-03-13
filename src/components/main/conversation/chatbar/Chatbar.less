@@ -41,7 +41,7 @@
 }
 .input-collection {
     background: #e7ebee;
-    border-radius: 5px;
+    border-radius: 30px;
     width: 100%;
     height: 100%;
 }
@@ -129,5 +129,16 @@ i:hover {
 @-webkit-keyframes ellipsis {
   to {
     width: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .chat-group {
+    bottom: 0.75rem;
+  }
+  .fa-smile-wink {
+    display: none;
+  }
+  .messageuser {
+    width: calc(100% - 7.5rem);
   }
 }

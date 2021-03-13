@@ -38,14 +38,6 @@
           v-for="chat in $store.state.activeChats" :friend="getFriend($store.state.friends, chat)"
           :active="$store.state.activeChat === chat" :key="`${chat}${getFriend($store.state.friends, chat).status}`"
           :unread="isUnread(chat)" :typing="$store.state.typingUsers[chat]" :clientId="chat" />
-        <div v-if="$store.state.activeChats.length < 4">
-          <hr class="divider">
-          <span class="label" style="text-align: center;">{{$t('sidebar.add_friends')}}</span>
-          <button class="button is-primary is-small" v-on:click="setMainRoute('friends')" active="false"
-            style="width: 100%;">{{$t('sidebar.button')}}</button>
-          <br>
-          <br>
-        </div>
       </div>
     </div>
   </div>

@@ -4,10 +4,10 @@ import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
 import Toasted from 'vue-toasted';
 import config from '@/config/config';
-import Database from '@/classes/database/Database.ts';
-import Threads from '@/classes/database/textile/Threads.ts';
-import RemoteStorage from '@/classes/storage/RemoteStorage.ts';
-import WebRTC from '@/classes/webrtc/WebRTC.ts';
+import Database from '@/classes/database/Database';
+import Threads from '@/classes/database/textile/Threads';
+import RemoteStorage from '@/classes/storage/RemoteStorage';
+import WebRTC from '@/classes/webrtc/WebRTC';
 import VueI18n from 'vue-i18n';
 import VueCurrencyInput from 'vue-currency-input';
 
