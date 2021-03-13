@@ -121,17 +121,6 @@ export default {
       this.ipfsHash = {
         path: '',
       };
-      // const dwellerIDContract = await this.registry
-      //   .getDwellerContract(this.$store.state.activeAccount);
-      // DCUtils.setPhoto(
-      //   dwellerIDContract,
-      //   this.$store.state.activeAccount,
-      //   this.ipfsHash,
-      //   () => {
-      //     this.$store.commit('setStatus', 'Transaction confirmed');
-      //     this.$store.commit('profilePictureHash', this.ipfsHash.path);
-      //   },
-      // );
     },
     // Create a new profile via the Registry for this user
     async submitProfileContract() {
@@ -187,20 +176,6 @@ export default {
         this.$store.commit('setStatus', 'Transaction confirmed');
         this.commitEverything(txReceipt);
       });
-      // DCUtils.setPhoto(
-      //   dwellerIDContract,
-      //   this.$store.state.activeAccount,
-      //   this.ipfsHash,
-      //   () => {
-      //     confirms += 1;
-      //     this.finished = true;
-      //     this.$store.commit('setStatus', 'Transaction confirmed');
-      //     if (confirms >= 2 || !this.customFinalAction) {
-      //       this.commitEverything(dwellerIDContract);
-      //     }
-      //   },
-      // );
-      // this.commitEverything(receipt);
     },
     // Note the changes to the profile locally in the store
     commitEverything(dwellerIDContract) {
@@ -208,17 +183,6 @@ export default {
       this.$store.commit('dwellerAddress', dwellerIDContract);
       if (this.customFinalAction) this.customFinalAction();
     },
-    // // Get a dweler from the registry
-    // async getDweller() {
-    //   this.$store.commit('setStatus', 'Fetching dweller from chain');
-    //   DCUtils.getDweller(
-    //     this.$store.state.dwellerAddress,
-    //     (dweller, onChainPhotoHash) => {
-    //       this.dweller = dweller;
-    //       this.onChainPhotoHash = onChainPhotoHash;
-    //     },
-    //   );
-    // },
     async getDwellerByAddress(address) {
       this.dweller = await this.dwellerCachingHelper.getDweller(address);
     },

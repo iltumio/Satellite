@@ -94,11 +94,11 @@
       <input class="input" :value="$store.state.activeAccount" readonly />
       <br>
       <br>
-      <h2>{{$t('settings.profile.recovery_phrase_title')}}</h2>
+      <p class="label">{{$t('settings.profile.recovery_phrase_title')}}</p>
       <p>{{$t('settings.profile.recovery_phrase_desc')}}</p>
       <div class="phrase" v-if="phrase">
         <span v-for="word, i in phrase.split(' ')" class="mnemonic-word">
-          <span class="number">{{i}}</span>
+          <span class="number">{{i + 1}}</span>
           {{word}}
         </span>
       </div>
