@@ -156,7 +156,7 @@ export default {
 
     @media (max-width: 768px) {
       .loading {
-        background-image: url(../../../static/img/mobile-background.png);
+        background-image: url(/static/img/mobile-background.png);
         background-position: bottom;
         background-size: contain;
         background-repeat: no-repeat;
@@ -177,7 +177,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          background-image: url(../../../static/img/mobile-background.png);
+          background-image: url(/static/img/mobile-background.png);
           background-position: bottom;
           background-size: contain;
           background-repeat: no-repeat;
