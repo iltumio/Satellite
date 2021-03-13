@@ -20,13 +20,14 @@
               :placeholder="$t('unlock.pin_placeholder')"/>
           </div>
           <div class="control">
-            <a class="button is-primary is-small" v-on:click="decideAction">
-              <i class="fas fa-unlock"></i>
+            <a :disabled="decrypting" class="button is-primary is-small" v-on:click="decideAction">
+              <i v-if="!decrypting" class="fas fa-unlock"></i>
+              <i v-else class="fa fa-spin fa-circle-notch"></i>
             </a>
           </div>
         </div>
         <p class="label sub-label">
-          <input type="checkbox" v-model="storePin" /> {{$t('unlock.stay_logged')}}
+          <input :readonly="decrypting" type="checkbox" v-model="storePin" /> {{$t('unlock.stay_logged')}}
         </p>
       </div>
       <div class="column is-one-fifth">
@@ -59,6 +60,7 @@ export default {
       storePin: false,
       storedPinHash: localStorage.getItem('v74.pinhash') || false,
       storedPin: localStorage.getItem('v74.pin') || false,
+      decrypting: false,
     };
   },
   methods: {
@@ -78,9 +80,9 @@ export default {
       const encryptedPin = await crypto.encrypt(this.pin, this.pin);
       localStorage.setItem('v74.pinhash', encryptedPin);
       if (this.storePin) localStorage.setItem('v74.pin', this.pin);
-      window.v74pin = this.pin;
-      this.$pin = this.pin;
-      this.decrypted();
+      this.$store.commit('setPin', this.pin);
+      this.decrypting = true;
+      await this.decrypted(this.pin);
     },
     async testPin() {
       crypto.decrypt(this.storedPinHash, this.pin)
@@ -89,7 +91,9 @@ export default {
           window.v74pin = this.pin;
           this.$pin = this.pin;
           if (this.storePin) localStorage.setItem('v74.pin', this.pin);
-          this.decrypted();
+          this.$store.commit('setPin', this.pin);
+          this.decrypting = true;
+          this.decrypted(this.pin);
         })
         .catch(() => {
           this.error = 'Invalid pin, try again.';
@@ -99,7 +103,8 @@ export default {
   mounted() {
     if (localStorage.getItem('v74.pin')) {
       window.v74pin = localStorage.getItem('v74.pin');
-      this.decrypted();
+      this.decrypting = true;
+      this.decrypted(localStorage.getItem('v74.pin'));
     }
   },
 };
@@ -159,7 +164,7 @@ export default {
       display: block;
     }
     #unlock {
-      background-image: url(../../../static/img/mobile-background.png);
+      background-image: url(/static/img/mobile-background.png);
       background-position: bottom;
       background-size: contain;
       background-repeat: no-repeat;

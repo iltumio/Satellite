@@ -55,4 +55,7 @@ export default {
     // eslint-disable-next-line
     state.starting = isStarting;
   },
+  setPin(state, pin) {
+    state.pin = pin;
+  }
 };

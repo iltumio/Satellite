@@ -82,6 +82,7 @@ export interface IState {
 }
 
 export const defaultState: IState = {
+  pin: false,
   starting: true,
   authenticated: false,
   buckets: false,

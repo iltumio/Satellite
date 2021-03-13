@@ -55,7 +55,8 @@
     "send": "Send File",
     "button_uploading": "Uploading...",
     "button_done": "Send",
-    "button_upload_another": "Upload Another File"
+    "button_upload_another": "Upload Another File",
+    "aiscan": "Our AI is validating your image..."
   },
   "loading": {
     "connecting_blockchain": "Connecting to the blockchain...",
@@ -255,7 +256,9 @@
       "remove_photo": "Remove Photo",
       "change_username": "Change Username",
       "copy_address": "Copy Address",
-      "confirm_transaction": "Please confirm transaction..."
+      "confirm_transaction": "Please confirm transaction...",
+      "recovery_phrase_title": "Recovery Phrase",
+      "recovery_phrase_desc": "Please store this phrase somewhere safe. The order of the words is critical. Satellite can not help you recover your account if you lose this."
     },
     "contracts": {
       "audit_disclaimer": "These are Alpha contracts and have not been audited yet <br /> It's worth noting these contracts are built to be funcitional proof of concepts, not performant, and will be re-written pre beta.",

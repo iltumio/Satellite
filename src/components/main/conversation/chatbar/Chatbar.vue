@@ -40,7 +40,6 @@ export default {
     };
   },
   mounted() {
-    console.log('is mobile?', this.isMobile());
     let messageBox = document.querySelector('.messageuser')
     messageBox.style.setProperty("background", "transparent", "important");
   },

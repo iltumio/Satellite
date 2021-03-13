@@ -88,7 +88,7 @@ export default {
           this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
         })
         .catch((e) => {
-          console.log("ACCEPT REQUEST ERROR",e)
+          console.log("ACCEPT REQUEST ERROR", e);
           this.fetchFriendRequests();
           this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
         });

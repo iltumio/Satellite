@@ -19,6 +19,22 @@
   padding-top: 0.65rem;
   padding-left: 1rem;
 }
+.mnemonic-word {
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  width: calc(25% - 1rem);
+  background-color: #fff;
+  display: inline-block;
+  padding: 0.25rem 0.75rem 0.25rem 1.25rem;
+  position: relative;
+  border-radius: 4px;
+  
+  .number {
+    position: absolute;
+    font-size: 8pt;
+    top: 0;
+    left: 0.3rem;
+  }
+}
 .light {
   opacity: 1;
 }
@@ -63,6 +79,14 @@
 @media (max-width: 768px) {
   .profileToggler {
     font-size: 12pt;
+  }
+
+  .mnemonic-word {
+    margin: 0;
+    width: calc(50% - 1rem);
+    text-align: center;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .image-ipfs {

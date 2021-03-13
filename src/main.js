@@ -4,10 +4,10 @@ import VueClipboard from 'vue-clipboard2';
 import vClickOutside from 'v-click-outside';
 import Toasted from 'vue-toasted';
 import config from '@/config/config';
-import Database from '@/classes/database/Database';
-import Threads from '@/classes/database/textile/Threads';
-import ThreadDB from '@/classes/database/textile/threads/ThreadDB';
-import WebRTC from '@/classes/webrtc/WebRTC';
+import Database from '@/classes/database/Database.ts';
+import Threads from '@/classes/database/textile/Threads.ts';
+import RemoteStorage from '@/classes/storage/RemoteStorage.ts';
+import WebRTC from '@/classes/webrtc/WebRTC.ts';
 import VueI18n from 'vue-i18n';
 import VueCurrencyInput from 'vue-currency-input';
 
@@ -38,10 +38,12 @@ sync(store, router);
 
 Vue.prototype.$database = new Database('SatelliteData');
 Vue.prototype.$Threads = new Threads();
-Vue.prototype.$ThreadDB = new ThreadDB();
 Vue.prototype.$WebRTC = new WebRTC();
 Vue.prototype.$pin = null;
 Vue.prototype.$ethereum = new Ethereum();
+
+// Storage 2.0
+Vue.prototype.$RemoteStorage = new RemoteStorage();
 
 const constraints = {
   audio: {

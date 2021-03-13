@@ -94,10 +94,21 @@
       <input class="input" :value="$store.state.activeAccount" readonly />
       <br>
       <br>
-      <h2>{{$t('settings.profile.transfer_data')}}</h2>
-      <div class="qr">
-        <vue-qrcode value="bafkuyygq4ffaw6gxcwytmspvywe3igbptez6nqxh24s5yu52al4pkyi" margin="3" scale="6"
-          :color="qrColor" />
+      <p class="label">{{$t('settings.profile.recovery_phrase_title')}}</p>
+      <p>{{$t('settings.profile.recovery_phrase_desc')}}</p>
+      <div class="phrase" v-if="phrase">
+        <span v-for="word, i in phrase.split(' ')" class="mnemonic-word">
+          <span class="number">{{i + 1}}</span>
+          {{word}}
+        </span>
+      </div>
+      <div v-else>
+        <br>
+        <button 
+          class="button is-primary is-small"
+          v-on:click="phrase = $store.state.mnemonic">
+          Show Me the Phrase
+        </button>
       </div>
     </div>
   </article>
