@@ -76,7 +76,8 @@ export default {
     },
     update() {
       this.fetchFriendRequests();
-      this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      // this.$store.commit('fetchFriends', this.$store.state.activeAccount);
+      this.$store.dispatch('fetchFriends', this.$store.state.activeAccount);
     },
     getFriends() {
       this.friends = this.$store.state.friends;

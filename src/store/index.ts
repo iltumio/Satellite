@@ -12,15 +12,9 @@ export const createStore = initialState => new Vuex.Store({
   state: createState(initialState),
   plugins: [persistedState],
   // @ts-ignore
-  mutations: {
-    ...mutations,
-  },
-  actions: {
-    ...actions,
-  },
-  getters: {
-    ...getters,
-  },
+  mutations,
+  actions,
+  getters,
 });
 
 export default createStore({});

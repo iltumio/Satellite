@@ -1,3 +1,5 @@
+import { IState } from '../createState';
+
 interface Channel {
   id: string;
   type: string;
@@ -5,10 +7,10 @@ interface Channel {
 }
 
 export default {
-  activeServer(state: any, server: any) {
+  activeServer(state: IState, server: any) {
     state.server = server;
   },
-  activeChannel(state: any, channel: Channel) {
+  activeChannel(state: IState, channel: Channel) {
     state.channel = channel;
-  }
+  },
 };

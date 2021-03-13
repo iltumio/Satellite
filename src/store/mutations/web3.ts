@@ -1,3 +1,5 @@
+import { IState } from '../createState';
+
 const satelliteLogo = require('@/assets/images/logo_color.png');
 
 export const AvailableProviders = {
@@ -16,41 +18,33 @@ export const AvailableProviders = {
 };
 
 export default {
-  setWeb3Connected(state: any, connected: boolean) {
-    // eslint-disable-next-line
+  setWeb3Connected(state: IState, connected: boolean) {
     state.web3connected = connected;
   },
-  clearInjectedProvider(state: any) {
-    // eslint-disable-next-line
+  clearInjectedProvider(state: IState) {
     state.injectedProvider = null;
   },
-  setInjectedProvider(state: any, injectedProvider: any) {
-    // eslint-disable-next-line
-    state.availableProviders = state.availableProviders.filter(
-      availableProvider => availableProvider.type !== 'injected');
+  setInjectedProvider(state: IState, injectedProvider: any) {
+    state.availableProviders =
+      state.availableProviders.filter(availableProvider => availableProvider.type !== 'injected');
 
     if (injectedProvider) {
-      // eslint-disable-next-line
       state.injectedProvider = injectedProvider;
-      // eslint-disable-next-line
+
       state.availableProviders.push(injectedProvider);
     } else {
-      // eslint-disable-next-line
       state.injectedProvider = AvailableProviders.NOT_PRESENT;
     }
   },
-  setSelectedProvider(state: any, provider: any) {
-    // eslint-disable-next-line
+  setSelectedProvider(state: IState, provider: any) {
     state.selectedProvider = provider;
   },
-  updateBalance(state: any, balance: number) {
-    // eslint-disable-next-line
+  updateBalance(state: IState, balance: number) {
     state.balance = balance;
-    // eslint-disable-next-line
+
     state.balanceLastUpdate = Date.now();
   },
-  setMnemonic(state:any, mnemonic: string) {
-    // eslint-disable-next-line
+  setMnemonic(state: IState, mnemonic: string) {
     state.mnemonic = mnemonic;
   },
 };
