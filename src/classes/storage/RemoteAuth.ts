@@ -1,18 +1,18 @@
-import { Database, Remote } from "@textile/threaddb";
+import { Database, PrivateKey } from "@textile/threaddb";
 
 // @ts-ignore
 import config from '@/config/config';
-import { PrivateKey } from "@textile/hub";
 
-import { ThreadIDs, PublicKeys } from './schemas/index';
+// Import Schemas
+import { ThreadIDs } from './schemas/index';
 
-export default class ThreadAuth {
+export default class RemoteAuth {
   private _identifier: string | null;
   private _db: Database | null;
   private _token: string | null;
   private _remote: any;
   private _threadID: string | null;
-  
+
   /** @constructor
    * Construct a ThreadAuth
    * Provides authentication methods for ThreadDB
@@ -44,23 +44,14 @@ export default class ThreadAuth {
     return this._identifier;
   }
 
-  /**
-   * @method
-   * @name init
-   * Initalize creation of the Database
-   * @param identifier string identifier to use for the database name
-   */
-  async init(identifier: string) {
-    this._identifier = identifier;
+  async init(dbName: string) {
+    // Create || Open a new database
     this._db = await new Database(
-      // Database will be named after the active account or "identifier"
-      `${this._identifier}-threaddb`,
-      // Schemas
+      dbName,
       // @ts-ignore
       { name: ThreadIDs.name, schema: ThreadIDs.schema },
-      // @ts-ignore
-      { name: PublicKeys.name, schema: PublicKeys.schema },
     ).open(1);
+    console.log('initalized', this.database);
   }
 
   /**
@@ -71,51 +62,38 @@ export default class ThreadAuth {
    */
   async getPrivateKey() : Promise<PrivateKey> {
     /** Restore any cached user identity first */
-    const cached = localStorage.getItem('textile.identity');
+    const cached = localStorage.getItem('textile.remote.identity');
     const privateKey = (cached !== null) ? 
       PrivateKey.fromString(cached) :
       PrivateKey.fromRandom();
     /** Add the string copy to the cache */
     // TODO: Encrypt this with user password in the future
-    localStorage.setItem('textile.identity', privateKey.toString());
+    localStorage.setItem('textile.remote.identity', privateKey.toString());
     /** Return the random identity */
     return privateKey;
   }
 
   /**
    * @method
-   * @name auth
+   * @name authorize
    * Authorize to remote database
    * @return Promise returning an error if auth fails, null elsewise.
    */
-  async auth() : Promise<Error | null> {
+  async _authorize(reconnect: CallableFunction) : Promise<Error | null> {
     if (!this._db) return new Error('Please initalize before authenticating');
     const privateKey = await this.getPrivateKey();
     // authenticate to remote
     this._remote = await this._db.remote.setKeyInfo({
       key: config.textile.key,
     });
+    // TODO: Catch timeout and re-auth.
+    // After re-authing emit a re-auth event so that we
+    // can resubscribe to message events
+    // reconnect();
     // store token
     this._token = await this._remote.authorize(privateKey);
-    // Create a thread if none has been cached
-    await this.connectCreateThread(this._remote);
+    console.log('authorized', this._db, this._remote);
     return null;
   }
-
-  /**
-   * @method
-   * @name connectCreateThread
-   * Create a new thread or load one if stored locally
-   * @argument remote remote database connection
-   */
-  async connectCreateThread(remote: Remote) {
-    const cached = localStorage.getItem('textile.threadID');
-    if (cached) {
-      this._threadID = await remote.initialize(cached);
-    } else {
-      this._threadID = await remote.initialize();
-    }
-    // this._threadID = await remote.initialize();
-    localStorage.setItem('textile.threadID', this._threadID);
-  }
+  
 }

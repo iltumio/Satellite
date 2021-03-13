@@ -34,6 +34,7 @@ export default {
         dark: '#0f1015',
         light: '#b3bade',
       },
+      phrase: false,
       profileFile: false,
       ipfsHash: false,
       error: false,
