@@ -25,29 +25,6 @@ export default class DwellerContract {
     return this.ethereum.getContract(DwellerID.abi, address);
   }
 
-  //   /** @function
-  //    * @name deploy
-  //    * @argument _username inital username to deploy the contract with
-  //    * @argument account to deploy the contract from, this will be the owner
-  //    * @argument tx callback which will be called when the transaction is made
-  //    * @argument done callback to be called when the first confirmation comes through
-  //    */
-  //   deploy(_username: string, account: string, tx: CallableFunction, done: CallableFunction) {
-  //     const username = ethers.utils.formatBytes32String(_username);
-  //     const contract = this.getContract('');
-  //     // @ts-ignore
-  //     contract.deploy({
-  //       arguments: [username],
-  //     }).send({
-  //       from: account,
-  //       gasPrice: 4700000,
-  //     })
-  //       // @ts-ignore
-  //       .once('transactionHash', tx)
-  //       // @ts-ignore
-  //       .once('confirmation', done);
-  //   }
-
   /** @function
    * @name setPhoto
    * @argument ipfsHash hash referencing the inital profile picture
@@ -83,11 +60,7 @@ export default class DwellerContract {
     if (!dweller) {
       throw new Error('Dweller not found');
     }
-    // const onChainPhotoHash = await this.contract.getPhoto().catch(err => console.log('error', err));
     const onChainPhotoHash = '';
-    // onChainPhotoHash = onChainPhotoHash.substr(0, 48) + onChainPhotoHash.substr(66, 46);
-    // onChainPhotoHash = ethers.utils.hexToString(onChainPhotoHash);
-
     return { dweller, onChainPhotoHash };
   }
 

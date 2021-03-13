@@ -1,6 +1,7 @@
 import { AvailableProviders } from './mutations/web3';
 
 export const defaultState = {
+  pin: false,
   starting: true,
   authenticated: false,
   buckets: false,
@@ -72,6 +73,7 @@ export const defaultState = {
   // Servers
   server: false,
   channel: false,
+  
 };
 
 

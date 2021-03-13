@@ -88,6 +88,7 @@
 
 <script>
 import { ethers } from 'ethers';
+import Crypto from '@/utils/Crypto.ts';
 
 export default {
   name: 'WalletCreation',
@@ -131,8 +132,10 @@ export default {
 
       return areWordsRight;
     },
-    walletCreated() {
+    async walletCreated() {
       this.$store.commit('setMnemonic', this.wallet.mnemonic.phrase);
+      const encrypted = await Crypto.encrypt(this.wallet.mnemonic.phrase, this.$store.state.pin);
+      localStorage.setItem('mnemonic', encrypted);
       this.onWalletCreated(this.wallet);
     },
   },

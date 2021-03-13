@@ -51,7 +51,6 @@ export default class RemoteAuth {
       // @ts-ignore
       { name: ThreadIDs.name, schema: ThreadIDs.schema },
     ).open(1);
-    console.log('initalized', this.database);
   }
 
   /**
@@ -92,7 +91,7 @@ export default class RemoteAuth {
     // reconnect();
     // store token
     this._token = await this._remote.authorize(privateKey);
-    console.log('authorized', this._db, this._remote);
+    // console.log('authorized', this._db, this._remote);
     return null;
   }
   
