@@ -25,7 +25,7 @@ export default {
       name: false,
       error: false,
       priceUsd: 0,
-      tokenSymbol: "ether",
+      tokenSymbol: "matic",
       parsedBalance: ethers.utils.formatEther(this.$store.state.balance)
     };
   },

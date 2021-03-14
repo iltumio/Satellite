@@ -28,6 +28,8 @@ const blacklist: IBlacklist = {
   typingUsers: true,
   accounts: true,
   balance: true,
+  mnemonic: true,
+  pin: true,
 };
 
 const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key]);

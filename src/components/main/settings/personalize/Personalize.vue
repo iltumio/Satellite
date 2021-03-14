@@ -12,6 +12,7 @@
             <option value="zenburn">Zenburn</option>
             <option value="light">Eye Strain</option>
             <option value="ice">Ice Cold</option>
+            <option value="next">Next</option>
             <option value="tokyo">Tokyo Night</option>
           </select>
         </div>

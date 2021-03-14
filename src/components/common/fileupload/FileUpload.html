@@ -39,7 +39,11 @@
                   class="input is-small hash"
                   type="text" />
                 <div class="heading" v-else>
-                  <span v-if="aiScanning">AI scanning image...</span>
+                  <span class="green ai-scan" v-if="aiScanning">
+                    <b>
+                      <i class="fas fa-robot green"></i> {{$t('fileupload.aiscan')}}
+                    </b>
+                  </span>
                   <span v-else>{{$t('fileupload.uploading')}}</span>
                 </div>
               </div>
@@ -50,7 +54,12 @@
                 max="100">{{progress}}%</progress>
             </div>
             <div v-if="error">
-              <span class="red">{{error}}</span>
+              <br>
+              <span class="red error">
+                <b>
+                  <i class="fas fa-skull"></i>  {{error}}
+                </b>
+              </span>
             </div>
             <input
               autofocus

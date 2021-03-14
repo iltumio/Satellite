@@ -31,6 +31,10 @@
 @yellow: #fbc02d;
 
 .theme {
+  .phrase .mnemonic-word {
+    color: @basically-white;
+    background-color: @really-blue !important;
+  }
   .wallet-creation-container {
     background-color: @dark-blue-gray !important;
   }
@@ -50,6 +54,9 @@
   }
   .circle-icon {
     background: @less-dark-blue-gray !important;
+  }
+  .bordered-circle-icon {
+    background: unset;
   }
   .server-sidebar-channel.active {
     background-color: @really-blue !important;
@@ -647,7 +654,7 @@
     color: #75bfdf !important;
   }
   .true {
-    .fa-pulse {
+    .fa-spin {
       color: @basically-white !important;
     }
   }

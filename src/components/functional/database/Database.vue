@@ -43,8 +43,12 @@ export default {
       );
 
       // Initalize ThreadDB
-      await this.$ThreadDB.init(this.$store.state.activeAccount);
+      // await this.$ThreadDB.init(this.$store.state.activeAccount);
       // await this.$ThreadDB.auth();
+
+      // Init Remote Storage
+      await this.$RemoteStorage.init('remote-storage');
+      await this.$RemoteStorage.authorize();
 
       await this.$database.authenticate(
         'textile',

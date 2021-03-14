@@ -17,6 +17,7 @@
 import 'bulma/css/bulma.css';
 import config from '@/config/config';
 import Crypto from '@/classes/crypto/Crypto.ts';
+import CryptoUtil from '@/utils/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
 
 export default {
@@ -32,7 +33,12 @@ export default {
     };
   },
   methods: {
-    decrypt() {
+    async decrypt(pin) {
+      let decryptedMnemonic = localStorage.getItem('mnemonic');
+      if (decryptedMnemonic) {
+        decryptedMnemonic = await CryptoUtil.decrypt(decryptedMnemonic, pin);
+        this.$store.commit('setMnemonic', decryptedMnemonic);
+      }
       this.decrypted = true;
       this.checkAccount();
     },
@@ -101,7 +107,6 @@ export default {
       if (mutation.type === 'addFriend') {
         // Connect to new peer.
         // TODO: Update WebRTC
-        console.log('state', state);
       }
 
       // Use this workaround because vuex $store.watch is not
@@ -157,6 +162,9 @@ export default {
 }
 .tokyo {
   @import "assets/styles/tokyo.less";
+}
+.next {
+  @import "assets/styles/next.less";
 }
 .zenburn {
   @import "assets/styles/zenburn.less";

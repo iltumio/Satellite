@@ -32,19 +32,19 @@
         <p>{{$t('servers.create.confirm_transaction')}}</p>
         <hr class="divider">
         <p>
-          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp;
+          <span class="loading" v-if="!confirmation"><i class="fa fa-spinner-third fa-spin"></i> &nbsp;
             {{$t('servers.create.waiting_server_confirmation')}}</span>
-          <span v-else><i class="fa fa-circle-notch"></i> &nbsp;
+          <span v-else><i class="fa fa-spinner-third"></i> &nbsp;
             {{$t('servers.create.waiting_server_confirmation')}}</span>
           <br>
-          <span class="loading" v-if="!confirmation"><i class="fa fa-circle-notch fa-pulse"></i> &nbsp;
+          <span class="loading" v-if="!confirmation"><i class="fa fa-spinner-third fa-spin"></i> &nbsp;
             {{$t('servers.create.writing_additional_details')}}</span>
-          <span v-else><i class="fa fa-circle-notch"></i> &nbsp;
+          <span v-else><i class="fa fa-spinner-third"></i> &nbsp;
             {{$t('servers.create.writing_additional_details')}}</span>
           <br>
-          <span class="loading" v-if="!done"><i class="fa fa-circle-notch fa-pulse"></i>
+          <span class="loading" v-if="!done"><i class="fa fa-spinner-third fa-spin"></i>
             &nbsp;{{$t('servers.create.done')}}</span>
-          <span v-else><i class="fa fa-circle-notch"></i> &nbsp; {{$t('servers.create.done')}}</span>
+          <span v-else><i class="fa fa-spinner-third"></i> &nbsp; {{$t('servers.create.done')}}</span>
         </p>
       </div>
     </section>

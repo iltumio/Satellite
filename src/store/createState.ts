@@ -9,6 +9,7 @@ interface ISettings {
 type ThemeName = 'tokyo';
 
 export interface IState {
+  pin: string | boolean;
   starting: boolean;
   authenticated: boolean;
   buckets: boolean;
@@ -82,6 +83,7 @@ export interface IState {
 }
 
 export const defaultState: IState = {
+  pin: false,
   starting: true,
   authenticated: false,
   buckets: false,

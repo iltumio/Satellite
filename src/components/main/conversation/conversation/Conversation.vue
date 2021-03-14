@@ -9,6 +9,9 @@
       ref="chat"
       :key="`${$store.state.activeChat}`"
       v-on:scroll="onScroll">
+        <div class="yellow encrypted">
+          <i class="fas fa-key-skeleton"></i> &nbsp; {{$t("conversation.encrypted")}}
+        </div>
         <div
           v-for="messageGroup in grouper($store.state.messages)" 
           v-bind:key="messageGroup[0].id">
@@ -151,6 +154,18 @@ export default {
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped lang="less">
+    .encrypted {
+      width: 95%;
+      text-align: center;
+      margin-left: 2.5%;
+      /* margin-bottom: 1rem; */
+      font-size: 9pt;
+      margin: 0.5rem 2.5% 1rem 2.5%;
+      /* background-color: rgba(255,255,255, 0.1); */
+      padding: 0.5rem;
+      background: #16161e !important;
+      border-radius: 3px;
+    }
     .notification {
       margin-top: 4rem;
       padding: 0.6rem 0.8rem;

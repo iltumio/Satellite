@@ -48,4 +48,19 @@ export default {
       margin-left: .45em;
       margin-right: 3rem;
     }
+
+    @media only screen and (max-width: 768px) {
+      .separator {
+        display: flex;
+        width: 100%;
+        clear: both;
+        align-items: center;
+        text-align: center;
+        font-weight: bold;
+        color: #bbb;
+        margin: 0;
+        font-size: 9pt;
+        margin: 1rem 0;
+      }
+    }
 </style>

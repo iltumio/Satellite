@@ -93,7 +93,7 @@ export default {
     background: transparent;
   }
   .fullscreen-pane {
-    background-image: url(../../../static/img/mobile-background.png);
+    background-image: url(/static/img/mobile-background.png);
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;

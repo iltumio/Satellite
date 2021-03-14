@@ -6,6 +6,9 @@ import CircleIcon from '@/components/common/CircleIcon';
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import PrimaryHeading from '@/components/common/typography/PrimaryHeading';
 
+import { marketDataByNetwork, getTokenSymbolByNetwork } from "@/utils/EthereumProvider.ts"
+import { ethers } from "ethers";
+
 export default {
   name: 'MiniPaymentMobile',
   props: [
@@ -24,6 +27,8 @@ export default {
       name: false,
       error: false,
       priceUsd: 0,
+      tokenSymbol: "matic",
+      parsedBalance: ethers.utils.formatEther(this.$store.state.balance)
     };
   },
   methods: {
@@ -78,10 +83,9 @@ export default {
      * @name getMarketPrice
      */
     async getMarketPrice() {
-      // pull prices from https://api.coincap.io/v2/assets/ethereum
-      const response = await fetch('https://api.coincap.io/v2/assets/ethereum');
-      const json = await response.json();
-      this.priceUsd = json.data.priceUsd;
+      const marketData = await marketDataByNetwork(config.network.chain);
+      this.priceUsd = marketData.priceUsd;
+      this.tokenSymbol = marketData.symbol;
     },
     /** @method
      * Setter
@@ -90,21 +94,23 @@ export default {
      */
     async sendTransaction() {
       if (this.amount <= 0) {
-        this.error = 'Please enter > 0 ETH.';
+        this.error = 'Please enter > 0';
         return false;
       }
       this.error = false;
+
+      const coinAmount = this.amount * this.priceUsd;
       this.$ethereum.sendEther(
         this.address,
-        this.$store.state.activeAccount,
-        this.amount,
+        coinAmount.toString(),
         (hash) => {
           this.sendMessage(
             {
-              amount: this.amount,
+              amount: this.amount.toString(),
               to: this.address,
               from: this.$store.state.activeAccount,
               tx: hash,
+              tokenSymbol: getTokenSymbolByNetwork(config.network.chain)
             },
             'payment',
           );
