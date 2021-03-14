@@ -9,7 +9,7 @@
     <p class="label">{{$t('settings.profile.change_photo')}}</p>
     <button v-if="!ipfsHash" class="button is-primary is-small" v-on:click="toggleCropper">{{$t('settings.profile.upload_profile_pic')}}</button>
     <p v-if="ipfsHash">
-      <i class="fa fa-circle-notch fa-pulse"></i> {{$t('settings.profile.confirm_transaction')}}
+      <i class="fa fa-spinner-third fa-spin"></i> {{$t('settings.profile.confirm_transaction')}}
     </p>    
     <div style="clear: both;"></div>
     <br>

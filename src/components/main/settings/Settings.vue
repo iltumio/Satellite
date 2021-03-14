@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       route: 'personalize',
-      isShowSidebar: true,
+      isShowSidebar: false,
     };
   },
   mounted() {

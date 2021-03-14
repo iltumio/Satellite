@@ -5,7 +5,7 @@
         <div class="content">
           <p>
             <i class="fas fa-dollar-sign logo"></i>
-            <strong class="amount green">${{ (message.data.amount * priceUsd).toFixed(2) }}</strong><br />
+            <strong class="amount green">${{ message.data.amount }}</strong><br />
             <small> {{ message.data.amount }} {{tokenSymbol}}</small><br>
             <br>
             <ExternalLink 

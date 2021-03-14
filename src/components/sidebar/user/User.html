@@ -4,7 +4,7 @@
   <p >{{friend.name}}</p>
   <p class="address">{{friend.address}}</p>
   <p id="typing" :class="`online ${(friend.status === 'alive') ? 'true' : ''}`">
-    <i v-if="typing && friend.status === 'alive'" class="fas fa-circle-notch fa-pulse"></i>
+    <i v-if="typing && friend.status === 'alive'" class="fas fa-spinner-third fa-spin"></i>
     <i class="fa fa-circle"></i>
   </p>
   <i v-if="hovered" class="fa fa-times"></i>

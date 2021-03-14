@@ -19,7 +19,7 @@
         <button class="button is-danger is-small" v-on:click="reload">Retry?</button>
       </div>
       <div v-else-if="!$store.state.dwellerAddress">
-        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.connecting_blockchain') }}
+        <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.connecting_blockchain') }}
       </div>
       <div
         v-else-if="$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'"
@@ -30,13 +30,13 @@
         <!-- <Profile :customFinalAction="reload" v-else /> -->
       </div>
       <div v-else-if="!$store.state.friendsLoaded">
-        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.assembling') }}
+        <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.assembling') }}
       </div>
       <div v-else-if="$store.state.starting">
-        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.generic') }}
+        <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.generic') }}
       </div>
       <div v-else-if="!$store.state.ICEConnected">
-        <i class="fas fa-circle-notch fa-pulse"></i> {{ $t('loading.connecting_broker') }}
+        <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.connecting_broker') }}
       </div>
       <div
         class="metamask"

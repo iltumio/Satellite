@@ -72,7 +72,7 @@
             <i class="fas fa-hashtag"></i>
             <b>{{ $t('footer.block_number') }}:</b> {{ $store.state.web3Stats.blockNumber }}
             <span class="spacer"> </span>
-            <i class="fas fa-id-badge"></i>
+            <i class="fas fa-info-circle"></i>
             <b>{{ $t('footer.account') }}:</b> {{ $store.state.accounts[0] }}
           </span>
           <span v-else>

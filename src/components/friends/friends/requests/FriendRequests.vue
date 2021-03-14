@@ -13,7 +13,7 @@
           <h1 class="label name">{{request.sender.name}}</h1>
           <span class="address" v-if="!requestPending[request.id]">{{request.sender.address.substr(0, 24)}}...</span>
           <span class="address" v-else>
-            <i class="fa fa-circle-notch fa-pulse"></i>  {{$t('friends.requests.updating')}}
+            <i class="fa fa-spinner-third fa-spin"></i>  {{$t('friends.requests.updating')}}
           </span>
         </div>
         <div class="right">

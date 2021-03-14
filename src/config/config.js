@@ -83,4 +83,8 @@ module.exports = {
   toastNotifications: {
     position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast',
   },
+  verified_addresses: [
+    '0xEE81E0B011Cd2D36D03F3E1C0A4549f78a56cb5E',
+    '0x788b8fe274fcA4c4D441d1C2c95e7A2105ea669F',
+  ], // TODO: move this to a contract
 };

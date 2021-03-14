@@ -7,7 +7,7 @@
     <div class="name-address">
       <p class="username">{{friend.name}}</p>
       <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.address}}</p>
-      <p class="address" v-else><i class="fa fa-circle-notch fa-pulse"></i> Sending request...</p>
+      <p class="address" v-else><i class="fa fa-spinner-third fa-spin"></i> Sending request...</p>
     </div>
     <button :disabled="isMakingRequest(friend.address)" class="button add-friend is-primary" v-on:click="action(friend.address)">{{text}}</button>
   </div>

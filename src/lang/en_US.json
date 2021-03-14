@@ -347,6 +347,7 @@
     "devtools": "Open Devtools"
   },
   "conversation": {
+    "encrypted": "Messages are secured by end to end encryption.",
     "chatbar": {
       "typing": "is typing",
       "characters_left": "{characters} Characters Left",

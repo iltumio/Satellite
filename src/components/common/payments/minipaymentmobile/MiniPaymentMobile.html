@@ -8,7 +8,7 @@
                 class="input green"
                 v-model="amount" />
             <br>
-            {{amount / priceUsd}} ETH</p>
+            {{amount / priceUsd}} {{tokenSymbol}}</p>
         </div>
         <div style="clear:both;"></div>
 
@@ -16,7 +16,7 @@
         <br>
         <small class="sub-info">
             <b>{{$t('payments.balance')}}: </b>
-            {{+(Math.round($store.state.balance + "e+3")  + "e-3")}} ETH
+            {{parsedBalance}} {{tokenSymbol}}
             <span v-if="error">
             <br>
             <b class="red">{{error}}</b>

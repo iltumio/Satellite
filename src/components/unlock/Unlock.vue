@@ -22,7 +22,7 @@
           <div class="control">
             <a :disabled="decrypting" class="button is-primary is-small" v-on:click="decideAction">
               <i v-if="!decrypting" class="fas fa-unlock"></i>
-              <i v-else class="fa fa-spin fa-circle-notch"></i>
+              <i v-else class="fa fa-spin fa-spinner-third"></i>
             </a>
           </div>
         </div>
