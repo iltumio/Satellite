@@ -1,0 +1,34 @@
+<section class="mobile-nav">
+  <div>
+    <ul>
+      <li v-on:click="setMainRoute('main')">
+          <i class="fas fa-home"></i>
+          <br>
+          <span class="nav-subtitle">Home</span>
+      </li>
+      <li v-on:click="setMainRoute('friends')">
+        <span v-if="activeRequestCount($store.state.friendRequests) > 0" class="indicator">
+          {{activeRequestCount($store.state.friendRequests)}}
+        </span>
+        <i class="fas fa-user-friends"></i>
+        <br>
+        <span class="nav-subtitle">Friends</span>
+      </li>
+      <li v-on:click="setMainRoute('files')">
+        <i class="fas fa-folder"></i>
+        <br>
+        <span class="nav-subtitle">Files</span>
+      </li>
+      <li>
+        <i class="fas fa-wallet"></i>
+        <br>
+        <span class="nav-subtitle">Wallet</span>
+      </li>
+      <li v-on:click="toggleSettings">
+        <i class="fas fa-cogs"></i>
+        <br>
+        <span class="nav-subtitle">Settings</span>
+      </li>
+    </ul>
+  </div>
+</section>

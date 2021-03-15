@@ -51,10 +51,10 @@ export default {
 <style scoped lang="less">
     .icon {
       padding-top: 27px;
+      margin-top: -3px;
     }
     .verified-badge {
       position: absolute;
-      top: -13px;
       right: -3px;
       z-index: 3;
       font-size: 14px;
@@ -111,9 +111,6 @@ export default {
       width: 100%;
       height: 100%;
       top: 0;
-    }
-    i {
-      margin-top: 13px;
     }
     #user-info > div.user-details > div > div > div {
       width: 100% !important;
