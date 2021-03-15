@@ -1,0 +1,30 @@
+<section class="server-slider">
+  <div>
+    <div class="circleicon-wrapper">
+      <CircleIcon :action="toggleCreateServer" id="addServer" color="#101016" icon="fa fa-plus" />
+      <span>Create</span>
+    </div>
+
+    <div class="server"
+      v-for="(server, index) in servers"
+      v-bind:key="server.address">
+      <div
+        v-if="server.photo.length > 1"
+        v-on:click="openServer(server)"
+        class="circleicon-wrapper server-icon">
+        <CircleIcon
+          :image="`https://ipfs.io/ipfs/${server.photo}`" />
+        <span>{{server.name}}</span>
+      </div>
+      <div 
+        v-else
+        v-on:click="openServer(server)" 
+        class="circleicon-wrapper server-icon">
+        <CircleIcon
+          :address="server.address"
+          class="server-icon" />
+        <span>{{server.name}}</span>
+      </div>
+    </div>
+  </div>
+</section>

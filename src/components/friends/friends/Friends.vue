@@ -159,12 +159,12 @@ export default {
         return;
       }
       if (this.$store.state.friends.filter(f => f.address === this.friendAddress).length === 1) {
-        this.error = 'You\'re already friends with this dweller.';
+        this.error = 'You\'re already friends with this user.';
         return;
       }
       const friend = await this.dwellerCachingHelper.getDweller(this.friendAddress);
       if (!friend) {
-        this.error = 'Hmm, we couldn\'t find a vault dweller at that address';
+        this.error = 'Hmm, we couldn\'t find a user at that address';
         return;
       }
       this.error = false;

@@ -8,6 +8,7 @@ import User from '@/components/sidebar/user/User';
 import Controls from '@/components/sidebar/controls/Controls';
 import Package from '../../../../package.json';
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
+import ServerSlider from '@/components/sidebar/serverslider/ServerSlider';
 
 // import Registry from '@/classes/contracts/Registry.ts';
 // import DwellerContract from '@/classes/contracts/DwellerContract.ts';
@@ -25,6 +26,7 @@ export default {
     QuickFriends,
     ServerSidebar,
     MobileNav,
+    ServerSlider,
   },
   data() {
     return {

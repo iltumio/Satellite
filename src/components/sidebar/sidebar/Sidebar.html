@@ -1,6 +1,6 @@
 <section class="section main-section noselect">
   <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
-  <h1 id="logo">
+  <h1 id="logo" v-if="!isMobile()">
     Satellite
     <span id="tag" class="yellow">{{version}}</span>
     <a href="#" @click.prevent="onClickClose" class="close">
@@ -10,6 +10,8 @@
   <div class="control user-search">
     <input class="input is-small hide-mobile" type="text" :placeholder="$t('sidebar.find')">
   </div>
+  <ServerSlider v-if="isMobile()" :toggleCreateServer="toggleCreateServer" :servers="servers" />
+  <div style="clear: both;"></div>
   <div class="usersubcontrols">
     <div v-on:click="setMainRoute('friends')" :class="`${$store.state.mainRoute == 'friends' ? 'active' : ''} friends`">
       <i class="fa fa-user-friends"></i> &nbsp; {{$t('sidebar.friends')}}
