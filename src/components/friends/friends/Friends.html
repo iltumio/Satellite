@@ -50,7 +50,7 @@
       <div>
         <FriendRequests 
           :fetchFriendRequests="fetchFriendRequests"
-          :friendRequests="friendRequests"
+          :friendRequests="$store.state.friendRequests"
           :action="chatFriend" />
       </div>
     </div>

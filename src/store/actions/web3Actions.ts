@@ -13,7 +13,10 @@ export default {
         dispatch('connectProvider', { providerInfo: state.selectedProvider });
       } else if (state.mnemonic) {
         const wallet = ethers.Wallet.fromMnemonic(state.mnemonic);
-        dispatch('connectProvider', { providerInfo: state.selectedProvider, wallet });
+        dispatch('connectProvider', {
+          providerInfo: state.selectedProvider,
+          wallet
+        });
       }
     }
   },
@@ -54,8 +57,13 @@ export default {
     // @ts-ignore
     const ethereum = this.$app.$ethereum;
 
-    const registry = new Registry(ethereum, config.registry[config.network.chain]);
-    const dwellerContract = await registry.getDwellerContract(ethereum.activeAccount);
+    const registry = new Registry(
+      ethereum,
+      config.registry[config.network.chain]
+    );
+    const dwellerContract = await registry.getDwellerContract(
+      ethereum.activeAccount
+    );
 
     // Update the state with the dweller address fetched from the blockchain
     commit('dwellerAddress', dwellerContract);
@@ -71,6 +79,9 @@ export default {
 
       // Dispatch a new action to fetch friends
       dispatch('fetchFriends', state.activeAccount);
+
+      // Dispatch new action to start a listener to new friends requests
+      dispatch('listenForFriendsRequests');
     }
   },
   async getStats({ commit }) {
@@ -83,7 +94,7 @@ export default {
     // Update the state with the retrieved stats
     commit('web3Stats', {
       blockNumber,
-      nettype,
+      nettype
     });
-  },
+  }
 };
