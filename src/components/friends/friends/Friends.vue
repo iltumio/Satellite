@@ -17,7 +17,7 @@ import FriendRequests from '@/components/friends/friends/requests/FriendRequests
 // Classes
 import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
 import Friend from '@/components/friends/friend/Friend';
-import Ethereum from '@/classes/Ethereum';
+// import Ethereum from '@/classes/Ethereum';
 
 export default {
   name: 'Friends',
@@ -25,7 +25,7 @@ export default {
     CircleIcon,
     Friend,
     FriendRequests,
-    WalletAddressMini,
+    WalletAddressMini
   },
   data() {
     return {
@@ -34,13 +34,13 @@ export default {
       error: false,
       success: false,
       friend: false,
-      friendRequests: this.$store.state.friendRequests,
+
       friendAddress: '',
       makingRequest: {},
       dwellerCachingHelper: new DwellerCachingHelper(
         this.$ethereum,
         config.registry[config.network.chain],
-        config.cacher.dwellerLifespan,
+        config.cacher.dwellerLifespan
       ),
       friendsContract: null
     };
@@ -51,32 +51,16 @@ export default {
         this.friends = state.friends;
       }
     });
-    this.friendsContract = new Friends(this.$ethereum, config.friends[config.network.chain]);
+    this.friendsContract = new Friends(
+      this.$ethereum,
+      config.friends[config.network.chain]
+    );
 
     this.update();
-
-    // TODO: subscribe to new friend request events and if the event is
-    // is for this user, refresh friend requests.
-    // this.watch();
   },
   methods: {
-    watch() {
-      const filter = ethereum.eth.filter({
-        fromBlock: 0,
-        toBlock: 'latest',
-        address: config.friends[config.network.chain],
-        topics: [
-          ethereum.web3.sha3('FriendRequestSent(address indexed sentTo)'),
-        ],
-      });
-
-      filter.watch((error, result) => {
-        console.log('result', result);
-      });
-    },
     update() {
       this.fetchFriendRequests();
-      // this.$store.commit('fetchFriends', this.$store.state.activeAccount);
       this.$store.dispatch('fetchFriends', this.$store.state.activeAccount);
     },
     getFriends() {
@@ -87,17 +71,7 @@ export default {
      * @name fetchFriendRequests
      */
     async fetchFriendRequests() {
-      const frIds = await this.friendsContract.getRequests(this.$store.state.activeAccount);
-      let requests = [];
-      frIds.forEach(async (id) => {
-        const req = await this.friendsContract.getRequest(id);
-        const parsed = await this.friendsContract.parseRequest(req);
-        requests = [...requests, parsed];
-        if (requests.length === frIds.length) {
-          this.$store.commit('updateFriendRequests', requests);
-          this.friendRequests = requests;
-        }
-      });
+      this.$store.dispatch('fetchFriendRequests');
     },
     /** @method
      * Filter friends by stored keyword and
@@ -108,7 +82,7 @@ export default {
       if (this.keyword) {
         const options = {
           includeScore: false,
-          keys: ['name'],
+          keys: ['name']
         };
         const fuse = new Fuse(this.friends, options);
         const result = fuse.search(this.keyword);
@@ -151,20 +125,25 @@ export default {
      */
     async addFriend() {
       if (!this.$ethereum.utils.isAddress(this.friendAddress)) {
-        this.error = 'Whoops, that\'s not a valid address';
+        this.error = "Whoops, that's not a valid address";
         return;
       }
       if (this.friendAddress === this.$store.state.activeAccount) {
-        this.error = 'You can\'t add yourself you silly goose.';
+        this.error = "You can't add yourself you silly goose.";
         return;
       }
-      if (this.$store.state.friends.filter(f => f.address === this.friendAddress).length === 1) {
-        this.error = 'You\'re already friends with this user.';
+      if (
+        this.$store.state.friends.filter(f => f.address === this.friendAddress)
+          .length === 1
+      ) {
+        this.error = "You're already friends with this user.";
         return;
       }
-      const friend = await this.dwellerCachingHelper.getDweller(this.friendAddress);
+      const friend = await this.dwellerCachingHelper.getDweller(
+        this.friendAddress
+      );
       if (!friend) {
-        this.error = 'Hmm, we couldn\'t find a user at that address';
+        this.error = "Hmm, we couldn't find a user at that address";
         return;
       }
       this.error = false;
@@ -178,22 +157,24 @@ export default {
     async sendFriendRequest() {
       const id = this.$database.threadManager.makeIdentifier(
         this.$store.state.activeAccount,
-        this.friendAddress,
+        this.friendAddress
       );
 
-      this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: true });
+      this.makingRequest = Object.assign({}, this.makingRequest, {
+        [this.friendAddress]: true
+      });
       const threadID = await this.$database.threadManager.threadAt(id);
 
-      this.friendsContract.makeRequest(
-        this.friendAddress,
-        threadID.toString(),
-      )
+      this.friendsContract
+        .makeRequest(this.friendAddress, threadID.toString())
         .then(() => {
           this.reset();
           this.getFriends();
         })
-        .catch((e) => {
-          this.makingRequest = Object.assign({}, this.makingRequest, { [this.friendAddress]: false });
+        .catch(e => {
+          this.makingRequest = Object.assign({}, this.makingRequest, {
+            [this.friendAddress]: false
+          });
         });
     },
     /** @method
@@ -207,8 +188,8 @@ export default {
         this.success = false;
       }, 2000);
       this.reset();
-    },
-  },
+    }
+  }
 };
 </script>
 
