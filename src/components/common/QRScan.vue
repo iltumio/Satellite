@@ -5,6 +5,13 @@
     <span class="qr-display">
       <h4 class="label">Scan A QR Code</h4>
       <qrcode-stream @decode="onDecode"></qrcode-stream>
+      <Friend
+        v-if="friend"
+        :friend="friend"
+        :makingRequest="{
+          [friend.address]: true,
+        }"
+        :add="true" />
     </span>
   </div>
 </template>
@@ -12,11 +19,14 @@
 <script>
 import { QrcodeStream } from 'vue-qrcode-reader';
 
+import Friend from '@/components/friends/friend/Friend';
+
 export default {
   name: 'QRScan',
-  props: ['handler', 'close'],
+  props: ['handler', 'close', 'friend', 'sendFriendRequest', 'makingRequest'],
   components: {
     QrcodeStream,
+    Friend,
   },
   methods: {
     onDecode(string) {

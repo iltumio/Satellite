@@ -11,6 +11,7 @@
     </div>
     <button
       :disabled="isMakingRequest(friend.address)"
+      v-if="action"
       class="button add-friend is-primary" 
       v-on:click="action(friend.address)">
       <i class="fas fa-comment-alt-dots" v-if="!add"></i>

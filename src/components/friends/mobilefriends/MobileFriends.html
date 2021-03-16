@@ -4,7 +4,12 @@
     <QRDisplay :data="$store.state.activeAccount" :close="toggleShareQR" />
   </div>
   <div class="qr-modal" v-if="showScanQR">
-    <QRScan :close="toggleScanQR" :handler="setFriend" />
+    <QRScan
+      :close="toggleScanQR"
+      :handler="setFriend"
+      :friend="friend"
+      :sendFriendRequest="sendFriendRequest"
+      :makingRequest="makingRequest" />
   </div>
   <h3>{{$t('friends.heading')}} </h3>
   <hr class="divider">

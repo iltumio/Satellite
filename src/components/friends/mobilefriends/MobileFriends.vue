@@ -230,10 +230,11 @@ export default {
       }
       this.error = false;
       this.friend = { ...friend, status: 'unchecked' };
-      this.$toasted.show('ATTN: Friend Added!', {
+      await this.sendFriendRequest();
+      this.showScanQR = false;
+      this.$toasted.show('ATTN: Friend Found!', {
         type: 'success', icon: 'check-circle',
       });
-      this.showScanQR = false;
     },
     /** @method
      * Sends a friend request to the active friend
@@ -251,17 +252,20 @@ export default {
       });
       const threadID = await this.$database.threadManager.threadAt(id);
 
-      this.friendsContract
-        .makeRequest(this.friendAddress, threadID.toString())
-        .then(() => {
-          this.reset();
-          this.getFriends();
-        })
-        .catch(e => {
-          this.makingRequest = Object.assign({}, this.makingRequest, {
-            [this.friendAddress]: false
+      return new Promise(resolve => {
+        this.friendsContract
+          .makeRequest(this.friendAddress, threadID.toString())
+          .then(() => {
+            resolve();
+            this.reset();
+            this.getFriends();
+          })
+          .catch(e => {
+            this.makingRequest = Object.assign({}, this.makingRequest, {
+              [this.friendAddress]: false
+            });
           });
-        });
+      });
     },
     /** @method
      * Confirms and adds a found friend
