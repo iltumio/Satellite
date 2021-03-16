@@ -2,34 +2,48 @@
 @less-dark-blue-gray: #14152c;
 
 // Infobar & Sidebar
-@dark-blue-gray: #191a34;//middle color
-@darker-blue-gray: #191a34; //darkest
-@lighter-dark-blue-gray: #303753; //lightest
+@dark-blue-gray: #191a34;
+      //left sidebar, bottom text panel, text input box for chat, top header
+@darker-blue-gray: #191a34;
+      //user status on the bottom left panel
+@lighter-dark-blue-gray: #303753;
+
 // Borders
-// @super-dark-boi: #40466a;
 @super-dark-boi: transparent;
+
 // Friends & Containers
-// @ohh-so-dark: #1a1b26;
-@ohh-so-dark: #232445;
+@ohh-so-dark: #1a1b26;
+      //selected friend on left sidebar
 
 // Buttons
 @really-blue: #54bb8c;
+
 // Lables & Accents
 @not-as-light-blue-gray: #bbbcbd;
 @not-as-light-blue-gray-alt: @not-as-light-blue-gray;
+
 // General Text Colors
 @light-blue-gray: #bbbcbd;
+      //"search bar", text color input for chat, time keys, text color for bottom text panel
+
 // Hovered Text Colors
 @lighter-blue-gray: #aeafb3;
+
 // Messages & Icons
 @nearly-white: #ffffff;
+
 // Usernames
 @basically-white: #ffffff;
+      //Username colors in chat
+
 // Message Hovering
 @is-this-black: #101125;
+      //Message hover on webpage
+
 // Highlights
 @primary-highlight: #ffffff;
 @minty-green: #4fbc87;
+
 // Errors
 @green: #49aebc;
 @red: #df7070;
@@ -164,7 +178,7 @@
     background: transparent !important;
   }
   .friends:hover, .files:hover {
-    background: @ohh-so-dark !important;
+    background: !important;
     color: @nearly-white !important;
   }
   .friends.active, .files.active {
@@ -461,10 +475,10 @@
   }
   .user-active {
     color: @primary-highlight !important;
-    background-color: @ohh-so-dark !important;
+    background-color: #232445 !important;
   }
   .user:hover { 
-    background-color: @ohh-so-dark !important;
+    background-color: #232445 !important;
   }
   .tabs ul {
     border-bottom-color: @super-dark-boi !important;
