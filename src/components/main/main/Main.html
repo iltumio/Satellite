@@ -25,8 +25,9 @@
   <div v-else class="no-friends">
     <i class="fas fa-bars mobile-toggler" v-on:click="$store.commit('toggleMobileSidebar')"></i>
     <h2 class="heading">{{$t('main.heading')}}</h2>
+    <img src="/static/img/big_img/chat.png" alt="" class="account-img" />
     <p>{{$t('main.subtext_one')}}<br /> {{$t('main.subtext_two')}}</p>
     <br>
-    <button class="button is-primary" v-on:click="$store.commit('changeRoute', 'friends')">{{$t('main.button')}}</button>
+    <button class="button is-primary friends-btn" v-on:click="$store.commit('changeRoute', 'friends')">{{$t('main.button')}}</button>
   </div>
 </section>

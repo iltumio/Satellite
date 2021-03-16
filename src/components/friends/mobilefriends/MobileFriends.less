@@ -1,0 +1,66 @@
+#friends {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 2rem - 1px);
+  background: #f8f9fb;
+  z-index: 5;
+  padding: 1rem 1.5rem;
+  overflow-y: scroll;
+}
+.friendslist {
+  width: 100%;
+}
+.letter {
+  opacity: 0.75;
+  margin-top: 0.4rem;
+  display: inline-block;
+}
+h3 {
+  font-family: 'Space Mono', monospace;
+  font-size: 20pt;
+}
+#wallet-copy-button {
+  display: flex !important;
+  justify-content: flex-start !important;
+  padding-top: 1rem !important;
+}
+.friend {
+  padding: 1rem;
+  font-size: 14pt;
+  background: #f8f9fb;
+  border-radius: 5px;
+  width: calc(50% - 0.5rem);
+  float: left;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+}
+.red {
+  color: #ee5253 !important;
+}
+.address {
+  font-size: 9pt;
+}
+.name-address {
+  width: 50%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: none;
+  display: block;
+}
+.modal-close {
+  z-index: 0 !important;
+  position: absolute;
+}
+.circle-icon {
+  float: left;
+  margin-right: 1rem;
+}
+.add-friend {
+  margin-top: -2.7rem;
+  float: right;
+}
+@media (max-width: 768px) {
+  .add-friend-input {
+    background: #1a1b26 !important;
+  }
+}

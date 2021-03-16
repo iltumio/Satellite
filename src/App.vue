@@ -1,9 +1,5 @@
 <template>
   <div id="app" :class="this.$store.state.theme">
-    <div class="notification is-warning" v-if="showWarning">
-      <button class="delete" v-on:click="hideWarning"></button>
-      <span v-html="$t('alpha_release.warning')"></span>
-    </div>
     <main id="main" class="theme" v-if="decrypted">
       <transition appear mode="out-in" name="slide-fade">
         <router-view></router-view>
@@ -28,7 +24,6 @@ export default {
   data() {
     return {
       decrypted: false,
-      showWarning: !(localStorage.getItem('alpha-warning') === 'false'),
       friendsLoaded: false,
     };
   },
@@ -41,10 +36,6 @@ export default {
       }
       this.decrypted = true;
       this.checkAccount();
-    },
-    hideWarning() {
-      localStorage.setItem('alpha-warning', false);
-      this.showWarning = false;
     },
     initP2P() {
       if (this.$store.state.friendsLoaded) {

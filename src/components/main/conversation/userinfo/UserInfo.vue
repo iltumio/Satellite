@@ -1,5 +1,6 @@
 <template>
   <div id="user-info">
+    <i class="fa fa-times close-btn" v-on:click="$store.commit('toggleUserInfo')"></i>
     <div class="heading">
       <span class="label">{{$t('conversation.userinfo.heading')}}</span>
       <span class="username">{{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}</span>
@@ -59,7 +60,7 @@ import {getExplorerByNetwork} from "@/utils/EthereumProvider.ts"
 
 export default {
   name: 'UserInfo',
-  props: ['makeCall'],
+  props: ['makeCall', 'toggle'],
   components: {
     CircleIcon,
     Badge,
@@ -88,6 +89,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+  .close-btn {
+    display: none;
+  }
   #user-info {
     overflow-y: scroll;
     scrollbar-width: thin;
@@ -146,6 +150,12 @@ export default {
     #user-info {
       width: 100%;
       z-index: 2;
+    }
+    .close-btn {
+      display: inline-block;
+      position: absolute;
+      right: 1.5rem;
+      top: 1rem;
     }
   }
 </style>

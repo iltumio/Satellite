@@ -9,7 +9,13 @@
       <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.address}}</p>
       <p class="address" v-else><i class="fa fa-spinner-third fa-spin"></i> Sending request...</p>
     </div>
-    <button :disabled="isMakingRequest(friend.address)" class="button add-friend is-primary" v-on:click="action(friend.address)">{{text}}</button>
+    <button
+      :disabled="isMakingRequest(friend.address)"
+      class="button add-friend is-primary" 
+      v-on:click="action(friend.address)">
+      <i class="fas fa-comment-alt-dots" v-if="!add"></i>
+      <i class="fas fa-user-plus" v-else></i>
+    </button>
   </div>
 </template>
 
@@ -28,6 +34,7 @@ export default {
     'text',
     'friend',
     'makingRequest',
+    'add'
   ],
   components: {
     CircleIcon,

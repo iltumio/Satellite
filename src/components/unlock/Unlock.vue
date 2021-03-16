@@ -96,6 +96,7 @@ export default {
           this.decrypted(this.pin);
         })
         .catch(() => {
+          this.decrypting = false;
           this.error = 'Invalid pin, try again.';
         });
     },

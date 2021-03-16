@@ -4,6 +4,9 @@
   height: 100%;
   position: relative;
 }
+.account-img { 
+  display: none;
+}
 .main-user-info {
   position: absolute;
   bottom: 0;
@@ -28,8 +31,14 @@
 }
 /* QmbBfyap9Kph38qqjhKyWZRqUj2gksgP6xmVkVPUcwXaWn */
 @media (max-width: 768px) {
+  .account-img {
+    width: 75%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
   .no-friends {
-    background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV) !important;
+    // background-image: url(https://ipfs.io/ipfs/QmXHfboc1Wqtt7C9ErHHGay8Bq1nn6m39ccrov8nHGQVQV) !important;
     background-position: bottom !important;
     background-size: contain !important;
     background-repeat: no-repeat !important;
@@ -53,5 +62,13 @@
     padding-bottom: 1rem;
     text-transform: uppercase;
     margin-bottom: 3rem;
+    padding-top: 3rem !important;
+  }
+  .friends-btn {
+    position: absolute;
+    width: calc(100% - 2rem);
+    bottom: 1.5rem;
+    display: inherit;
+    height: 53px;
   }
 }

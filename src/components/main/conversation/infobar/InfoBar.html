@@ -7,7 +7,7 @@
                 
                 <i class="fas fa-chevron-left mobile" v-on:click="$store.commit('toggleMobileSidebar')"></i>
             </div>
-            <div class="profile-details">
+            <div class="profile-details" v-on:click="toggleFingerprint">
                 <p>
                     <CircleIcon
                         :diameter="20"

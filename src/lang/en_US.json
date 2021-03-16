@@ -448,8 +448,8 @@
     "wallet_creation": {
       "step": {
         "0": {
-          "heading": "Wallet creation",
-          "subtext": "We're going to create a blockchain wallet for you. This wallet controls your account and information associated to it, so be sure to back it up!",
+          "heading": "Account creation",
+          "subtext": "We're going to create a blockchain wallet for you. This wallet is your account, so be sure to back it up!",
           "primary_cta": "Next"
         },
         "1": {

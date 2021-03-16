@@ -2,6 +2,9 @@
   <div class="fullscreen-pane">
     <section class="wallet-creation-container" v-if="step===0">
       <h1 class="head">{{$t(`web3.wallet_creation.step.${step}.heading`)}}</h1>
+
+      <img src="/static/img/big_img/account.png" alt="" class="account-img" />
+
       <b>
         {{$t(`web3.wallet_creation.step.${step}.subtext`)}}
       </b>
@@ -10,7 +13,7 @@
         <!-- empty div to align the "next" button to the right -->
       <div />
         <button
-          class="button is-primary centered"
+          class="button is-primary centered create-wallet-btn"
           v-on:click="createWallet()">
           {{$t(`web3.wallet_creation.step.${step}.primary_cta`)}}
         </button>
@@ -145,6 +148,9 @@ export default {
 </script>
 
 <style scoped lang="less">
+.account-img {
+  display: none;
+}
 .mnemonic-word {
   position: relative;
   padding-left: 1rem;
@@ -217,6 +223,19 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .create-wallet-btn {
+    position: absolute;
+    width: calc(100% - 3rem);
+    bottom: 1.5rem;
+    height: 53px;
+  }
+  .account-img {
+    display: inline-block;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+  }
   button {
     width: calc(50% - 0.15rem);
     margin: 0.15rem;
@@ -257,7 +276,7 @@ export default {
   }
 
   .fullscreen-pane {
-    background-image: url(/static/img/mobile-background.png);
+    // background-image: url(/static/img/mobile-background.png);
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;
