@@ -6,6 +6,8 @@
 -->
 <script>
 import WalletAddressMini from '@/components/common/WalletAddressMini';
+import QRDisplay from '@/components/common/QRDisplay';
+import QRScan from '@/components/common/QRScan';
 
 import Fuse from 'fuse.js';
 
@@ -25,10 +27,14 @@ export default {
     CircleIcon,
     Friend,
     FriendRequests,
-    WalletAddressMini
+    WalletAddressMini,
+    QRDisplay,
+    QRScan,
   },
   data() {
     return {
+      showShareQR: false,
+      showScanQR: false,
       keyword: '',
       friends: Array.from(this.$store.state.friends),
       sortedFriends: false,
@@ -62,12 +68,22 @@ export default {
     this.update();
   },
   methods: {
+    toggleShareQR() {
+      this.showShareQR = !this.showShareQR;
+    },
+    toggleScanQR() {
+      this.showScanQR = !this.showScanQR;
+    },
+    setFriend(address) {
+      this.friendAddress = address;
+      this.addFriendQR();
+    },
     getAlphaSorted(friends) {
       const map = friends.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
       let data = map.reduce((r, e) => {
       
         // get first letter of name of current element
-        let alphabet = e.name[0];
+        let alphabet = e.name[0].toUpperCase();
       
         // if there is no property in accumulator with this letter create it
         if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
@@ -110,7 +126,7 @@ export default {
         const result = fuse.search(this.keyword);
         this.friends = result.map(i => i.item);
       } else {
-        this.getFriends();
+        this.addFriendQR();
       }
     },
     /** @method
@@ -170,6 +186,54 @@ export default {
       }
       this.error = false;
       this.friend = { ...friend, status: 'unchecked' };
+      this.$toasted.show('ATTN: Friend Added!', {
+        type: 'success', icon: 'check-circle',
+      });
+      this.showScanQR = false;
+    },
+    /** @method
+     * Do some checks to make sure the friend is valid
+     * and then display them if they are found so they
+     * can be confirmed and added
+     * @name addFriend
+     */
+    async addFriendQR() {
+      if (!this.$ethereum.utils.isAddress(this.friendAddress)) {
+        this.$toasted.show("Invalid Address", {
+          type: 'error', icon: 'check-circle',
+        });
+        return;
+      }
+      if (this.friendAddress === this.$store.state.activeAccount) {
+        this.$toasted.show("You can't add yourself.", {
+          type: 'error', icon: 'check-circle',
+        });
+        return;
+      }
+      if (
+        this.$store.state.friends.filter(f => f.address === this.friendAddress)
+          .length === 1
+      ) {
+        this.$toasted.show("You're already friends with this user.", {
+          type: 'error', icon: 'check-circle',
+        });
+        return;
+      }
+      const friend = await this.dwellerCachingHelper.getDweller(
+        this.friendAddress
+      );
+      if (!friend) {
+        this.$toasted.show('Hmm, we couldn\'t find a user at that address', {
+          type: 'error', icon: 'check-circle',
+        });
+        return;
+      }
+      this.error = false;
+      this.friend = { ...friend, status: 'unchecked' };
+      this.$toasted.show('ATTN: Friend Added!', {
+        type: 'success', icon: 'check-circle',
+      });
+      this.showScanQR = false;
     },
     /** @method
      * Sends a friend request to the active friend

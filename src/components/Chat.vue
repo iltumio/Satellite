@@ -416,5 +416,9 @@ export default {
   .sidebar-wrapper.show {
     transform: translateX(0);
   }
+
+  .footer {
+    display: none;
+  }
 }
 </style>

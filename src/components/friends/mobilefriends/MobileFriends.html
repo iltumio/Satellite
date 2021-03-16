@@ -1,6 +1,24 @@
 <div id="friends">
   <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
-  <h3>{{$t('friends.heading')}}</h3>
+  <div class="qr-modal" v-if="showShareQR">
+    <QRDisplay :data="$store.state.activeAccount" :close="toggleShareQR" />
+  </div>
+  <div class="qr-modal" v-if="showScanQR">
+    <QRScan :close="toggleScanQR" :handler="setFriend" />
+  </div>
+  <h3>{{$t('friends.heading')}} </h3>
+  <hr class="divider">
+  <h2 class="label" v-if="$store.state.friendRequests.length > 0">Add Quickly</h2>
+  <button
+    class="is-button button is-primary is-small qr-code"
+    v-on:click="toggleShareQR">
+    <i class="fas fa-qrcode"></i> &nbsp; SHARE
+  </button>
+  <button
+    class="is-button button is-primary is-small qr-code"
+    v-on:click="toggleScanQR">
+    <i class="fas fa-qrcode"></i> &nbsp; SCAN
+  </button>
   <hr class="divider">
   <h2 class="label">{{$t('friends.find_someone')}}</h2>
   <span>Enter your friends address...</span>
