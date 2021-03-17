@@ -447,21 +447,34 @@
     },
     "wallet_creation": {
       "step": {
-        "0": {
+        "initial": {
           "heading": "Account creation",
           "subtext": "We're going to create a blockchain wallet for you. This wallet is your account, so be sure to back it up!",
-          "primary_cta": "Next"
+          "primary_cta": "Next",
+          "secondary_cta": "Import"
         },
-        "1": {
+        "generate": {
+          "heading": "Account creation",
+          "subtext": "We're going to create a blockchain wallet for you. This wallet is your account, so be sure to back it up!",
+          "primary_cta": "Next",
+          "secondary_cta": "Back"
+        },
+        "showseed": {
           "heading": "Recovery phrase",
           "subtext": "Please store these words somewhere safe so you can recover your account in the future.",
           "primary_cta": "I Saved Them",
           "secondary_cta": "Back"
         },
-        "2": {
+        "seedcheck": {
           "heading": "Phrase check",
           "subtext": "Write the missing words in the right position before to continue",
           "primary_cta": "Next",
+          "secondary_cta": "Back"
+        },
+        "import": {
+          "heading": "Recover from mnemonic",
+          "subtext": "We're going to recover your wallet. Paste your mnemonic phrase and click on the recover button!",
+          "primary_cta": "Recover",
           "secondary_cta": "Back"
         }
       }
