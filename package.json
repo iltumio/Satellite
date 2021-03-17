@@ -82,6 +82,8 @@
     "yarn": "^1.22.10"
   },
   "devDependencies": {
+    "@babel/traverse": "^7.13.0",
+    "@babel/types": "^7.13.0",
     "@types/uuid": "^8.3.0",
     "autoprefixer": "^8.5.0",
     "avoriaz": "^6.3.0",
