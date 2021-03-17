@@ -24,7 +24,7 @@
         <input class="input" v-model="name" :placeholder="$t('servers.create.server_name_placeholder')" />
         <p class="red" v-if="error">{{error}}</p>
         <hr class="divider">
-        <button class="button is-primary is-small" v-on:click="confirm" style="float:right;">
+        <button class="button is-primary create-server-btn" v-on:click="confirm" style="float:right;">
           <i class="fas fa-chevron-right"></i> &nbsp; {{$t('servers.create.create_server')}}
         </button>
       </div>
