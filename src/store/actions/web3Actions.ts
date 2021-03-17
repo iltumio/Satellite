@@ -1,7 +1,6 @@
-import Registry from '@/classes/contracts/Registry.ts';
-import DwellerID from '@/classes/contracts/DwellerContract.ts';
-// @ts-ignore
-import config from '@/config/config';
+import Registry from '../../classes/contracts/Registry';
+import DwellerID from '../../classes/contracts/DwellerContract';
+import config from '../../config/config';
 import { ethers } from 'ethers';
 import { getInjectedProvider } from 'web3modal';
 

@@ -4,37 +4,42 @@ module.exports = {
   root: true,
   parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module',
+    sourceType: 'module'
   },
   env: {
-    browser: true,
+    browser: true
   },
-  extends: 'airbnb-base',
+  extends: ['airbnb-base', 'plugin:prettier/recommended'],
   // required to lint *.vue files
-  plugins: [
-    'html',
-  ],
+  plugins: ['html'],
   // check if imports actually resolve
   settings: {
     'import/resolver': {
       webpack: {
-        config: 'build/webpack.base.conf.js',
-      },
-    },
+        config: 'build/webpack.base.conf.js'
+      }
+    }
   },
   // add your custom rules here
   rules: {
     'no-console': 0,
     // don't require .vue extension when importing
-    'import/extensions': ['error', 'always', {
-      js: 'never',
-      vue: 'never',
-      ts: 'never',
-    }],
+    'import/extensions': [
+      'error',
+      'always',
+      {
+        js: 'never',
+        vue: 'never',
+        ts: 'never'
+      }
+    ],
     // allow optionalDependencies
-    'import/no-extraneous-dependencies': ['error', {
-      optionalDependencies: ['test/unit/index.js'],
-    }],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        optionalDependencies: ['test/unit/index.js']
+      }
+    ],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'max-len': ['error', 120],
@@ -42,8 +47,8 @@ module.exports = {
       'error',
       {
         props: true,
-        ignorePropertyModificationsFor: ['state'],
-      },
-    ],
-  },
+        ignorePropertyModificationsFor: ['state']
+      }
+    ]
+  }
 };

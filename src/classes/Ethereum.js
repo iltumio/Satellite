@@ -1,6 +1,4 @@
-// import Web3 from 'web3';
 import { ethers } from 'ethers';
-import * as Web3Utils from 'web3-utils';
 import config from '@/config/config';
 import { getEthereumProviderByNetwork } from '@/utils/EthereumProvider';
 
@@ -8,6 +6,9 @@ export default class Ethereum {
   constructor() {
     this.initialized = false;
     this.utils = ethers.utils;
+    this.readinessPromise = new Promise(resolve => {
+      this.loadingComplete = resolve;
+    });
   }
 
   /**
@@ -18,7 +19,9 @@ export default class Ethereum {
     this.providerType = providerType;
 
     if (this.providerType === 'injected') {
-      this.accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      this.accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts'
+      });
 
       this.provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -28,8 +31,14 @@ export default class Ethereum {
       [this.activeAccount] = this.accounts;
 
       // Activate listeners
-      this.onAccountChange = window.ethereum.on('accountsChanged', this.handleAccountChange);
-      this.onNetworkChange = window.ethereum.on('networkChanged', this.handleNetworkChange);
+      this.onAccountChange = window.ethereum.on(
+        'accountsChanged',
+        this.handleAccountChange
+      );
+      this.onNetworkChange = window.ethereum.on(
+        'networkChanged',
+        this.handleNetworkChange
+      );
 
       this.initialized = true;
     } else if (this.providerType === 'satellite' && wallet) {
@@ -59,7 +68,9 @@ export default class Ethereum {
    * @description Utility function to check if the provider has
    * been initialized
    */
-  isInitialized() { return this.isInitialized; }
+  isInitialized() {
+    return this.isInitialized;
+  }
 
   /**
    * @description Account change callback
@@ -97,16 +108,10 @@ export default class Ethereum {
    * @name fetchProvider
    */
   fetchProvider() {
-    return this.netConfig.eth[localStorage.getItem('Satellite.provider')] || this.netConfig.eth.default;
-  }
-
-  /** @function
-   * Create bindings for web3 methods and utilities
-   * @name createBindings
-   */
-  createBindings() {
-    this.eth = this.getEth();
-    this.utils = Web3Utils;
+    return (
+      this.netConfig.eth[localStorage.getItem('Satellite.provider')] ||
+      this.netConfig.eth.default
+    );
   }
 
   /** @function
@@ -120,22 +125,10 @@ export default class Ethereum {
   sendEther(to, value, cb) {
     const transaction = {
       to,
-      value: ethers.utils.parseEther(value),
+      value: ethers.utils.parseEther(value)
     };
 
     this.signer.sendTransaction(transaction).then(tx => cb(tx.hash));
-  }
-
-  /** @function
-   * Get the ETH package from web3
-   * @name getEth
-   */
-  getEth() {
-    return this.web3.eth;
-  }
-
-  fromAscii(string) {
-    return this.utils.fromAscii(string).padEnd(66, '0');
   }
 
   /** @function
@@ -145,50 +138,32 @@ export default class Ethereum {
    * @argument address address of the contract on chain
    */
   getContract(abi, address = null) {
+    if (!this.initialized) {
+      console.warn('Ethereum instance has not been initialized');
+    }
     return new ethers.Contract(address, abi, this.signer);
   }
 
-  getAccount() {
-    if (!this.localAccount) {
-      const acc = this.eth.accounts.create();
-      this.localAccount = {
-        address: acc.address,
-        nonce: acc.nonce,
-        privateKey: acc.privateKey,
-      };
-      localStorage.setItem('Satellite.eth.account', JSON.stringify(this.localAccount));
-    }
-    return this.localAccount;
-  }
-
+  /**
+   * @name getAccounts
+   * @returns the list of available accounts
+   */
   getAccounts() {
     return this.accounts;
   }
 
+  /**
+   * @name getActiveAccount
+   * @returns the address of the active account
+   */
   getActiveAccount() {
     return this.activeAccount;
   }
 
-  signTransaction(tx) {
-    return this.eth.accounts.signTransaction(tx, this.localAccount.privateKey);
-  }
-
-  executeTransaction(method, account, tx, done) {
-    if (this.localAccount) {
-      this.signTransaction(method)
-        .once('transactionHash', tx)
-        .once('confirmation', done);
-    } else {
-      method
-        .send({
-          from: account,
-          gasLimit: 4700000,
-        })
-        .once('transactionHash', tx)
-        .once('confirmation', done);
-    }
-  }
-
+  /**
+   * @name getCurrentAccountBalance
+   * @returns The balance of the active account
+   */
   getCurrentAccountBalance() {
     if (this.activeAccount) {
       return this.provider.getBalance(this.activeAccount);
@@ -196,6 +171,11 @@ export default class Ethereum {
     return null;
   }
 
+  /**
+   * @name isAddress
+   * @param {string} text
+   * @returns a boolean value that indicates if the given string is an address or not
+   */
   isAddress(text) {
     return this.utils.isAddress(text);
   }

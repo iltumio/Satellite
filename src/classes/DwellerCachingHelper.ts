@@ -1,9 +1,7 @@
-// @ts-ignore
-import config from '@/config/config';
-// @ts-ignore
-import Registry from '@/classes/contracts/Registry';
-import DwellerContract from '@/classes/contracts/DwellerContract';
-import IDweller from '@/interfaces/IDweller';
+import config from '../config/config';
+import Registry from '../classes/contracts/Registry';
+import DwellerContract from '../classes/contracts/DwellerContract';
+import IDweller from '../interfaces/IDweller';
 import { ethers } from 'ethers';
 
 /**
@@ -66,14 +64,21 @@ export default class DwellerCachingHelper {
    * @argument address Address of the dweller to update
    * @returns the dweller from the chain
    */
-  async updateDweller(address: string) : Promise<IDweller | null> {
+  async updateDweller(address: string): Promise<IDweller | null> {
     // Create a registry contract instance
-    const registry = new Registry(this.ethereum, config.registry[config.network.chain]);
+    const registry = new Registry(
+      this.ethereum,
+      config.registry[config.network.chain]
+    );
     const dwellerContractAddress = await registry.getDwellerContract(address);
 
-    if (dwellerContractAddress === '0x0000000000000000000000000000000000000000') return null;
+    if (dwellerContractAddress === '0x0000000000000000000000000000000000000000')
+      return null;
 
-    const dwellerContract = new DwellerContract(this.ethereum, dwellerContractAddress);
+    const dwellerContract = new DwellerContract(
+      this.ethereum,
+      dwellerContractAddress
+    );
 
     const dwellerName = await dwellerContract.getDwellerName();
     const dwellerPhoto = await dwellerContract.getPhoto();
@@ -82,7 +87,7 @@ export default class DwellerCachingHelper {
       name: ethers.utils.parseBytes32String(dwellerName),
       photo: `${config.ipfs.browser}${dwellerPhoto}`,
       address,
-      expiry: Date.now() + this.expiry,
+      expiry: Date.now() + this.expiry
     };
 
     this.cache[address] = dweller;
