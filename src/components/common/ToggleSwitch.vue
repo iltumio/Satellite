@@ -22,7 +22,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: '#3498db',
+      default: '#0984e3',
     },
   },
   methods: {

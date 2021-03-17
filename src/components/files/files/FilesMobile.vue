@@ -181,7 +181,6 @@ export default {
   async mounted() {
     await this.fetchRecentFiles();
     let fileSizeTotal = 0;
-    console.log('files', this.files);
     this.$store.state.files.map(file => {
       fileSizeTotal += file.file.size;
     });

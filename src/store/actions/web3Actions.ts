@@ -32,7 +32,6 @@ export default {
     commit('setSelectedProvider', provider);
 
     if (provider.type === 'injected') {
-      console.log('Dispatch the connection');
       dispatch('connectProvider', { providerInfo: provider });
     }
   },
