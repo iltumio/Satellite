@@ -20,18 +20,21 @@
             v-if="!$store.state.buckets"
             for=""
             class="button is-dark">{{$t('fileupload.waiting')}}</label>
-          <label v-else for="file" class="button is-small is-primary">{{$t('fileupload.chosefile')}}</label>
+          <label v-else for="file" class="button is-small is-primary">
+            <i class="fas fa-folder-upload"></i> &nbsp;
+            {{$t('fileupload.chosefile')}}
+          </label>
         </div>
         <div v-else>
           <span class="heading">{{$t('fileupload.file')}}</span>
-          <input readonly :value="selectedFile.name" class="input is-small" type="text" />
+          <input readonly :value="selectedFile.name" class="input is-small filename-input" type="text" />
           <span class="heading padtop">{{$t('fileupload.link')}}</span>
           <input
             v-if="ipfsHash"
             autofocus
             readonly
             :value="imageURL"
-            class="input is-small hash"
+            class="input is-small hash hash-input"
             type="text" />
           <div class="heading" v-else>
             <span class="green ai-scan" v-if="aiScanning">

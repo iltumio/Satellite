@@ -1,0 +1,107 @@
+.hidden {
+  display: none;
+}
+.show {
+  display: block;
+}
+#wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* min-width: 900px; */
+}
+.settings {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  right: -100vw;
+  left: 100vw;
+  bottom: 0;
+  background: #e7ebee;
+}
+.sidebar-wrapper {
+  max-width: 320px;
+  height: 100%;
+}
+.chat-wrapper {
+  height: 100%;
+}
+.settings-open-container {
+  right: 0;
+  left: 0;
+  z-index: 99;
+}
+.fas {
+  font-size: 8pt;
+}
+.wrapper {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 3.8rem;
+  margin: 0;
+  border-left: 1px solid #e7ebee;
+}
+.wrapper-closed {
+  left: 0;
+}
+.settings-open {
+  left: -100vw;
+  right: 100vw;
+  max-width: 100vw;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: calc(100% - 2rem);
+  padding: 0.3rem 1.75rem;
+  border-top: 1px solid #e7ebee;
+  background: #fff;
+  font-size: 10pt;
+  color: #666;
+}
+.column {
+  margin: 0;
+  padding: 0;
+}
+.spacer {
+  width: 15px;
+  height: 100%;
+  display: inline-block;
+}
+.fa-moon {
+  cursor: pointer;
+}
+.red {
+  color: #e74c3c;
+}
+.green {
+  color: #00d0a1;
+}
+
+@media (max-width: 768px) {
+  .sidebar-wrapper {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: all 0.3s;
+    transform: translateX(-100%);
+  }
+
+  .sidebar-wrapper.show {
+    transform: translateX(0);
+  }
+
+  .footer {
+    display: none;
+  }
+}

@@ -7,7 +7,7 @@
       <h2 class="username">{{ $store.state.username }}</h2>
       <vue-qrcode :value="data" />
       <br>
-      <button class="is-button button is-small is-primary"><i class="fas fa-download"></i></button>
+      <!--<button class="is-button button is-small is-primary"><i class="fas fa-download"></i></button>-->
     </span>
   </div>
 </template>

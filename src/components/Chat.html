@@ -1,0 +1,142 @@
+  <!--@contextmenu="openContext"-->
+  <div id="wrapper">
+    <Context
+      v-if="showContext"
+      :x="contextCoordsX"
+      :y="contextCoordsY"
+      :close="closeContext"
+    />
+    <Error />
+    <Database
+      v-if="
+        $store.state.p2pOnline ||
+          $store.state.dwellerAddress !==
+            '0x0000000000000000000000000000000000000000'
+      "
+    />
+    <Voice
+      v-if="
+        $store.state.p2pOnline &&
+          $store.state.dwellerAddress !==
+            '0x0000000000000000000000000000000000000000'
+      "
+    />
+    <ScreenCapture
+      v-if="
+        windowBound &&
+          $store.state.p2pOnline &&
+          $store.state.dwellerAddress !==
+            '0x0000000000000000000000000000000000000000'
+      "
+    />
+
+    <!-- 
+      Whenever the account is connected starts a background task that 
+      continuously fetches the balance
+     -->
+    <BalanceFetcher v-if="$store.state.web3connected" />
+
+    <Web3 v-if="!$store.state.web3connected" />
+    <Loading
+      v-else-if="
+        !$store.state.friendsLoaded ||
+          !$store.state.p2pOnline ||
+          $store.state.dwellerAddress ===
+            '0x0000000000000000000000000000000000000000' ||
+          !$store.state.dwellerAddress ||
+          $store.state.starting
+      "
+    />
+    <div v-else>
+      <Achievement v-if="false" achievement="addFriend" />
+      <CreateServer v-if="showCreateServer" :close="closeCreateServer" />
+      <Calling
+        :active="$store.state.incomingCall"
+        :callerId="$store.state.incomingCall"
+      />
+      <!--<Polling />-->
+
+      <div
+        :class="
+          `columns wrapper ${
+            $store.state.sidebarOpen ? '' : 'wrapper-closed'
+          } ${settingsOpen ? 'settings-open' : ''}`
+        "
+      >
+        <!--Main Chat-->
+        <div
+          class="column is-one-third sidebar-wrapper"
+          :class="{ show: $store.state.sidebarMobileOpen }"
+          v-if="$store.state.sidebarOpen"
+        >
+          <Sidebar
+            :toggleSettings="toggleSettings"
+            :toggleCreateServer="toggleCreateServer"
+            :servers="servers"
+            :loadingServers="loadingServers"
+          />
+        </div>
+        <div class="column chat-wrapper">
+          <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
+          <Server v-if="$store.state.mainRoute == 'server'" />
+          <Files
+            v-if="$store.state.mainRoute == 'files' &&
+            !isMobile()" 
+            />
+          <FilesMobile
+            v-if="$store.state.mainRoute == 'files' &&
+            isMobile()" 
+            />
+          <Friends
+            v-if="
+              $store.state.mainRoute == 'friends' &&
+              $store.state.web3connected &&
+              !isMobile()
+            "
+          />
+          <MobileFriends
+            v-if="
+              $store.state.mainRoute == 'friends' &&
+              $store.state.web3connected &&
+              isMobile()
+            "
+          />
+        </div>
+      </div>
+      <div
+        :class="`settings ${settingsOpen ? 'settings-open-container' : ''}`"
+        v-if="settingsOpen"
+      >
+        <Settings :toggleSettings="toggleSettings" :open="settingsOpen" />
+      </div>
+      <div class="footer">
+        <p>
+          <i
+            :class="
+              `fas fa-heartbeat ${$store.state.p2pOnline ? 'green' : 'red'}`
+            "
+          ></i>
+          P2P
+          <span class="spacer"></span>
+          <i class="fas fa-info-circle"></i>
+          {{ $store.state.status }}
+          <span class="spacer"></span>
+          <span v-if="$store.state.accounts">
+            <i class="fab fa-ethereum"></i>
+            <b>{{ $t('footer.network') }}:</b>
+            {{ $store.state.web3Stats.nettype.name.toUpperCase() }}
+            <span class="spacer"> </span>
+            <i class="fas fa-hashtag"></i>
+            <b>{{ $t('footer.block_number') }}:</b>
+            {{ $store.state.web3Stats.blockNumber }}
+            <span class="spacer"> </span>
+            <i class="fas fa-info-circle"></i>
+            <b>{{ $t('footer.account') }}:</b> {{ $store.state.accounts[0] }}
+          </span>
+          <span v-else>
+            {{ $t('footer.connecting') }}
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>

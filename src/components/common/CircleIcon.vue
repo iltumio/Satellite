@@ -56,7 +56,7 @@ export default {
     .verified-badge {
       position: absolute;
       right: -3px;
-      z-index: 3;
+      z-index: 2;
       font-size: 14px;
     }
     .wrapper {
