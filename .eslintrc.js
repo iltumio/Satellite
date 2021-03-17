@@ -9,7 +9,7 @@ module.exports = {
   env: {
     browser: true
   },
-  extends: ['airbnb-base', 'plugin:prettier/recommended'],
+  extends: ['airbnb-base'],
   // required to lint *.vue files
   plugins: ['html'],
   // check if imports actually resolve

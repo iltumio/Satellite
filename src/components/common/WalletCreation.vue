@@ -42,7 +42,17 @@
         </b>
 
         <div class="recovery-phrase-container">
+          <div class="qr-modal" v-if="showScanQR">
+            <QRScan :close="toggleScanQR" :handler="onQRScan" />
+          </div>
+
           <textarea class="textarea" v-model="recoveryPhrase"></textarea>
+          <button
+            class="is-button button is-primary is-small"
+            v-on:click="toggleScanQR"
+          >
+            <i class="fas fa-qrcode"></i> &nbsp; SCAN
+          </button>
         </div>
       </div>
 
@@ -167,19 +177,24 @@
 </template>
 
 <script>
-import { ethers } from 'ethers';
-import Crypto from '@/utils/Crypto.ts';
+import { ethers } from "ethers";
+import Crypto from "@/utils/Crypto.ts";
+import QRScan from "@/components/common/QRScan";
 
 export default {
-  name: 'WalletCreation',
+  name: "WalletCreation",
+  components: {
+    QRScan,
+  },
   data() {
     return {
-      step: 'initial',
+      step: "initial",
       wallet: null,
       splittedMnemonic: [],
       wordsToCheck: [],
       input: {},
-      recoveryPhrase: ''
+      recoveryPhrase: "",
+      showScanQR: false,
     };
   },
   methods: {
@@ -188,7 +203,7 @@ export default {
     },
     createWallet() {
       this.wallet = ethers.Wallet.createRandom();
-      this.splittedMnemonic = this.wallet.mnemonic.phrase.split(' ');
+      this.splittedMnemonic = this.wallet.mnemonic.phrase.split(" ");
 
       const numbers = [...Array(12).keys()];
 
@@ -198,7 +213,7 @@ export default {
       // Get sub-array of first n elements after shuffled
       this.wordsToCheck = shuffled.slice(0, 4);
 
-      this.goToStep('showseed');
+      this.goToStep("showseed");
     },
     checkWords() {
       const areWordsRight = this.wordsToCheck.reduce((acc, next) => {
@@ -212,22 +227,35 @@ export default {
       return areWordsRight;
     },
     async walletCreated() {
-      this.$store.commit('setMnemonic', this.wallet.mnemonic.phrase);
+      this.$store.commit("setMnemonic", this.wallet.mnemonic.phrase);
       const encrypted = await Crypto.encrypt(
         this.wallet.mnemonic.phrase,
         this.$store.state.pin
       );
-      localStorage.setItem('mnemonic', encrypted);
+      localStorage.setItem("mnemonic", encrypted);
       this.onWalletCreated(this.wallet);
     },
     recover() {
       this.wallet = ethers.Wallet.fromMnemonic(this.recoveryPhrase);
 
       this.walletCreated();
-    }
+    },
+    onQRScan(code) {
+      const mnemonic = code && code.split(" ");
+
+      if (mnemonic.length === 12) {
+        this.recoveryPhrase = code;
+        this.toggleScanQR();
+      } else {
+        console.error("Invalid Recovery phrase");
+      }
+    },
+    toggleScanQR() {
+      this.showScanQR = !this.showScanQR;
+    },
   },
   mounted() {},
-  props: ['onWalletCreated']
+  props: ["onWalletCreated"],
 };
 </script>
 
@@ -266,7 +294,7 @@ export default {
     padding: 20% 50px 0 50px;
 
     .head {
-      font-family: 'Space Mono', monospace;
+      font-family: "Space Mono", monospace;
       font-size: 20pt;
       text-transform: uppercase;
       padding-bottom: 1rem;

@@ -6,7 +6,7 @@ export default class Ethereum {
   constructor() {
     this.initialized = false;
     this.utils = ethers.utils;
-    this.readinessPromise = new Promise(resolve => {
+    this.readinessPromise = new Promise((resolve) => {
       this.loadingComplete = resolve;
     });
   }
@@ -20,7 +20,7 @@ export default class Ethereum {
 
     if (this.providerType === 'injected') {
       this.accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
+        method: 'eth_requestAccounts',
       });
 
       this.provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -33,11 +33,11 @@ export default class Ethereum {
       // Activate listeners
       this.onAccountChange = window.ethereum.on(
         'accountsChanged',
-        this.handleAccountChange
+        this.handleAccountChange,
       );
       this.onNetworkChange = window.ethereum.on(
         'networkChanged',
-        this.handleNetworkChange
+        this.handleNetworkChange,
       );
 
       this.initialized = true;
@@ -125,7 +125,7 @@ export default class Ethereum {
   sendEther(to, value, cb) {
     const transaction = {
       to,
-      value: ethers.utils.parseEther(value)
+      value: ethers.utils.parseEther(value),
     };
 
     this.signer.sendTransaction(transaction).then(tx => cb(tx.hash));
