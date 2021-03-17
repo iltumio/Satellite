@@ -1,30 +1,49 @@
 // Servers & conversation & Inputs
-@less-dark-blue-gray: #101016;
+@less-dark-blue-gray: #14152c;
+
 // Infobar & Sidebar
-@dark-blue-gray: #16161e;
-@darker-blue-gray: #16161e;
-@lighter-dark-blue-gray: #1a1b27;
+@dark-blue-gray: #191a34;
+      //left sidebar, bottom text panel, text input box for chat, top header
+@darker-blue-gray: #191a34;
+      //user status on the bottom left panel
+@lighter-dark-blue-gray: #303753;
+
 // Borders
-@super-dark-boi: #131319;
+@super-dark-boi: transparent;
+
 // Friends & Containers
 @ohh-so-dark: #1a1b26;
+      //selected friend on left sidebar
+
 // Buttons
 @really-blue: #54bb8c;
+
 // Lables & Accents
-@not-as-light-blue-gray: #b2bae1;
+@not-as-light-blue-gray: #bbbcbd;
 @not-as-light-blue-gray-alt: @not-as-light-blue-gray;
+
 // General Text Colors
-@light-blue-gray: #545974;
+@light-blue-gray: #bbbcbd;
+      //"search bar", text color input for chat, time keys, text color for bottom text panel
+
 // Hovered Text Colors
-@lighter-blue-gray: #939bbd;
+@lighter-blue-gray: #aeafb3;
+
 // Messages & Icons
-@nearly-white: #a0a8cc;
+@nearly-white: #ffffff;
+
 // Usernames
-@basically-white: #faf2f8;
+@basically-white: #ffffff;
+      //Username colors in chat
+
 // Message Hovering
-@is-this-black: #0c0c11;
+@is-this-black: #101125;
+      //Message hover on webpage
+
 // Highlights
-@primary-highlight: #b2bae1;
+@primary-highlight: #ffffff;
+@minty-green: #4fbc87;
+
 // Errors
 @green: #49aebc;
 @red: #df7070;
@@ -159,7 +178,7 @@
     background: transparent !important;
   }
   .friends:hover, .files:hover {
-    background: @ohh-so-dark !important;
+    background: !important;
     color: @nearly-white !important;
   }
   .friends.active, .files.active {
@@ -314,6 +333,12 @@
   #conversation {
     background: @less-dark-blue-gray !important;
   }
+
+  #conversation > .encrypted {
+    // background: #262c47 !important;
+    background: #252946 !important;
+
+  }
   .server-wrapper {
     background: @less-dark-blue-gray !important;
   }
@@ -431,6 +456,7 @@
     background: @not-as-light-blue-gray !important;
     color: @nearly-white !important;
   }
+
   .input-collection {
     background-color: @dark-blue-gray !important; 
   }
@@ -449,10 +475,10 @@
   }
   .user-active {
     color: @primary-highlight !important;
-    background-color: @ohh-so-dark !important;
+    background-color: #232445 !important;
   }
   .user:hover { 
-    background-color: @ohh-so-dark !important;
+    background-color: #232445 !important;
   }
   .tabs ul {
     border-bottom-color: @super-dark-boi !important;
@@ -678,4 +704,142 @@
   .sidebar-wrapper, .right-bar {
     background: @dark-blue-gray !important;
   }
+  @media (max-width: 768px) { 
+  .c-message-body {
+    width: unset;
+    max-width: 100%;
+    float: left;
+  }
+  .circle-icon {
+    top: 0rem;
+  }
+  .no-mobile {
+    display: none;
+  }
+  .mobile {
+    display: inline-block;
+  }
+  .msg-wrapper {
+    background: teal;
+    padding: 0.75rem 1rem 0.75rem 1rem;
+    border-radius: 5px;
+    position: relative;
+  }
+  .c-message-timestamp {
+    text-align: right;
+    width: 100%;
+  }
+  .arrow-left {
+    width: 0; 
+    height: 0; 
+    position: absolute;
+    left: -9px;
+    top: 10px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
+    border-right:10px solid azure; 
+  }
+  .c-message-content {
+    padding-top: 0;
+  }
+  .local {
+    &.c-message-body {
+      float: right !important;
+    }
+    .c-message-content {
+      padding-left: 1rem !important;
+      padding-right: 3.8rem !important;
+    }
+    .msg-wrapper {
+      color: #ffffff;
+      background: #4fbc87;
+    }
+    .arrow-left {
+      width: 0; 
+      height: 0; 
+      position: absolute;
+      left: -9px;
+      top: 10px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent; 
+      border-right:10px solid #4fbc87; 
+      transform: rotate(180deg);
+      position: absolute;
+      right: -9px;
+      left: unset;
+    }
+    .circle-icon {
+      right: calc(-100% + 3.8rem) !important;
+    }
+    .timestamp {
+      text-align: left;
+    }
+  }
+  .remote {
+    .msg-wrapper {
+      background: #262c47;
+    }
+    .arrow-left {
+      width: 0; 
+      height: 0; 
+      position: absolute;
+      left: -9px;
+      top: 10px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent; 
+      border-right:10px solid #262c47; 
+      }
+    }
+  }
+  .mobile-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6.5rem;
+
+  .indicator {
+    position: absolute;
+    top: 0.4rem;
+    right: 0;
+    font-size: 9pt;
+    padding: 1px 5px;
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+  }
+
+  ul {
+    width: calc(100% - 1rem);
+    margin-left: 0.5rem;
+    margin: 0 0.5rem 1rem 0.5rem;
+    padding: 0 1rem;
+    border-radius: 12px;
+    background: #232445 !important;
+
+    li {
+      display: inline-block;
+      width: calc(20% - 5px);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-size: 20px;
+      padding: 16px 0 10px 0;
+      line-height: normal;
+      position: relative;
+    }
+
+    li:hover {
+      color: unset;
+    }
+  }
+  .nav-subtitle {
+    font-size: 10px;
+  }
 }
+
+}
+
+
+
+
