@@ -1,0 +1,61 @@
+.file-internal-wrapper {
+  position: relative;
+}
+.file-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-overflow: ellipsis;
+  text-shadow: 1px 1px black;
+  padding: 0.0rem 0.5em;
+  color: #fff;
+  white-space: nowrap;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+}
+.icon {
+  font-size: 18pt;
+}
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+li {
+  height: 40vh;
+  flex-grow: 1;
+  padding: 0.2rem 0.2rem;
+}
+
+li:last-child {
+  // There's no science in using "10" here. In all my testing, this delivered the best results.
+  flex-grow: 10;
+}
+
+img, div {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+
+// ADVANCED
+
+// Portrait
+
+@media (max-aspect-ratio: 1/1) {
+  li {
+    height: 12vh;
+  }
+}
+
+// Short screens
+
+@media (max-height: 480px) {
+  li {
+    height: 80vh;
+  }
+}
+

@@ -45,9 +45,9 @@
   },
   "fileupload": {
     "heading": "Upload File",
-    "description": "Uploading a file will store your file on the IPFS blockchain and automatically send the file in chat.",
+    "description": "Files are uploaded to the InterPlanetary File System.",
     "select": "Select File",
-    "chosefile": "Choose a file",
+    "chosefile": "Upload a File",
     "file": "File",
     "link": "IPFS Link",
     "uploading": "Uploading to IPFS...",

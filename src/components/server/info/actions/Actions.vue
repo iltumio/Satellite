@@ -2,10 +2,10 @@
   <div class="server-actions">
     <span class="label">Quick Actions</span>
     <div style="clear: both;"></div>
-    <CircleIcon icon="fas fa-share-alt" color="#6183bb"/>
-    <CircleIcon icon="fas fa-file-upload" color="#6183bb" />
-    <CircleIcon icon="fas fa-search" color="#6183bb" />
-    <CircleIcon icon="fas fa-info" color="#6183bb" />
+    <CircleIcon icon="fas fa-share-alt" color="#0984e3"/>
+    <CircleIcon icon="fas fa-file-upload" color="#0984e3" />
+    <CircleIcon icon="fas fa-search" color="#0984e3" />
+    <CircleIcon icon="fas fa-info" color="#0984e3" />
   </div>
 </template>
 

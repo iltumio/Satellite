@@ -19,7 +19,7 @@
         <div class="right">
           <button
             :disabled="requestPending[request.id]"
-            class="button is-primary"
+            class="button is-success"
             v-on:click="acceptRequest(request.id)">
             <i class="fas fa-check"></i>
           </button>
@@ -88,7 +88,6 @@ export default {
           this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
         })
         .catch((e) => {
-          console.log("ACCEPT REQUEST ERROR", e);
           this.fetchFriendRequests();
           this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
         });

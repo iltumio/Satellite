@@ -94,7 +94,6 @@ export default {
         // return accumulator
         return r;
       }, {});
-      console.log('data', data);
       this.sortedFriends = data;
     },
     update() {

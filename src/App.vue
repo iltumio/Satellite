@@ -6,6 +6,7 @@
       </transition>
     </main>
     <Unlock class="theme" v-else :decrypted="decrypt"/>
+    <SecurityMask v-if="mask" />
   </div>
 </template>
 
@@ -15,16 +16,19 @@ import config from '@/config/config';
 import Crypto from '@/classes/crypto/Crypto.ts';
 import CryptoUtil from '@/utils/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
+import SecurityMask from '@/components/common/SecurityMask';
 
 export default {
   name: 'app',
   components: {
     Unlock,
+    SecurityMask
   },
   data() {
     return {
       decrypted: false,
       friendsLoaded: false,
+      mask: false,
     };
   },
   methods: {
@@ -87,6 +91,14 @@ export default {
     },
   },
   mounted() {
+    document.addEventListener(
+      'visibilitychange',
+      () => {
+        this.mask = document.hidden;
+      },
+      false,
+    );
+
     this.$store.commit('starting', true);
     this.$store.commit('clearFriends');
     this.$store.commit('clear');

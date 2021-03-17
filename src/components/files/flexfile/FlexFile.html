@@ -1,0 +1,10 @@
+<span class="file-internal-wrapper">
+  <img :src="file.remote" alt="" v-if="isImage(file.file.type)" loading="lazy" />
+  <img src="/static/img/transparent.png" v-else alt="" loading="lazy" >
+  <span class="file-info" v-if="!isImage(file.file.type)">
+    <i :class="`${translateFiletype(file.file.type)} icon`"></i>
+    <br>
+    <span class="filename">{{file.file.name}}</span>
+    <span class="heading">{{bytesToSize(file.file.size)}} {{file.file.type}}</span>
+  </span>
+</span>
