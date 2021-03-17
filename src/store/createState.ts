@@ -90,7 +90,7 @@ export const defaultState: IState = {
   // Settings
   settings: {
     darkMode: true,
-    language: 'en_US',
+    language: 'en_US'
   },
   // Theme
   theme: 'tokyo',
@@ -155,9 +155,10 @@ export const defaultState: IState = {
   criticalError: false,
   // Servers
   server: undefined,
-  channel: undefined,
+  channel: undefined
 };
 
-const createState = (customState: any): IState => Object.assign({}, defaultState, customState);
+const createState = (customState: any): IState =>
+  Object.assign({}, defaultState, customState);
 
 export default createState;

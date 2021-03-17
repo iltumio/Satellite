@@ -1,10 +1,5 @@
 import { Context } from '@textile/context';
-import {
-  ThreadID,
-  Client,
-  PrivateKey,
-  Identity,
-} from '@textile/hub';
+import { ThreadID, Client, PrivateKey, Identity } from '@textile/hub';
 
 // @ts-ignore
 import config from '@/config/config';
@@ -31,7 +26,7 @@ export default class Threads {
   get threadID() {
     return this._threadID;
   }
-  
+
   get client() {
     return this._client;
   }
@@ -64,44 +59,45 @@ export default class Threads {
     return identity;
   }
 
-  async authorize(identity: Identity) : Promise<null | any> {
-    return new Promise(async (resolve) => {
-      const client = (config.env === 'dev') ?
-        new Client(new Context(config.textile.localURI)) :
-        await Client.withKeyInfo({
-          key: config.textile.key,
-        });
+  async authorize(identity: Identity): Promise<null | any> {
+    return new Promise(async resolve => {
+      const client =
+        config.env === 'dev'
+          ? new Client(new Context(config.textile.localURI))
+          : await Client.withKeyInfo({
+              key: config.textile.key
+            });
 
-      const token = await client.getToken(identity).catch((e) => {
-        resolve(new Error('Couldn\'t connect to Textile.io'));
+      const token = await client.getToken(identity).catch(e => {
+        resolve(new Error("Couldn't connect to Textile.io"));
       });
-      
 
       resolve({
         client,
-        token,
+        token
       });
     });
   }
 
   async getCreateThread() {
-    if (!this._client || !this._identifier) return new Error('Attempted to interface with a thread before initalizing');
+    if (!this._client || !this._identifier)
+      return new Error(
+        'Attempted to interface with a thread before initalizing'
+      );
     const threadTag = 'textile.private.thread';
     this._threadID = await this._client.newDB(
       undefined,
-      this._identifier + Date.now(),
+      this._identifier + Date.now()
     );
     if (!localStorage.getItem(threadTag)) {
       this._threadID = await this._client.newDB(
         undefined,
-        this._identifier + Date.now(),
+        this._identifier + Date.now()
       );
       localStorage.setItem(threadTag, this._threadID.toString());
     } else {
       const localThreadID = localStorage.getItem(threadTag) || '';
-      this._threadID = ThreadID.fromString(
-        localThreadID,
-      );
+      this._threadID = ThreadID.fromString(localThreadID);
     }
   }
 }

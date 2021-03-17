@@ -5,11 +5,15 @@ export default {
   // Add a new friend to the local cache
   addFriend(state: IState, friend: IFriend) {
     const { friends } = state;
-    if (friends?.filter((f: IFriend) => f.address === friend.address).length === 0) {
+    if (
+      friends?.filter((f: IFriend) => f.address === friend.address).length === 0
+    ) {
       friends.push(friend);
     }
 
-    friends?.sort((a: IFriend, b: IFriend) => (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1));
+    friends?.sort((a: IFriend, b: IFriend) =>
+      a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1
+    );
 
     state.friends = friends;
   },
@@ -27,5 +31,5 @@ export default {
   clearFriends(state: IState) {
     state.friends = [];
     state.friendsLoaded = false;
-  },
+  }
 };

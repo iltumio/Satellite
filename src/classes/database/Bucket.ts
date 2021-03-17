@@ -1,4 +1,4 @@
-import Database from "./Database";
+import Database from './Database';
 
 /* eslint-disable */
 export default class Bucket {
@@ -41,7 +41,9 @@ export default class Bucket {
    */
   async remove(value: object) {
     let values = await this.get();
-    values = values.filter(item => JSON.stringify(item) !== JSON.stringify(value));
+    values = values.filter(
+      item => JSON.stringify(item) !== JSON.stringify(value)
+    );
     this.database.interface._update(values, this.name);
   }
 }

@@ -1,3 +1,1 @@
-export default class Sign {
-
-}
+export default class Sign {}

@@ -1,6 +1,5 @@
-import { JSONSchema, ThreadID } from "@textile/threaddb";
-import RemoteAuth from "./RemoteAuth";
-
+import { JSONSchema, ThreadID } from '@textile/threaddb';
+import RemoteAuth from './RemoteAuth';
 
 export default class RemoteStorage extends RemoteAuth {
   constructor() {
@@ -15,9 +14,7 @@ export default class RemoteStorage extends RemoteAuth {
     // TODO: reconnect subscribers
   }
 
-  insert(collectionName: string, schema: JSONSchema) {
-    
-  }
+  insert(collectionName: string, schema: JSONSchema) {}
 
   subscribe(threadID: ThreadID, method: CallableFunction) {
     // TODO: Subscribe with client method

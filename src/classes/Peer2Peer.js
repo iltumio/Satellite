@@ -19,8 +19,8 @@ export default class Peer2Peer {
       secure: config.peer.network[config.env].secure,
       debug: config.debug ? 0 : 2,
       config: {
-        iceServers: config.peer.network[config.env].iceServers,
-      },
+        iceServers: config.peer.network[config.env].iceServers
+      }
     };
 
     this.peerId = peerId;
@@ -42,7 +42,7 @@ export default class Peer2Peer {
       // Attempt connection to peers
       this.connectToPeers();
       // A new client has made a connection to us
-      peer.on('connection', (conn) => {
+      peer.on('connection', conn => {
         const remotePeerId = conn.peer;
         // Fetch previous connection, or make a new one if
         // we have not made a connection to this peer yet
@@ -64,7 +64,7 @@ export default class Peer2Peer {
         peer.reconnect();
       });
     });
-    peer.on('error', (err) => {
+    peer.on('error', err => {
       if (err.type === 'peer-unavailable') {
         console.warn('Peer unavailable');
       } else {
@@ -118,7 +118,7 @@ export default class Peer2Peer {
    * @argument peers array of peer ids to create connections for
    */
   createChannels(peers) {
-    peers.forEach((peer) => {
+    peers.forEach(peer => {
       if (!this.channels[`${this.peerId}::${peer.address}`]) {
         this.createDataChannel(peer.address);
         if (this.ICEEstablished) this.connectToPeers();
@@ -132,7 +132,7 @@ export default class Peer2Peer {
    */
   connectToPeers() {
     // Establish connection to all new peers
-    Object.keys(this.channels).forEach((ch) => {
+    Object.keys(this.channels).forEach(ch => {
       const channel = this.channels[ch];
       if (channel.getStatus().code < 2) {
         channel.connect();
@@ -154,7 +154,7 @@ export default class Peer2Peer {
         peerId,
         (type, data) => {
           this.internalWatcher(peerId, type, data);
-        },
+        }
       );
     }
     return this.channels[`${this.peerId}::${peerId}`];

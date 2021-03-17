@@ -1,4 +1,4 @@
-import { Database, PrivateKey } from "@textile/threaddb";
+import { Database, PrivateKey } from '@textile/threaddb';
 
 // @ts-ignore
 import config from '@/config/config';
@@ -49,7 +49,7 @@ export default class RemoteAuth {
     this._db = await new Database(
       dbName,
       // @ts-ignore
-      { name: ThreadIDs.name, schema: ThreadIDs.schema },
+      { name: ThreadIDs.name, schema: ThreadIDs.schema }
     ).open(1);
   }
 
@@ -59,12 +59,11 @@ export default class RemoteAuth {
    * Get a private key from localStorage
    * @return Promise returning an error if auth fails, null elsewise.
    */
-  async getPrivateKey() : Promise<PrivateKey> {
+  async getPrivateKey(): Promise<PrivateKey> {
     /** Restore any cached user identity first */
     const cached = localStorage.getItem('textile.remote.identity');
-    const privateKey = (cached !== null) ? 
-      PrivateKey.fromString(cached) :
-      PrivateKey.fromRandom();
+    const privateKey =
+      cached !== null ? PrivateKey.fromString(cached) : PrivateKey.fromRandom();
     /** Add the string copy to the cache */
     // TODO: Encrypt this with user password in the future
     localStorage.setItem('textile.remote.identity', privateKey.toString());
@@ -78,12 +77,12 @@ export default class RemoteAuth {
    * Authorize to remote database
    * @return Promise returning an error if auth fails, null elsewise.
    */
-  async _authorize(reconnect: CallableFunction) : Promise<Error | null> {
+  async _authorize(reconnect: CallableFunction): Promise<Error | null> {
     if (!this._db) return new Error('Please initalize before authenticating');
     const privateKey = await this.getPrivateKey();
     // authenticate to remote
     this._remote = await this._db.remote.setKeyInfo({
-      key: config.textile.key,
+      key: config.textile.key
     });
     // TODO: Catch timeout and re-auth.
     // After re-authing emit a re-auth event so that we
@@ -94,5 +93,4 @@ export default class RemoteAuth {
     // console.log('authorized', this._db, this._remote);
     return null;
   }
-  
 }

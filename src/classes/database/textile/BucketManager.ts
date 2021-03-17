@@ -1,4 +1,12 @@
-import { Buckets, Identity, KeyInfo, PushPathResult, Root, UserAuth, createUserAuth } from '@textile/hub';
+import {
+  Buckets,
+  Identity,
+  KeyInfo,
+  PushPathResult,
+  Root,
+  UserAuth,
+  createUserAuth
+} from '@textile/hub';
 // @ts-ignore
 import config from '@/config/config';
 
@@ -7,7 +15,7 @@ import config from '@/config/config';
 // their priv key.
 export default class BucketManager {
   buckets: Buckets | null;
-  bucketKey: Root["key"] | null;
+  bucketKey: Root['key'] | null;
   identity: Identity;
   bucketName: string;
   prefix: string;
@@ -21,13 +29,15 @@ export default class BucketManager {
   }
 
   private progressParse(uploaded: number, total: number) {
-    return uploaded / total * 100;
+    return (uploaded / total) * 100;
   }
 
   async init(key: KeyInfo) {
     const buckets = await Buckets.withKeyInfo(key);
     await buckets.getToken(this.identity);
-    const result = await buckets.open(`com.github.vault74.${this.identity}.uploads`);
+    const result = await buckets.open(
+      `com.github.vault74.${this.identity}.uploads`
+    );
     if (!result.root) throw new Error('failed to open buckets');
     this.buckets = buckets;
     this.bucketKey = result.root.key;
@@ -52,9 +62,9 @@ export default class BucketManager {
     });
 
     const index = {
-      date: (new Date()).getTime(),
+      date: new Date().getTime(),
       meta: {},
-      paths: filtered,
+      paths: filtered
     };
     // Store the index in the Bucket (or in the Thread later)
     const buf = Buffer.from(JSON.stringify(index, null, 2));
@@ -73,7 +83,7 @@ export default class BucketManager {
       array = [...oldIndex.paths];
     }
     const index = {
-      date: (new Date()).getTime(),
+      date: new Date().getTime(),
       meta: {},
       paths: [
         ...array,
@@ -83,31 +93,32 @@ export default class BucketManager {
             name: file.name,
             size: file.size,
             type: file.type,
-            author: this.prefix,
+            author: this.prefix
           },
           path: remotePath,
-          remote: encodeURI(`${config.textile.browser}${root}${remotePath}`),
-        },
-      ],
+          remote: encodeURI(`${config.textile.browser}${root}${remotePath}`)
+        }
+      ]
     };
     // Store the index in the Bucket (or in the Thread later)
     const buf = Buffer.from(JSON.stringify(index, null, 2));
     await this.buckets.pushPath(this.bucketKey, path, buf);
   }
 
-  async ensureIndex() : Promise<boolean> {
+  async ensureIndex(): Promise<boolean> {
     const path = `${this.prefix}/index.json`;
     return new Promise(async resolve => {
       if (!this.buckets || !this.bucketKey) return null;
-      this.buckets.listPath(this.bucketKey, path)
+      this.buckets
+        .listPath(this.bucketKey, path)
         .then(() => {
           resolve(true);
         })
         .catch(async e => {
           const index = {
-            date: (new Date()).getTime(),
+            date: new Date().getTime(),
             meta: {},
-            paths: [],
+            paths: []
           };
           // Store the index in the Bucket (or in the Thread later)
           const buf = Buffer.from(JSON.stringify(index, null, 2));
@@ -118,7 +129,7 @@ export default class BucketManager {
     });
   }
 
-  async fetchIndex() : Promise<object> {
+  async fetchIndex(): Promise<object> {
     const path = `${this.prefix}/index.json`;
     if (!this.buckets || !this.bucketKey) return {};
     const bytesStream = await this.buckets?.pullPath(this.bucketKey, path);
@@ -134,7 +145,11 @@ export default class BucketManager {
     this.removeFromIndex(file);
   }
 
-  async pushFile(file: File, path: string, progress: CallableFunction) : Promise<PushPathResult | Error> {
+  async pushFile(
+    file: File,
+    path: string,
+    progress: CallableFunction
+  ): Promise<PushPathResult | Error> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onabort = () => reject('file reading was aborted');
@@ -146,25 +161,27 @@ export default class BucketManager {
         }
         const binaryStr = reader.result;
         // Finally, push the full file to the bucket
-        this.buckets.pushPath(this.bucketKey, path, binaryStr, {
-          progress: (num) => {
-            if (progress && num) progress(this.progressParse(num, file.size));
-          },
-        }).then((raw) => {
-          resolve(raw);
-        });
+        this.buckets
+          .pushPath(this.bucketKey, path, binaryStr, {
+            progress: num => {
+              if (progress && num) progress(this.progressParse(num, file.size));
+            }
+          })
+          .then(raw => {
+            resolve(raw);
+          });
       };
       reader.readAsArrayBuffer(file);
     });
   }
 
-  async getBucket() : Promise<Root | undefined>{
+  async getBucket(): Promise<Root | undefined> {
     if (!this.buckets) return undefined;
     const roots = await this.buckets.list();
-    return roots.find((bucket) => bucket.name === this.bucketName);
+    return roots.find(bucket => bucket.name === this.bucketName);
   }
 
-  async getLinks() : Promise<any> {
+  async getLinks(): Promise<any> {
     if (!this.buckets || !this.bucketKey) return undefined;
     const links = await this.buckets.links(this.bucketKey);
     return links;

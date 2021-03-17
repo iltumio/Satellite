@@ -40,5 +40,5 @@ export default {
   },
   toggleUserInfo(state: IState) {
     state.showUser = !state.showUser;
-  },
+  }
 };

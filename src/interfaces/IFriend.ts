@@ -1,6 +1,6 @@
 interface IFriend {
-    address: string,
-    name: string,
+  address: string;
+  name: string;
 }
 
 export default IFriend;

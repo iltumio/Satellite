@@ -27,13 +27,13 @@ export default class Dweller {
   }
 
   async getCachedInfo() {
-    const photoHash = this.photoHash || await this.getPhoto();
-    const owner = this.owner || await this.getOwner();
-    const name = this.name || await this.getName();
+    const photoHash = this.photoHash || (await this.getPhoto());
+    const owner = this.owner || (await this.getOwner());
+    const name = this.name || (await this.getName());
     return {
       photoHash,
       owner,
-      name,
+      name
     };
   }
 }

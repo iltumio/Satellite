@@ -1,5 +1,5 @@
 interface Mappings {
-  default: string,
+  default: string;
 }
 // Useful methods to translate filenames into classes
 export default {
@@ -15,7 +15,7 @@ export default {
     'application/x-javascript': 'fab fa-js-square',
     'text/javascript': 'fab fa-js-square',
     'application/java-archive': 'fab fa-java',
-    'text/css': 'fab fa-css3-alt',
+    'text/css': 'fab fa-css3-alt'
   },
   /** @function
    * @name translateFiletype
@@ -32,5 +32,5 @@ export default {
       }
     }
     return classname;
-  },
+  }
 };

@@ -11,9 +11,10 @@ const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const proxyMiddleware = require('http-proxy-middleware');
-const webpackConfig = process.env.NODE_ENV === 'testing'
-  ? require('./webpack.prod.conf')
-  : require('./webpack.dev.conf');
+const webpackConfig =
+  process.env.NODE_ENV === 'testing'
+    ? require('./webpack.prod.conf')
+    : require('./webpack.dev.conf');
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port;
@@ -28,11 +29,11 @@ const compiler = webpack(webpackConfig);
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
-  stats: 'errors-only',
+  stats: 'errors-only'
 });
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
-  log: false,
+  log: false
 });
 // force page reload when html-webpack-plugin template changes
 compiler.hooks.compilation.tap('html-webpack-plugin-after-emit', () => {
@@ -40,7 +41,7 @@ compiler.hooks.compilation.tap('html-webpack-plugin-after-emit', () => {
 });
 
 // proxy api requests
-Object.keys(proxyTable).forEach((context) => {
+Object.keys(proxyTable).forEach(context => {
   let options = proxyTable[context];
   if (typeof options === 'string') {
     options = { target: options };
@@ -59,14 +60,17 @@ app.use(devMiddleware);
 app.use(hotMiddleware);
 
 // serve pure static assets
-const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
+const staticPath = path.posix.join(
+  config.dev.assetsPublicPath,
+  config.dev.assetsSubDirectory
+);
 app.use(staticPath, express.static('./static'));
 
 const uri = `http://localhost:${port}`;
 
 // eslint-disable-next-line no-underscore-dangle
 let _resolve;
-const readyPromise = new Promise((resolve) => {
+const readyPromise = new Promise(resolve => {
   _resolve = resolve;
 });
 
@@ -88,5 +92,5 @@ module.exports = {
   ready: readyPromise,
   close: () => {
     server.close();
-  },
+  }
 };

@@ -1,4 +1,4 @@
-import Database from "./Database";
+import Database from './Database';
 
 /* eslint-disable */
 export default class Drawer {

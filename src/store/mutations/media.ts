@@ -20,5 +20,5 @@ export default {
   },
   activeCall(state: IState, identifier: string) {
     state.activeCall = identifier;
-  },
+  }
 };

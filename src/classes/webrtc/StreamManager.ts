@@ -34,10 +34,10 @@ export default class StreamManager {
 
   public toggleLocalStreams(muted: boolean) {
     this._localStreams.forEach((stream: MediaStream) => {
-      stream.getAudioTracks().forEach((track) => {
+      stream.getAudioTracks().forEach(track => {
         track.enabled = !muted;
       });
-      stream.getVideoTracks().forEach((track) => {
+      stream.getVideoTracks().forEach(track => {
         track.enabled = !muted;
       });
     });
@@ -45,10 +45,10 @@ export default class StreamManager {
 
   public toggleRemoteStreams(muted: boolean) {
     this._remoteStreams.forEach((stream: MediaStream) => {
-      stream.getAudioTracks().forEach((track) => {
+      stream.getAudioTracks().forEach(track => {
         track.enabled = !muted;
       });
-      stream.getVideoTracks().forEach((track) => {
+      stream.getVideoTracks().forEach(track => {
         track.enabled = !muted;
       });
     });

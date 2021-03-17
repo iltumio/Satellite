@@ -1,4 +1,4 @@
-import Database from "./database/Database";
+import Database from './database/Database';
 
 // Helper methods for interacting with IPFS
 export default class IPFSUtils {

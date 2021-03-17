@@ -35,7 +35,7 @@ export default class FileC {
       type: this.type,
       size: this.size,
       filename: this.filename,
-      at: this.modified,
+      at: this.modified
     };
   }
 }

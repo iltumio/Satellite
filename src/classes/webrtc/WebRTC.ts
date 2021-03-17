@@ -4,36 +4,36 @@ import config from '@/config/config';
 import P2PUser from './P2PUser';
 import WebRTCMedia from './WebRTCMedia';
 
-
 interface Subscriber {
-  method: CallableFunction,
-  events: string[],
-  identifiers: string[], // Listen to only specific peers
+  method: CallableFunction;
+  events: string[];
+  identifiers: string[]; // Listen to only specific peers
 }
 
 interface Message {
-  type: string,
-  data: any,
+  type: string;
+  data: any;
 }
 
 interface Connection {
-  user: P2PUser,
-  identifier: string,
+  user: P2PUser;
+  identifier: string;
 }
 
-type RTCEvent = '*' |
-  'key-offer' |
-  'connection-established' |
-  'ping' |
-  'pong' |
-  'heartbeat' |
-  'flatlined' |
-  'message' |
-  'typing-notice' |
-  'call-status' |
-  'stream' |
-  'data' |
-  'REMOTE-HANGUP';
+type RTCEvent =
+  | '*'
+  | 'key-offer'
+  | 'connection-established'
+  | 'ping'
+  | 'pong'
+  | 'heartbeat'
+  | 'flatlined'
+  | 'message'
+  | 'typing-notice'
+  | 'call-status'
+  | 'stream'
+  | 'data'
+  | 'REMOTE-HANGUP';
 
 export default class WebRTC extends WebRTCMedia {
   public protocol: string;
@@ -50,7 +50,7 @@ export default class WebRTC extends WebRTCMedia {
    */
   constructor() {
     super();
-    this.protocol = "peerjs <https://peerjs.com/>";
+    this.protocol = 'peerjs <https://peerjs.com/>';
     this._identifier = '';
     this._subscribers = [];
     this._events = this.events;
@@ -65,7 +65,7 @@ export default class WebRTC extends WebRTCMedia {
    * @argument identifier string identifier, usually an Ethereum address.
    * @returns local identifier
    */
-  get identifier() : string {
+  get identifier(): string {
     return this.buildIdentifier(this._identifier);
   }
 
@@ -74,7 +74,7 @@ export default class WebRTC extends WebRTCMedia {
    * @name subscribers
    * @returns array of Subscribers
    */
-  get subscribers() : Subscriber[] {
+  get subscribers(): Subscriber[] {
     return this._subscribers;
   }
 
@@ -83,7 +83,7 @@ export default class WebRTC extends WebRTCMedia {
    * @name events
    * @returns Returns array of acceptable RTC Event enums
    */
-  get events() : RTCEvent[] {
+  get events(): RTCEvent[] {
     // TODO: Convert this to a string union
     return [
       '*',
@@ -96,7 +96,7 @@ export default class WebRTC extends WebRTCMedia {
       'message',
       'typing-notice',
       'data',
-      'REMOTE-HANGUP',
+      'REMOTE-HANGUP'
     ];
   }
 
@@ -105,7 +105,7 @@ export default class WebRTC extends WebRTCMedia {
    * @name settings
    * @returns returns settings object
    */
-  get settings() : PeerJSOption {
+  get settings(): PeerJSOption {
     return {
       host: config.peer.network[config.env].host,
       port: config.peer.network[config.env].port,
@@ -114,8 +114,8 @@ export default class WebRTC extends WebRTCMedia {
       secure: config.peer.network[config.env].secure,
       debug: config.debug ? 0 : 2,
       config: {
-        iceServers: config.peer.network[config.env].iceServers,
-      },
+        iceServers: config.peer.network[config.env].iceServers
+      }
     };
   }
 
@@ -125,7 +125,7 @@ export default class WebRTC extends WebRTCMedia {
    * @argument identifier string identifier, usually an Ethereum address.
    * @returns returns if the peer is online or not, represented by a boolean
    */
-  public isConnected(identifier: string) : boolean {
+  public isConnected(identifier: string): boolean {
     const peer = this.find(identifier);
     if (!peer) return false;
     if (peer.isAlive) return true;
@@ -138,9 +138,10 @@ export default class WebRTC extends WebRTCMedia {
    * @argument identifier string identifier, usually an Ethereum address.
    * @returns returns either a peer, or undefined if not found
    */
-  public find(identifier: string) : P2PUser | undefined {
-    const connection = this.connections
-      .find(conn => conn.identifier === this.buildIdentifier(identifier));
+  public find(identifier: string): P2PUser | undefined {
+    const connection = this.connections.find(
+      conn => conn.identifier === this.buildIdentifier(identifier)
+    );
     return connection?.user;
   }
 
@@ -151,7 +152,7 @@ export default class WebRTC extends WebRTCMedia {
    * @argument identifier string identifier, usually an Ethereum address.
    * @returns returns a promise which will resolve the created WebRTC class
    */
-  public init(identifier: string) : Promise<WebRTC> {
+  public init(identifier: string): Promise<WebRTC> {
     this._identifier = identifier;
     this.bindInstance(this);
     return new Promise(resolve => {
@@ -162,13 +163,10 @@ export default class WebRTC extends WebRTCMedia {
         this.initMedia(this.peer);
         // We're connected to the PeerJS server and ready to make connections
         this.connectToRegistry();
-        this.publish(
-          'connection-established',
-          '*',
-          {
-            type: 'connection-established',
-            data: true,
-          });
+        this.publish('connection-established', '*', {
+          type: 'connection-established',
+          data: true
+        });
         // A new peer has connected to us
         peer.on('connection', (conn: Peer.DataConnection) => {
           this.connect(conn);
@@ -203,7 +201,7 @@ export default class WebRTC extends WebRTCMedia {
   private registerPeer(identifier: string, peer: P2PUser) {
     this.connections.push({
       identifier,
-      user: peer,
+      user: peer
     });
   }
 
@@ -227,16 +225,20 @@ export default class WebRTC extends WebRTCMedia {
       }
     });
   }
- 
+
   connect(conn: Peer.DataConnection) {
     const identifier = this.buildIdentifier(conn.peer);
     const exitingPeer = this.find(identifier);
     if (exitingPeer && exitingPeer.connection) {
       exitingPeer.close();
-    };
-    const peer = new P2PUser(this, identifier, (event: string, data: Message) => {
-      this.publish(event, identifier, data);
-    });
+    }
+    const peer = new P2PUser(
+      this,
+      identifier,
+      (event: string, data: Message) => {
+        this.publish(event, identifier, data);
+      }
+    );
     // Data connection established.
     // We can now recieve data from this peer.
     conn.on('open', () => {
@@ -253,7 +255,7 @@ export default class WebRTC extends WebRTCMedia {
     this.connect(connection);
   }
 
-  public connectToPeer(_identifier: string) : Error | null {
+  public connectToPeer(_identifier: string): Error | null {
     if (!this.peer) return new Error('You cannot connect before initalizing.');
     const identifier = this.buildIdentifier(_identifier);
     const connection = this.peer.connect(identifier);
@@ -261,36 +263,44 @@ export default class WebRTC extends WebRTCMedia {
     return null;
   }
 
-  public subscribe(method: CallableFunction, events: string[], identifiers: string[]) : number {
+  public subscribe(
+    method: CallableFunction,
+    events: string[],
+    identifiers: string[]
+  ): number {
     const id = this.subscribers.length;
     this.subscribers.push({
       method,
       events,
-      identifiers,
+      identifiers
     });
     return id;
   }
 
-  public unSubscribe(index: number) : Error | null {
-    if (index > this.subscribers.length) return new Error('Index out of bounds');
+  public unSubscribe(index: number): Error | null {
+    if (index > this.subscribers.length)
+      return new Error('Index out of bounds');
     this.subscribers.splice(index, 1);
     return null;
   }
 
-  private publish(event: string, identifier: string, message: Message) : void {
+  private publish(event: string, identifier: string, message: Message): void {
     this.subscribers.map(subscriber => {
       const events = subscriber.events;
-      const normalizedIdentifiers = (subscriber.identifiers) ?
-        subscriber.identifiers.map((id) => {
-          return this.buildIdentifier(id);
-        }) :
-        null;
+      const normalizedIdentifiers = subscriber.identifiers
+        ? subscriber.identifiers.map(id => {
+            return this.buildIdentifier(id);
+          })
+        : null;
       // Ensure the subscriber is listening for the event
       if (events.includes(event) || events.includes('*')) {
         // Chec if the subscriber is only interested in specific users
-        if (normalizedIdentifiers && normalizedIdentifiers.includes(identifier)) {
+        if (
+          normalizedIdentifiers &&
+          normalizedIdentifiers.includes(identifier)
+        ) {
           subscriber.method(event, this.revertIdentifier(identifier), message);
-        // They arn't listenting to any specific users
+          // They arn't listenting to any specific users
         } else if (!normalizedIdentifiers) {
           subscriber.method(event, this.revertIdentifier(identifier), message);
         }
@@ -298,7 +308,7 @@ export default class WebRTC extends WebRTCMedia {
     });
   }
 
-  public publishDeath(identifier: string) : void {
+  public publishDeath(identifier: string): void {
     this.publish('flatlined', identifier, { type: 'flatlined', data: true });
   }
 

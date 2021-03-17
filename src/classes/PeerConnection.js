@@ -42,7 +42,7 @@ export default class PeerConnection {
     const remPeer = this.peer.connect(this.remoteId);
     this.status = {
       code: 1,
-      message: 'awaiting-connection',
+      message: 'awaiting-connection'
     };
     this.watcher('status', this.status);
     this.lastHeartbeat = Date.now();
@@ -52,10 +52,10 @@ export default class PeerConnection {
       this.connecting = false;
       this.status = {
         code: 2,
-        message: 'connected',
+        message: 'connected'
       };
       this.watcher('status', this.status);
-      remPeer.on('data', (data) => {
+      remPeer.on('data', data => {
         this.handleIncomingData(data);
       });
       this.bindGateway(remPeer);
@@ -115,7 +115,7 @@ export default class PeerConnection {
     this.gateway = gateway;
     this.status = {
       code: 3,
-      message: 'gateway-created',
+      message: 'gateway-created'
     };
     this.watcher('status', this.status);
   }
@@ -170,9 +170,11 @@ export default class PeerConnection {
    * @returns status object, includes the status code and message
    */
   getStatus() {
-    return this.status || {
-      code: 0,
-      message: 'unknown',
-    };
+    return (
+      this.status || {
+        code: 0,
+        message: 'unknown'
+      }
+    );
   }
 }

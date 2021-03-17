@@ -4,5 +4,5 @@ export default {
   // Caching
   cacheFiles(state: IState, files: any[]) {
     state.files = files;
-  },
+  }
 };

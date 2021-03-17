@@ -3,15 +3,15 @@ module.exports = {
   textile: {
     localURI: 'http://localhost:6007',
     key: 'b4xorkfi3bfxxqoxnuxxfylop4q',
-    browser: 'https://hub.textile.io',
+    browser: 'https://hub.textile.io'
   },
   network: {
     // explorer: 'https://goerli.etherscan.io',
     // api: 'http://api-goerli.etherscan.io/api',
-    chain: 'mumbai',
+    chain: 'mumbai'
   },
   ipfs: {
-    browser: 'https://ipfs.io/ipfs/',
+    browser: 'https://ipfs.io/ipfs/'
   },
   sounds: {
     newMessage: 'QmSiBzertJJx1K4VXapLat5Vk3AKa7efviVjt6qxqhq6n3',
@@ -22,7 +22,7 @@ module.exports = {
     deafen: 'Qmf4QinBSDk9AgvqsiaaZ2ZmhCfTwcSRpAgSCTxLGyZkyg',
     undeafen: 'QmSHtz5kSvX8JNZKMfkm6PjqScxoC864bmGd2g3ycwRqK1',
     upload: 'QmSHtz5kSvX8JNZKMfkm6PjqScxoC864bmGd2g3ycwRqK1',
-    connected: 'QmUJMTmCdnzjcUT5nT2eGzXVDYbwDq3CanjKabYQ3Vu3Dt',
+    connected: 'QmUJMTmCdnzjcUT5nT2eGzXVDYbwDq3CanjKabYQ3Vu3Dt'
   },
   defaultLanguage: 'en_US',
   languages: {
@@ -32,25 +32,25 @@ module.exports = {
     fr: '',
     it: 'QmSezaqPeAhsjekzNS3xChGw7G5N4GYCuYAqYkkGZgxneu',
     ru: '',
-    hy: '',
+    hy: ''
   },
   registry: {
     mainnet: '0x0',
     goerli: '0xfA22498c3F2bc836d9347F2e8c718E7820eAb308',
-    mumbai: '0x6ef1fcb3a695d962B97C2012D3B831356C199ebF',
+    mumbai: '0x6ef1fcb3a695d962B97C2012D3B831356C199ebF'
   },
   friends: {
     mainnet: '0x0',
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
-    mumbai: '0x27F7DF4f1af2D61FE815901ad456dFf3355Ca9c3',
+    mumbai: '0x27F7DF4f1af2D61FE815901ad456dFf3355Ca9c3'
   },
   debug: false,
   cacher: {
-    dwellerLifespan: 900000,
+    dwellerLifespan: 900000
   },
   polling: {
     friends: 10000,
-    requests: 10000,
+    requests: 10000
   },
   peer: {
     network: {
@@ -60,7 +60,7 @@ module.exports = {
         port: 443,
         path: '/',
         key: 'vault74',
-        iceServers: [{ url: 'stun:stun.l.google.com:19302' }],
+        iceServers: [{ url: 'stun:stun.l.google.com:19302' }]
       },
       dev: {
         secure: false,
@@ -68,23 +68,26 @@ module.exports = {
         port: 80,
         path: '/',
         key: 'vault74',
-        iceServers: [{ url: 'stun:stun.l.google.com:19302' }],
-      },
+        iceServers: [{ url: 'stun:stun.l.google.com:19302' }]
+      }
     },
     heartbeat_timeout: 7000,
     check_heartbeat: 500,
     timeout: 500,
     reconnect: 3000,
-    ping_interval: 5000,
+    ping_interval: 5000
   },
   web3: {
-    balance_polling_interval: 10000,
+    balance_polling_interval: 10000
   },
   toastNotifications: {
-    position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast',
+    position: 'top-center',
+    iconPack: 'fontawesome',
+    duration: 800,
+    className: 'vault-toast'
   },
   verified_addresses: [
     '0xEE81E0B011Cd2D36D03F3E1C0A4549f78a56cb5E',
-    '0x788b8fe274fcA4c4D441d1C2c95e7A2105ea669F',
-  ], // TODO: move this to a contract
+    '0x788b8fe274fcA4c4D441d1C2c95e7A2105ea669F'
+  ] // TODO: move this to a contract
 };

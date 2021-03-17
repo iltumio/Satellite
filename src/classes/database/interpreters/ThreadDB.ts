@@ -2,25 +2,24 @@ import { Client, ThreadID, Where } from '@textile/hub';
 // @ts-ignore
 import crypto from '../../../utils/Crypto';
 
-
 interface Creds {
-  id: string,
-  pass: string,
-  extras: Extras,
+  id: string;
+  pass: string;
+  extras: Extras;
 }
 
 interface Extras {
-  client: Client,
+  client: Client;
 }
 
 interface Data {
-  data: object,
+  data: object;
 }
 
 /* eslint-disable */
 export class ThreadDB {
   threadID: any;
-  collectionSchema: { data: string; _id: string; };
+  collectionSchema: { data: string; _id: string };
   prefix: string;
   textile: Extras;
   creds: Creds;
@@ -33,7 +32,7 @@ export class ThreadDB {
 
     this.collectionSchema = {
       data: 'encrypted-data',
-      _id: '0',
+      _id: '0'
     };
   }
 
@@ -46,8 +45,8 @@ export class ThreadDB {
     return [
       {
         data,
-        _id: Date.now().toString(),
-      },
+        _id: Date.now().toString()
+      }
     ];
   }
 
@@ -56,92 +55,86 @@ export class ThreadDB {
     if (!localStorage.getItem(threadTag)) {
       this.threadID = await this.textile.client.newDB(
         undefined,
-        this.creds.id + Date.now(),
+        this.creds.id + Date.now()
       );
       localStorage.setItem(threadTag, this.threadID.toString());
     } else {
       const localThreadID = localStorage.getItem(threadTag) || '';
-      this.threadID = ThreadID.fromString(
-        localThreadID,
-      );
+      this.threadID = ThreadID.fromString(localThreadID);
     }
   }
 
   async ensureCollection(name: string) {
-    await this.textile.client.getCollectionIndexes(
-      this.threadID,
-      name,
-    ).catch(async () => {
-      await this.textile.client.newCollectionFromObject(
-        this.threadID,
-        this.collectionSchema,
-        {
-          name,
-        },
-      );
-    });
+    await this.textile.client
+      .getCollectionIndexes(this.threadID, name)
+      .catch(async () => {
+        await this.textile.client.newCollectionFromObject(
+          this.threadID,
+          this.collectionSchema,
+          {
+            name
+          }
+        );
+      });
   }
 
-  async _store(value: any, name: string) : Promise<void> {
-    return new Promise(async (resolve) => {
+  async _store(value: any, name: string): Promise<void> {
+    return new Promise(async resolve => {
       await this.checkDeps(name);
       const values = await this._retrive(name);
       values.push(value);
 
       const encrypted = await crypto.encrypt(
         JSON.stringify(values),
-        this.creds.pass,
+        this.creds.pass
       );
 
       this.textile.client.create(
         this.threadID,
         name,
-        this.buildObject(encrypted),
+        this.buildObject(encrypted)
       );
       resolve();
-    })
+    });
   }
 
-  async _update(bucket: any, name: string) : Promise<void> {
-    return new Promise(async (resolve) => {
+  async _update(bucket: any, name: string): Promise<void> {
+    return new Promise(async resolve => {
       await this.checkDeps(name);
 
       const encrypted = await crypto.encrypt(
         JSON.stringify(bucket),
-        this.creds.pass,
+        this.creds.pass
       );
 
       this.textile.client.create(
         this.threadID,
         name,
-        this.buildObject(encrypted),
+        this.buildObject(encrypted)
       );
       resolve();
     });
   }
 
-  async getDataOrEmpty(name: string) : Promise<Data[]> {
-    return new Promise(async (resolve) => {
-      let data = await this.textile.client.find(
-        this.threadID,
-        name,
-        {},
-      ).catch((err) => {
-        // Collection not found
-        resolve([]);
-      }) || [];
+  async getDataOrEmpty(name: string): Promise<Data[]> {
+    return new Promise(async resolve => {
+      let data =
+        (await this.textile.client.find(this.threadID, name, {}).catch(err => {
+          // Collection not found
+          resolve([]);
+        })) || [];
       resolve(<Array<Data>>data);
     });
   }
 
-  async _retrive(name: string) : Promise<any[]> {
-    return new Promise(async (resolve) => {
+  async _retrive(name: string): Promise<any[]> {
+    return new Promise(async resolve => {
       await this.checkDeps(name);
       let data = await this.getDataOrEmpty(name);
       if (data.length) {
         const decryptedData: string | null = await crypto.decrypt(
           data[data.length - 1].data.toString(),
-          this.creds.pass,
+          this.creds.pass
         );
         const parsedData = decryptedData ? JSON.parse(decryptedData) : [];
         resolve(parsedData);

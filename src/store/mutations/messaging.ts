@@ -47,5 +47,5 @@ export default {
     let { unreads } = state;
     unreads = unreads.filter(a => a !== address);
     state.unreads = unreads;
-  },
+  }
 };

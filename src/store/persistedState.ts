@@ -6,7 +6,7 @@ export const cookieStorage = {
   setItem: (key: string, value: any) => {
     localStorage[key] = value;
   },
-  removeItem: (key: string) => delete localStorage[key],
+  removeItem: (key: string) => delete localStorage[key]
 };
 
 interface IBlacklist {
@@ -29,7 +29,7 @@ const blacklist: IBlacklist = {
   accounts: true,
   balance: true,
   mnemonic: true,
-  pin: true,
+  pin: true
 };
 
 const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key]);
@@ -41,7 +41,7 @@ export const persistedStateConfig = {
     return !type.startsWith('route/');
   },
   paths: persistedPaths,
-  storage: cookieStorage,
+  storage: cookieStorage
 };
 
 export default createPersistedState(persistedStateConfig);

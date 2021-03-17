@@ -25,11 +25,13 @@ export default {
       if (!datesAreOnSameDay(messageDate, lastDate)) {
         lastDay = message.at;
         split();
-        newGrouping.push([{
-          type: 'day-break',
-          date: message.at,
-          id: Date.now(),
-        }]);
+        newGrouping.push([
+          {
+            type: 'day-break',
+            date: message.at,
+            id: Date.now()
+          }
+        ]);
       } else if (lastMessageAt && message.at - lastMessageAt > 120000) {
         split();
       } else if (!lastMessageFrom || lastMessageFrom === message.sender) {
@@ -44,5 +46,5 @@ export default {
       lastMessageAt = message.at;
     });
     return newGrouping;
-  },
+  }
 };

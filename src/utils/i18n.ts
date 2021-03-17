@@ -62,7 +62,15 @@ export async function getLang(langCode) {
   }
 }
 
-export type LangCodes = "en_US" | "en_UK" | "de" | "fr" | "it" | "ru" | "hy" | "hi";
+export type LangCodes =
+  | 'en_US'
+  | 'en_UK'
+  | 'de'
+  | 'fr'
+  | 'it'
+  | 'ru'
+  | 'hy'
+  | 'hi';
 
 interface Messages {
   [key: string]: any;
@@ -76,13 +84,13 @@ const messages: Messages = {
   it,
   ru,
   hy,
-  hi,
+  hi
 };
 
 export default (locale, fallbackLocale) =>
   new VueI18n({
     locale,
     messages,
-    fallbackLocale: fallbackLocale || locale,
+    fallbackLocale: fallbackLocale || locale
   });
 /* eslint-enable */

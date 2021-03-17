@@ -9,24 +9,26 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
 // add hot-reload related code to entry chunks
-Object.keys(baseWebpackConfig.entry).forEach((name) => {
-  baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name]);
+Object.keys(baseWebpackConfig.entry).forEach(name => {
+  baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(
+    baseWebpackConfig.entry[name]
+  );
 });
 
 module.exports = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap }),
+    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
   mode: 'development',
   optimization: {
-    noEmitOnErrors: true,
+    noEmitOnErrors: true
   },
   // fast incremental rebuilds
   // @see https://webpack.js.org/configuration/devtool/ for a comparison
   devtool: '#cheap-module-eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.dev.env,
+      'process.env': config.dev.env
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
@@ -37,8 +39,11 @@ module.exports = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       // eslint-disable-next-line max-len
-      serviceWorkerLoader: `<script>${fs.readFileSync(path.join(__dirname, './service-worker-dev.js'), 'utf-8')}</script>`,
+      serviceWorkerLoader: `<script>${fs.readFileSync(
+        path.join(__dirname, './service-worker-dev.js'),
+        'utf-8'
+      )}</script>`
     }),
-    new FriendlyErrorsPlugin(),
-  ],
+    new FriendlyErrorsPlugin()
+  ]
 });

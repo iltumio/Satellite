@@ -1,5 +1,5 @@
 interface IIPFSHash {
-    path: string,
-};
+  path: string;
+}
 
 export default IIPFSHash;

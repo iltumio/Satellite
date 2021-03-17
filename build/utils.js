@@ -2,22 +2,23 @@ const path = require('path');
 const config = require('../config');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-exports.assetsPath = (_path) => {
-  const assetsSubDirectory = process.env.NODE_ENV === 'production'
-    ? config.build.assetsSubDirectory
-    : config.dev.assetsSubDirectory;
+exports.assetsPath = _path => {
+  const assetsSubDirectory =
+    process.env.NODE_ENV === 'production'
+      ? config.build.assetsSubDirectory
+      : config.dev.assetsSubDirectory;
   return path.posix.join(assetsSubDirectory, _path);
 };
 
-exports.cssLoaders = (options) => {
+exports.cssLoaders = options => {
   const opts = Object.assign({}, options);
 
   const cssLoader = {
     loader: 'css-loader',
     options: {
       minimize: process.env.NODE_ENV === 'production',
-      sourceMap: opts.sourceMap,
-    },
+      sourceMap: opts.sourceMap
+    }
   };
 
   // generate loader string to be used with extract text plugin
@@ -27,8 +28,8 @@ exports.cssLoaders = (options) => {
       loaders.push({
         loader: `${loader}-loader`,
         options: Object.assign({}, loaderOptions, {
-          sourceMap: opts.sourceMap,
-        }),
+          sourceMap: opts.sourceMap
+        })
       });
     }
 
@@ -37,7 +38,7 @@ exports.cssLoaders = (options) => {
     if (opts.extract) {
       return ExtractTextPlugin.extract({
         use: loaders,
-        fallback: 'vue-style-loader',
+        fallback: 'vue-style-loader'
       });
     }
     return ['vue-style-loader'].concat(loaders);
@@ -51,19 +52,19 @@ exports.cssLoaders = (options) => {
     sass: generateLoaders('sass', { indentedSyntax: true }),
     scss: generateLoaders('sass'),
     stylus: generateLoaders('stylus'),
-    styl: generateLoaders('stylus'),
+    styl: generateLoaders('stylus')
   };
 };
 
 // Generate loaders for standalone style files (outside of .vue)
-exports.styleLoaders = (options) => {
+exports.styleLoaders = options => {
   const output = [];
   const loaders = exports.cssLoaders(options);
-  Object.keys(loaders).forEach((extension) => {
+  Object.keys(loaders).forEach(extension => {
     const loader = loaders[extension];
     output.push({
       test: new RegExp(`\\.${extension}$`),
-      use: loader,
+      use: loader
     });
   });
 
@@ -84,13 +85,16 @@ exports.updateManifest = (content, filepath) => {
 
   const routePrefix = JSON.parse(config.build.env.ROUTER_PREFIX);
   const assetPrefix = config.build.assetsPublicPath;
-  const addRoutePrefix = (route, prefix) => path.normalize(`${route.replace(/^\//, `${prefix}/`)}`);
+  const addRoutePrefix = (route, prefix) =>
+    path.normalize(`${route.replace(/^\//, `${prefix}/`)}`);
   const iconPrefix = icon => addRoutePrefix(icon.src, assetPrefix);
   const json = JSON.parse(content);
 
   json.start_url = addRoutePrefix(json.start_url, routePrefix);
   json.scope = path.normalize(`${routePrefix}/`);
-  json.icons = json.icons.map(icon => Object.assign(icon, { src: iconPrefix(icon) }));
+  json.icons = json.icons.map(icon =>
+    Object.assign(icon, { src: iconPrefix(icon) })
+  );
 
   return Buffer.from(JSON.stringify(json), 'utf-8');
 };

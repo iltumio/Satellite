@@ -12,5 +12,5 @@ export default {
   },
   activeChannel(state: IState, channel: Channel) {
     state.channel = channel;
-  },
+  }
 };

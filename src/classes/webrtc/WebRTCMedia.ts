@@ -1,19 +1,24 @@
-import Peer, { MediaConnection } from "peerjs";
+import Peer, { MediaConnection } from 'peerjs';
 import WebRTC from './WebRTC';
 
-type MediaEvent = "HANGUP" | "INCOMING-CALL" | "ANSWER" | "OUTGOING-CALL" | "STREAM-RECIEVED";
+type MediaEvent =
+  | 'HANGUP'
+  | 'INCOMING-CALL'
+  | 'ANSWER'
+  | 'OUTGOING-CALL'
+  | 'STREAM-RECIEVED';
 
-type CallState = "ACTIVE" | "PENDING" | "CLOSED";
+type CallState = 'ACTIVE' | 'PENDING' | 'CLOSED';
 
 interface Subscriber {
-  method: CallableFunction,
-  events: string[],
+  method: CallableFunction;
+  events: string[];
 }
 
 interface Call {
-  state: CallState,
-  from: string,
-  call: Peer.MediaConnection,
+  state: CallState;
+  from: string;
+  call: Peer.MediaConnection;
 }
 
 export default class WebRTCMedia {
@@ -42,7 +47,7 @@ export default class WebRTCMedia {
    * @argument identifier string identifier, usually an Ethereum address.
    * @returns returns standardized identifier
    */
-  public buildIdentifier(identifier: string) : string {
+  public buildIdentifier(identifier: string): string {
     return identifier.replace('0x', 'WRTCx');
   }
 
@@ -52,7 +57,7 @@ export default class WebRTCMedia {
    * @argument identifier string identifier, usually an Ethereum address.
    * @returns returns reverted non-standard identifier
    */
-  public revertIdentifier(identifier: string) : string {
+  public revertIdentifier(identifier: string): string {
     return identifier.replace('WRTCx', '0x');
   }
 
@@ -64,16 +69,23 @@ export default class WebRTCMedia {
     return this.calls.find(c => c.from === identifier);
   }
 
-  getMediaStream(constraints: MediaStreamConstraints) : Promise<MediaStream>{
+  getMediaStream(constraints: MediaStreamConstraints): Promise<MediaStream> {
+    // ||
+    //   navigator.webkitGetUserMedia ||
+    //   navigator.mozGetUserMedia;
     // @ts-ignore
-    const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    const getUserMedia = navigator.getUserMedia;
     return new Promise(resolve => {
-      getUserMedia(constraints, (stream) => {
-        resolve(stream);
-      }, (err) => {
-        // @ts-ignore
-        console.warn('Failed to get Media Stream.', err);
-      });
+      getUserMedia(
+        constraints,
+        stream => {
+          resolve(stream);
+        },
+        err => {
+          // @ts-ignore
+          console.warn('Failed to get Media Stream.', err);
+        }
+      );
     });
   }
 
@@ -83,21 +95,29 @@ export default class WebRTCMedia {
     this.calls = without;
   }
 
-  public mediaSubscription(events: MediaEvent[], method: CallableFunction) : number {
+  public mediaSubscription(
+    events: MediaEvent[],
+    method: CallableFunction
+  ): number {
     this._mediaSubscriptions.push({
       method,
-      events,
+      events
     });
     return this._mediaSubscriptions.length - 1;
   }
 
-  public mediaUnsubscribe(index: number) : Error | null {
-    if (index > this._mediaSubscriptions.length) return new Error('Index out of bounds');
+  public mediaUnsubscribe(index: number): Error | null {
+    if (index > this._mediaSubscriptions.length)
+      return new Error('Index out of bounds');
     this._mediaSubscriptions.splice(index, 1);
     return null;
   }
 
-  private publishMediaEvent(event: MediaEvent, identifier: string, stream?: MediaStream) {
+  private publishMediaEvent(
+    event: MediaEvent,
+    identifier: string,
+    stream?: MediaStream
+  ) {
     this._mediaSubscriptions.forEach(subscription => {
       if (subscription.events.includes(event)) {
         subscription.method(event, identifier, stream);
@@ -105,7 +125,7 @@ export default class WebRTCMedia {
     });
   }
 
-  public call(identifier: string, mediaStream: MediaStream) : Error | null {
+  public call(identifier: string, mediaStream: MediaStream): Error | null {
     if (!this.peer) return new Error('Not yet initalizied');
     const call = this.peer.call(this.buildIdentifier(identifier), mediaStream);
     call.on('stream', (stream: MediaStream) => {
@@ -114,15 +134,20 @@ export default class WebRTCMedia {
     this.addUpdateCall({
       state: 'PENDING',
       from: this.buildIdentifier(identifier),
-      call,
+      call
     });
     this.publishMediaEvent('OUTGOING-CALL', identifier);
     return null;
   }
 
-  public answer(identifier: string, mediaStream: MediaStream) : Promise<MediaStream> {
-    return new Promise((resolve, reject)=> {
-      const pendingCall = this.calls.find(c => c.from === this.buildIdentifier(identifier));
+  public answer(
+    identifier: string,
+    mediaStream: MediaStream
+  ): Promise<MediaStream> {
+    return new Promise((resolve, reject) => {
+      const pendingCall = this.calls.find(
+        c => c.from === this.buildIdentifier(identifier)
+      );
       if (!pendingCall) {
         reject(new Error('Call not found by ID'));
         return;
@@ -145,7 +170,9 @@ export default class WebRTCMedia {
   }
 
   public hangup(identifier: string) {
-    const call = this.calls.find(c => this.revertIdentifier(c.from) === identifier);
+    const call = this.calls.find(
+      c => this.revertIdentifier(c.from) === identifier
+    );
     if (!call) return new Error('Call not found by ID');
     if (!this.instance) return null;
     const peer = this.instance.find(identifier);
@@ -159,12 +186,12 @@ export default class WebRTCMedia {
     return null;
   }
 
-  protected addPendingCall(identifier: string, call: MediaConnection) : number {
+  protected addPendingCall(identifier: string, call: MediaConnection): number {
     this.publishMediaEvent('INCOMING-CALL', this.revertIdentifier(identifier));
     this.addUpdateCall({
       state: 'PENDING',
       from: this.buildIdentifier(identifier),
-      call,
+      call
     });
     return this.calls.length - 1;
   }

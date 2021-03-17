@@ -35,5 +35,5 @@ export default {
   // Update the application status
   setStatus(state: IState, status: string) {
     state.status = status;
-  },
+  }
 };

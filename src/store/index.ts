@@ -8,13 +8,14 @@ import createState from './createState';
 
 Vue.use(Vuex);
 
-export const createStore = initialState => new Vuex.Store({
-  state: createState(initialState),
-  plugins: [persistedState],
-  // @ts-ignore
-  mutations,
-  actions,
-  getters,
-});
+export const createStore = initialState =>
+  new Vuex.Store({
+    state: createState(initialState),
+    plugins: [persistedState],
+    // @ts-ignore
+    mutations,
+    actions,
+    getters
+  });
 
 export default createStore({});

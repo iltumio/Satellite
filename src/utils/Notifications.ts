@@ -4,9 +4,9 @@ export default {
   },
   newNotification(title: string, subtext: string) {
     const options = {
-      body: subtext,
+      body: subtext
     };
     const noti = new Notification(title, options);
     return noti;
-  },
+  }
 };

@@ -18,7 +18,6 @@ import store from './store/index';
 import Ethereum from './classes/Ethereum';
 import StreamManager from './classes/webrtc/StreamManager';
 
-
 Vue.config.productionTip = false;
 
 Vue.use(VueClipboard);
@@ -27,8 +26,8 @@ Vue.use(VueI18n);
 
 const pluginOptions = {
   globalOptions: {
-    currency: 'USD',
-  },
+    currency: 'USD'
+  }
 };
 
 Vue.use(VueCurrencyInput, pluginOptions);
@@ -54,8 +53,8 @@ const constraints = {
     noiseSuppression: false,
     sampleRate: 96 * 1000,
     sampleSize: 24,
-    volume: 1.0,
-  },
+    volume: 1.0
+  }
 };
 Vue.prototype.$streamManager = new StreamManager(constraints);
 
@@ -69,7 +68,7 @@ const app = new Vue({
   i18n,
   render(h) {
     return h(App);
-  },
+  }
 });
 
 // Extend store with Vue context for actions

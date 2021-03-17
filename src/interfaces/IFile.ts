@@ -1,7 +1,7 @@
 interface IFile {
-    name: string,
-    size: number,
-    type: string,
-};
+  name: string;
+  size: number;
+  type: string;
+}
 
 export default IFile;

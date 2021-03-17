@@ -1,4 +1,4 @@
 module.exports = {
   NODE_ENV: '"production"',
-  ROUTER_PREFIX: '"/"',
+  ROUTER_PREFIX: '"/"'
 };

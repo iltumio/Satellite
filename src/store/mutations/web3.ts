@@ -8,13 +8,13 @@ export const AvailableProviders = {
     id: 'injected',
     logo: null,
     name: 'NOT_PRESENT',
-    type: 'NOT_PRESENT',
+    type: 'NOT_PRESENT'
   },
   SATELLITE: {
     logo: satelliteLogo,
     name: 'Satellite',
-    type: 'satellite',
-  },
+    type: 'satellite'
+  }
 };
 
 export default {
@@ -25,8 +25,9 @@ export default {
     state.injectedProvider = null;
   },
   setInjectedProvider(state: IState, injectedProvider: any) {
-    state.availableProviders =
-      state.availableProviders.filter(availableProvider => availableProvider.type !== 'injected');
+    state.availableProviders = state.availableProviders.filter(
+      availableProvider => availableProvider.type !== 'injected'
+    );
 
     if (injectedProvider) {
       state.injectedProvider = injectedProvider;
@@ -46,5 +47,5 @@ export default {
   },
   setMnemonic(state: IState, mnemonic: string) {
     state.mnemonic = mnemonic;
-  },
+  }
 };

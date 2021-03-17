@@ -1,6 +1,6 @@
 interface JsonKeyPair {
-  public: JsonWebKey,
-  private: JsonWebKey,
+  public: JsonWebKey;
+  private: JsonWebKey;
 }
 
 export default class Crypto {
@@ -23,8 +23,12 @@ export default class Crypto {
    * @name keygen
    * @returns promise newley generated or existing JsonKeyPair
    */
-  async keygen(override: boolean = false) : Promise<JsonKeyPair> {
-    if (!localStorage.getItem('publicKey') || !localStorage.getItem('privateKey') || override) {
+  async keygen(override: boolean = false): Promise<JsonKeyPair> {
+    if (
+      !localStorage.getItem('publicKey') ||
+      !localStorage.getItem('privateKey') ||
+      override
+    ) {
       const key = await this.getKeyPair();
       const publicKey = await this.pubKey(key);
       const privateKey = await this.privKey(key);
@@ -32,12 +36,8 @@ export default class Crypto {
       localStorage.setItem('privateKey', JSON.stringify(privateKey));
     }
     return {
-      public: JSON.parse(
-        localStorage.getItem('publicKey') || '',
-      ),
-      private: JSON.parse(
-        localStorage.getItem('privateKey') || '',
-      ),
+      public: JSON.parse(localStorage.getItem('publicKey') || ''),
+      private: JSON.parse(localStorage.getItem('privateKey') || '')
     };
   }
 
@@ -46,14 +46,14 @@ export default class Crypto {
    * @name getKeyPair
    * @returns promise newley generated CryptoKeyPair
    */
-  async getKeyPair() : Promise<CryptoKeyPair> {
+  async getKeyPair(): Promise<CryptoKeyPair> {
     const keyPair = await window.crypto.subtle.generateKey(
       {
-        name: "ECDH",
-        namedCurve: "P-256",
+        name: 'ECDH',
+        namedCurve: 'P-256'
       },
       true,
-      ["deriveKey", "deriveBits"],
+      ['deriveKey', 'deriveBits']
     );
     return keyPair;
   }
@@ -64,11 +64,8 @@ export default class Crypto {
    * @argument key the key to export
    * @returns promise which resolves the JsonWebKey
    */
-  async export(key: CryptoKey) : Promise<JsonWebKey> {
-    const k = await window.crypto.subtle.exportKey(
-      "jwk",
-      key,
-    );
+  async export(key: CryptoKey): Promise<JsonWebKey> {
+    const k = await window.crypto.subtle.exportKey('jwk', key);
     return k;
   }
 
@@ -78,18 +75,18 @@ export default class Crypto {
    * @argument keyPair the keypair to fetch the public key from
    * @returns promise which resolves the stored public key
    */
-  async pubKey(keyPair: CryptoKeyPair) : Promise<JsonWebKey> {
+  async pubKey(keyPair: CryptoKeyPair): Promise<JsonWebKey> {
     const k = await this.export(keyPair.publicKey);
     return k;
   }
 
-  async importPubKey(key: JsonWebKey) : Promise<CryptoKey> {
+  async importPubKey(key: JsonWebKey): Promise<CryptoKey> {
     const publicKey = await window.crypto.subtle.importKey(
-      "jwk",
+      'jwk',
       key,
       {
-        name: "ECDH",
-        namedCurve: "P-256",
+        name: 'ECDH',
+        namedCurve: 'P-256'
       },
       true,
       []
@@ -103,21 +100,21 @@ export default class Crypto {
    * @argument keyPair the keypair to fetch the private key from
    * @returns promise which resolves the stored private key
    */
-  async privKey(keyPair: CryptoKeyPair) : Promise<JsonWebKey> {
+  async privKey(keyPair: CryptoKeyPair): Promise<JsonWebKey> {
     const k = await this.export(keyPair.privateKey);
     return k;
   }
 
-  async importPrivKey(key: JsonWebKey) : Promise<CryptoKey> {
+  async importPrivKey(key: JsonWebKey): Promise<CryptoKey> {
     const privateKey = await window.crypto.subtle.importKey(
-      "jwk",
+      'jwk',
       key,
       {
-        name: "ECDH",
-        namedCurve: "P-256",
+        name: 'ECDH',
+        namedCurve: 'P-256'
       },
       true,
-      ["deriveKey", "deriveBits"]
+      ['deriveKey', 'deriveBits']
     );
     return privateKey;
   }
@@ -129,21 +126,27 @@ export default class Crypto {
    * @argument privateKey our local private key
    * @returns promise which resolves the new symmetric crypto key
    */
-  async derive(guestPublicKey: CryptoKey, privateKey: CryptoKey) : Promise<CryptoKey> {
+  async derive(
+    guestPublicKey: CryptoKey,
+    privateKey: CryptoKey
+  ): Promise<CryptoKey> {
     const d = await window.crypto.subtle.deriveKey(
-      { name: "ECDH", public: guestPublicKey },
+      { name: 'ECDH', public: guestPublicKey },
       privateKey,
-      { name: "AES-GCM", length: 256 },
+      { name: 'AES-GCM', length: 256 },
       true,
-      ["encrypt", "decrypt"]
+      ['encrypt', 'decrypt']
     );
     return d;
   }
 
-  async encrypt(data: string, derivedKey: CryptoKey) : Promise<string> {
+  async encrypt(data: string, derivedKey: CryptoKey): Promise<string> {
     const encodedText = new TextEncoder().encode(data);
     const encryptedData = await window.crypto.subtle.encrypt(
-      { name: "AES-GCM", iv: new TextEncoder().encode("Initialization Vector") },
+      {
+        name: 'AES-GCM',
+        iv: new TextEncoder().encode('Initialization Vector')
+      },
       derivedKey,
       encodedText
     );
@@ -154,15 +157,15 @@ export default class Crypto {
     return base64Data;
   }
 
-  async decrypt(data: string, derivedKey: CryptoKey) : Promise<string> {
+  async decrypt(data: string, derivedKey: CryptoKey): Promise<string> {
     const string = atob(data);
     const uintArray = new Uint8Array(
       // @ts-ignore
-      [...string].map((char) => char.charCodeAt(0))
+      [...string].map(char => char.charCodeAt(0))
     );
     const algorithm = {
-      name: "AES-GCM",
-      iv: new TextEncoder().encode("Initialization Vector"),
+      name: 'AES-GCM',
+      iv: new TextEncoder().encode('Initialization Vector')
     };
     const decryptedData = await window.crypto.subtle.decrypt(
       algorithm,

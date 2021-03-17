@@ -12,17 +12,17 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: ChatComponent,
+      component: ChatComponent
     },
     {
       path: '*',
       component: {
         render(h) {
           return h('h1', 'Page not found!');
-        },
-      },
-    },
-  ],
+        }
+      }
+    }
+  ]
 });
 
 export default router;

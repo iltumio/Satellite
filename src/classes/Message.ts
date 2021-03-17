@@ -18,7 +18,13 @@ export default class Message {
    * @argument type string type of the message
    * @argument data payload recived from the message
    */
-  constructor(to: string, sender: string, at: number, type: string, payload: Payload) {
+  constructor(
+    to: string,
+    sender: string,
+    at: number,
+    type: string,
+    payload: Payload
+  ) {
     this.id = uuidv4();
     this.sender = sender;
     this.to = to;
