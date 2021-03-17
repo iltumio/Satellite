@@ -22,7 +22,8 @@ export default {
         string === 'image/jpeg' ||
         string === 'img/png' ||
         string === 'img/jpg' ||
-        string === 'image/jpg';
+        string === 'image/jpg' ||
+        string === 'img/webp';
     },
     /** @method
      * Converts the bytes to a readable string

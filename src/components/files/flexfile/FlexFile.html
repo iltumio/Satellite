@@ -1,6 +1,6 @@
 <span class="file-internal-wrapper">
-  <img :src="file.remote" alt="" v-if="isImage(file.file.type)" />
-  <img src="/static/img/transparent.png" v-else alt="">
+  <img :src="file.remote" alt="" v-if="isImage(file.file.type)" loading="lazy" />
+  <img src="/static/img/transparent.png" v-else alt="" loading="lazy" >
   <span class="file-info" v-if="!isImage(file.file.type)">
     <i :class="`${translateFiletype(file.file.type)} icon`"></i>
     <br>

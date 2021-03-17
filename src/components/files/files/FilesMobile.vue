@@ -3,6 +3,11 @@
     <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
     <h3>{{$t('files.heading')}}</h3>   
     <FileUploadInline :relayResult="updateCache" :uploadDone="fetchRecentFiles" />
+    <h2 class="label">Usage ({{bytesToSize(fileSizeTotal)}} / 4GB)</h2>
+    <progress
+      class="progress is-info"
+      :value="bytesPercentageUsed(fileSizeTotal)"
+      max="100">{{bytesToSize(fileSizeTotal)}} / 4GB</progress>
     <h2 class="label">{{$t('files.history')}}</h2>
     <div v-if="!loading" class="files-container">
       <ul>
@@ -76,10 +81,15 @@ export default {
       contextCoordsY: 0,
       activeFile: null,
       managedFile: false,
+      fileSizeTotal: 0,
       removing: false,
     };
   },
   methods: {
+    bytesPercentageUsed(used) {
+      const total = 4294965097;
+      return (used / total) * 100 * 10;
+    },
     /** @method
      * Converts the bytes to a readable string
      * @name bytesToSize
@@ -170,12 +180,21 @@ export default {
   },
   async mounted() {
     await this.fetchRecentFiles();
+    let fileSizeTotal = 0;
+    console.log('files', this.files);
+    this.$store.state.files.map(file => {
+      fileSizeTotal += file.file.size;
+    });
+    this.fileSizeTotal = fileSizeTotal;
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .progress {
+    border-radius: 0;
+  }
   .f-preview {
     max-height: 400px;
   }
