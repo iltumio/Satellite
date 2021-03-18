@@ -5,6 +5,7 @@ import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
 
 export default {
   name: 'Wallet',
+  props: ['toggleSettings'],
   components: {
     MobileNav,
   },

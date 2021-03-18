@@ -7,10 +7,14 @@ export default {
   methods: {
     setMainRoute(route) {
       this.$store.commit('changeRoute', route);
+      this.$store.commit('setMobileSidebar', false);
     },
     activeRequestCount(requests) {
       const activeRequests = requests.filter(fr => fr.active);
       return activeRequests.length;
+    },
+    openSidebar() {
+      this.$store.commit('setMobileSidebar', true);
     },
   },
 };
