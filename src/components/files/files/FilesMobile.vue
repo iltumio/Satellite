@@ -1,77 +1,83 @@
 <template>
   <div id="files" class="noselect">
-    <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
-    <h3>{{$t('files.heading')}}</h3>   
-    <FileUploadInline :relayResult="updateCache" :uploadDone="fetchRecentFiles" />
-    <h2 class="label">Usage ({{bytesToSize(fileSizeTotal)}} / 4GB)</h2>
-    <progress
-      class="progress is-info"
-      :value="bytesPercentageUsed(fileSizeTotal)"
-      max="100">{{bytesToSize(fileSizeTotal)}} / 4GB</progress>
-    <h2 class="label">{{$t('files.history')}}</h2>
-    <div v-if="!loading" class="files-container">
-      <ul>
-        <li v-for="(file, index) in $store.state.files" v-bind:key="file.path" v-on:click="manageFile(file)">
-          <FlexFile :file="file" updateParent="updateParent" :index="index" />
-        </li>
-      </ul>
-      <!--
-      <div v-for="(file, index) in $store.state.files" v-bind:key="file.path">
-        <p @contextmenu="fileContext">
-          <FlexFile :file="file" :updateParent="updateParent" :index="index" />
-        </p>
+    <div class="files-mobile-wrapper">
+      <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
+      <h3>{{$t('files.heading')}}</h3>   
+      <FileUploadInline :relayResult="updateCache" :uploadDone="fetchRecentFiles" />
+      <h2 class="label">Usage ({{bytesToSize(fileSizeTotal)}} / 4GB)</h2>
+      <progress
+        class="progress is-info"
+        :value="bytesPercentageUsed(fileSizeTotal)"
+        max="100">{{bytesToSize(fileSizeTotal)}} / 4GB</progress>
+      <h2 class="label">{{$t('files.history')}}</h2>
+      <div v-if="!loading" class="files-container">
+        <ul>
+          <li v-for="(file, index) in $store.state.files" v-bind:key="file.path" v-on:click="manageFile(file)">
+            <FlexFile :file="file" updateParent="updateParent" :index="index" />
+          </li>
+        </ul>
+        <!--
+        <div v-for="(file, index) in $store.state.files" v-bind:key="file.path">
+          <p @contextmenu="fileContext">
+            <FlexFile :file="file" :updateParent="updateParent" :index="index" />
+          </p>
+        </div>
+        -->
       </div>
-      -->
-    </div>
-    <div v-else>
-        <div class="bar-small"></div>
-        <div class="bar-large"></div>
-    </div>
-    <br>
-    <div style="clear:both"></div>
-    
-    <br>
-    <div class="mask" v-if="managedFile" v-on:click="managedFile = false">
-      <img :src="managedFile.remote" alt="" class="f-preview"/>
+      <div v-else>
+          <div class="bar-small"></div>
+          <div class="bar-large"></div>
+      </div>
       <br>
-      <span class="name">
-          <span class="fname">{{managedFile.file.name}}</span>
-          <span class="heading">{{bytesToSize(managedFile.file.size)}} {{managedFile.file.type}}</span>
-      </span>
+      <div style="clear:both"></div>
+      
+      <br>
+      <div class="mask" v-if="managedFile" v-on:click="managedFile = false">
+        <img :src="managedFile.remote" alt="" class="f-preview"/>
+        <br>
+        <span class="name">
+            <span class="fname">{{managedFile.file.name}}</span>
+            <span class="heading">{{bytesToSize(managedFile.file.size)}} {{managedFile.file.type}}</span>
+        </span>
+      </div>
+      <div class="file-actions" v-if="managedFile">
+        <button
+          v-clipboard:copy="managedFile.remote"
+          v-clipboard:success="copySuccess"
+          class="is-button button is-primary full-button">
+          <i class="fas fa-link"></i> &nbsp; Copy Link
+        </button>
+        <button 
+          class="is-button button is-primary full-button"
+          v-on:click="openFile">
+          <i class="fas fa-external-link"></i> &nbsp; Open File
+        </button>
+        <button 
+          class="is-button button is-danger full-button"
+          v-on:click="deleteFile">
+          <span v-if="!removing"><i class="fas fa-trash"></i> &nbsp; Remove File</span>
+          <span v-else><i class="fas fa-spinner-third fa-spin"></i> &nbsp; Removing File</span>
+        </button>
+      </div>
     </div>
-    <div class="file-actions" v-if="managedFile">
-      <button
-        v-clipboard:copy="managedFile.remote"
-        v-clipboard:success="copySuccess"
-        class="is-button button is-primary full-button">
-        <i class="fas fa-link"></i> &nbsp; Copy Link
-      </button>
-      <button 
-        class="is-button button is-primary full-button"
-        v-on:click="openFile">
-        <i class="fas fa-external-link"></i> &nbsp; Open File
-      </button>
-      <button 
-        class="is-button button is-danger full-button"
-        v-on:click="deleteFile">
-        <span v-if="!removing"><i class="fas fa-trash"></i> &nbsp; Remove File</span>
-        <span v-else><i class="fas fa-spinner-third fa-spin"></i> &nbsp; Removing File</span>
-      </button>
-    </div>
+    <MobileNav :toggleSettings="toggleSettings" />
   </div>
 </template>
 
 <script>
+import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
 import FileContext from '@/components/common/context/FileContext';
 import FileUploadInline from '@/components/common/fileuploadinline/FileUploadInline';
 import FlexFile from '../flexfile/FlexFile.vue';
 
 export default {
   name: 'Files',
+  props: ['toggleSettings'],
   components: {
     FileUploadInline,
     FlexFile,
     FileContext,
+    MobileNav,
   },
   data() {
     return {
@@ -191,6 +197,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .files-mobile-wrapper {
+    height: calc(100% - 7.2rem);
+    overflow: scroll;
+  }
   .progress {
     border-radius: 0;
   }

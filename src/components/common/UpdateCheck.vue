@@ -1,5 +1,5 @@
 <template>
-  <div class="updater green" v-on:click="doUpdate">
+  <div class="updater green" v-on:click="doUpdate" v-if="updateNeeded">
     <i :class="`fas ${updating ? 'fa-spinner-third fa-spin' : 'fa-sync'}`"></i><br>
     <span class="update-text">Update</span>
   </div>
@@ -57,7 +57,6 @@ export default {
   text-align: center;
   width: 45px;
   float: right;
-  margin-top: 1.4rem;
   line-height: 0.8;
 
   .fas {
@@ -65,6 +64,11 @@ export default {
   }
   .update-text {
     font-size: 7pt;
+  }
+}
+@media (max-width: 768px) {
+  .updater {
+    margin-top: 1.4rem;
   }
 }
 </style>

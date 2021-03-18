@@ -13,6 +13,15 @@ import LoadingConvorsation from '@/components/main/conversation/conversation/Loa
 import UserInfo from '@/components/main/conversation/userinfo/UserInfo';
 import Crypto from '@/classes/crypto/Crypto.ts';
 
+import { Howl } from 'howler';
+
+const newMessage = new Howl({
+  src: [`${config.ipfs.browser}${config.sounds.newMessage}`],
+  loop: false,
+  volume: 0.8,
+  html5: true,
+});
+
 export default {
   name: 'Main',
   components: {
@@ -85,6 +94,7 @@ export default {
                 // add a new chat group for them.
                 this.$store.commit('markUnread', update.instance.sender);
                 this.$store.commit('newChat', update.instance.sender);
+                newMessage.play();
               }
               if (key) {
                 const decrypted = await this.$database.messageManager.decryptMessage(update.instance, key);

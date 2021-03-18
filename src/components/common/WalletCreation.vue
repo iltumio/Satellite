@@ -6,7 +6,7 @@
           {{ $t(`web3.wallet_creation.step.${step}.heading`) }}
         </h1>
 
-        <!-- <img src="/static/img/big_img/account.png" alt="" class="account-img" /> -->
+        <img src="/static/img/big_img/account.png" alt="" class="account-img" />
 
         <b>
           {{ $t(`web3.wallet_creation.step.${step}.subtext`) }}
@@ -16,15 +16,15 @@
       <div class="buttons-container">
         <button
           class="button is-primary centered create-wallet-btn"
-          v-on:click="goToStep('import')"
+          v-on:click="createWallet()"
         >
-          {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
+          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
         </button>
         <button
           class="button is-primary centered create-wallet-btn"
-          v-on:click="goToStep('generate')"
+          v-on:click="goToStep('import')"
         >
-          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
+          {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
         </button>
       </div>
     </section>
@@ -123,11 +123,8 @@
       </div>
 
       <div class="buttons-container">
-        <button class="button is-primary" v-on:click="goToStep('generate')">
-          {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
-        </button>
 
-        <button class="button is-primary" v-on:click="goToStep('seedcheck')">
+        <button class="button is-primary big-btn" v-on:click="goToStep('seedcheck')">
           {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
         </button>
       </div>
@@ -160,13 +157,13 @@
       </div>
 
       <div class="buttons-container">
-        <button class="button is-primary" v-on:click="goToStep('showseed')">
+        <button class="button is-primary big-btn-higher" v-on:click="goToStep('showseed')">
           {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
         </button>
 
         <button
           :disabled="!checkWords()"
-          class="button is-primary"
+          class="button is-primary big-btn"
           v-on:click="walletCreated()"
         >
           {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
@@ -260,6 +257,16 @@ export default {
 </script>
 
 <style scoped lang="less">
+.big-btn {
+  height: 50px;
+  position: absolute;
+  bottom: 2rem;
+}
+.big-btn-higher {
+  height: 50px;
+  position: absolute;
+  bottom: calc(3rem + 50px);
+}
 .account-img {
   display: none;
 }

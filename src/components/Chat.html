@@ -87,6 +87,7 @@
             !isMobile()" 
             />
           <FilesMobile
+            :toggleSettings="toggleSettings"
             v-if="$store.state.mainRoute == 'files' &&
             isMobile()" 
             />

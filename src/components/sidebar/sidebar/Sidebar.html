@@ -9,7 +9,7 @@
   </h1>
   <div class="control user-search">
     <input :class="`input is-small hide-mobile ${requiresUpdate ? 'update-input' : ''}`" type="text" :placeholder="$t('sidebar.find')">
-    <UpdateCheck :update="requiresUpdate = true" />
+    <UpdateCheck :update="() => requiresUpdate = true" />
   </div>
   
   <ServerSlider v-if="isMobile()" :toggleCreateServer="toggleCreateServer" :servers="servers" />
