@@ -7,6 +7,7 @@ import ScreenCapture from '@/components/media/ScreenCapture';
 import Sidebar from '@/components/sidebar/sidebar/Sidebar';
 import Main from '@/components/main/main/Main';
 import Error from '@/components/main/popups/error/Error';
+import Wallet from '@/components/wallet/Wallet';
 import Files from '@/components/files/files/Files';
 import FilesMobile from '@/components/files/files/FilesMobile';
 import Friends from '@/components/friends/friends/Friends';
@@ -38,6 +39,7 @@ export default {
     Sidebar,
     Main,
     Error,
+    Wallet,
     Files,
     FilesMobile,
     Friends,

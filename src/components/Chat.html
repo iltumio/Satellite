@@ -79,6 +79,9 @@
         <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
           <Server v-if="$store.state.mainRoute == 'server'" />
+          <Wallet 
+            :toggleSettings="toggleSettings"
+            v-if="$store.state.mainRoute === 'wallet'" />
           <Files
             v-if="$store.state.mainRoute == 'files' &&
             !isMobile()" 
@@ -95,6 +98,7 @@
             "
           />
           <MobileFriends
+            :toggleSettings="toggleSettings"
             v-if="
               $store.state.mainRoute == 'friends' &&
               $store.state.web3connected &&

@@ -1,8 +1,8 @@
+import { ethers } from 'ethers';
+import { getInjectedProvider } from 'web3modal';
 import Registry from '../../classes/contracts/Registry';
 import DwellerID from '../../classes/contracts/DwellerContract';
 import config from '../../config/config';
-import { ethers } from 'ethers';
-import { getInjectedProvider } from 'web3modal';
 
 export default {
   // Checks if a provider has already been selected and connects to it
@@ -14,7 +14,7 @@ export default {
         const wallet = ethers.Wallet.fromMnemonic(state.mnemonic);
         dispatch('connectProvider', {
           providerInfo: state.selectedProvider,
-          wallet
+          wallet,
         });
       }
     }
@@ -57,11 +57,9 @@ export default {
 
     const registry = new Registry(
       ethereum,
-      config.registry[config.network.chain]
+      config.registry[config.network.chain],
     );
-    const dwellerContract = await registry.getDwellerContract(
-      ethereum.activeAccount
-    );
+    const dwellerContract = await registry.getDwellerContract(ethereum.activeAccount);
 
     // Update the state with the dweller address fetched from the blockchain
     commit('dwellerAddress', dwellerContract);
@@ -92,7 +90,7 @@ export default {
     // Update the state with the retrieved stats
     commit('web3Stats', {
       blockNumber,
-      nettype
+      nettype,
     });
-  }
+  },
 };

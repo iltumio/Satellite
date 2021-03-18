@@ -61,14 +61,21 @@ export default {
       });
     },
     async subscribeToThreads() {
+      // Iterate over all friends
+      // TODO: In the future we may want to do this in a more repsonsible way.
       this.$store.state.friends.forEach(async (friend) => {
+        // Generate our IDs
         const id = this.$database.threadManager
           .makeIdentifier(this.$store.state.activeAccount, friend.address);
         const existingThread = this.$database.threadManager
           .fetchThread(id);
+        // If an existing thread is found stored, we'll subscribe to it.
+        // In the future we should get this thread from the users contract.
         if (existingThread) {
           if (!this.subscribed[friend.address]) {
+            // Open the thread
             const threadID = await this.$database.threadManager.threadAt(id);
+            // Subscribe to thread events.
             const closer = await this.$database.messageManager.subscribe(threadID, async (update) => {
               const key = await this.crypto.getKey(this.$store.state.activeChat);
               // If we're recieving messages from a peer and they are not connected, try to connect.
@@ -192,17 +199,25 @@ export default {
     let lastChat = this.$store.state.activeChat;
     this.fetchMessages(lastChat);
     this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'connectMediaStream') {
-        // Connect to new peer.
-        if (state.activeMediaStreamPeer) {
-          this.voice = true;
-        }
-      } else if (mutation.type === 'activeChat') {
-        if (lastChat !== mutation.payload) {
-          lastChat = mutation.payload;
-          this.$store.commit('loadingMessages');
-          this.fetchMessages(mutation.payload);
-        }
+      switch(mutation.type) {
+        case 'addFriend':
+          this.subscribeToThreads();
+          break;
+        case 'connectMediaStream':
+          // Connect to new peer.
+          if (state.activeMediaStreamPeer) {
+            this.voice = true;
+          }
+          break;
+        case 'activeChat':
+          if (lastChat !== mutation.payload) {
+            lastChat = mutation.payload;
+            this.$store.commit('loadingMessages');
+            this.fetchMessages(mutation.payload);
+          }
+          break;
+        default:
+          break;
       }
     });
     const WebRTC = this.$WebRTC;

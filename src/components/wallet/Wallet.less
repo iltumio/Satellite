@@ -1,0 +1,45 @@
+.wallet-header {
+  height: 12rem;
+  text-align: center;
+  background: linear-gradient(45deg, #00d2ff 0%, #3a47d5 100%);
+  padding-top: 3rem;
+  margin: 1.5rem;
+  border-radius: 9px;
+
+  .wallet-balance {
+    font-size: 39px;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+  }
+  .wallet-balance-subhead {
+    color: #fff;
+    font-family: 'Space Mono';
+    text-transform: uppercase;
+  }
+}
+.wallet-separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  color: #676c99;
+}
+.ea-warning {
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+.wallet-separator::before,
+.wallet-separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #34364d;
+}
+
+.wallet-separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.wallet-separator:not(:empty)::after {
+  margin-left: .25em;
+}
