@@ -1,10 +1,7 @@
 import { ethers } from 'ethers';
+import Ethereum from '../../classes/Ethereum';
 // @ts-ignore
 import * as Vault74RegistryInterface from '@/contracts/build/contracts/Vault74Registry.json';
-// @ts-ignore
-import Ethereum from '@/classes/Ethereum';
-
-
 export default class Vault74Registry {
   ethereum: any;
   contract: ethers.Contract;
@@ -30,14 +27,23 @@ export default class Vault74Registry {
    * @argument tx callback executed on first transaction
    * @argument done callback executed on first confirmation
    */
-  createDwellerId(_username: string, account: string, tx: CallableFunction, done: CallableFunction) {
+  createDwellerId(
+    _username: string,
+    account: string,
+    tx: CallableFunction,
+    done: CallableFunction
+  ) {
     const username = ethers.utils.formatBytes32String(_username);
-    this.contract.createDweller(username).then((transaction) => {
-      tx(transaction);
-      return transaction.wait();
-    }).then((confirmation) => {
-      done(confirmation);
-    }).catch(console.log);
+    this.contract
+      .createDweller(username)
+      .then(transaction => {
+        tx(transaction);
+        return transaction.wait();
+      })
+      .then(confirmation => {
+        done(confirmation);
+      })
+      .catch(console.log);
   }
 
   /** @function
@@ -49,12 +55,15 @@ export default class Vault74Registry {
    */
   createServer(_name: string, tx: CallableFunction, done: CallableFunction) {
     const name = ethers.utils.formatBytes32String(_name);
-    this.contract.createServer(name).then((transaction) => {
-      tx(transaction);
-      return transaction.wait();
-    }).then((confirmation) => {
-      done(confirmation);
-    });
+    this.contract
+      .createServer(name)
+      .then(transaction => {
+        tx(transaction);
+        return transaction.wait();
+      })
+      .then(confirmation => {
+        done(confirmation);
+      });
   }
 
   /** @function
