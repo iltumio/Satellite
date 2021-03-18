@@ -79,6 +79,7 @@
         <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
           <Server v-if="$store.state.mainRoute == 'server'" />
+          <Wallet v-if="$store.state.mainRoute === 'wallet'" />
           <Files
             v-if="$store.state.mainRoute == 'files' &&
             !isMobile()" 

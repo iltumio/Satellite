@@ -199,20 +199,25 @@ export default {
     let lastChat = this.$store.state.activeChat;
     this.fetchMessages(lastChat);
     this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'addFriend') {
-        this.subscribeToThreads();
-      }
-      if (mutation.type === 'connectMediaStream') {
-        // Connect to new peer.
-        if (state.activeMediaStreamPeer) {
-          this.voice = true;
-        }
-      } else if (mutation.type === 'activeChat') {
-        if (lastChat !== mutation.payload) {
-          lastChat = mutation.payload;
-          this.$store.commit('loadingMessages');
-          this.fetchMessages(mutation.payload);
-        }
+      switch(mutation.type) {
+        case 'addFriend':
+          this.subscribeToThreads();
+          break;
+        case 'connectMediaStream':
+          // Connect to new peer.
+          if (state.activeMediaStreamPeer) {
+            this.voice = true;
+          }
+          break;
+        case 'activeChat':
+          if (lastChat !== mutation.payload) {
+            lastChat = mutation.payload;
+            this.$store.commit('loadingMessages');
+            this.fetchMessages(mutation.payload);
+          }
+          break;
+        default:
+          break;
       }
     });
     const WebRTC = this.$WebRTC;
