@@ -187,6 +187,14 @@ export default {
         }
       }
     },
+    swipeHandler(direction) {
+      if(direction === "right"){
+        this.$store.commit('setMobileSidebar', true);
+      };
+      if(direction === "left"){
+        this.$store.commit('toggleUserInfo');
+      };
+    },
   },
   mounted() {
     let lastChat = this.$store.state.activeChat;

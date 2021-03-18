@@ -1,4 +1,4 @@
-<section class="bordered main-section">
+<section class="bordered main-section" v-touch:swipe="swipeHandler">
   <div v-if="$store.state.activeChat">
     <InfoBar
       :toggleMedia="toggleMedia"
