@@ -9,6 +9,7 @@ import Controls from '@/components/sidebar/controls/Controls';
 import Package from '../../../../package.json';
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
 import ServerSlider from '@/components/sidebar/serverslider/ServerSlider';
+import UpdateCheck from '@/components/common/UpdateCheck';
 
 // import Registry from '@/classes/contracts/Registry.ts';
 // import DwellerContract from '@/classes/contracts/DwellerContract.ts';
@@ -27,12 +28,14 @@ export default {
     ServerSidebar,
     MobileNav,
     ServerSlider,
+    UpdateCheck,
   },
   data() {
     return {
       route: 'chats',
       showQuickFriends: false,
       version: Package.version,
+      requiresUpdate: false,
     };
   },
   mounted() {
