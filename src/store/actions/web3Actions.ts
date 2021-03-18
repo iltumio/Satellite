@@ -1,5 +1,5 @@
-import Registry from '@/classes/contracts/Registry.ts';
-import DwellerID from '@/classes/contracts/DwellerContract.ts';
+import Registry from '@/classes/contracts/Registry';
+import DwellerID from '@/classes/contracts/DwellerContract';
 // @ts-ignore
 import config from '@/config/config';
 import { ethers } from 'ethers';
