@@ -1,4 +1,4 @@
-<section class="section main-section noselect">
+<section class="section main-section noselect" v-touch:swipe="swipeHandler">
   <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
   <h1 id="logo" v-if="!isMobile()">
     Satellite

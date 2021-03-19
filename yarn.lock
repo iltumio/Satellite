@@ -15742,6 +15742,11 @@ vue-virtual-scroller@^1.0.0-rc.2:
     vue-observe-visibility "^0.4.4"
     vue-resize "^0.4.5"
 
+vue2-touch-events@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/vue2-touch-events/-/vue2-touch-events-3.2.1.tgz#12caf2f4f943d3ae762d83593efc279af1ee42a4"
+  integrity sha512-6aQz9tofO1yLSudW7ltISC5lTFKEu0rcBuYNLrega1AApYUosPuRZ8iinzJQ4k5nUncDIVB2JPcz9qJDoSyQVw==
+
 vue@^2.5.16, vue@^2.6.11:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
