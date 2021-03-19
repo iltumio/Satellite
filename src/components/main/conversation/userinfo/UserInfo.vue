@@ -85,10 +85,7 @@ export default {
     },
     swipeHandler(direction) {
       if(direction === "right"){
-        //this.$store.commit('setMobileSidebar', true);
         this.$store.commit('toggleUserInfo');
-        console.log("Off to the chat we go");
-
       };
     },
   },
