@@ -1,5 +1,5 @@
 <template>
-  <div class="columns">
+  <div class="columns" v-touch:swipe="swipeHandler">
     <div class="nav-settings">
       <a href="#" @click.prevent="isShowSidebar = true">
         <i class="fas fa-bars"></i>
@@ -133,6 +133,14 @@ export default {
     setRoute(route) {
       this.route = route;
       this.isShowSidebar = false;
+    },
+    swipeHandler(direction) {
+      if(direction === "left"){
+        this.isShowSidebar = false;
+      };
+      if(direction === "right"){
+        this.isShowSidebar = true;
+      };
     },
   },
 };
