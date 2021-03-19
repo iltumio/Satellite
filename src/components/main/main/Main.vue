@@ -188,10 +188,20 @@ export default {
       }
     },
     swipeHandler(direction) {
-      if(direction === "right"){
-        this.$store.commit('setMobileSidebar', true);
+      if(direction === "right"){ //toggle for mobileSidebar
+        if(!localStorage.hasOwnProperty("userSwiped")){ 
+          this.$store.commit('setMobileSidebar', true);
+        } 
+        else if(localStorage.hasOwnProperty("userSwiped") && localStorage.getItem("userSwiped") === "true"){
+          //Logic to avoid users going from userInfo all the way to MobileSidebar in one swipe
+          localStorage.setItem("userSwiped", false);
+        }
+        else{
+          this.$store.commit('setMobileSidebar', true);       
+        }
       };
-      if(direction === "left"){
+      if(direction === "left"){ //toggle for userInfo
+        localStorage.setItem('userSwiped', true);
         this.$store.commit('toggleUserInfo');
       };
     },

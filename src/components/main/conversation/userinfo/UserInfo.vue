@@ -1,5 +1,5 @@
 <template>
-  <div id="user-info">
+  <div id="user-info"  v-touch:swipe="swipeHandler" v-touch-options="{touchHoldTolerance: 50}">
     <i class="fa fa-times close-btn" v-on:click="$store.commit('toggleUserInfo')"></i>
     <div class="heading">
       <span class="label">{{$t('conversation.userinfo.heading')}}</span>
@@ -82,6 +82,14 @@ export default {
      */
     etherscan(address) {
       window.open(`${getExplorerByNetwork(config.network.chain)}/address/${address}`);
+    },
+    swipeHandler(direction) {
+      if(direction === "right"){
+        //this.$store.commit('setMobileSidebar', true);
+        this.$store.commit('toggleUserInfo');
+        console.log("Off to the chat we go");
+
+      };
     },
   },
 };
