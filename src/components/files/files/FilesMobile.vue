@@ -199,7 +199,8 @@ export default {
 <style scoped>
   .files-mobile-wrapper {
     height: calc(100% - 7.2rem);
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
   .progress {
     border-radius: 0;

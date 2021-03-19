@@ -46,6 +46,7 @@ export default {
         const crypto = new Crypto();
         // TODO: Move this to polling
         const addresses = this.$store.state.friends.map(f => f.address);
+        console.log('addresses', addresses);
         this.$WebRTC.updateRegistry(addresses);
 
         // TODO: update this when active chats updates.
