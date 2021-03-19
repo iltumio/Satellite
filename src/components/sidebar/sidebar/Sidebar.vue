@@ -73,9 +73,11 @@ export default {
       return check;
     },
     swipeHandler(direction) {
-        if(direction === "left"){
+      if (this.isMobile()){
+        if (direction === "left"){
           this.$store.commit('setMobileSidebar', false);
         };
+      };
     },
   },
 };
