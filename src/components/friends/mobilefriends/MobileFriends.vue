@@ -5,6 +5,8 @@
   List all friends a user has. Allows for searching and chatting
 -->
 <script>
+import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
+
 import WalletAddressMini from '@/components/common/WalletAddressMini';
 import QRDisplay from '@/components/common/QRDisplay';
 import QRScan from '@/components/common/QRScan';
@@ -23,6 +25,7 @@ import Friend from '@/components/friends/friend/Friend';
 
 export default {
   name: 'MobileFriends',
+  props: ['toggleSettings'],
   components: {
     CircleIcon,
     Friend,
@@ -30,6 +33,7 @@ export default {
     WalletAddressMini,
     QRDisplay,
     QRScan,
+    MobileNav,
   },
   data() {
     return {

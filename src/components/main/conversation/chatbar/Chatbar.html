@@ -15,7 +15,7 @@
         :toggle="togglePayments" />
       <p id="typing"
         class="loading"
-        v-if="$store.state.typingUsers[$store.state.activeChat]"
+        v-if="$store.state.typingUsers[$store.state.activeChat] && !isMobile()"
         key="$store.state.typingUsers[$store.state.activeChat]">
         <b v-if="$store.state.friends.length">
           {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}

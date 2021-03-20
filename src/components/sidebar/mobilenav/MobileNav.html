@@ -1,7 +1,7 @@
 <section class="mobile-nav">
   <div>
     <ul>
-      <li v-on:click="setMainRoute('main')">
+      <li v-on:click="openSidebar">
           <i class="fas fa-home"></i>
           <br>
           <span class="nav-subtitle">Home</span>
@@ -19,7 +19,7 @@
         <br>
         <span class="nav-subtitle">Files</span>
       </li>
-      <li>
+      <li v-on:click="setMainRoute('wallet')">
         <i class="fas fa-wallet"></i>
         <br>
         <span class="nav-subtitle">Wallet</span>

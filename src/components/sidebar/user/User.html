@@ -1,6 +1,8 @@
 <section :class="`user ${(active) ? 'user-active' : ''}`" v-on:click="navigateToUser(friend.address)">
   <CircleIcon :image="icon" :address="friend.address"/>
-  <p class="unreads" v-if="unread"></p>
+  <p class="unreads" v-if="unread">
+    <i class="fas fa-sparkles" aria-hidden="true" v-if="isMobile()"></i>
+  </p>
   <p >{{friend.name}}</p>
   <p class="address">{{friend.address}}</p>
   <p id="typing" :class="`online ${(friend.status === 'alive') ? 'true' : ''}`">

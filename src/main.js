@@ -10,6 +10,8 @@ import RemoteStorage from '@/classes/storage/RemoteStorage';
 import WebRTC from '@/classes/webrtc/WebRTC';
 import VueI18n from 'vue-i18n';
 import VueCurrencyInput from 'vue-currency-input';
+import Vue2TouchEvents from 'vue2-touch-events';
+
 
 import i18nInit from './utils/i18n';
 import App from './App';
@@ -24,6 +26,7 @@ Vue.config.productionTip = false;
 Vue.use(VueClipboard);
 Vue.use(vClickOutside);
 Vue.use(VueI18n);
+Vue.use(Vue2TouchEvents);
 
 const pluginOptions = {
   globalOptions: {

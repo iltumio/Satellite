@@ -1,95 +1,101 @@
 <div id="friends">
-  <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
-  <div class="qr-modal" v-if="showShareQR">
-    <QRDisplay :data="$store.state.activeAccount" :close="toggleShareQR" />
-  </div>
-  <div class="qr-modal" v-if="showScanQR">
-    <QRScan
-      :close="toggleScanQR"
-      :handler="setFriend"
-      :friend="friend"
-      :sendFriendRequest="sendFriendRequest"
-      :makingRequest="makingRequest" />
-  </div>
-  <h3>{{$t('friends.heading')}} </h3>
-  <hr class="divider">
-  <h2 class="label" v-if="$store.state.friendRequests.length > 0">Add Quickly</h2>
-  <button
-    class="is-button button is-primary is-small qr-code"
-    v-on:click="toggleShareQR">
-    <i class="fas fa-qrcode"></i> &nbsp; SHARE
-  </button>
-  <button
-    class="is-button button is-primary is-small qr-code"
-    v-on:click="toggleScanQR">
-    <i class="fas fa-qrcode"></i> &nbsp; SCAN
-  </button>
-  <hr class="divider">
-  <h2 class="label">{{$t('friends.find_someone')}}</h2>
-  <span>Enter your friends address...</span>
-  <div class="field has-addons">
-    <div class="control" style="width: 100%;">
-      <input class="input add-friend-input" type="text" placeholder="0x00000000000000000000000000..." v-model="friendAddress">
+  <div class="main-content">
+    <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
+    <div class="qr-modal" v-if="showShareQR">
+      <QRDisplay :data="$store.state.activeAccount" :close="toggleShareQR" />
     </div>
-    <div class="control">
-      <a class="button is-primary" v-on:click="addFriend">
-        {{$t('friends.search')}}
-      </a>
+    <div class="qr-modal" v-if="showScanQR">
+      <QRScan
+        :close="toggleScanQR"
+        :handler="setFriend"
+        :friend="friend"
+        :sendFriendRequest="sendFriendRequest"
+        :makingRequest="makingRequest" />
     </div>
-  </div>
-  <div style="clear:both"></div>
-  <div v-if="error">
-    <h2 class="label red">{{error}}</h2>
-  </div>
-  <div v-if="success">
-    <h2 class="label green">{{success}}</h2>
-  </div>
-  <div v-if="friend">
-    <Friend
-      :action="sendFriendRequest"
-      :friend="friend"
-      :makingRequest="makingRequest"
-      :add="true" />
+    <h3>{{$t('friends.heading')}} </h3>
+    <hr class="divider">
+    <h2 class="label" v-if="$store.state.friendRequests.length > 0">Add Quickly</h2>
+    <button
+      class="is-button button is-primary is-small qr-code"
+      v-on:click="toggleShareQR">
+      <i class="fas fa-qrcode"></i> &nbsp; SHARE
+    </button>
+    <button
+      class="is-button button is-primary is-small qr-code"
+      v-on:click="toggleScanQR">
+      <i class="fas fa-qrcode"></i> &nbsp; SCAN
+    </button>
+    <hr class="divider">
+    <h2 class="label">{{$t('friends.find_someone')}}</h2>
+    <span>Enter your friends address...</span>
+    <div class="field has-addons">
+      <div class="control" style="width: 100%;">
+        <input class="input add-friend-input" type="text" placeholder="0x00000000000000000000000000..." v-model="friendAddress">
+      </div>
+      <div class="control">
+        <a class="button is-primary" v-on:click="addFriend">
+          {{$t('friends.search')}}
+        </a>
+      </div>
+    </div>
     <div style="clear:both"></div>
-    <br>
-  </div>
-  <hr class="divider">
-  <h2 class="label" v-if="$store.state.friendRequests.length > 0">{{$t('friends.requests.incoming')}}</h2>
-  <div>
-    <FriendRequests 
-      :fetchFriendRequests="fetchFriendRequests"
-      :friendRequests="$store.state.friendRequests"
-      :action="chatFriend" />
-  </div>
-  <!--
-    TODO: Requires contract updates
-  <h2 class="label">{{$t('friends.requests.outgoing')}}</h2>
-  <article class="message is-dark">
-    <div class="message-body">
-      <div>
-        <FriendRequests
-          :fetchFriendRequests="fetchFriendRequests"
-          :friendRequests="friendRequests"
-          :outgoing="true"
-          :action="chatFriend" />
+    <div v-if="error">
+      <h2 class="label red">{{error}}</h2>
+    </div>
+    <div v-if="success">
+      <h2 class="label green">{{success}}</h2>
+    </div>
+    <div v-if="friend">
+      <Friend
+        :action="sendFriendRequest"
+        :friend="friend"
+        :makingRequest="makingRequest"
+        :add="true" />
+      <div style="clear:both"></div>
+      <br>
+    </div>
+    <hr class="divider">
+    <h2 class="label" v-if="$store.state.friendRequests.length > 0">{{$t('friends.requests.incoming')}}</h2>
+    <div>
+      <FriendRequests 
+        :fetchFriendRequests="fetchFriendRequests"
+        :friendRequests="$store.state.friendRequests"
+        :action="chatFriend" />
+    </div>
+    <!--
+      TODO: Requires contract updates
+    <h2 class="label">{{$t('friends.requests.outgoing')}}</h2>
+    <article class="message is-dark">
+      <div class="message-body">
+        <div>
+          <FriendRequests
+            :fetchFriendRequests="fetchFriendRequests"
+            :friendRequests="friendRequests"
+            :outgoing="true"
+            :action="chatFriend" />
+        </div>
+      </div>
+    </article>
+    -->
+    <hr class="divider">
+
+    <h2 class="label">{{$t('friends.your_friends')}}</h2>
+
+    <div class="friendslist">
+      <div v-for="letter in Object.keys(sortedFriends)">
+        <span class="letter">{{letter}}</span>
+        <div v-for="friend in sortedFriends[letter].record">
+          <Friend
+            :key="friend.address"
+            :friend="friend"
+            :action="chatFriend"
+            text="Chat" />
+        </div>
       </div>
     </div>
-  </article>
-  -->
-  <hr class="divider">
-
-  <h2 class="label">{{$t('friends.your_friends')}}</h2>
-
-  <div class="friendslist">
-    <div v-for="letter in Object.keys(sortedFriends)">
-      <span class="letter">{{letter}}</span>
-      <div v-for="friend in sortedFriends[letter].record">
-        <Friend
-          :key="friend.address"
-          :friend="friend"
-          :action="chatFriend"
-          text="Chat" />
-      </div>
-    </div>
+  </div>
+  <div class="mobile-nav-holder">
+    <MobileNav 
+      :toggleSettings="toggleSettings" />
   </div>
 </div>

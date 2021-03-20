@@ -14,7 +14,7 @@ module.exports = {
     browser: 'https://ipfs.io/ipfs/',
   },
   sounds: {
-    newMessage: 'QmSiBzertJJx1K4VXapLat5Vk3AKa7efviVjt6qxqhq6n3',
+    newMessage: 'QmfGYjbTXg66V8ZHzqQRVutUFmkbd5L3fV6DA72jTHDWAH',
     call: 'QmRdxeQF53abUesaFC8qmoNJ5FLS8LBuSyCmcXT5VhuKSm',
     hangup: 'QmWrRi5tdKZy3iqcR8mum9hFBbZ8qgvekhEM3Y4PD1TK28',
     mute: 'QmVk362FGmwfsXBj5zMv4x1Hp7Mp9RbYDMxsDXRAx5vyUo',

@@ -1,13 +1,9 @@
 import { ethers } from 'ethers';
+import Ethereum from '../../classes/Ethereum';
+import DwellerCachingHelper from '../../classes/DwellerCachingHelper';
+import config from '../../config/config';
 // @ts-ignore
 import * as FriendsInterface from '@/contracts/build/contracts/Friends.json';
-// @ts-ignore
-import Ethereum from '@/classes/Ethereum';
-// @ts-ignore
-import DwellerCachingHelper from '@/classes/DwellerCachingHelper';
-// @ts-ignore
-import config from '@/config/config';
-
 export default class Friends {
   ethereum: Ethereum;
   contract: any;

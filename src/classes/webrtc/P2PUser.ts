@@ -99,7 +99,6 @@ export default class P2PUser {
   public call(identifier: string, stream: MediaStream) : Error | null {
     if (!this.instance.peer) return new Error('Parent connection not established.');
     if (!this.connection) return new Error('Connection not bound.');
-
     this.instance.peer.call(identifier, stream);
     // No errors
     return null;

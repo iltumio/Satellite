@@ -1,12 +1,8 @@
 import { ethers } from 'ethers';
+import Ethereum from '../../classes/Ethereum';
+import IIPFSHash from '../../interfaces/IIPFSHash';
 // @ts-ignore
-import Ethereum from '@/classes/Ethereum';
-// @ts-ignore
-import * as DwellerID from '@/contracts/build/contracts/DwellerID.json';
-// @ts-ignore
-import IIPFSHash from '../../interfaces/IIPFSHash.ts';
-
-
+import * as DwellerID from '../../contracts/build/contracts/DwellerID.json';
 export default class DwellerContract {
   ethereum: any;
   contract: ethers.Contract;
@@ -32,10 +28,11 @@ export default class DwellerContract {
    * @returns dweller payload which contains all information about the dweller
    */
   setPhoto(ipfsHash: IIPFSHash, done: CallableFunction) {
-    this.contract.setPhoto([
-      ethers.utils.formatBytes32String(ipfsHash.path.substring(0, 23)),
-      ethers.utils.formatBytes32String(ipfsHash.path.substring(23)),
-    ])
+    this.contract
+      .setPhoto([
+        ethers.utils.formatBytes32String(ipfsHash.path.substring(0, 23)),
+        ethers.utils.formatBytes32String(ipfsHash.path.substring(23))
+      ])
       .then(transaction => transaction.wait())
       .then(receipt => done(receipt));
   }
@@ -46,7 +43,8 @@ export default class DwellerContract {
    * @argument done callback which will be called on the first TX & confirm.
    */
   setUsername(username: string, done: CallableFunction) {
-    this.contract.setDwellerName(ethers.utils.formatBytes32String(username))
+    this.contract
+      .setDwellerName(ethers.utils.formatBytes32String(username))
       .then(transaction => transaction.wait())
       .then(receipt => done(receipt));
   }
@@ -68,7 +66,7 @@ export default class DwellerContract {
    * @name getServers
    * @returns promise which will return the dwellers servers
    */
-  async getServers() : Promise<any> {
+  async getServers(): Promise<any> {
     return this.contract.getServers();
   }
 
@@ -98,6 +96,9 @@ export default class DwellerContract {
     const firstHalf = sliced.substr(0, 64);
     const secondHalf = sliced.substr(64, 128);
 
-    return ethers.utils.parseBytes32String(`0x${firstHalf}`) + ethers.utils.parseBytes32String(`0x${secondHalf}`);
+    return (
+      ethers.utils.parseBytes32String(`0x${firstHalf}`) +
+      ethers.utils.parseBytes32String(`0x${secondHalf}`)
+    );
   }
 }

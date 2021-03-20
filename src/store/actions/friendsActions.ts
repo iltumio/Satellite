@@ -1,8 +1,7 @@
-// @ts-ignore
-import config from '@/config/config';
-import DwellerCachingHelper from '@/classes/DwellerCachingHelper';
-import Friends from '@/classes/contracts/Friends';
-import IFriend from '@/interfaces/IFriend';
+import config from '../../config/config';
+import DwellerCachingHelper from '../../classes/DwellerCachingHelper';
+import Friends from '../../classes/contracts/Friends';
+import IFriend from '../../interfaces/IFriend';
 
 export default {
   async fetchFriends({ commit, state }) {

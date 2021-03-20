@@ -1,14 +1,9 @@
 import { ethers } from 'ethers';
-// @ts-ignore
-import * as ServerInterface from '@/contracts/build/contracts/Server.json';
-// @ts-ignore
-import Ethereum from '@/classes/Ethereum';
-// @ts-ignore
-import Ethereum from '@/classes/Ethereum';
+import Ethereum from '../../classes/Ethereum';
 import IIPFSHash from '../../interfaces/IIPFSHash';
 import IServer from '../../interfaces/IServer';
-
-
+// @ts-ignore
+import * as ServerInterface from '@/contracts/build/contracts/Server.json';
 export default class Server {
   ethereum: any;
   contract: ethers.Contract;
@@ -38,18 +33,22 @@ export default class Server {
    * @returns server payload which contains all information about the dweller
    */
   async setPhoto(ipfsHash: IIPFSHash, done: CallableFunction) {
-    this.contract.setPhoto([
-      ethers.utils.formatBytes32String(ipfsHash.path.substring(0, 23)),
-      ethers.utils.formatBytes32String(ipfsHash.path.substring(23)),
-    ],{
-        gasLimit: 4700000,
-      })
-      .then(tx=>tx.wait())
+    this.contract
+      .setPhoto(
+        [
+          ethers.utils.formatBytes32String(ipfsHash.path.substring(0, 23)),
+          ethers.utils.formatBytes32String(ipfsHash.path.substring(23))
+        ],
+        {
+          gasLimit: 4700000
+        }
+      )
+      .then(tx => tx.wait())
       .then(done);
   }
 
   // TODO: Cache this in the future
-  async get(address: string) : Promise<IServer> {
+  async get(address: string): Promise<IServer> {
     const server = <IServer>{
       address,
       registry: await this.contract.registry(),
@@ -74,98 +73,106 @@ export default class Server {
         return this.contract.memberStatus(address);
       },
       setName: async (name: string) => {
-        return this.contract.setName(
-          ethers.utils.formatBytes32String(name),
+        return this.contract.setName(ethers.utils.formatBytes32String(name), {
+          gasLimit: 4700000
+        });
+      },
+      setThreadID: async (hash: string) => {
+        return this.contract.setDBHash(
+          [
+            ethers.utils.formatBytes32String(hash.substring(0, 23)),
+            ethers.utils.formatBytes32String(hash.substring(23))
+          ],
           {
-            gasLimit: 4700000,
+            gasLimit: 4700000
           }
         );
       },
-      setThreadID: async (hash: string) => {
-        return this.contract.setDBHash([
-          ethers.utils.formatBytes32String(hash.substring(0, 23)),
-          ethers.utils.formatBytes32String(hash.substring(23)),
-        ], {
-            gasLimit:4700000,
-          });
-      },
       setPhoto: async (hash: string) => {
-        return this.contract.setPhoto([
-          ethers.utils.formatBytes32String(hash.substring(0, 23)),
-          ethers.utils.formatBytes32String(hash.substring(23)),
-        ],{
-            gasLimit:4700000,
-          })
+        return this.contract.setPhoto(
+          [
+            ethers.utils.formatBytes32String(hash.substring(0, 23)),
+            ethers.utils.formatBytes32String(hash.substring(23))
+          ],
+          {
+            gasLimit: 4700000
+          }
+        );
       },
       addAdmin: async (address: string) => {
-        return this.contract.addAdmin(address,{
-            gasLimit:4700000,
-          });
+        return this.contract.addAdmin(address, {
+          gasLimit: 4700000
+        });
       },
       addChannel: async (name: string, type: number) => {
         return this.contract.addChannel(
           ethers.utils.formatBytes32String(name),
           type,
           {
-            gasLimit:4700000,
-          })
+            gasLimit: 4700000
+          }
+        );
       },
       addChannelGroup: async (name: string) => {
         return this.contract.createGroup(
           ethers.utils.formatBytes32String(name),
           {
-            gasLimit:4700000,
+            gasLimit: 4700000
           }
-        )
+        );
       },
       addChannelToGroup: async (group: string, channel: string) => {
         return this.contract.createGroup(
           ethers.utils.formatBytes32String(group),
           ethers.utils.formatBytes32String(channel),
           {
-            gasLimit:4700000,
+            gasLimit: 4700000
           }
-        )
+        );
       },
       delChannel: async (id: number) => {
         return this.contract.delChannel(id, {
-            gasLimit:4700000,
-          })
+          gasLimit: 4700000
+        });
       },
       delGroup: async (id: number) => {
         return this.contract.delGroup(id, {
-            gasLimit:4700000,
-          })
+          gasLimit: 4700000
+        });
       },
       delChannelFromGroup: async (group: string, id: number) => {
         return this.contract.delChannel(
           ethers.utils.formatBytes32String(group),
           id,
           {
-            gasLimit:4700000,
+            gasLimit: 4700000
           }
-        )
+        );
       },
       inviteMember: async (address: string) => {
         return this.contract.inviteMember(address, {
-            gasLimit:4700000,
-          })
-      },
+          gasLimit: 4700000
+        });
+      }
     };
 
-    const nil = '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
-    
+    const nil =
+      '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+
     if (server.photo !== nil) {
       const sliced = server.photo.slice(2);
       const firstHalf = sliced.substr(0, 64);
       const secondHalf = sliced.substr(64, 128);
-      server.photo = ethers.utils.parseBytes32String(`0x${firstHalf}`) + ethers.utils.parseBytes32String(`0x${secondHalf}`);
+      server.photo =
+        ethers.utils.parseBytes32String(`0x${firstHalf}`) +
+        ethers.utils.parseBytes32String(`0x${secondHalf}`);
     } else {
       server.photo = '';
     }
 
     // TODO: check threadID
-    server.threadID = server.threadID.substr(0, 48) + server.threadID.substr(66, 46);
+    server.threadID =
+      server.threadID.substr(0, 48) + server.threadID.substr(66, 46);
 
     return server;
   }
