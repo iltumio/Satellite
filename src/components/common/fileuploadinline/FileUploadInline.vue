@@ -12,6 +12,7 @@ export default {
   props: [
     'relayResult',
     'uploadDone',
+    'noAutoSelect'
   ],
   data() {
     return {
