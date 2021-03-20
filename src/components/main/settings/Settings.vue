@@ -1,5 +1,5 @@
 <template>
-  <div class="columns" v-touch:swipe="swipeHandler">
+  <div class="columns" v-touch:swipe="swipeHandler"  v-touch-options="{swipeTolerance: 10}">
     <div class="nav-settings">
       <a href="#" @click.prevent="isShowSidebar = true">
         <i class="fas fa-bars"></i>
