@@ -199,6 +199,7 @@ export default {
       transition: top ease-in-out 0.05s;
       background: #f8f9fb;
       scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
     }
     .media-open {
       top: 23rem !important;
