@@ -1,9 +1,18 @@
 @import "_variables.less";
 @import "_animations.less";
+html,
 body {
-  background-color: #16161e;
+  position: fixed;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+body {
+  background-color: #101016;
   overscroll-behavior: none;
   font-family: 'Open Sans', sans-serif;
+  overflow: hidden !important;
+  overscroll-behavior-y: none;
   ::selection {
     background: #00d0a1; /* WebKit/Blink Browsers */
     color: #fff;
@@ -22,6 +31,9 @@ html {
   overflow: hidden !important;
   overflow-y: hidden !important;
   overflow-x: hidden !important;
+}
+#main {
+  overflow: hidden;
 }
 .badges .has-tooltip-arrow .fas {
   font-size: 20pt !important;
