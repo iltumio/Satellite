@@ -56,7 +56,8 @@ export default {
             'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-13.png',
             'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-12.png',
             'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-08.png',
-            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-05.png'
+            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-05.png',
+            'QmQQgGtpoHBU8WWyQWPA6QxBBbbWVBoGQ764G1h1zP6ohZ'
           ]
         },
         {
