@@ -5,7 +5,7 @@
   </div>
   <div class="stickers-container">
     <div class="my-stickers" v-if="route === 'my-stickers'">
-      <div v-for="sticker in stickers" class="sticker-container" v-on:click="setDisplay('show-stickers', sticker)">
+      <div v-for="sticker in ownedStickers" class="sticker-container" v-on:click="setDisplay('show-stickers', sticker)">
         <Sticker :sticker="sticker.preview_hash" :name="sticker.name" :folder="true" />
       </div>
     </div>
@@ -16,15 +16,21 @@
     </div>
 
     <div class="my-stickers" v-if="route === 'get-stickers'">
-      <div v-for="sticker in stickers.filter(s => s.forSale === true)" class="sticker-container" v-on:click="setDisplay('buy-stickers', sticker)">
+      <div v-for="sticker in availableStickers" class="sticker-container" v-on:click="setDisplay('buy-stickers', sticker)">
         <Sticker :sticker="sticker.preview_hash" :name="sticker.name" />
       </div>
     </div>
     <div class="my-stickers" v-if="route === 'buy-stickers'">
       <button 
         class="button is-success is-small buy-button"
-        v-on:click="buySticker(routeData)">
+        v-on:click="buySticker(routeData)"
+        :disabled="routeData.pending"
+        v-if="!isPending"
+        >
         Buy: {{routeData.price}} MATIC
+      </button>
+      <button class="button is-success is-small buy-button" v-else>
+        buying...
       </button>
       <div v-for="sticker in routeData.stickers" class="sticker-container">
         <Sticker :sticker="sticker" />

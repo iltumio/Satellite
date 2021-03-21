@@ -1,7 +1,9 @@
 <template src="./Stickers.html"></template>
 
 <script>
+import { ethers } from 'ethers';
 import Sticker from './Sticker';
+import StickerContract from "@/classes/contracts/Sticker";
 
 export default {
   name: 'Stickers',
@@ -12,7 +14,11 @@ export default {
   methods: {
     setDisplay(route, data) {
       this.route = route;
-      this.routeData = data;
+      let newData = {...data};
+      if(data && data.price) {
+        newData["price"] = ethers.utils.formatEther(data.price).toString();
+      }
+      this.routeData = newData;
     },
     sendSticker(sticker) {
       this.sendMessage(
@@ -21,61 +27,34 @@ export default {
       );
       this.$store.commit('toggleStickers');
     },
-    buySticker(sticker) {
-      console.log('buy sticker', sticker);
+    async buySticker(sticker) {
+
+      this.isPending = true;
+      await this.$store.dispatch('buySticker', { sticker });
+      this.isPending = false;
+
+      this.setDisplay('my-stickers');
     }
   },
   data() {
     return {
       route: 'my-stickers',
       routeData: false,
-      stickers: [
-        {
-          name: 'Food Pack',
-          forSale: true,
-          price: 2,
-          preview_hash: 'QmPSkYgQFTEPCeEFa7KVWY9G4VVgX9NVpC4hprX28rMpBV',
-          factory_address: '0x0',
-          stickers: [
-            'QmPSkYgQFTEPCeEFa7KVWY9G4VVgX9NVpC4hprX28rMpBV',
-            'QmZEyniBpqMQYia67drHo4ZbjNkGxxLE35uokHAxA86F9n',
-            'QmTXJ3SuZbaoHJpXDKnVVpijGvGwGT33dcb8MdgASK8Mde',
-            'QmQXgJVM5CF21Jt7XtCMxvhjTpwgZhGsB1ATFtoga12wtZ',
-            'QmZMUJF7rUArib8YYWAQWyxq86R6j57mhnwLAEuyjHi8Gq'
-          ]
-        },
-        {
-          name: 'Night & Day',
-          preview_hash: 'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-02.png',
-          factory_address: '0x1',
-          forSale: true,
-          price: 5,
-          stickers: [
-            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-02.png',
-            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-16.png',
-            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-13.png',
-            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-12.png',
-            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-08.png',
-            'QmPrW94kDkp5QuKahRbmi539rd23GJtKkkzRTJmhouCbwM/Stickers%20I-01-05.png',
-            'QmQQgGtpoHBU8WWyQWPA6QxBBbbWVBoGQ764G1h1zP6ohZ'
-          ]
-        },
-        {
-          name: 'Snack Time',
-          preview_hash: 'QmQrsBuam1Pk7TLBTENU1odPoq1iRM1s9ni23pSqj9yqgx/Stickers%20I-10-15.png',
-          factory_address: '0x2',
-          forSale: true,
-          price: 2,
-          stickers: [
-            'QmQrsBuam1Pk7TLBTENU1odPoq1iRM1s9ni23pSqj9yqgx/Stickers%20I-10-15.png',
-            'QmQrsBuam1Pk7TLBTENU1odPoq1iRM1s9ni23pSqj9yqgx/Stickers%20I-10-17.png',
-            'QmQrsBuam1Pk7TLBTENU1odPoq1iRM1s9ni23pSqj9yqgx/Stickers%20I-10-10.png',
-            'QmQrsBuam1Pk7TLBTENU1odPoq1iRM1s9ni23pSqj9yqgx/Stickers%20I-10-07.png',
-            'QmQrsBuam1Pk7TLBTENU1odPoq1iRM1s9ni23pSqj9yqgx/Stickers%20I-10-05.png',
-          ]
-        }
-      ]
+      availableStickers: Object.values(this.$store.state.availableStickers),
+      ownedStickers: Object.values(this.$store.state.ownedStickers),
+      isPending: false
     }
+  },
+  async mounted(){
+    this.$store.dispatch("fetchStickers");
+
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'addSticker') {
+          this.availableStickers = Object.values(state.availableStickers)
+      }else if(mutation.type === 'addOwnedSticker') {
+        this.ownedStickers = Object.values(state.ownedStickers)
+      }
+    });
   }
 }
 </script>
