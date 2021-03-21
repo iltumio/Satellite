@@ -59,6 +59,9 @@
             <div v-if="message.payload.type === 'call'">
               <Call :message="message.payload" />
             </div>
+            <div v-if="message.payload.type === 'sticker'">
+              <Sticker :message="message.payload" />
+            </div>
             <div v-if="message.payload && message.payload.type === 'image'">
               <ImageViewer :image="message.payload.data.url" :scrollToEnd="scrollToEnd" />
             </div>

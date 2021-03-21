@@ -1,6 +1,9 @@
 import { IState } from '../createState';
 
 export default {
+  toggleStickers(state: IState) {
+    state.stickersOpen = !state.stickersOpen;
+  },
   authenticated(state: IState) {
     state.authenticated = true;
   },

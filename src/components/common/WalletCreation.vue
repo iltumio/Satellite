@@ -259,12 +259,12 @@ export default {
 <style scoped lang="less">
 .big-btn {
   height: 50px;
-  position: absolute;
+  position: fixed;
   bottom: 2rem;
 }
 .big-btn-higher {
   height: 50px;
-  position: absolute;
+  position: fixed;
   bottom: calc(3rem + 50px);
 }
 .account-img {
