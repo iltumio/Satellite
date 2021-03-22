@@ -77,7 +77,7 @@
           />
         </div>
         <div class="column chat-wrapper">
-          <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" />
+          <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" v-if="$store.state.web3connected"/>
           <Server v-if="$store.state.mainRoute == 'server'" />
           <Wallet 
             :toggleSettings="toggleSettings"

@@ -26,7 +26,8 @@
             </a>
           </div>
         </div>
-        <p class="label sub-label">
+        <!-- Disabled -->
+        <p class="label sub-label" v-if="false">
           <input :readonly="decrypting" type="checkbox" v-model="storePin" /> {{$t('unlock.stay_logged')}}
         </p>
       </div>
@@ -102,11 +103,13 @@ export default {
     },
   },
   mounted() {
+    /* Disabled
     if (localStorage.getItem('v74.pin')) {
       window.v74pin = localStorage.getItem('v74.pin');
       this.decrypting = true;
       this.decrypted(localStorage.getItem('v74.pin'));
     }
+    */
   },
 };
 </script>

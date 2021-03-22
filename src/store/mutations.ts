@@ -7,6 +7,7 @@ import peer from './mutations/peer';
 import account from './mutations/account';
 import server from './mutations/server';
 import web3 from './mutations/web3';
+import stickers from './mutations/stickersMutations';
 
 export default {
   ...friends,
@@ -18,6 +19,7 @@ export default {
   ...account,
   ...server,
   ...web3,
+  ...stickers,
   screenShareRequest(state: any) {
     // eslint-disable-next-line
     state.screenShareRequest = Date.now();
@@ -57,5 +59,5 @@ export default {
   },
   setPin(state, pin) {
     state.pin = pin;
-  }
+  },
 };

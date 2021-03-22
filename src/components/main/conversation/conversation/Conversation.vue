@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Stickers v-if="$store.state.stickersOpen" :sendMessage="sendMessage" />
     <div id="scrollBottom" v-if="showScrollToBottom" v-on:click="scrollToEnd">
       <i class="fas fa-chevron-down"></i>
     </div>
@@ -38,6 +39,7 @@
 import MessageUtils from '@/utils/MessageUtils';
 import MessageBody from '@/components/main/conversation/message/messagebody/MessageBody';
 import Divider from '@/components/common/Divider';
+import Stickers from '@/components/common/stickers/Stickers';
 
 export default {
   name: 'Conversation',
@@ -51,6 +53,7 @@ export default {
   components: {
     MessageBody,
     Divider,
+    Stickers,
   },
   data() {
     return {

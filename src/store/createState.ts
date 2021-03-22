@@ -80,6 +80,10 @@ export interface IState {
   // Servers
   server?: Array<any>;
   channel?: any;
+  // Stickers
+  stickersOpen?: boolean;
+  availableStickers?: any;
+  ownedStickers?: any;
 }
 
 export const defaultState: IState = {
@@ -156,6 +160,9 @@ export const defaultState: IState = {
   // Servers
   server: undefined,
   channel: undefined,
+  stickersOpen: false,
+  availableStickers: {},
+  ownedStickers: {},
 };
 
 const createState = (customState: any): IState => Object.assign({}, defaultState, customState);

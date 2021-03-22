@@ -30,6 +30,7 @@
             {{$t('conversation.chatbar.characters_left',{characters: limit - messageText.length})}}
           </p>
           <i class="fas fa-arrow-circle-right send" v-on:click="sendMessage"></i>
+          <i class="fas fa-icons stickers" v-on:click="openStickers"></i>
           <i class="far fa-smile-wink emoji" v-on:click="toggleEmoji"></i>
           <i class="fas fa-dollar-sign sendEther" v-on:click="togglePayments"></i>
           <i class="fas fa-file-upload upload" v-on:click="openFileUpload"></i>
