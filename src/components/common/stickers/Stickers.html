@@ -4,7 +4,7 @@
     <button :class="`button ${(route === 'get-stickers') ? 'is-primary' : 'is-black'} is-small`"  v-on:click="setDisplay('get-stickers')">Get Stickers</button>
   </div>
   <div class="stickers-container">
-    <div class="my-stickers" v-if="route === 'my-stickers'">
+    <div class="my-stickers has-details" v-if="route === 'my-stickers'">
       <div v-for="sticker in ownedStickers" class="sticker-container" v-on:click="setDisplay('show-stickers', sticker)">
         <Sticker :sticker="sticker.preview_hash" :name="sticker.name" :folder="true" />
       </div>
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="my-stickers" v-if="route === 'get-stickers'">
+    <div class="my-stickers has-details" v-if="route === 'get-stickers'">
       <div v-for="sticker in availableStickers" class="sticker-container" v-on:click="setDisplay('buy-stickers', sticker)">
         <Sticker :sticker="sticker.preview_hash" :name="sticker.name" />
       </div>

@@ -37,15 +37,25 @@
   }
   .sticker-container {
     padding: 1rem;
+    margin-bottom: 1rem;
     width: 50%;
-    float: right;
+    float: left;
+    display: inline-block;
     text-align: center;
     position: relative;
+    height: 125px;
+  }
+
+  .has-details {
+    .sticker-container {
+      height: 185px;
+    }
   }
 
   .stickers-container {
     height: calc(100% - 4.2rem);
     overflow-y: scroll;
+    
   }
   .buy-button {
     position: absolute;
