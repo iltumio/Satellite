@@ -1,0 +1,3 @@
+[submodule "src/contracts"]
+	path = src/contracts
+	url = https://github.com/Satellite-im/Satellite-Contracts.git
