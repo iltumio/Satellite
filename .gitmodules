@@ -1,3 +1,0 @@
-[submodule "src/contracts"]
-	path = src/contracts
-	url = https://github.com/Vault74/Vault74-Contracts.git
