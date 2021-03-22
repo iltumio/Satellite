@@ -3,7 +3,6 @@
 <script>
 import { ethers } from 'ethers';
 import Sticker from './Sticker';
-import StickerContract from "@/classes/contracts/Sticker";
 
 export default {
   name: 'Stickers',

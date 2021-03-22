@@ -5,6 +5,13 @@
   </div>
   <div class="stickers-container">
     <div class="my-stickers has-details" v-if="route === 'my-stickers'">
+      <div v-if="Object.keys(ownedStickers).length === 0" class="no-stickers">
+        <p>
+          You don't have any stickers yet.
+          <br>
+          <button class="button is-primary is-small" v-on:click="setDisplay('get-stickers')">Get Some!</button>
+        </p>
+      </div>
       <div v-for="sticker in ownedStickers" class="sticker-container" v-on:click="setDisplay('show-stickers', sticker)">
         <Sticker :sticker="sticker.preview_hash" :name="sticker.name" :folder="true" />
       </div>

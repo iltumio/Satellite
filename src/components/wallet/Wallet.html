@@ -12,6 +12,12 @@
 
   <div class="wallet-separator">Token Balances</div>
 
+  <div class="asset-container" v-for="asset in assets">
+    <Asset
+      :name="asset.name"
+      :icon="asset.icon"
+      :symbol="asset.symbol" />
+  </div>
   
 
   <MobileNav 

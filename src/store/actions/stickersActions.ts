@@ -36,7 +36,7 @@ export default {
           ...stickerData, price, contract: set, ownedSerials,
         });
       } else {
-        console.log('No stickers');
+       // console.log('No stickers');
       }
     });
   },
