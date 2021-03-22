@@ -1,11 +1,11 @@
 <div id="wallet">
   <div class="wallet-header">
-    <h1 class="wallet-balance">$318.38</h1>
-    <p class="wallet-balance-subhead">Total Balance</p>
+    <h1 class="wallet-balance">${{balanceUsd}}</h1>
+    <p class="wallet-balance-subhead">Total Balance (USD)</p>
   </div>
 
   <p class="yellow ea-warning">
-    Eearly access operates on a testnet. 
+    Early access operates on a testnet.
     <br>
     <b>Do not send real funds to your address.</b>
   </p>
@@ -18,9 +18,9 @@
       :icon="asset.icon"
       :symbol="asset.symbol" />
   </div>
-  
 
-  <MobileNav 
+
+  <MobileNav
     v-if="isMobile()"
     :toggleSettings="toggleSettings" />
 </div>
