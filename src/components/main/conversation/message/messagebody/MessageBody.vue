@@ -5,6 +5,7 @@
   import MessageContext from '@/components/common/context/MessageContext';
   // Embeds
   import Link from '@/components/main/conversation/message/embeds/Link';
+  import Sticker from '@/components/main/conversation/message/embeds/Sticker';
   import OfflineChat from '@/components/main/conversation/message/embeds/OfflineChat';
   import YouTube from '@/components/main/conversation/message/embeds/YouTube';
   import Spotify from '@/components/main/conversation/message/embeds/Spotify';
@@ -32,6 +33,7 @@
       MessageContext,
       // Embeds
       Link,
+      Sticker,
       // Content Services
       YouTube,
       Spotify,

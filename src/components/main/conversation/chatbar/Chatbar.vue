@@ -62,6 +62,9 @@ export default {
       })(navigator.userAgent || navigator.vendor || window.opera);
       return check;
     },
+    openStickers() {
+      this.$store.commit('toggleStickers', true);
+    },
     /** @method
      * Handle the pasting of image files and start the upload of the file
      * @name handlePaste

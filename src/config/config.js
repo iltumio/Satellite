@@ -44,6 +44,12 @@ module.exports = {
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
     mumbai: '0x27F7DF4f1af2D61FE815901ad456dFf3355Ca9c3',
   },
+  stickers: {
+    mumbai: '0xf6B5c96386b1B014Df9caa44f1403d2d4F7C8c13',
+    mumbaiInfo: {
+      deployBlock: 11818681,
+    },
+  },
   debug: false,
   cacher: {
     dwellerLifespan: 900000,

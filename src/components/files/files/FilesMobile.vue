@@ -3,7 +3,7 @@
     <div class="files-mobile-wrapper">
       <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
       <h3>{{$t('files.heading')}}</h3>   
-      <FileUploadInline :relayResult="updateCache" :uploadDone="fetchRecentFiles" />
+      <FileUploadInline :relayResult="updateCache" :uploadDone="fetchRecentFiles" :noAutoSelect="true" />
       <h2 class="label">Usage ({{bytesToSize(fileSizeTotal)}} / 4GB)</h2>
       <progress
         class="progress is-info"

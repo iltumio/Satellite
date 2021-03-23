@@ -50,10 +50,16 @@
     cursor: pointer;
 }
 .send {
-    position: absolute;
-    right: 2.2rem;
-    top: 1.85rem;
-    font-size: 16pt;
+  position: absolute;
+  right: 2.2rem;
+  top: 1.85rem;
+  font-size: 16pt;
+}
+.stickers {
+  position: absolute;
+  right: 9.5rem;
+  top: 1.85rem;
+  font-size: 16pt;
 }
 .upload {
     position: absolute;
@@ -94,7 +100,7 @@
     border: none;
     box-shadow: none;
     font-size: 12pt !important;
-    width: calc(100% - 10.5rem);
+    width: calc(100% - 12.5rem);
     resize: none;
 }
 textarea:focus, textarea:focus{
@@ -132,13 +138,20 @@ i:hover {
   }
 }
 @media (max-width: 768px) {
+  .send {
+    display: none;
+  }
   .chat-group {
     bottom: 0.75rem;
+    z-index: 20;
   }
   .fa-smile-wink {
     display: none;
   }
   .messageuser {
     width: calc(100% - 7.5rem);
+  }
+  .stickers {
+    right: 2.2rem;
   }
 }

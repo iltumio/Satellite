@@ -165,7 +165,7 @@ export default {
   @media (max-width: 768px) {
     #user-info {
       width: 100%;
-      z-index: 2;
+      z-index: 20;
     }
     .close-btn {
       display: inline-block;
