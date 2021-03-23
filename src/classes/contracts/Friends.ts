@@ -143,7 +143,6 @@ export default class Friends {
     if(!this.listeners[FriendsEvents.FriendRequestSent]){
       const filter = this.contract.filters.FriendRequestSent(this.ethereum.activeAccount);
       this.contract.on(filter, (data: any)=>{
-        console.log(FriendsEvents.FriendRequestSent, data)
         listener(FriendsEvents.FriendRequestSent, data);
       });
     } else {
@@ -154,7 +153,6 @@ export default class Friends {
     if(!this.listeners[FriendsEvents.FriendRequestAccepted]){
       const filter = this.contract.filters.FriendRequestAccepted(this.ethereum.activeAccount);
       this.contract.on(filter, (data: any)=>{
-        console.log(FriendsEvents.FriendRequestAccepted, data);
         listener(FriendsEvents.FriendRequestAccepted, data);
       });
     } else {
@@ -165,7 +163,6 @@ export default class Friends {
     if(!this.listeners[FriendsEvents.FriendRequestDenied]){
       const filter = this.contract.filters.FriendRequestDenied(this.ethereum.activeAccount);
       this.contract.on(filter, (data: any)=>{
-        console.log(FriendsEvents.FriendRequestDenied, data);
         listener(FriendsEvents.FriendRequestDenied, data);
       });
     } else {

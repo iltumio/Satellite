@@ -41,14 +41,12 @@ export default {
       updatedFriends = parsedFriends;
     }
 
-    if (
-      !state.friendsLoaded ||
-      JSON.stringify(state.friends) !== JSON.stringify(updatedFriends)
-    ) {
-      commit('updateFriends', updatedFriends);
-    }
+    // TODO: eventually limit UI updates if friends didn't change
+    //   !state.friendsLoaded ||
+    //   JSON.stringify(state.friends) !== JSON.stringify(updatedFriends)
+    commit('updateFriends', updatedFriends);
   },
-  async listenForFriendsRequests({ dispatch }) {
+  async startFriendsListeners({ dispatch }) {
     // @ts-ignore
     const friendsContract = new Friends(
       // @ts-ignore

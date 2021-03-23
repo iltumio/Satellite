@@ -10,14 +10,12 @@ import WalletAddressMini from "@/components/common/WalletAddressMini";
 import Fuse from "fuse.js";
 
 import config from "@/config/config";
-import Friends from "@/classes/contracts/Friends.ts";
 // Components
 import CircleIcon from "@/components/common/CircleIcon";
 import FriendRequests from "@/components/friends/friends/requests/FriendRequests";
 // Classes
 import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
 import Friend from "@/components/friends/friend/Friend";
-// import Ethereum from '@/classes/Ethereum';
 
 export default {
   name: "Friends",
@@ -30,11 +28,10 @@ export default {
   data() {
     return {
       keyword: "",
-      friends: Array.from(this.$store.state.friends),
+      // friends: Array.from(this.$store.state.friends),
       error: false,
       success: false,
       friend: false,
-
       friendAddress: "",
       makingRequest: {},
       dwellerCachingHelper: new DwellerCachingHelper(
@@ -42,19 +39,14 @@ export default {
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan
       ),
-      friendsContract: null,
     };
   },
   mounted() {
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === "addFriend") {
-        this.friends = state.friends;
-      }
-    });
-    this.friendsContract = new Friends(
-      this.$ethereum,
-      config.friends[config.network.chain]
-    );
+    // this.$store.subscribe((mutation, state) => {
+    //   if (mutation.type === "addFriend") {
+    //     this.friends = state.friends;
+    //   }
+    // });
 
     this.update();
   },
@@ -62,9 +54,6 @@ export default {
     update() {
       this.fetchFriendRequests();
       this.$store.dispatch("fetchFriends", this.$store.state.activeAccount);
-    },
-    getFriends() {
-      this.friends = this.$store.state.friends;
     },
     /** @method
      * Get all the friend requests that are actively stored on chain
@@ -77,18 +66,19 @@ export default {
      * Filter friends by stored keyword and
      * rebind the friends data
      * @name filterFriends
+     * @param keyword string keyword to search for
      */
-    filterFriends() {
-      if (this.keyword) {
+    getFilteredFriends(keyword) {
+      if (keyword) {
         const options = {
           includeScore: false,
           keys: ["name"],
         };
-        const fuse = new Fuse(this.friends, options);
-        const result = fuse.search(this.keyword);
-        this.friends = result.map((i) => i.item);
+        const fuse = new Fuse(this.$store.state.friends, options);
+        const result = fuse.search(keyword);
+        return result.map((i) => i.item);
       } else {
-        this.getFriends();
+        return this.$store.state.friends;
       }
     },
     /** @method

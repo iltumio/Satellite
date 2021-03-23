@@ -77,7 +77,7 @@ export default {
       dispatch('fetchFriends', state.activeAccount);
 
       // Dispatch new action to start a listener to new friends requests
-      dispatch('listenForFriendsRequests');
+      dispatch('startFriendsListeners');
     }
   },
   async getStats({ commit }) {
