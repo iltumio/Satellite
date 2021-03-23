@@ -1,6 +1,6 @@
 {
   "name": "satellite-im",
-  "version": "0.4.10",
+  "version": "0.5.0",
   "description": "Vault74 Secure Communications",
   "main": "app.js",
   "keywords": [
