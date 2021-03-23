@@ -30,7 +30,7 @@ export default {
         const parsed = await friendsContract.parseFriend(friend);
         const dwellerCache = await dwellerCachingHelper.getDweller(friend.dweller);
 
-        return { ...dwellerCache, threadID: parsed.threadHash };
+        return { ...dwellerCache, threadID: parsed.threadHash, pubkey: parsed.pubkey };
       };
 
       const parsedFriends = await Promise.all < IFriend > (friends.map(getData));

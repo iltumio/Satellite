@@ -80,6 +80,7 @@ export default class Friends {
     return {
       id: fr,
       threadHash: `${ethers.utils.parseBytes32String(fr.threadHash1)}${ethers.utils.parseBytes32String(fr.threadHash2)}`,
+      pubkey: fr.pubkey
     };
   }
 

@@ -1,18 +1,20 @@
-import { Client, decrypt, ThreadID } from "@textile/hub";
-import Crypto from "../crypto/Crypto";
+import { Client, decrypt, ThreadID } from '@textile/hub';
+import Crypto from '../crypto/Crypto';
 // @ts-ignore
 import Message from '../Message';
+import { utils, Wallet } from 'ethers';
+import { SigningKey } from 'ethers/lib/utils';
 
 interface Message {
-  _id: string,
-  sender: string,
-  to: '',
-  at: number,
-  type: string,
-  payload: any,
-  encrypted: boolean,
-  secure: boolean,
-  metadata: object,
+  _id: string;
+  sender: string;
+  to: '';
+  at: number;
+  type: string;
+  payload: any;
+  encrypted: boolean;
+  secure: boolean;
+  metadata: object;
 }
 
 const messageSchema = <Message>{
@@ -24,28 +26,30 @@ const messageSchema = <Message>{
   payload: {},
   encrypted: false,
   secure: false,
-  metadata: {},
+  metadata: {}
 };
 
 export class MessageManager {
   client: Client;
   crypto: Crypto;
   key: CryptoKeyPair | null;
-  publicKey: JsonWebKey | null;
-  privateKey: JsonWebKey | null;
   address: string;
+  signingKey: SigningKey | null;
 
   constructor(client: Client, address: string) {
     this.client = client;
     this.address = address;
     this.crypto = new Crypto();
     this.key = null;
-    this.publicKey = null;
-    this.privateKey = null;
+    this.signingKey = null;
   }
 
-  async build() {
-    this.enableEncryption();
+  /**
+   * @function initE2EEngine
+   * @param wallet Ethers js wallet
+   */
+  initE2EEngine(wallet: Wallet) {
+    this.signingKey = new utils.SigningKey(wallet.privateKey);
   }
 
   buildMessage(to: string, at: number, type: string, data: any) {
@@ -58,139 +62,131 @@ export class MessageManager {
       at: at,
       type: type,
       payload: message.payload,
-      encrypted: false,
+      encrypted: Boolean(this.signingKey),
       secure: false,
-      metadata: {},
+      metadata: {}
     };
   }
 
-  async enableEncryption() {
-    // TODO: We should queue sending messages until this is done 
-    // there is a rare potential race condition that would cause
-    // failure to send messages.
-    if (!localStorage.getItem('publicKey') || !localStorage.getItem('privateKey')) {
-      this.key = await this.crypto.getKeyPair();
-      this.publicKey = await this.crypto.pubKey(this.key);
-      this.privateKey = await this.crypto.privKey(this.key);
-      localStorage.setItem('publicKey', JSON.stringify(this.publicKey));
-      localStorage.setItem('privateKey', JSON.stringify(this.privateKey));
-    } else {
-      this.publicKey = JSON.parse(localStorage.getItem('publicKey') || '');
-      this.privateKey = JSON.parse(localStorage.getItem('privateKey') || '');
-    }
-  }
-
   async ensureCollection(threadID: ThreadID) {
-    await this.client.getCollectionIndexes(
-      threadID,
-      'messages',
-    ).catch(async () => {
-      await this.client.newCollectionFromObject(
-        threadID,
-        messageSchema,
-        {
-          name: 'messages',
-        },
-      );
-    });
+    await this.client
+      .getCollectionIndexes(threadID, 'messages')
+      .catch(async () => {
+        await this.client.newCollectionFromObject(threadID, messageSchema, {
+          name: 'messages'
+        });
+      });
   }
 
-  async addMessageDeterministically(threadID: ThreadID, message: Message, recipient: string) {
-    if (localStorage.getItem(`pubkey.${recipient}`)) {
-      const key = localStorage.getItem(`pubkey.${recipient}`) || '';
-      this.addEncryptedMessage(
-        threadID,
-        message,
-        JSON.parse(key),
-      );
+  async addMessageDeterministically(
+    threadID: ThreadID,
+    message: Message,
+    recipient: string
+  ) {
+    if (this.signingKey) {
+      this.addEncryptedMessage(threadID, message, recipient);
     } else {
       this.addNewMessage(threadID, message);
     }
   }
 
-  async addNewMessage(threadID: ThreadID, message: Message) : Promise<ThreadID> {
+  async addNewMessage(threadID: ThreadID, message: Message): Promise<ThreadID> {
     await this.ensureCollection(threadID);
     await this.client.create(threadID, 'messages', [message]);
     return threadID;
   }
 
-  async addEncryptedMessage(threadID: ThreadID, message: Message, guestPublicKey: JsonWebKey) : Promise<ThreadID | null> {
-    if (typeof this.publicKey === null || typeof this.privateKey === null) {
+  computeSharedSecret(signingKey: SigningKey, guestPublicKey: string) {
+    return signingKey.computeSharedSecret(`0x04${guestPublicKey.slice(2)}`);
+  }
+
+  async addEncryptedMessage(
+    threadID: ThreadID,
+    message: Message,
+    guestPublicKey: string
+  ): Promise<ThreadID | null> {
+    if (!this.signingKey) {
       return null;
     }
     await this.ensureCollection(threadID);
-    const publicKey = await this.crypto.importPubKey(guestPublicKey);
-    // @ts-ignore
-    const privateKey = await this.crypto.importPrivKey(this.privateKey);
-    const derivedKey = await this.crypto.derive(publicKey, privateKey);
+
+    const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey);
+
+    const aesKey = await this.crypto.initializeRecipient(message.to, sharedKey);
+
     const encryptedPayload = await this.crypto.encrypt(
       JSON.stringify(message.payload),
-      derivedKey,
+      aesKey
     );
-    const encryptedMessage = Object.assign(
-      {},
-      message,
-      {
-        encrypted: true,
-        secure: true,
-        payload: {
-          encryptedData: encryptedPayload,
-        },
-      });
+
+    const encryptedMessage = Object.assign({}, message, {
+      encrypted: true,
+      secure: true,
+      payload: {
+        encryptedData: encryptedPayload
+      }
+    });
+
     await this.client.create(threadID, 'messages', [encryptedMessage]);
     return threadID;
   }
 
-  async decryptMessage(message: Message, guestPublicKey: JsonWebKey) {
-    if (!message.encrypted) return message;
-    if (typeof this.publicKey === null || typeof this.privateKey === null) {
-      return message;
-    }
+  async decryptMessage(message: Message, guestPublicKey: string) {
+    if (!message.encrypted || !this.signingKey) return message;
+
+    const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey);
+
+    const aesKey = await this.crypto.initializeRecipient(message.to, sharedKey);
+
     try {
-      const publicKey = await this.crypto.importPubKey(guestPublicKey);
-      // @ts-ignore
-      const privateKey = await this.crypto.importPrivKey(this.privateKey);
-      const derivedKey = await this.crypto.derive(publicKey, privateKey);
-      const decrpytedPayload = await this.crypto.decrypt(message.payload.encryptedData, derivedKey);
+      const decrpytedPayload = await this.crypto.decrypt(
+        message.payload.encryptedData,
+        aesKey
+      );
+      
       return {
         ...message,
         encrypted: false,
         secure: true,
-        payload: JSON.parse(decrpytedPayload),
+        payload: JSON.parse(decrpytedPayload)
       };
     } catch (e) {
       return message;
     }
   }
 
-  async bulkDecrypt(messages: Message[], guestPublicKey: JsonWebKey) {
+  async bulkDecrypt(messages: Message[], guestPublicKey: string) {
     const decryptedMessages: Promise<Message>[] = [];
-    messages.map(msg => decryptedMessages.push(this.decryptMessage(msg, guestPublicKey)));
+    messages.map(msg =>
+      decryptedMessages.push(this.decryptMessage(msg, guestPublicKey))
+    );
     const resolvedMessages = await Promise.all(decryptedMessages);
     return resolvedMessages;
   }
 
-  async getMessages(threadID: ThreadID | string) : Promise<Message[]> {
-    return new Promise(async (resolve) => {
-      const safeThread = (typeof threadID === 'string') ?
-        ThreadID.fromString(threadID.replace(/\W/g, '')) : threadID;
+  async getMessages(threadID: ThreadID | string): Promise<Message[]> {
+    return new Promise(async resolve => {
+      const safeThread =
+        typeof threadID === 'string'
+          ? ThreadID.fromString(threadID.replace(/\W/g, ''))
+          : threadID;
 
       const decryptedMessages: any[] = [];
 
-      let messages = await this.client.find(
-        safeThread,
-        'messages',
-        {},
-      ).catch((err) => {
-        // Collection not found
-        resolve([]);
-      }) || [];
+      let messages =
+        (await this.client.find(safeThread, 'messages', {}).catch(err => {
+          // Collection not found
+          resolve([]);
+        })) || [];
 
       resolve(<Array<Message>>messages);
     });
   }
 
-  async subscribe(threadID: ThreadID, callback: CallableFunction) : Promise<any> {
+  async subscribe(
+    threadID: ThreadID,
+    callback: CallableFunction
+  ): Promise<any> {
     const cb = (update: any) => {
       if (!update || !update.instance) return;
       callback(update);
@@ -198,11 +194,11 @@ export class MessageManager {
 
     const filters = [
       {
-        collectionName: 'messages',
+        collectionName: 'messages'
       },
       {
-        actionTypes: ['CREATE'],
-      },
+        actionTypes: ['CREATE']
+      }
     ];
 
     const closer = this.client.listen(threadID, filters, cb);

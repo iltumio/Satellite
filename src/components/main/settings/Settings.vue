@@ -33,9 +33,10 @@
           {{$t('settings.h_networks')}}
         </p>
         <ul class="menu-list">
-          <li v-on:click="setRoute('encryption')">
+          <!-- TODO: enable encryption tab -->
+          <!-- <li v-on:click="setRoute('encryption')">
             <a :class="`${route == 'encryption' ? 'active' : ''}`">{{$t('settings.h_encryption')}}</a>
-          </li>
+          </li> -->
           <li v-on:click="setRoute('storage')">
             <a :class="`${route == 'storage' ? 'active' : ''}`">{{$t('settings.h_storage')}}</a>
           </li>
@@ -74,9 +75,10 @@
       <Network 
         v-if="route == 'network'" 
         :settings="settings"/>
-      <Encryption 
+      <!-- TODO: make encryption -->
+      <!-- <Encryption 
         v-if="route == 'encryption'" 
-        :settings="settings"/>
+        :settings="settings"/> -->
       <Storage 
         v-if="route == 'storage'" 
         :settings="settings"/>
