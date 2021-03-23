@@ -56,9 +56,10 @@ export default {
       config.friends[config.network.chain],
     );
 
-    friendsContract.startListener(() => {
+    friendsContract.startAllListeners(() => {
       // Fetch friends requests
       dispatch('fetchFriendRequests');
+      dispatch('fetchFriends');
     });
   },
   async fetchFriendRequests({ commit }) {
@@ -88,7 +89,6 @@ export default {
     commit('updateFriendRequests', parsedRequests);
   },
   async sendFriendRequest({ commit }, { address }) {
-    console.log('sendfriend', config.friends[config.network.chain], address);
     // @ts-ignore
     const friendsContract = new Friends(
       // @ts-ignore

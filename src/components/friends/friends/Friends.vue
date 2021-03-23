@@ -159,15 +159,13 @@ export default {
       // TODO: update to receive the address as parameter
       const address = this.friendAddress;
 
-      this.makingRequest = Object.assign({}, this.makingRequest, {
-        [this.friendAddress]: true,
-      });
+      this.makingRequest = { ...this.makingRequest, [address]: true };
 
-      this.$store.dispatch("sendFriendRequest", { address });
+      await this.$store.dispatch("sendFriendRequest", { address });
 
-      this.makingRequest = Object.assign({}, this.makingRequest, {
-        [this.friendAddress]: false,
-      });
+      this.makingRequest = { ...this.makingRequest, [address]: false };
+
+      this.reset();
     },
     /** @method
      * Confirms and adds a found friend

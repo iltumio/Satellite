@@ -5,11 +5,17 @@ import config from '../../config/config';
 // @ts-ignore
 import * as FriendsInterface from '@/contracts/build/contracts/Friends.json';
 
+enum FriendsEvents {
+  FriendRequestSent = 'FriendRequestSent',
+  FriendRequestDenied = 'FriendRequestDenied',
+  FriendRequestAccepted = 'FriendRequestAccepted'
+};
+
 export default class Friends {
   ethereum: Ethereum;
   contract: any;
   dwellerCache: DwellerCachingHelper;
-  listener: any;
+  listeners: {[key: string]: (params: any)=>void};
 
   constructor(ethereum: Ethereum, address: string) {
     this.ethereum = ethereum;
@@ -19,7 +25,7 @@ export default class Friends {
       config.registryAddress,
       config.cacher.dwellerLifespan,
     );
-    this.listener = null;
+    this.listeners = {};
   }
 
   /** @function
@@ -132,17 +138,46 @@ export default class Friends {
    * @name startListener
    * @arguments listener listener function
    */
-  async startListener(listener: (params: any) => void) {
-    const filter = this.contract.filters.FriendRequestSent(this.ethereum.activeAccount);
+  async startAllListeners(listener: (eventName: FriendsEvents, params: any) => void) {
+    // Listen for new incoming friends request
+    if(!this.listeners[FriendsEvents.FriendRequestSent]){
+      const filter = this.contract.filters.FriendRequestSent(this.ethereum.activeAccount);
+      this.contract.on(filter, (data: any)=>{
+        console.log(FriendsEvents.FriendRequestSent, data)
+        listener(FriendsEvents.FriendRequestSent, data);
+      });
+    } else {
+      console.warn(FriendsEvents.FriendRequestSent, 'Listener for incoming friends request already started');
+    }
 
-    this.listener = this.contract.on(filter, listener);
+    // Listen for accepted friends requests
+    if(!this.listeners[FriendsEvents.FriendRequestAccepted]){
+      const filter = this.contract.filters.FriendRequestAccepted(this.ethereum.activeAccount);
+      this.contract.on(filter, (data: any)=>{
+        console.log(FriendsEvents.FriendRequestAccepted, data);
+        listener(FriendsEvents.FriendRequestAccepted, data);
+      });
+    } else {
+      console.warn(FriendsEvents.FriendRequestAccepted, 'Listener for incoming friends request already started');
+    }
+
+    // Listen for accepted friends requests
+    if(!this.listeners[FriendsEvents.FriendRequestDenied]){
+      const filter = this.contract.filters.FriendRequestDenied(this.ethereum.activeAccount);
+      this.contract.on(filter, (data: any)=>{
+        console.log(FriendsEvents.FriendRequestDenied, data);
+        listener(FriendsEvents.FriendRequestDenied, data);
+      });
+    } else {
+      console.warn(FriendsEvents.FriendRequestDenied, 'Listener for incoming friends request already started');
+    }
   }
 
   /** @function
    * @name isListenerStarted
    * @returns a boolean value indicating if the listener has been started
    */
-  isListenerStarted(): boolean {
-    return Boolean(this.listener);
+  isListenerStarted(event: FriendsEvents): boolean {
+    return Boolean(this.listeners[event]);
   }
 }
