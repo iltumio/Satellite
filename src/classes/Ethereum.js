@@ -179,4 +179,12 @@ export default class Ethereum {
   isAddress(text) {
     return this.utils.isAddress(text);
   }
+
+  /**
+   * @name getSharablePublicKey
+   * @returns Get the public key in a format that can be verified by the contract
+   */
+  getSharablePublicKey() {
+    return `0x${this.wallet.publicKey.slice(4)}`;
+  }
 }

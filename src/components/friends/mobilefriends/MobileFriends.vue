@@ -245,30 +245,16 @@ export default {
      * @name sendFriendRequest
      */
     async sendFriendRequest() {
-      const id = this.$database.threadManager.makeIdentifier(
-        this.$store.state.activeAccount,
-        this.friendAddress
-      );
+      // TODO: update to receive the address as parameter
+      const address = this.friendAddress;
 
-      this.makingRequest = Object.assign({}, this.makingRequest, {
-        [this.friendAddress]: true
-      });
-      const threadID = await this.$database.threadManager.threadAt(id);
+      this.makingRequest = { ...this.makingRequest, [address]: true };
 
-      return new Promise(resolve => {
-        this.friendsContract
-          .makeRequest(this.friendAddress, threadID.toString())
-          .then(() => {
-            resolve();
-            this.reset();
-            this.getFriends();
-          })
-          .catch(e => {
-            this.makingRequest = Object.assign({}, this.makingRequest, {
-              [this.friendAddress]: false
-            });
-          });
-      });
+      await this.$store.dispatch("sendFriendRequest", { address });
+
+      this.makingRequest = { ...this.makingRequest, [address]: false };
+
+      this.reset();
     },
     /** @method
      * Confirms and adds a found friend
