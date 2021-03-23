@@ -2,12 +2,35 @@
 
 <script>
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
+import Asset from './Asset';
 
 export default {
   name: 'Wallet',
   props: ['toggleSettings'],
   components: {
     MobileNav,
+    Asset
+  },
+  data() {
+    return {
+      assets: [
+        {
+          symbol: 'MATIC',
+          name: 'Polygon',
+          icon: 'QmV3z48ftfSLf1kHKEvFHjikiaA1GV88vRSSKFTmbBFgcn',
+        },
+        {
+          symbol: 'SAT', 
+          name: 'Satellite',
+          icon: 'QmUUtzqBLguzq1PHXSX91gkJbhp3WznaJpMpywiaCfmLXy',
+        },
+        {
+          symbol: 'ETH',
+          name: 'Ethereum',
+          icon: 'QmUJgkxUiPMmQwwExD1rVM5Ka6hxsMrkoKCudfktd2mfGN',
+        },
+      ],
+    }
   },
   methods: {
     // Returns if user device is mobile

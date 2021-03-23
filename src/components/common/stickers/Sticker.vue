@@ -1,0 +1,36 @@
+<template>
+  <div class="inner-sticker">
+    <img :src="`http://ipfs.io/ipfs/${sticker}`" alt="" />
+    <br />
+    <span class="sticker-name" v-if="name">{{name}}</span>
+    <span class="sticker-name" v-else-if="price">Buy: {{price}} MATIC</span>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Sticker',
+  props: ['sticker', 'name', 'price']
+}
+</script>
+
+<style lang="less" scoped>
+  img {
+    max-height: 100%;
+  }
+  .sticker-name {
+    display: block;
+    background: #0984e3;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    color: #fff;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+  }
+  .inner-sticker {
+    display: inline-block;
+    height: 125px;
+    width: 100%;
+  }
+</style>
