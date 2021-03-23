@@ -30,6 +30,8 @@ const blacklist: IBlacklist = {
   balance: true,
   mnemonic: true,
   pin: true,
+  availableStickers: true,
+  ownedStickers: true,
 };
 
 const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key]);
