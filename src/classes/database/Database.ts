@@ -28,7 +28,7 @@ interface Extras {
 }
 
 
-/* eslint-disable */
+
 export default class Database {
   name: string;
   prefix: string;

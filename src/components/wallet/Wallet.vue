@@ -41,7 +41,7 @@ export default {
     }
   },
   mounted() {
-    this.setBalance()
+    this.setBalance();
   },
   methods: {
     // Returns if user device is mobile
@@ -49,8 +49,8 @@ export default {
     async setBalance() {
       const marketData = await marketDataByNetwork(config.network.chain);
       this.priceUsd = marketData.priceUsd;
-      this.balanceUsd = Math.floor((this.parsedBalance * this.priceUsd) * 100) / 100
-    }
+      this.balanceUsd = Math.floor((this.parsedBalance * this.priceUsd) * 100) / 100;
+    },
   }
 };
 </script>

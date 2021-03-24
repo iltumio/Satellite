@@ -5,7 +5,7 @@ interface Creds {
   id: string,
   pass: string,
 }
-/* eslint-disable */
+
 export class LocalStorage {
   creds: Creds;
   prefix: string;

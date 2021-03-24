@@ -53,14 +53,14 @@ export default {
     },
   },
   watch: {
-    /* eslint-disable */
+    
     x: function (newVal) {
       this.$refs.menu.style.left = `${newVal}px`;
     },
     y: function (newVal) {
       this.$refs.menu.style.top = `${newVal}px`;
     },
-    /* eslint-enable */
+    
   },
   mounted() {
     this.$refs.menu.style.top = `${this.y}px`;
