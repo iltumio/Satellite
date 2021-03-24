@@ -79,6 +79,7 @@ export default {
       if (this.isMobile()){
         if (direction === "left"){
           this.$store.commit('setMobileSidebar', false);
+          this.$store.commit('changeRoute', 'main');
         };
       };
     },

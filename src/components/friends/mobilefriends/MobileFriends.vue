@@ -156,7 +156,9 @@ export default {
      * @name close
      */
     close() {
-      this.$store.commit('changeRoute', 'main');
+      this.$store.commit('setMobileSidebar', true);
+      // this.$store.commit('changeRoute', 'main');
+      // console.log("closing mobile friends");
     },
     /** @method
      * Do some checks to make sure the friend is valid
