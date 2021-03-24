@@ -5,27 +5,27 @@
   List all friends a user has. Allows for searching and chatting
 -->
 <script>
-import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
+import MobileNav from "@/components/sidebar/mobilenav/MobileNav";
 
-import WalletAddressMini from '@/components/common/WalletAddressMini';
-import QRDisplay from '@/components/common/QRDisplay';
-import QRScan from '@/components/common/QRScan';
+import WalletAddressMini from "@/components/common/WalletAddressMini";
+import QRDisplay from "@/components/common/QRDisplay";
+import QRScan from "@/components/common/QRScan";
 
-import Fuse from 'fuse.js';
+import Fuse from "fuse.js";
 
-import config from '@/config/config';
-import Friends from '@/classes/contracts/Friends.ts';
+import config from "@/config/config";
+import Friends from "@/classes/contracts/Friends.ts";
 // Components
-import CircleIcon from '@/components/common/CircleIcon';
-import FriendRequests from '@/components/friends/mobilefriends/requests/FriendRequests';
+import CircleIcon from "@/components/common/CircleIcon";
+import FriendRequests from "@/components/friends/mobilefriends/requests/FriendRequests";
 // Classes
-import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
-import Friend from '@/components/friends/friend/Friend';
+import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
+import Friend from "@/components/friends/friend/Friend";
 // import Ethereum from '@/classes/Ethereum';
 
 export default {
-  name: 'MobileFriends',
-  props: ['toggleSettings'],
+  name: "MobileFriends",
+  props: ["toggleSettings"],
   components: {
     CircleIcon,
     Friend,
@@ -39,27 +39,27 @@ export default {
     return {
       showShareQR: false,
       showScanQR: false,
-      keyword: '',
+      keyword: "",
       friends: Array.from(this.$store.state.friends),
       sortedFriends: false,
       error: false,
       success: false,
       friend: false,
 
-      friendAddress: '',
+      friendAddress: "",
       makingRequest: {},
       dwellerCachingHelper: new DwellerCachingHelper(
         this.$ethereum,
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan
       ),
-      friendsContract: null
+      friendsContract: null,
     };
   },
   mounted() {
     this.getAlphaSorted(this.friends);
     this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'addFriend') {
+      if (mutation.type === "addFriend" || mutation.type === "updateFriends") {
         this.friends = state.friends;
         this.getAlphaSorted(this.friends);
       }
@@ -83,18 +83,18 @@ export default {
       this.addFriendQR();
     },
     getAlphaSorted(friends) {
-      const map = friends.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
+      const map = friends.sort((a, b) =>
+        a.name.localeCompare(b.name, "es", { sensitivity: "base" })
+      );
       let data = map.reduce((r, e) => {
-      
         // get first letter of name of current element
         let alphabet = e.name[0].toUpperCase();
-      
+
         // if there is no property in accumulator with this letter create it
-        if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
-      
+        if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] };
         // if there is push current element to children array for that letter
         else r[alphabet].record.push(e);
-      
+
         // return accumulator
         return r;
       }, {});
@@ -102,7 +102,7 @@ export default {
     },
     update() {
       this.fetchFriendRequests();
-      this.$store.dispatch('fetchFriends', this.$store.state.activeAccount);
+      this.$store.dispatch("fetchFriends", this.$store.state.activeAccount);
     },
     getFriends() {
       this.friends = this.$store.state.friends;
@@ -112,7 +112,7 @@ export default {
      * @name fetchFriendRequests
      */
     async fetchFriendRequests() {
-      this.$store.dispatch('fetchFriendRequests');
+      this.$store.dispatch("fetchFriendRequests");
     },
     /** @method
      * Filter friends by stored keyword and
@@ -123,11 +123,11 @@ export default {
       if (this.keyword) {
         const options = {
           includeScore: false,
-          keys: ['name']
+          keys: ["name"],
         };
         const fuse = new Fuse(this.friends, options);
         const result = fuse.search(this.keyword);
-        this.friends = result.map(i => i.item);
+        this.friends = result.map((i) => i.item);
       } else {
         this.addFriendQR();
       }
@@ -138,9 +138,9 @@ export default {
      * @argument address client to chat with referenced by address
      */
     chatFriend(address) {
-      this.$store.commit('newChat', address);
-      this.$store.commit('activeChat', address);
-      this.$store.commit('changeRoute', 'main');
+      this.$store.commit("newChat", address);
+      this.$store.commit("activeChat", address);
+      this.$store.commit("changeRoute", "main");
     },
     /** @method
      * Cleanup after adding a friend
@@ -148,7 +148,7 @@ export default {
      */
     reset() {
       this.error = false;
-      this.friendAddress = '';
+      this.friendAddress = "";
       this.friend = false;
     },
     /** @method
@@ -156,7 +156,7 @@ export default {
      * @name close
      */
     close() {
-      this.$store.commit('changeRoute', 'main');
+      this.$store.commit("changeRoute", "main");
     },
     /** @method
      * Do some checks to make sure the friend is valid
@@ -174,8 +174,9 @@ export default {
         return;
       }
       if (
-        this.$store.state.friends.filter(f => f.address === this.friendAddress)
-          .length === 1
+        this.$store.state.friends.filter(
+          (f) => f.address === this.friendAddress
+        ).length === 1
       ) {
         this.error = "You're already friends with this user.";
         return;
@@ -188,9 +189,10 @@ export default {
         return;
       }
       this.error = false;
-      this.friend = { ...friend, status: 'unchecked' };
-      this.$toasted.show('ATTN: Friend Added!', {
-        type: 'success', icon: 'check-circle',
+      this.friend = { ...friend, status: "unchecked" };
+      this.$toasted.show("ATTN: Friend Added!", {
+        type: "success",
+        icon: "check-circle",
       });
       this.showScanQR = false;
     },
@@ -203,22 +205,26 @@ export default {
     async addFriendQR() {
       if (!this.$ethereum.utils.isAddress(this.friendAddress)) {
         this.$toasted.show("Invalid Address", {
-          type: 'error', icon: 'check-circle',
+          type: "error",
+          icon: "check-circle",
         });
         return;
       }
       if (this.friendAddress === this.$store.state.activeAccount) {
         this.$toasted.show("You can't add yourself.", {
-          type: 'error', icon: 'check-circle',
+          type: "error",
+          icon: "check-circle",
         });
         return;
       }
       if (
-        this.$store.state.friends.filter(f => f.address === this.friendAddress)
-          .length === 1
+        this.$store.state.friends.filter(
+          (f) => f.address === this.friendAddress
+        ).length === 1
       ) {
         this.$toasted.show("You're already friends with this user.", {
-          type: 'error', icon: 'check-circle',
+          type: "error",
+          icon: "check-circle",
         });
         return;
       }
@@ -226,17 +232,19 @@ export default {
         this.friendAddress
       );
       if (!friend) {
-        this.$toasted.show('Hmm, we couldn\'t find a user at that address', {
-          type: 'error', icon: 'check-circle',
+        this.$toasted.show("Hmm, we couldn't find a user at that address", {
+          type: "error",
+          icon: "check-circle",
         });
         return;
       }
       this.error = false;
-      this.friend = { ...friend, status: 'unchecked' };
+      this.friend = { ...friend, status: "unchecked" };
       await this.sendFriendRequest();
       this.showScanQR = false;
-      this.$toasted.show('ATTN: Friend Found!', {
-        type: 'success', icon: 'check-circle',
+      this.$toasted.show("ATTN: Friend Found!", {
+        type: "success",
+        icon: "check-circle",
       });
     },
     /** @method
@@ -267,8 +275,8 @@ export default {
         this.success = false;
       }, 2000);
       this.reset();
-    }
-  }
+    },
+  },
 };
 </script>
 

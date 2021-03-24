@@ -1,9 +1,3 @@
-import config from '../../config/config';
-import DwellerCachingHelper from '../../classes/DwellerCachingHelper';
-import Friends from '../../classes/contracts/Friends';
-import IFriend from '../../interfaces/IFriend';
-import SoundManager from '../../classes/SoundManager';
-
 export default {
   async bindThread({ commit, state }, { friend }) {
     // @ts-ignore
@@ -34,17 +28,11 @@ export default {
       state.activeAccount,
       friend.address
     );
-    const existingThread = database.threadManager.fetchThread(id);
-    // If an existing thread is found stored, we'll subscribe to it.
-    // In the future we should get this thread from the users contract.
-    //   && !this.subscribed[friend.address] TODO: track subscriptions
-    if (existingThread) {
+
       // Open the thread
       const threadID = await database.threadManager.threadAt(id);
       // Subscribe to thread events.
-      await database.messageManager.subscribe(threadID, async update => {
-        // If we're recieving messages from a peer and they are not connected, try to connect.
-        WebRTC.connectIfNotConnected(update.instance.sender);
+      await database.messageManager.subscribe(threadID, async update => {        
         if (update.instance.sender !== state.activeChat) {
           // Add an unread message indicator and if the user isn't in our sidebar,
           // add a new chat group for them.
@@ -53,6 +41,7 @@ export default {
 
           SoundManager.play('newMessage');
         }
+        
         if (friend.pubkey) {
           const decrypted = await database.messageManager.decryptMessage(
             update.instance,
@@ -70,9 +59,10 @@ export default {
         ) {
           commit('appendMessage', update.instance);
         }
+
+        // If we're recieving messages from a peer and they are not connected, try to connect.
+        WebRTC.connectIfNotConnected(update.instance.sender);
       });
-      //   this.subscribed[friend.address] = closer;
-    }
   },
   unsubscribeFromThread({}, { friend }) {
     // @ts-ignore
