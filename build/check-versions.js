@@ -33,7 +33,6 @@ module.exports = () => {
   })
 
   if (warnings.length) {
-    
     console.log(`\n${chalk.yellow('To use this template, you must update following to modules:')}\n`)
     warnings.forEach(warning => console.log(`  ${warning}`))
     console.log()

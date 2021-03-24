@@ -138,7 +138,7 @@ export default class Peer2Peer {
         channel.connect()
       }
     })
-    
+
     if (config.debug) console.table(this.channels)
   }
 
