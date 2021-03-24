@@ -50,86 +50,19 @@ export default {
     };
   },
   methods: {
-    async fetchMessages(remoteAddress) {
-      const friend = this.$store.state.friends.find(
-        (f) => f.address === remoteAddress
-      );
-      if (!friend) return;
-      this.$store.commit("loadingMessages");
-      const messages = await this.$database.messageManager.getMessages(
-        friend.threadID.toString()
-      );
-      
-      const decrypted = await this.$database.messageManager.bulkDecrypt(
-        messages,
-        friend.pubkey
-      );
-      this.$store.commit("updateMessages", decrypted);
+    async fetchMessages(address) {
+      this.$store.dispatch('fetchMessages', {address});
     },
-    // TODO: This should be removed in the future, we should pull
-    // the thread ID from the friend object all over the app instead.
     bindThreads() {
-      const { friends } = this.$store.state;
-      friends.forEach(async (f) => {
-        const threadID = await this.$database.threadManager.makeIdentifier(
-          this.$store.state.activeAccount,
-          f.address
-        );
-        this.$database.threadManager.storeThread(threadID, f.threadID);
-      });
+      this.$store.dispatch('bindAllThreads');
     },
     async subscribeToThreads() {
+      this.$store.dispatch('subscribeToAllThreads', {});
       // Iterate over all friends
       // TODO: In the future we may want to do this in a more repsonsible way.
-      this.$store.state.friends.forEach(async (friend) => {
-        // Generate our IDs
-        const id = this.$database.threadManager.makeIdentifier(
-          this.$store.state.activeAccount,
-          friend.address
-        );
-        const existingThread = this.$database.threadManager.fetchThread(id);
-        // If an existing thread is found stored, we'll subscribe to it.
-        // In the future we should get this thread from the users contract.
-        if (existingThread) {
-          if (!this.subscribed[friend.address]) {
-            // Open the thread
-            const threadID = await this.$database.threadManager.threadAt(id);
-            // Subscribe to thread events.
-            const closer = await this.$database.messageManager.subscribe(
-              threadID,
-              async (update) => {
-                // If we're recieving messages from a peer and they are not connected, try to connect.
-                this.$WebRTC.connectIfNotConnected(update.instance.sender);
-                if (update.instance.sender !== this.$store.state.activeChat) {
-                  // Add an unread message indicator and if the user isn't in our sidebar,
-                  // add a new chat group for them.
-                  this.$store.commit("markUnread", update.instance.sender);
-                  this.$store.commit("newChat", update.instance.sender);
-                  newMessage.play();
-                }
-                if (friend.pubkey) {
-                  const decrypted = await this.$database.messageManager.decryptMessage(
-                    update.instance,
-                    friend.pubkey
-                  );
-                  if (
-                    update.instance.sender === this.$store.state.activeChat ||
-                    update.instance.sender === this.$store.state.activeAccount
-                  ) {
-                    this.$store.commit("appendMessage", decrypted);
-                  }
-                } else if (
-                  update.instance.sender === this.$store.state.activeChat ||
-                  update.instance.sender === this.$store.state.activeAccount
-                ) {
-                  this.$store.commit("appendMessage", update.instance);
-                }
-              }
-            );
-            this.subscribed[friend.address] = closer;
-          }
-        }
-      });
+      // this.$store.state.friends.forEach(async (friend) => {
+      //   this.$store.dispatch('subscribeToThread', {friend});
+      // });
     },
     // Switch from one media stream to another
     switchTo(voice = false) {

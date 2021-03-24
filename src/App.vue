@@ -43,7 +43,6 @@ export default {
     },
     initP2P() {
       if (this.$store.state.friendsLoaded) {
-        const crypto = new Crypto();
         // TODO: Move this to polling
         const addresses = this.$store.state.friends.map(f => f.address);
         this.$WebRTC.updateRegistry(addresses);

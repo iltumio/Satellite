@@ -35,6 +35,7 @@ export class MessageManager {
   key: CryptoKeyPair | null;
   address: string;
   signingKey: SigningKey | null;
+  activeSubscriptions: { [key: string]: any };
 
   constructor(client: Client, address: string) {
     this.client = client;
@@ -42,6 +43,7 @@ export class MessageManager {
     this.crypto = new Crypto();
     this.key = null;
     this.signingKey = null;
+    this.activeSubscriptions = {};
   }
 
   /**
@@ -143,7 +145,7 @@ export class MessageManager {
         message.payload.encryptedData,
         aesKey
       );
-      
+
       return {
         ...message,
         encrypted: false,
@@ -183,10 +185,15 @@ export class MessageManager {
     });
   }
 
-  async subscribe(
-    threadID: ThreadID,
-    callback: CallableFunction
-  ): Promise<any> {
+  subscribe(threadID: ThreadID, callback: CallableFunction) {
+    if (this.isSubscribed(threadID)) {
+      console.warn(
+        `Already subscribed to thread ${threadID.toString()}. Skipping.`
+      );
+
+      return;
+    }
+
     const cb = (update: any) => {
       if (!update || !update.instance) return;
       callback(update);
@@ -202,6 +209,29 @@ export class MessageManager {
     ];
 
     const closer = this.client.listen(threadID, filters, cb);
+
+    // Track active subscriptions
+    this.activeSubscriptions[threadID.toString()] = closer;
     return closer;
+  }
+
+  unsubscribe(threadID: ThreadID) {
+    if (!this.isSubscribed(threadID)) {
+      console.warn(
+        `There are no subscription to ${threadID.toString()}. Skipping.`
+      );
+
+      return;
+    }
+
+    if(typeof this.activeSubscriptions[threadID.toString()] === "function") {
+      this.activeSubscriptions[threadID.toString()]();
+    }
+  }
+
+  isSubscribed(threadID: ThreadID) {
+    return threadID
+      ? Boolean(this.activeSubscriptions[threadID.toString()])
+      : false;
   }
 }

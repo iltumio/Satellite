@@ -18,6 +18,7 @@ import router from './router/index'
 import store from './store/index'
 import Ethereum from './classes/Ethereum'
 import StreamManager from './classes/webrtc/StreamManager'
+import SoundManager from "./classes/SoundManager";
 
 Vue.config.productionTip = false
 
@@ -42,6 +43,7 @@ Vue.prototype.$Threads = new Threads()
 Vue.prototype.$WebRTC = new WebRTC()
 Vue.prototype.$pin = null
 Vue.prototype.$ethereum = new Ethereum()
+Vue.prototype.$sound = new SoundManager();
 
 // Storage 2.0
 Vue.prototype.$RemoteStorage = new RemoteStorage()
