@@ -7,8 +7,8 @@
           <span class="nav-subtitle">Home</span>
       </li>
       <li v-on:click="setMainRoute('friends')">
-        <span v-if="activeRequestCount($store.state.friendRequests) > 0" class="indicator">
-          {{activeRequestCount($store.state.friendRequests)}}
+        <span v-if="$store.state.friendRequests.length > 0" class="indicator">
+          {{$store.state.friendRequests.length}}
         </span>
         <i class="fas fa-user-friends"></i>
         <br>
