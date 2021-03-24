@@ -13,6 +13,10 @@ module.exports = {
   ipfs: {
     browser: 'https://ipfs.io/ipfs/',
   },
+  pinata: {
+    // eslint-disable-next-line max-len
+    jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwOTIxNzI2My1lMjQ3LTRhMjItOGY3My0zMGE0ZDI3ZDA3NWEiLCJlbWFpbCI6Imphc29ucGFuYXlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZX0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImUyMDZhNjM5Mjc5MzFkYWJmYjQxIiwic2NvcGVkS2V5U2VjcmV0IjoiODIyMDgzM2UxNjgzM2U2MWM5OTVhN2M4YjYxMGFhOWEzZTA1Y2QzYTM0NjQyNGFhYWZiZGE0ZWQ3OWJlNWZiMCIsImlhdCI6MTYxNjUzNjMxN30.jyusSUZIX_k5cAwzdBp1xkL28wplN6zFKAHy90MRzjU',
+  },
   sounds: {
     newMessage: 'QmfGYjbTXg66V8ZHzqQRVutUFmkbd5L3fV6DA72jTHDWAH',
     call: 'QmRdxeQF53abUesaFC8qmoNJ5FLS8LBuSyCmcXT5VhuKSm',
@@ -42,7 +46,7 @@ module.exports = {
   friends: {
     mainnet: '0x0',
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
-    mumbai: '0x7BD7Df3aBcdca476dBB0d7708b56e8e14F23f67a',
+    mumbai: '0x27F7DF4f1af2D61FE815901ad456dFf3355Ca9c3',
   },
   stickers: {
     mumbai: '0xf6B5c96386b1B014Df9caa44f1403d2d4F7C8c13',
