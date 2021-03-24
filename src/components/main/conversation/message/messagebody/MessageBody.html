@@ -28,10 +28,10 @@
             <span v-if="notEncrypted(message) && false" class="faded">
               <small><i class="fas fa-unlock"></i> {{$t('conversation.message.message_body.not_encrypted')}}</small>
             </span>
-            <p v-if="message.encrypted">
+            <!-- <p v-if="message.encrypted">
               <small><span class="yellow">{{$t('conversation.message.message_body.lost_keys')}}</span></small><br>
               {{message.payload.encryptedData}}
-            </p>
+            </p> -->
             <p v-if="message.type == 'call-status'">
               <i class="fas fa-phone"></i> {{$t('conversation.message.message_body.call_started', {name: dweller.name})}}
             </p>
