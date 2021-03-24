@@ -5,6 +5,8 @@ import config from '@/config/config';
 import FileC from '@/classes/FileC.ts';
 import * as nsfwjs from 'nsfwjs'
 
+import MobileUtils from '@/utils/Mobile.ts';
+
 const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`);
 
 export default {
@@ -26,6 +28,7 @@ export default {
     };
   },
   methods: {
+    isMobile: MobileUtils.isMobile,
     // Clear all data and get ready for another file upload
     reset() {
       this.link = false;
@@ -104,7 +107,9 @@ export default {
       uploadAudio.play();
       this.$store.commit('setStatus', 'File uploaded to IPFS');
       this.$nextTick(() => {
-        this.$refs.hidden.focus();
+        if (!this.isMobile()) {
+          this.$refs.hidden.focus();
+        }
       });
     },
   },

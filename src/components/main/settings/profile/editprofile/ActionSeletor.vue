@@ -18,7 +18,7 @@
 export default {
   name: 'ActionSelector',
   props: ['close', 'changePhoto', 'removePhoto', 'changeUsername'],
-  /* eslint-disable */
+  
   directives: {
     'click-outside': {
       bind: (el, binding) => {
@@ -46,7 +46,7 @@ export default {
       }
     }
   },
-  /* eslint-enable */
+  
 };
 </script>
 

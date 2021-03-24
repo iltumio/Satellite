@@ -1,5 +1,5 @@
 import VueI18n from 'vue-i18n';
-/* eslint-disable */
+
 // @ts-ignore
 import en_US from '@/lang/en_US.json';
 // @ts-ignore
@@ -85,4 +85,4 @@ export default (locale, fallbackLocale) =>
     messages,
     fallbackLocale: fallbackLocale || locale,
   });
-/* eslint-enable */
+

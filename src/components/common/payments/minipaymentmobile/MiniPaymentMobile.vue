@@ -128,7 +128,7 @@ export default {
     this.icon = dweller.photo;
     this.getMarketPrice();
   },
-  /* eslint-disable */
+  
   directives: {
     'click-outside': {
       bind: (el, binding) => {
@@ -156,7 +156,7 @@ export default {
       }
     }
   },
-  /* eslint-enable */
+  
 };
 </script>
 

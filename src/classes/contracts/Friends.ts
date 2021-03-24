@@ -119,7 +119,6 @@ export default class Friends {
           ethers.utils.formatBytes32String(hash.substring(28)),
         ],
         this.ethereum.getSharablePublicKey(),
-        { gasLimit: 500000 },
       )
       .then(tx => tx.wait());
   }

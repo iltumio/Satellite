@@ -6,7 +6,7 @@ import CircleIcon from '@/components/common/CircleIcon';
 import config from '@/config/config';
 
 const muteAudio = new Audio(`${config.ipfs.browser}${config.sounds.mute}`);
-// eslint-disable-next-line
+
 const unmuteAudio = new Audio(`${config.ipfs.browser}${config.sounds.unmute}`);
 
 const deafenAudio = new Audio(`${config.ipfs.browser}${config.sounds.deafen}`);

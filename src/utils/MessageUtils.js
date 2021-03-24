@@ -1,48 +1,48 @@
 const datesAreOnSameDay = (first, second) =>
   first.getFullYear() === second.getFullYear() &&
   first.getMonth() === second.getMonth() &&
-  first.getDate() === second.getDate();
+  first.getDate() === second.getDate()
 
 export default {
-  group(messages) {
-    const currentGrouping = messages;
-    const newGrouping = [];
-    let lastMessageFrom = false;
-    let lastMessageAt = false;
-    let tempGroup = [];
-    let lastDay = null;
+  group (messages) {
+    const currentGrouping = messages
+    const newGrouping = []
+    let lastMessageFrom = false
+    let lastMessageAt = false
+    let tempGroup = []
+    let lastDay = null
     currentGrouping.forEach((message, i) => {
       if (!lastDay) {
-        lastDay = message.at;
+        lastDay = message.at
       }
       const split = () => {
-        newGrouping.push(tempGroup);
-        tempGroup = [message];
-        lastMessageFrom = message.sender;
-      };
-      const messageDate = new Date(message.at);
-      const lastDate = new Date(lastDay);
+        newGrouping.push(tempGroup)
+        tempGroup = [message]
+        lastMessageFrom = message.sender
+      }
+      const messageDate = new Date(message.at)
+      const lastDate = new Date(lastDay)
       if (!datesAreOnSameDay(messageDate, lastDate)) {
-        lastDay = message.at;
-        split();
+        lastDay = message.at
+        split()
         newGrouping.push([{
           type: 'day-break',
           date: message.at,
-          id: Date.now(),
-        }]);
+          id: Date.now()
+        }])
       } else if (lastMessageAt && message.at - lastMessageAt > 120000) {
-        split();
+        split()
       } else if (!lastMessageFrom || lastMessageFrom === message.sender) {
-        lastMessageFrom = message.sender;
-        tempGroup.push(message);
+        lastMessageFrom = message.sender
+        tempGroup.push(message)
       } else {
-        split();
+        split()
       }
       if (i === currentGrouping.length - 1) {
-        newGrouping.push(tempGroup);
+        newGrouping.push(tempGroup)
       }
-      lastMessageAt = message.at;
-    });
-    return newGrouping;
-  },
-};
+      lastMessageAt = message.at
+    })
+    return newGrouping
+  }
+}

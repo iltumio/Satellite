@@ -17,7 +17,7 @@ interface Data {
   data: object,
 }
 
-/* eslint-disable */
+
 export class ThreadDB {
   threadID: any;
   collectionSchema: { data: string; _id: string; };
