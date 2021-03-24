@@ -57,7 +57,7 @@ export default {
       if (!friend) return;
       this.$store.commit("loadingMessages");
       const messages = await this.$database.messageManager.getMessages(
-        friend.threadID
+        friend.threadID.toString()
       );
       
       const decrypted = await this.$database.messageManager.bulkDecrypt(

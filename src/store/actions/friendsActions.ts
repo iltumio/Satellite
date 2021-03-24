@@ -114,19 +114,23 @@ export default {
 
       dispatch('fetchFriendRequests');
 
-      const dwellerCachingHelper = new DwellerCachingHelper(
-        // @ts-ignore
-        this.$app.$ethereum,
-        config.registry[config.network.chain],
-        config.cacher.dwellerLifespan,
-      );
+      dispatch('fetchFriends');
 
-      const friend = await dwellerCachingHelper.getDweller(address);
+      // TODO: update this code to handle optimistic ui instead of fetching friends again
+      // const dwellerCachingHelper = new DwellerCachingHelper(
+      //   // @ts-ignore
+      //   this.$app.$ethereum,
+      //   config.registry[config.network.chain],
+      //   config.cacher.dwellerLifespan,
+      // );
 
-      commit('addFriend', {
-        ...friend,
-        threadId,
-      });
+      // const friend = await dwellerCachingHelper.getDweller(address);
+
+      // commit('addFriend', {
+      //   ...friend,
+      //   threadID: threadId.toString(),
+      // });
+      
     } catch (e) {
       console.log(e);
     }

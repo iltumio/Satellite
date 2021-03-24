@@ -68,14 +68,6 @@ export default {
           this.$store.commit('peerHealth', [identifier, 'dead']);
         }, ['flatlined'], this.$store.state.activeChats);
 
-        // Listen for keys
-        this.$WebRTC.subscribe((event, identifier, message) => {
-          crypto.storeKey(
-            identifier,
-            message.data,
-          );
-        }, ['key-offer'], this.$store.state.activeChats);
-
         // init
         this.$WebRTC.init(this.$ethereum.activeAccount);
         this.peerInit = true;
