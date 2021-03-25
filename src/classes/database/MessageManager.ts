@@ -129,7 +129,8 @@ export class MessageManager {
       }
     });
 
-    await this.client.create(threadID, 'messages', [encryptedMessage]);
+    await this.client
+      .create(threadID, 'messages', [encryptedMessage]);
     return threadID;
   }
 
@@ -185,7 +186,11 @@ export class MessageManager {
     });
   }
 
-  subscribe(threadID: ThreadID, callback: CallableFunction, onUnsubscribe: CallableFunction) {
+  subscribe(
+    threadID: ThreadID,
+    callback: CallableFunction,
+    onUnsubscribe: CallableFunction
+  ) {
     if (this.isSubscribed(threadID)) {
       console.warn(
         `Already subscribed to thread ${threadID.toString()}. Skipping.`

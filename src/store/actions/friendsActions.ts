@@ -47,6 +47,7 @@ export default {
       updatedFriends = parsedFriends;
     }
 
+    
     dispatch('subscribeToAllThreads', { friends: updatedFriends });
 
     // TODO: eventually limit UI updates if friends didn't change

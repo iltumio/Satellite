@@ -1,20 +1,6 @@
-export default {
-  async bindThread({ commit, state }, { friend }) {
-    // @ts-ignore
-    const threadID = await this.$app.$database.threadManager.makeIdentifier(
-      state.activeAccount,
-      friend.address
-    );
+import ThreadID from "@textile/threads-id";
 
-    // @ts-ignore
-    this.$app.$database.threadManager.storeThread(threadID, friend.threadID);
-  },
-  async bindAllThreads({ state, dispatch }) {
-    const { friends } = state;
-    friends.forEach(async friend => {
-      dispatch('bindThread', { friend });
-    });
-  },
+export default {
   async subscribeToThread({ state, commit, dispatch }, { friend }) {
     // @ts-ignore
     const database = this.$app.$database;
@@ -23,14 +9,8 @@ export default {
     // @ts-ignore
     const SoundManager = this.$app.$sound;
 
-    // Generate our IDs
-    const id = database.threadManager.makeIdentifier(
-      state.activeAccount,
-      friend.address
-    );
+    const threadID = ThreadID.fromString(friend.threadID);
 
-    // Open the thread
-    const threadID = await database.threadManager.threadAt(id);
     // Subscribe to thread events.
     await database.messageManager.subscribe(
       threadID,
@@ -130,15 +110,7 @@ export default {
       // Mark the message as pending when it's not yet included in the thread
       commit('appendMessage', { ...msg, pending: true });
 
-      const id = database.threadManager.makeIdentifier(
-        state.activeAccount,
-        state.activeChat
-      );
-
-      const threadExists = await database.threadManager.fetchThread(id);
-
-      if (threadExists) {
-        const threadID = await database.threadManager.threadAt(id);
+        const threadID = ThreadID.fromString(recipient.threadID);
 
         // If we have their public key, we will encrypt their message
         database.messageManager.addMessageDeterministically(
@@ -146,7 +118,7 @@ export default {
           msg,
           recipient.pubkey
         );
-      }
+      
 
       // const peer = WebRTC.find(state.activeChat);
 

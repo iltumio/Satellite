@@ -54,7 +54,8 @@ export default {
       this.$store.dispatch('fetchMessages', {address});
     },
     bindThreads() {
-      this.$store.dispatch('bindAllThreads');
+      // TODO: remove all references to bind threads
+      // this.$store.dispatch('bindAllThreads');
     },
     async subscribeToThreads() {
       this.$store.dispatch('subscribeToAllThreads', {});

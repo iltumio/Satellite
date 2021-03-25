@@ -13,7 +13,6 @@
 <script>
 import 'bulma/css/bulma.css';
 import config from '@/config/config';
-import Crypto from '@/classes/crypto/Crypto.ts';
 import CryptoUtil from '@/utils/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
 import SecurityMask from '@/components/common/SecurityMask';
