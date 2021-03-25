@@ -18,7 +18,7 @@ import ChangeUsername from './editprofile/ChangeUsername';
 
 export default {
   name: 'EmbeddedProfile',
-  props: ['customFinalAction', 'embeded'],
+  props: ['customFinalAction', 'embeded', 'mountAction'],
   components: {
     VueQrcode,
     ActionSelector,
@@ -57,15 +57,16 @@ export default {
     };
   },
   mounted() {
+    this.mountAction()
     // Gets provider from window object
-    this.getDwellerByAddress(this.$store.state.activeAccount);
+    this.getDwellerByAddress(this.$store.state.activeAccount)
 
     // Creates a registry instance
-    this.registry = new Registry(this.$ethereum, config.registry[config.network.chain]);
+    this.registry = new Registry(this.$ethereum, config.registry[config.network.chain])
 
     Mousetrap.bind('esc', () => {
-      this.showCropper = false;
-    });
+      this.showCropper = false
+    })
   },
   methods: {
     dataURItoBlob(dataURI) {

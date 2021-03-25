@@ -118,8 +118,16 @@ export default {
     },
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
-      if (this.settingsOpen) this.$store.commit('changeRoute', 'main');
-      this.$store.commit('setMobileSidebar', false);
+      if (this.settingsOpen) {
+        this.$store.commit('changeRoute', 'main');
+        this.$store.commit('setMobileSidebar', false);
+      }
+
+      else{
+       this.$store.commit('setMobileSidebar', true);
+      }
+
+
     },
     async updateServers() {
       this.loadingServers = true;

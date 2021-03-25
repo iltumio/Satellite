@@ -84,7 +84,7 @@ module.exports = {
     ping_interval: 5000
   },
   web3: {
-    balance_polling_interval: 10000
+    balance_polling_interval: 2000
   },
   toastNotifications: {
     position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast'

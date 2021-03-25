@@ -68,7 +68,6 @@ export default {
       this.$ethereum,
       config.friends[config.network.chain]
     );
-
     this.update();
   },
   methods: {
@@ -156,7 +155,7 @@ export default {
      * @name close
      */
     close() {
-      this.$store.commit("changeRoute", "main");
+      this.$store.commit('setMobileSidebar', true);
     },
     /** @method
      * Do some checks to make sure the friend is valid

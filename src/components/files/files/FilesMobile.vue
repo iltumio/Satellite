@@ -171,7 +171,9 @@ export default {
      * @name close
      */
     close() {
-      this.$store.commit('changeRoute', 'main');
+      this.$store.commit('setMobileSidebar', true);
+      // this.$store.commit('changeRoute', 'main');
+
     },
     /** @method
      * Fetch files from the IPFS local file cache
