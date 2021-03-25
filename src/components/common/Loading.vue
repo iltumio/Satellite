@@ -12,7 +12,7 @@
       <p
         id="logo"
         :style="`${($store.state.dwellerAddress !== '0x0000000000000000000000000000000000000000') ? 'margin-top: 5rem' : ''}`">
-        <Loader size="100"  />
+        <Loader size="100" v-if="showLoader"/>
       </p>
       <div class="red" v-if="$store.state.criticalError">
         <i class="fas fa-skull"></i> Failure to load: {{ $store.state.criticalError }} <br /><br />
@@ -26,7 +26,7 @@
         class="content"
       >
         <FundAccount v-if="$store.state.balance && $store.state.balance.eq(0)"/>
-        <EmbededProfile :customFinalAction="reload" v-else />
+        <EmbededProfile :customFinalAction="reload" :mountAction="hideLoader" v-else />
         <!-- <Profile :customFinalAction="reload" v-else /> -->
       </div>
       <div v-else-if="!$store.state.friendsLoaded">
@@ -90,6 +90,7 @@ export default {
   data() {
     return {
       showWeb3: false,
+      showLoader: true,
     };
   },
   mounted() {},
@@ -97,6 +98,9 @@ export default {
     reload() {
       window.location.reload();
     },
+    hideLoader() {
+      this.showLoader = false
+    }
   },
 };
 </script>
