@@ -13,37 +13,7 @@ export default {
   methods: {
     // Sends messages to remote peer and the message broker.
     async sendMessage(data, type) {
-      if (this.$database.messageManager) {
-        const msg = this.$database.messageManager.buildMessage(
-          this.$store.state.activeChat,
-          Date.now(),
-          'message',
-          {
-            type: type || 'text',
-            data,
-          },
-        );
-
-        const id = this.$database.threadManager
-          .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
-        const threadExists = await this.$database.threadManager.fetchThread(id);
-        if (threadExists) {
-          const threadID = await this.$database.threadManager.threadAt(id);
-          // If we have their public key, we will encrypt their message
-          this.$database.messageManager
-            .addMessageDeterministically(threadID, msg, this.$store.state.activeChat);
-        }
-      }
-      const peer = this.$WebRTC.find(this.$store.state.activeChat);
-      if (peer && peer.isAlive) {
-        peer.send(
-          'message',
-          {
-            type: type || 'text',
-            data,
-          },
-        );
-      }
+      this.$store.dispatch("sendMessage", { data, type });
     },
     async startCapture(displayMediaOptions) {
       let captureStream = null;

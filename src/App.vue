@@ -13,7 +13,6 @@
 <script>
 import 'bulma/css/bulma.css';
 import config from '@/config/config';
-import Crypto from '@/classes/crypto/Crypto.ts';
 import CryptoUtil from '@/utils/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
 import SecurityMask from '@/components/common/SecurityMask';
@@ -43,7 +42,6 @@ export default {
     },
     initP2P() {
       if (this.$store.state.friendsLoaded) {
-        const crypto = new Crypto();
         // TODO: Move this to polling
         const addresses = this.$store.state.friends.map(f => f.address);
         this.$WebRTC.updateRegistry(addresses);
@@ -67,14 +65,6 @@ export default {
         this.$WebRTC.subscribe((event, identifier) => {
           this.$store.commit('peerHealth', [identifier, 'dead']);
         }, ['flatlined'], this.$store.state.activeChats);
-
-        // Listen for keys
-        this.$WebRTC.subscribe((event, identifier, message) => {
-          crypto.storeKey(
-            identifier,
-            message.data,
-          );
-        }, ['key-offer'], this.$store.state.activeChats);
 
         // init
         this.$WebRTC.init(this.$ethereum.activeAccount);

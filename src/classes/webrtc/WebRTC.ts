@@ -22,7 +22,6 @@ interface Connection {
 }
 
 type RTCEvent = '*' |
-  'key-offer' |
   'connection-established' |
   'ping' |
   'pong' |
@@ -87,7 +86,6 @@ export default class WebRTC extends WebRTCMedia {
     // TODO: Convert this to a string union
     return [
       '*',
-      'key-offer',
       'connection-established',
       'ping',
       'pong',

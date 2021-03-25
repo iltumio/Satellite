@@ -17,8 +17,8 @@
   <div class="usersubcontrols">
     <div v-on:click="setMainRoute('friends')" :class="`${$store.state.mainRoute == 'friends' ? 'active' : ''} friends`">
       <i class="fa fa-user-friends"></i> &nbsp; {{$t('sidebar.friends')}}
-      <span v-if="activeRequestCount($store.state.friendRequests) > 0" class="indicator">
-        {{activeRequestCount($store.state.friendRequests)}}
+      <span v-if="$store.state.friendRequests.length > 0" class="indicator">
+        {{$store.state.friendRequests.length}}
       </span>
     </div>
     <div v-on:click="setMainRoute('files')" :class="`${$store.state.mainRoute == 'files' ? 'active' : ''} files`">

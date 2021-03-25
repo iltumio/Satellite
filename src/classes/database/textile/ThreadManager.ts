@@ -68,9 +68,10 @@ export default class ThreadManager {
     const existingThreadID = this.fetchThread(identifier);
     
     if (existingThreadID) {
-      return ThreadID.fromString(
+      const ex = ThreadID.fromString(
         existingThreadID,
       );
+      return ex;
     }
 
     const threadID: ThreadID = await this.client.newDB(
