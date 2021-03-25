@@ -36,7 +36,9 @@
               <i class="fas fa-phone"></i> {{$t('conversation.message.message_body.call_started', {name: dweller.name})}}
             </p>
             <p v-if="message.payload && message.payload.type == 'text'">
-              <span v-html="wrapLinks(message.payload.data)"></span>
+              <span v-html="wrapLinks(message.payload.data)" :class="message.pending ? 'pending' : ''"></span>
+              <!-- <i class="sent-status far fa-check-circle" v-if="message.pending" />
+              <i class="sent-status fas fa-check-circle" v-else /> -->
             </p>
             <div v-if="message.payload && message.payload.type === 'link'">
               <Link :message="message"/>

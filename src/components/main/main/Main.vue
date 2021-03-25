@@ -136,31 +136,7 @@ export default {
     // Send a message in the chat, this will probably
     // be rewritten when the chat is functional
     async sendMessage(data, type) {
-      const recipient = this.$store.state.friends.find(
-          (friend) => friend.address === this.$store.state.activeChat
-        );
-      if (this.$database.messageManager) {
-        const msg = this.$database.messageManager.buildMessage(
-          this.$store.state.activeChat,
-          Date.now(),
-          'message',
-          {
-            type: type || 'text',
-            data: type === 'text' ?
-              encodeURI(data) : data,
-          },
-        );
-        this.$store.commit('appendMessage', msg);
-        const id = this.$database.threadManager
-          .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
-        const threadExists = await this.$database.threadManager.fetchThread(id);
-        if (threadExists) {
-          const threadID = await this.$database.threadManager.threadAt(id);
-          // If we have their public key, we will encrypt their message
-          this.$database.messageManager
-            .addMessageDeterministically(threadID, msg, recipient.pubkey);
-        }
-      }
+      this.$store.dispatch('sendMessage', {data, type});
     },
     isMobile: MobileUtils.isMobile,
     swipeHandler(direction) {

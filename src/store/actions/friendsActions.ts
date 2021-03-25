@@ -4,7 +4,7 @@ import Friends from '../../classes/contracts/Friends';
 import IFriend from '../../interfaces/IFriend';
 
 export default {
-  async fetchFriends({ commit, state, dispatch }) {
+  async fetchFriends({ commit, dispatch }) {
     // @ts-ignore
     const friendsContract = new Friends(
       // @ts-ignore

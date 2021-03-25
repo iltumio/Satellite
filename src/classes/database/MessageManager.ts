@@ -185,7 +185,7 @@ export class MessageManager {
     });
   }
 
-  subscribe(threadID: ThreadID, callback: CallableFunction) {
+  subscribe(threadID: ThreadID, callback: CallableFunction, onUnsubscribe: CallableFunction) {
     if (this.isSubscribed(threadID)) {
       console.warn(
         `Already subscribed to thread ${threadID.toString()}. Skipping.`
@@ -195,7 +195,13 @@ export class MessageManager {
     }
 
     const cb = (update: any) => {
-      if (!update || !update.instance) return;
+      // Trigger the onUnsubscribe
+      if (!update?.instance) {
+        this.unsubscribe(threadID);
+        onUnsubscribe(threadID);
+        return;
+      }
+
       callback(update);
     };
 
@@ -211,8 +217,12 @@ export class MessageManager {
     const closer = this.client.listen(threadID, filters, cb);
 
     // Track active subscriptions
-    this.activeSubscriptions[threadID.toString()] = closer;
+    this.registerListener(threadID, closer);
     return closer;
+  }
+
+  registerListener(threadID: ThreadID, listener: any) {
+    this.activeSubscriptions[threadID.toString()] = listener;
   }
 
   unsubscribe(threadID: ThreadID) {
@@ -224,8 +234,11 @@ export class MessageManager {
       return;
     }
 
-    if(typeof this.activeSubscriptions[threadID.toString()] === "function") {
-      this.activeSubscriptions[threadID.toString()]();
+    if (
+      typeof this.activeSubscriptions[threadID.toString()].close === 'function'
+    ) {
+      this.activeSubscriptions[threadID.toString()].close();
+      delete this.activeSubscriptions[threadID.toString()];
     }
   }
 
