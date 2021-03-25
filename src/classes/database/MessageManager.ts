@@ -202,7 +202,7 @@ export class MessageManager {
     const cb = (update: any) => {
       // Trigger the onUnsubscribe
       if (!update?.instance) {
-        // this.unsubscribe(threadID);
+        this.unsubscribe(threadID);
         onUnsubscribe(threadID);
         return;
       }
@@ -242,7 +242,12 @@ export class MessageManager {
     if (
       typeof this.activeSubscriptions[threadID.toString()].close === 'function'
     ) {
-      this.activeSubscriptions[threadID.toString()].close();
+      try{
+        this.activeSubscriptions[threadID.toString()].close();
+      } catch(e) {
+        console.warn(`Subscription ${threadID.toString()} was already closed. Skipping.`);
+      }
+
       delete this.activeSubscriptions[threadID.toString()];
     }
   }
