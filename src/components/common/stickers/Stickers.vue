@@ -17,11 +17,15 @@ export default {
       if(data && data.price) {
         newData["price"] = ethers.utils.formatEther(data.price).toString();
       }
+      console.log('data', newData);
       this.routeData = newData;
     },
     sendSticker(sticker) {
       this.sendMessage(
-        sticker,
+        {
+          sticker,
+          meta: this.routeData
+        },
         'sticker',
       );
       this.$store.commit('toggleStickers');
@@ -45,6 +49,10 @@ export default {
     }
   },
   async mounted(){
+    if (this.$store.state.stickerPack) {
+      this.route = 'buy-stickers'
+      this.routeData = this.$store.state.stickerPack.meta
+    }
     this.$store.dispatch("fetchStickers");
 
     this.$store.subscribe((mutation, state) => {
