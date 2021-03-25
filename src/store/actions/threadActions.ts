@@ -1,4 +1,4 @@
-import ThreadID from "@textile/threads-id";
+import ThreadID from '@textile/threads-id';
 
 export default {
   async subscribeToThread({ state, commit, dispatch }, { friend }) {
@@ -20,8 +20,6 @@ export default {
           // add a new chat group for them.
           commit('markUnread', update.instance.sender);
           commit('newChat', update.instance.sender);
-
-          SoundManager.play('newMessage');
         }
 
         if (friend.pubkey) {
@@ -40,6 +38,14 @@ export default {
           update.instance.sender === state.activeAccount
         ) {
           commit('appendMessage', update.instance);
+        }
+
+        if (
+          update.instance.sender !== state.activeAccount &&
+          (update.instance.sender !== state.activeChat ||
+          !document.hasFocus())
+        ) {
+          SoundManager.play('newMessage');
         }
 
         // If we're recieving messages from a peer and they are not connected, try to connect.
@@ -110,15 +116,14 @@ export default {
       // Mark the message as pending when it's not yet included in the thread
       commit('appendMessage', { ...msg, pending: true });
 
-        const threadID = ThreadID.fromString(recipient.threadID);
+      const threadID = ThreadID.fromString(recipient.threadID);
 
-        // If we have their public key, we will encrypt their message
-        database.messageManager.addMessageDeterministically(
-          threadID,
-          msg,
-          recipient.pubkey
-        );
-      
+      // If we have their public key, we will encrypt their message
+      database.messageManager.addMessageDeterministically(
+        threadID,
+        msg,
+        recipient.pubkey
+      );
 
       // const peer = WebRTC.find(state.activeChat);
 
