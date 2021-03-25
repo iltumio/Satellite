@@ -46,7 +46,7 @@ module.exports = {
   friends: {
     mainnet: '0x0',
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
-    mumbai: '0x27F7DF4f1af2D61FE815901ad456dFf3355Ca9c3',
+    mumbai: '0x8cc8feF7559346d03C8202413273341a85a9F979',
   },
   stickers: {
     mumbai: '0xf6B5c96386b1B014Df9caa44f1403d2d4F7C8c13',
