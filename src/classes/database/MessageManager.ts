@@ -202,7 +202,7 @@ export class MessageManager {
     const cb = (update: any) => {
       // Trigger the onUnsubscribe
       if (!update?.instance) {
-        this.unsubscribe(threadID);
+        // this.unsubscribe(threadID);
         onUnsubscribe(threadID);
         return;
       }
