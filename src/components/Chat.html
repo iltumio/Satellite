@@ -65,8 +65,9 @@
       >
         <!--Main Chat-->
         <div
-          class="column is-one-third sidebar-wrapper sidebar-transition"
-          :class="{ show: $store.state.sidebarMobileOpen }"
+          class="column is-one-third sidebar-wrapper"
+          :class="[ { show: $store.state.sidebarMobileOpen} , $store.state.mainRoute === 'main' ? 'sidebar-transition' : '' ]"
+          
           v-if="$store.state.sidebarOpen"
         >
           <Sidebar

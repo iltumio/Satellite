@@ -68,6 +68,8 @@ export default {
       this.$ethereum,
       config.friends[config.network.chain]
     );
+      console.log(this.$store.state.mainRoute);
+
 
     this.update();
   },
@@ -156,6 +158,8 @@ export default {
      * @name close
      */
     close() {
+      console.log(this.$store.state.mainRoute);
+
       this.$store.commit('setMobileSidebar', true);
       // this.$store.commit('changeRoute', 'main');
       // console.log("closing mobile friends");

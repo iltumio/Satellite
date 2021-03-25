@@ -81,6 +81,7 @@ export default {
     mainRoute() {
       this.$nextTick(() => {
         setTimeout(() => {
+          console.log(this.$store.state.mainRoute);
           this.$store.commit('setMobileSidebar', false);
         }, 0);
       });
