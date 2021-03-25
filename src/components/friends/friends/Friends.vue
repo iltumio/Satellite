@@ -5,90 +5,80 @@
   List all friends a user has. Allows for searching and chatting
 -->
 <script>
-import WalletAddressMini from '@/components/common/WalletAddressMini';
+import WalletAddressMini from "@/components/common/WalletAddressMini";
 
-import Fuse from 'fuse.js';
+import Fuse from "fuse.js";
 
-import config from '@/config/config';
-import Friends from '@/classes/contracts/Friends.ts';
+import config from "@/config/config";
 // Components
-import CircleIcon from '@/components/common/CircleIcon';
-import FriendRequests from '@/components/friends/friends/requests/FriendRequests';
+import CircleIcon from "@/components/common/CircleIcon";
+import FriendRequests from "@/components/friends/friends/requests/FriendRequests";
 // Classes
-import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts';
-import Friend from '@/components/friends/friend/Friend';
-// import Ethereum from '@/classes/Ethereum';
+import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
+import Friend from "@/components/friends/friend/Friend";
 
 export default {
-  name: 'Friends',
+  name: "Friends",
   components: {
     CircleIcon,
     Friend,
     FriendRequests,
-    WalletAddressMini
+    WalletAddressMini,
   },
   data() {
     return {
-      keyword: '',
-      friends: Array.from(this.$store.state.friends),
+      keyword: "",
+      // friends: Array.from(this.$store.state.friends),
       error: false,
       success: false,
       friend: false,
-
-      friendAddress: '',
+      friendAddress: "",
       makingRequest: {},
       dwellerCachingHelper: new DwellerCachingHelper(
         this.$ethereum,
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan
       ),
-      friendsContract: null
     };
   },
   mounted() {
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'addFriend') {
-        this.friends = state.friends;
-      }
-    });
-    this.friendsContract = new Friends(
-      this.$ethereum,
-      config.friends[config.network.chain]
-    );
+    // this.$store.subscribe((mutation, state) => {
+    //   if (mutation.type === "addFriend") {
+    //     this.friends = state.friends;
+    //   }
+    // });
 
     this.update();
   },
   methods: {
     update() {
       this.fetchFriendRequests();
-      this.$store.dispatch('fetchFriends', this.$store.state.activeAccount);
-    },
-    getFriends() {
-      this.friends = this.$store.state.friends;
+      this.$store.dispatch("fetchFriends", this.$store.state.activeAccount);
     },
     /** @method
      * Get all the friend requests that are actively stored on chain
      * @name fetchFriendRequests
      */
     async fetchFriendRequests() {
-      this.$store.dispatch('fetchFriendRequests');
+      this.$store.dispatch("fetchFriendRequests");
     },
     /** @method
      * Filter friends by stored keyword and
      * rebind the friends data
      * @name filterFriends
+     * @param keyword string keyword to search for
      */
-    filterFriends() {
-      if (this.keyword) {
+    getFilteredFriends(keyword) {
+      if (keyword) {
         const options = {
           includeScore: false,
-          keys: ['name']
+          keys: ["name"],
         };
-        const fuse = new Fuse(this.friends, options);
-        const result = fuse.search(this.keyword);
-        this.friends = result.map(i => i.item);
+        const fuse = new Fuse(this.$store.state.friends, options);
+        const result = fuse.search(keyword);
+        return result.map((i) => i.item);
       } else {
-        this.getFriends();
+        return this.$store.state.friends;
       }
     },
     /** @method
@@ -97,9 +87,9 @@ export default {
      * @argument address client to chat with referenced by address
      */
     chatFriend(address) {
-      this.$store.commit('newChat', address);
-      this.$store.commit('activeChat', address);
-      this.$store.commit('changeRoute', 'main');
+      this.$store.commit("newChat", address);
+      this.$store.commit("activeChat", address);
+      this.$store.commit("changeRoute", "main");
     },
     /** @method
      * Cleanup after adding a friend
@@ -107,7 +97,7 @@ export default {
      */
     reset() {
       this.error = false;
-      this.friendAddress = '';
+      this.friendAddress = "";
       this.friend = false;
     },
     /** @method
@@ -115,7 +105,7 @@ export default {
      * @name close
      */
     close() {
-      this.$store.commit('changeRoute', 'main');
+      this.$store.commit("changeRoute", "main");
     },
     /** @method
      * Do some checks to make sure the friend is valid
@@ -133,8 +123,9 @@ export default {
         return;
       }
       if (
-        this.$store.state.friends.filter(f => f.address === this.friendAddress)
-          .length === 1
+        this.$store.state.friends.filter(
+          (f) => f.address === this.friendAddress
+        ).length === 1
       ) {
         this.error = "You're already friends with this user.";
         return;
@@ -147,7 +138,7 @@ export default {
         return;
       }
       this.error = false;
-      this.friend = { ...friend, status: 'unchecked' };
+      this.friend = { ...friend, status: "unchecked" };
     },
     /** @method
      * Sends a friend request to the active friend
@@ -155,27 +146,16 @@ export default {
      * @name sendFriendRequest
      */
     async sendFriendRequest() {
-      const id = this.$database.threadManager.makeIdentifier(
-        this.$store.state.activeAccount,
-        this.friendAddress
-      );
+      // TODO: update to receive the address as parameter
+      const address = this.friendAddress;
 
-      this.makingRequest = Object.assign({}, this.makingRequest, {
-        [this.friendAddress]: true
-      });
-      const threadID = await this.$database.threadManager.threadAt(id);
+      this.makingRequest = { ...this.makingRequest, [address]: true };
 
-      this.friendsContract
-        .makeRequest(this.friendAddress, threadID.toString())
-        .then(() => {
-          this.reset();
-          this.getFriends();
-        })
-        .catch(e => {
-          this.makingRequest = Object.assign({}, this.makingRequest, {
-            [this.friendAddress]: false
-          });
-        });
+      await this.$store.dispatch("sendFriendRequest", { address });
+
+      this.makingRequest = { ...this.makingRequest, [address]: false };
+
+      this.reset();
     },
     /** @method
      * Confirms and adds a found friend
@@ -188,8 +168,8 @@ export default {
         this.success = false;
       }, 2000);
       this.reset();
-    }
-  }
+    },
+  },
 };
 </script>
 

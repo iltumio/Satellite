@@ -103,7 +103,7 @@ export default {
         WebRTCUser.send('typing-notice', false);
       }
     },
-    // eslint-disable-next-line
+    
     isTyping: debounce(function(e) {
       this.stopTyping();
     }, 2000),

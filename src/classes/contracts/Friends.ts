@@ -4,11 +4,18 @@ import DwellerCachingHelper from '../../classes/DwellerCachingHelper';
 import config from '../../config/config';
 // @ts-ignore
 import * as FriendsInterface from '@/contracts/build/contracts/Friends.json';
+
+enum FriendsEvents {
+  FriendRequestSent = 'FriendRequestSent',
+  FriendRequestDenied = 'FriendRequestDenied',
+  FriendRequestAccepted = 'FriendRequestAccepted'
+};
+
 export default class Friends {
   ethereum: Ethereum;
   contract: any;
   dwellerCache: DwellerCachingHelper;
-  listener: any;
+  listeners: {[key: string]: (params: any)=>void};
 
   constructor(ethereum: Ethereum, address: string) {
     this.ethereum = ethereum;
@@ -16,9 +23,9 @@ export default class Friends {
     this.dwellerCache = new DwellerCachingHelper(
       ethereum,
       config.registryAddress,
-      config.cacher.dwellerLifespan
+      config.cacher.dwellerLifespan,
     );
-    this.listener = null;
+    this.listeners = {};
   }
 
   /** @function
@@ -60,9 +67,7 @@ export default class Friends {
       accepted: request.accepted,
       reciever: await this.dwellerCache.getDweller(request.reciver),
       sender: await this.dwellerCache.getDweller(request.sender),
-      threadHash: `${ethers.utils.parseBytes32String(
-        request.threadHash1
-      )}${ethers.utils.parseBytes32String(request.threadHash2)}`
+      threadHash: `${ethers.utils.parseBytes32String(request.threadHash1)}${ethers.utils.parseBytes32String(request.threadHash2)}`,
     };
   }
 
@@ -74,9 +79,7 @@ export default class Friends {
   async parseFriend(fr: any) {
     return {
       id: fr,
-      threadHash: `${ethers.utils.parseBytes32String(
-        fr.threadHash1
-      )}${ethers.utils.parseBytes32String(fr.threadHash2)}`
+      threadHash: `${ethers.utils.parseBytes32String(fr.threadHash1)}${ethers.utils.parseBytes32String(fr.threadHash2)}`,
     };
   }
 
@@ -91,41 +94,42 @@ export default class Friends {
   /** @function
    * @name makeRequest
    * @argument to account to send the request to
-   * @argument hash threadID for the friend group
    * @returns transaction hash
    */
-  async makeRequest(to: string, hash: string): Promise<any> {
+  async makeRequest(to: string): Promise<any> {
     return this.contract
-      .makeRequest(
-        to,
-        [
-          ethers.utils.formatBytes32String(hash.substring(0, 28)),
-          ethers.utils.formatBytes32String(hash.substring(28))
-        ],
-        { gasLimit: 300000 }
-      )
+      .makeRequest(to, this.ethereum.getSharablePublicKey(), {
+        gasLimit: 300000,
+      })
       .then(tx => tx.wait());
   }
 
   /** @function
    * @name acceptRequest
-   * @argument id friend request identifier to accept
-   * @returns transaction hash
+   * @argument to address of the user that sent the friend request
+   * @returns transaction receipt
    */
-  async acceptRequest(id: number): Promise<any> {
+  async acceptRequest(to: string, hash: string): Promise<any> {
     return this.contract
-      .acceptRequest(id, { gasLimit: 300000 })
+      .acceptRequest(
+        to,
+        [
+          ethers.utils.formatBytes32String(hash.substring(0, 28)),
+          ethers.utils.formatBytes32String(hash.substring(28)),
+        ],
+        this.ethereum.getSharablePublicKey(),
+      )
       .then(tx => tx.wait());
   }
 
   /** @function
    * @name denyRequest
-   * @argument id friend request identifier to deny
-   * @returns transaction hash
+   * @argument to address of the user that sent the friend request
+   * @returns transaction receipt
    */
-  async denyRequest(id: number): Promise<any> {
+  async denyRequest(to: string): Promise<any> {
     return this.contract
-      .acceptRequest(id, { gasLimit: 300000 })
+      .denyRequest(to, { gasLimit: 300000 })
       .then(tx => tx.wait());
   }
 
@@ -133,19 +137,43 @@ export default class Friends {
    * @name startListener
    * @arguments listener listener function
    */
-  async startListener(listener: (params: any) => void) {
-    const filter = this.contract.filters.FriendRequestSent(
-      this.ethereum.activeAccount
-    );
+  async startAllListeners(listener: (eventName: FriendsEvents, params: any) => void) {
+    // Listen for new incoming friends request
+    if(!this.listeners[FriendsEvents.FriendRequestSent]){
+      const filter = this.contract.filters.FriendRequestSent(this.ethereum.activeAccount);
+      this.contract.on(filter, (data: any)=>{
+        listener(FriendsEvents.FriendRequestSent, data);
+      });
+    } else {
+      console.warn(FriendsEvents.FriendRequestSent, 'Listener for incoming friends request already started');
+    }
 
-    this.listener = this.contract.on(filter, listener);
+    // Listen for accepted friends requests
+    if(!this.listeners[FriendsEvents.FriendRequestAccepted]){
+      const filter = this.contract.filters.FriendRequestAccepted(this.ethereum.activeAccount);
+      this.contract.on(filter, (data: any)=>{
+        listener(FriendsEvents.FriendRequestAccepted, data);
+      });
+    } else {
+      console.warn(FriendsEvents.FriendRequestAccepted, 'Listener for incoming friends request already started');
+    }
+
+    // Listen for accepted friends requests
+    if(!this.listeners[FriendsEvents.FriendRequestDenied]){
+      const filter = this.contract.filters.FriendRequestDenied(this.ethereum.activeAccount);
+      this.contract.on(filter, (data: any)=>{
+        listener(FriendsEvents.FriendRequestDenied, data);
+      });
+    } else {
+      console.warn(FriendsEvents.FriendRequestDenied, 'Listener for incoming friends request already started');
+    }
   }
 
   /** @function
    * @name isListenerStarted
    * @returns a boolean value indicating if the listener has been started
    */
-  isListenerStarted(): boolean {
-    return Boolean(this.listener);
+  isListenerStarted(event: FriendsEvents): boolean {
+    return Boolean(this.listeners[event]);
   }
 }

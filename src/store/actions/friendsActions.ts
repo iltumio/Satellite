@@ -9,7 +9,7 @@ export default {
     const friendsContract = new Friends(
       // @ts-ignore
       this.$app.$ethereum,
-      config.friends[config.network.chain]
+      config.friends[config.network.chain],
     );
 
     // Get the friends from chain
@@ -22,45 +22,42 @@ export default {
         // @ts-ignore
         this.$app.$ethereum,
         config.registry[config.network.chain],
-        config.cacher.dwellerLifespan
+        config.cacher.dwellerLifespan,
       );
 
       // Join data from cachingHelper and friends contract
       const getData = async (friend): Promise<IFriend> => {
         const parsed = await friendsContract.parseFriend(friend);
-        const dwellerCache = await await dwellerCachingHelper.getDweller(
-          friend.dweller
-        );
+        const dwellerCache = await dwellerCachingHelper.getDweller(friend.dweller);
 
         return { ...dwellerCache, threadID: parsed.threadHash };
       };
 
-      const parsedFriends = await Promise.all<IFriend>(friends.map(getData));
+      const parsedFriends = await Promise.all < IFriend > (friends.map(getData));
 
       updatedFriends = parsedFriends?.sort((a: IFriend, b: IFriend): any =>
-        a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1
+        (a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1)
       );
       updatedFriends = parsedFriends;
     }
 
-    if (
-      !state.friendsLoaded ||
-      JSON.stringify(state.friends) !== JSON.stringify(updatedFriends)
-    ) {
-      commit('updateFriends', updatedFriends);
-    }
+    // TODO: eventually limit UI updates if friends didn't change
+    //   !state.friendsLoaded ||
+    //   JSON.stringify(state.friends) !== JSON.stringify(updatedFriends)
+    commit('updateFriends', updatedFriends);
   },
-  async listenForFriendsRequests({ dispatch }) {
+  async startFriendsListeners({ dispatch }) {
     // @ts-ignore
     const friendsContract = new Friends(
       // @ts-ignore
       this.$app.$ethereum,
-      config.friends[config.network.chain]
+      config.friends[config.network.chain],
     );
 
-    friendsContract.startListener(() => {
+    friendsContract.startAllListeners(() => {
       // Fetch friends requests
       dispatch('fetchFriendRequests');
+      dispatch('fetchFriends');
     });
   },
   async fetchFriendRequests({ commit }) {
@@ -68,18 +65,82 @@ export default {
     const friendsContract = new Friends(
       // @ts-ignore
       this.$app.$ethereum,
-      config.friends[config.network.chain]
+      config.friends[config.network.chain],
     );
 
-    const frIds = await friendsContract.getRequests();
-    let requests: Array<any> = [];
-    frIds.forEach(async id => {
-      const req = await friendsContract.getRequest(parseInt(id, 10));
-      const parsed = await friendsContract.parseRequest(req);
-      requests = [...requests, parsed];
-      if (requests.length === frIds.length) {
-        commit('updateFriendRequests', requests);
-      }
+    const dwellerCachingHelper = new DwellerCachingHelper(
+      // @ts-ignore
+      this.$app.$ethereum,
+      config.registry[config.network.chain],
+      config.cacher.dwellerLifespan,
+    );
+
+    const requests = await friendsContract.getRequests();
+    const requestsPromise = requests.map(async (request) => {
+      const friendData = await dwellerCachingHelper.getDweller(request[0]);
+
+      return { ...friendData, address: request[0], publicKey: request[1] };
     });
-  }
+
+    const parsedRequests = await Promise.all(requestsPromise);
+
+    commit('updateFriendRequests', parsedRequests);
+  },
+  async sendFriendRequest({ commit }, { address }) {
+    // @ts-ignore
+    const friendsContract = new Friends(
+      // @ts-ignore
+      this.$app.$ethereum,
+      config.friends[config.network.chain],
+    );
+
+    await friendsContract.makeRequest(address).catch(e => console.log('error', e));
+  },
+  async acceptRequest({ commit, state, dispatch }, { address, threadId }) {
+    // @ts-ignore
+    const friendsContract = new Friends(
+      // @ts-ignore
+      this.$app.$ethereum,
+      config.friends[config.network.chain],
+    );
+
+    try {
+      await friendsContract.acceptRequest(address, threadId.toString());
+      // @ts-ignore
+      await this.$app.$database.threadManager.storeThread(
+        `${state.activeAccount}-${address}`,
+        threadId.toString(),
+      );
+
+      dispatch('fetchFriendRequests');
+
+      const dwellerCachingHelper = new DwellerCachingHelper(
+        // @ts-ignore
+        this.$app.$ethereum,
+        config.registry[config.network.chain],
+        config.cacher.dwellerLifespan,
+      );
+
+      const friend = await dwellerCachingHelper.getDweller(address);
+
+      commit('addFriend', {
+        ...friend,
+        threadId,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async denyRequest({ dispatch }, { address }) {
+    console.log('deny request', address);
+    // @ts-ignore
+    const friendsContract = new Friends(
+      // @ts-ignore
+      this.$app.$ethereum,
+      config.friends[config.network.chain],
+    );
+
+    await friendsContract.denyRequest(address).catch(console.log);
+    dispatch('fetchFriendRequests');
+  },
 };

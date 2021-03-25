@@ -123,8 +123,8 @@
       </div>
 
       <div class="buttons-container">
-
-        <button class="button is-primary big-btn" v-on:click="goToStep('seedcheck')">
+         <!-- Switch v-on:click to goToStep('seedcheck') to re-enable seed check -->
+        <button class="button is-primary big-btn" v-on:click="walletCreated()">
           {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
         </button>
       </div>

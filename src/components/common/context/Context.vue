@@ -40,14 +40,14 @@ export default {
     },
   },
   watch: {
-    /* eslint-disable */
+    
     x: function (newVal) {
       this.$refs.contextMenu.style.left = `${newVal}px`;
     },
     y: function (newVal) {
       this.$refs.contextMenu.style.top = `${newVal}px`;
     },
-    /* eslint-enable */
+    
   },
   mounted() {
     this.$refs.contextMenu.style.top = `${this.y}px`;

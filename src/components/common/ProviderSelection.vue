@@ -36,7 +36,12 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    let providers = this.$store.state.availableProviders
+    if (providers.length === 1 && providers[0].type == 'satellite') {
+      this.setSelectedProvider(providers[0])
+    }
+  },
 };
 </script>
 

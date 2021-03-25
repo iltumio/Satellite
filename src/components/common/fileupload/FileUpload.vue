@@ -6,6 +6,8 @@ import FileC from '@/classes/FileC.ts';
 import PrimaryHeading from '@/components/common/typography/PrimaryHeading';
 import * as nsfwjs from 'nsfwjs'
 
+import MobileUtils from '@/utils/Mobile.ts';
+
 const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`);
 
 export default {
@@ -35,6 +37,7 @@ export default {
     if (this.file) this.sendToIpfs(this.selectedFile);
   },
   methods: {
+    isMobile: MobileUtils.isMobile,
     /** @method
      * Get a URL object from the selected file
      * @name getURL
@@ -105,25 +108,31 @@ export default {
         this.sendToIpfs(this.selectedFile);
       }
     },
+    /** @method
+     * Checks if a file contains NSFW content.
+     * @name isNSFW
+     * @argument file blob containing the file to scan for NSFW content
+     */
     async isNSFW(file) {
-      let fileTypePrefix = file.type.split('/')[0]
-      if (fileTypePrefix !== 'image') { return false }
-
-      let fileURL = URL.createObjectURL(file)
-      let imgElement = document.createElement('IMG')
+      let fileTypePrefix = file.type.split('/')[0];
+      if (fileTypePrefix !== 'image') {
+        return false;
+      }
+      let fileURL = URL.createObjectURL(file);
+      let imgElement = document.createElement('IMG');
       imgElement.src = fileURL;
       return nsfwjs.load()
-      .then((model) => {
-        return model.classify(imgElement)
-      })
-      .then((predictionsArr) => {
-        let predictionObj = {};
-        for (let prediction of predictionsArr) {
-          predictionObj[prediction.className] = prediction.probability
-        }
-        let predictionParams = (predictionObj.Porn > 0.6 || predictionObj.Hentai > 0.6)
-        return predictionParams
-      })
+        .then((model) => {
+          return model.classify(imgElement);
+        })
+        .then((predictionsArr) => {
+          let predictionObj = {};
+          for (let prediction of predictionsArr) {
+            predictionObj[prediction.className] = prediction.probability
+          }
+          let predictionParams = (predictionObj.Porn > 0.6 || predictionObj.Hentai > 0.6);
+          return predictionParams;
+        });
     },
     /** @method
      * Setter
@@ -151,7 +160,9 @@ export default {
       uploadAudio.play();
       this.$store.commit('setStatus', 'File uploaded to IPFS');
       this.$nextTick(() => {
-        this.$refs.hidden.focus();
+        if (!this.isMobile()) {
+          this.$refs.hidden.focus();
+        }
       });
     },
   },

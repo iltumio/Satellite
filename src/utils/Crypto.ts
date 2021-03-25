@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 export default {
   /**
    * Decrypts ciphertext encrypted with aesGcmEncrypt() using supplied password.

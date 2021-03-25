@@ -3,30 +3,30 @@
     <div v-if="!this.friendRequests">
       {{$t('friends.requests.loading')}}
     </div>
-    <div v-if="this.friendRequests.length === 0 || this.friendRequests.filter(fr => fr.active).length === 0">
+    <div v-if="$store.state.friendRequests.length === 0">
       <span v-if="outgoing">{{$t('friends.requests.no-outgoing')}}</span>
       <span v-else>{{$t('friends.requests.no-incoming')}}</span>
     </div>
-    <div class="requests" v-for="request in friendRequests" :key="request.id">
-      <div class="friend request" v-if="!request.accepted && request.active">
+    <div class="requests" v-for="request in $store.state.friendRequests" :key="request.address">
+      <div class="friend request">
         <div class="left">
-          <h1 class="label name">{{request.sender.name}}</h1>
-          <span class="address" v-if="!requestPending[request.id]">{{request.sender.address.substr(0, 24)}}...</span>
+          <h1 class="label name">{{request.name}}</h1>
+          <span class="address" v-if="!requestPending[request.address]">{{request.address.substr(0, 24)}}...</span>
           <span class="address" v-else>
             <i class="fa fa-spinner-third fa-spin"></i>  {{$t('friends.requests.updating')}}
           </span>
         </div>
         <div class="right">
           <button
-            :disabled="requestPending[request.id]"
+            :disabled="requestPending[request.address]"
             class="button is-primary"
-            v-on:click="acceptRequest(request.id)">
+            v-on:click="acceptRequest(request.address)">
             <i class="fas fa-check"></i>
           </button>
           <button
-            :disabled="requestPending[request.id]"
+            :disabled="requestPending[request.address]"
             class="button is-dark"
-            v-on:click="denyRequest(request.id)">
+            v-on:click="denyRequest(request.address)">
               <i class="fas fa-times"></i>
           </button>
         </div>
@@ -66,41 +66,24 @@ export default {
     );
   },
   methods: {
-    async acceptRequest(id) {
-      const parsedId = parseInt(id, 0);
-      if (!this.friendRequests) return;
-      const [request] = this.friendRequests.filter(req => req.id === id);
-      const threadID = request.threadHash;
-      this.requestPending = Object.assign({}, this.requestPending, { [id]: true });
-      this.friendsContract.acceptRequest(parsedId)
-        .then(async () => {
-          await this.$database.threadManager.storeThread(
-            `${this.$store.state.activeAccount}-${request.sender.address}`,
-            threadID,
-          );
-          // const friend = { ...request.sender, status: 'unchecked' };
-          this.fetchFriendRequests();
-          const friend = await this.dwellerCachingHelper.getDweller(request.sender.address);
-          this.$store.commit('addFriend', {
-            ...friend,
-            threadID,
-          });
-          this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
-        })
-        .catch((e) => {
-          this.fetchFriendRequests();
-          this.requestPending = Object.assign({}, this.requestPending, { [id]: false });
-        });
+    async acceptRequest(address) {
+      const id = this.$database.threadManager.makeIdentifier(
+        this.$store.state.activeAccount,
+        address
+      );
+
+      this.makingRequest = Object.assign({}, this.makingRequest, {
+        [address]: true
+      });
+
+      const threadId = await this.$database.threadManager.threadAt(id);
+
+      this.requestPending = Object.assign({}, this.requestPending, { [address]: true });
+      await this.$store.dispatch('acceptRequest', {address, threadId})
+      this.requestPending = Object.assign({}, this.requestPending, { [address]: false });
     },
-    async denyRequest(id) {
-      const parsedId = parseInt(id, 0);
-      this.friendsContract.denyRequest(this.$store.state.activeAccount, parsedId)
-        .then(() => {
-          this.fetchFriendRequests();
-        })
-        .catch(() => {
-          this.fetchFriendRequests();
-        });
+    async denyRequest(address) {
+      this.$store.dispatch('denyRequest', {address});  
     },
   },
 };

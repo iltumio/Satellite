@@ -1,6 +1,6 @@
 import Database from "./Database";
 
-/* eslint-disable */
+
 export default class Drawer {
   name: string;
   database: Database;

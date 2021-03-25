@@ -222,8 +222,8 @@
     },
     "profile": {
       "label": "Profile",
-      "heading": "Setup Account",
-      "subtext": "Your account is not setup yet, let's get that going! It only takes a moment.",
+      "heading": "Identification",
+      "subtext": "Go ahead and choose a profile picture. Also let us know what we should call you.",
       "profile_pic": "Profile Picture (Optional)",
       "upload_profile_pic": "Upload Profile Picture",
       "uploading_ipfs": "Uploading to IPFS...",
@@ -233,7 +233,7 @@
       "step1": "Awaiting transaction approval.",
       "sending_transaction": "Sending Transaction",
       "step2": "Please wait while your transaction is sent...",
-      "confirming_transactoin": "Confirming Transaction",
+      "confirming_transaction": "Confirming Transaction",
       "step3": "Don't Leave! we're waiting for a confirmation...",
       "last_step": "Last Steps!",
       "step4": "We're just taking care of some last minute things...",
@@ -434,6 +434,7 @@
   "unlock": {
     "decrypt_account": "Decrypt Account",
     "create_encryption_pin": "Create Encryption Pin",
+    "create_encryption_pin_subtext": "This is like your password, chose somehting safe.",
     "stay_logged": "Stay logged in?",
     "AES_encryption": "Pin stored with AES encryption using Web Crypto.",
     "pin_placeholder": "alphanumeric pin..."

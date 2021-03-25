@@ -82,7 +82,6 @@
           class="input searchuser"
           type="text"
           v-model="keyword"
-          v-on:keyup="filterFriends"
           :placeholder="$t('friends.search_placeholder')">
         <hr class="divider">
       </div>
@@ -90,7 +89,7 @@
         <p>{{$t('friends.no_friends')}}</p>
       </div>
       <Friend
-        v-for="fr in this.friends"
+        v-for="fr in getFilteredFriends(keyword)"
         :key="fr.address"
         :friend="fr"
         :action="chatFriend"
