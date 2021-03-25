@@ -2,7 +2,7 @@
   <div id="user-info"  v-touch:swipe="swipeHandler" v-touch-options="{
       touchHoldTolerance: 50,
       swipeTolerance: 80,
-    }">
+    }" class="animate__animated animate__slideInLeft animate__faster">
     <i class="fa fa-times close-btn" v-on:click="$store.commit('toggleUserInfo')"></i>
     <div class="heading">
       <span class="label">{{$t('conversation.userinfo.heading')}}</span>
