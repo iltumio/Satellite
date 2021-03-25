@@ -45,8 +45,6 @@ export default {
     onClickClose() {
       this.$nextTick(() => {
         setTimeout(() => {
-      console.log(this.$store.state.mainRoute);
-
           this.$store.commit('setMobileSidebar', false);
         }, 0);
       });
@@ -66,8 +64,6 @@ export default {
       this.showQuickFriends = !this.showQuickFriends;
     },
     setRoute(route) {
-      console.log(this.$store.state.mainRoute);
-
       this.route = route;
     },
     setMainRoute(route) {
