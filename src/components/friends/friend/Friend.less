@@ -3,7 +3,9 @@
   font-size: 14pt;
   background: #f8f9fb;
   border-radius: 5px;
-  width: 50%;
+  min-width: 300px;
+  width: 100%;
+  float: left;
   margin-top: 0.5rem;
   display: flex;
   flex-flow: row wrap;
@@ -36,6 +38,7 @@
   overflow: hidden;
   word-wrap: none;
 }
+
 .address {
   font-size: 9pt;
   text-overflow: ellipsis;
@@ -120,8 +123,9 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width:1200px) {
   .friend {
+  // min-width: 300px !important;
     width: 100% !important;
   }
 }
