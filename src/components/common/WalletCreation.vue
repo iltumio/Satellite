@@ -51,7 +51,7 @@
             class="is-button button is-primary is-small"
             v-on:click="toggleScanQR"
           >
-            <i class="fas fa-qrcode"></i> &nbsp; SCAN
+            <i class="fas fa-qrcode"></i> &nbsp; {{$t('wallet.scan')}}
           </button>
         </div>
       </div>

@@ -7,7 +7,7 @@
     <div class="name-address">
       <p class="username">{{friend.name}}</p>
       <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.address}}</p>
-      <p class="address" v-else><i class="fa fa-spinner-third fa-spin"></i> Sending request...</p>
+      <p class="address" v-else><i class="fa fa-spinner-third fa-spin"></i> {{$t('friends.requests.sending')}}</p>
     </div>
     <button
       :disabled="isMakingRequest(friend.address)"

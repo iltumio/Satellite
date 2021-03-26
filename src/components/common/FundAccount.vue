@@ -1,14 +1,14 @@
 <template>
     <section class="fund-account-container">
       <p class="head">
-        <strong>Funding Your Account</strong>
+        <strong>{{$t('fund-account.heading')}}</strong>
       </p>
       <p class="fund-account-message" v-if="!funded">
-        This one's on the house. We're funding your account with tokens to get you started.
+        {{$t('fund-account.fund-account-message')}}
         <br>
       </p>
       <p class="fund-account-message" v-else>
-        Your account is funded, just a minute and we can continue.
+        {{$t('fund-account.account-funded-message')}}
         <br>
       </p>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="server-actions">
-    <span class="label">Quick Actions</span>
+    <span class="label">{{$t('servers.server-quick-actions')}}</span>
     <div style="clear: both;"></div>
     <CircleIcon icon="fas fa-share-alt" color="#0984e3"/>
     <CircleIcon icon="fas fa-file-upload" color="#0984e3" />

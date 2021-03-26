@@ -1,6 +1,6 @@
 <template>
   <div class="server-info-users">
-    <span class="label">Users</span>
+    <span class="label">{{$t('servers.users')}}</span>
     <div style="clear: both;"></div>
     <div class="server-info-users-container">
       <div
