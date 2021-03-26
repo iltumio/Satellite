@@ -1,5 +1,6 @@
 // @ts-ignore
 import { Identity } from '@textile/hub';
+import { Wallet } from 'ethers';
 import Bucket from './Bucket';
 import BucketManager from './textile/BucketManager';
 import Drawer from './Drawer';
@@ -25,6 +26,7 @@ interface Creds {
 
 interface Extras {
   client: any,
+  wallet: Wallet
 }
 
 
@@ -89,7 +91,7 @@ export default class Database {
         );
         this.messageManager = new MessageManager(
           extras.client,
-          id,
+          id
         );
         if (identity) {
           this.bucketManager = new BucketManager(
@@ -97,7 +99,6 @@ export default class Database {
             this.creds.id,
           );
         }
-        this.messageManager.build();
         break;
       default:
         this.interface = new LocalStorage(

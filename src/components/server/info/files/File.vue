@@ -1,6 +1,6 @@
 <template>
   <div class="server-info-file">
-    file
+    {{$t('file.file')}}
   </div>
 </template>
 

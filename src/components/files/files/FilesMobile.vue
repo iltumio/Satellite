@@ -4,7 +4,7 @@
       <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
       <h3>{{$t('files.heading')}}</h3>   
       <FileUploadInline :relayResult="updateCache" :uploadDone="fetchRecentFiles" :noAutoSelect="true" />
-      <h2 class="label">Usage ({{bytesToSize(fileSizeTotal)}} / 4GB)</h2>
+      <h2 class="label">{{$t('files.usage')}} ({{bytesToSize(fileSizeTotal)}} / 4GB)</h2>
       <progress
         class="progress is-info"
         :value="bytesPercentageUsed(fileSizeTotal)"
@@ -45,18 +45,18 @@
           v-clipboard:copy="managedFile.remote"
           v-clipboard:success="copySuccess"
           class="is-button button is-primary full-button">
-          <i class="fas fa-link"></i> &nbsp; Copy Link
+          <i class="fas fa-link"></i> &nbsp; {{$t('files.copy-link')}}
         </button>
         <button 
           class="is-button button is-primary full-button"
           v-on:click="openFile">
-          <i class="fas fa-external-link"></i> &nbsp; Open File
+          <i class="fas fa-external-link"></i> &nbsp; {{$t('files.open-file')}}
         </button>
         <button 
           class="is-button button is-danger full-button"
           v-on:click="deleteFile">
-          <span v-if="!removing"><i class="fas fa-trash"></i> &nbsp; Remove File</span>
-          <span v-else><i class="fas fa-spinner-third fa-spin"></i> &nbsp; Removing File</span>
+          <span v-if="!removing"><i class="fas fa-trash"></i> &nbsp; {{$t('files.remove-file')}}</span>
+          <span v-else><i class="fas fa-spinner-third fa-spin"></i> &nbsp; {{$t('files.removing-file')}}</span>
         </button>
       </div>
     </div>

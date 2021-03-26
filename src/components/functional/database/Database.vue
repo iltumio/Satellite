@@ -1,26 +1,19 @@
 <template></template>
 <script>
-import config from '@/config/config';
-import Crypto from '@/classes/crypto/Crypto.ts';
+import config from "@/config/config";
+import Crypto from "@/classes/crypto/Crypto.ts";
 
 export default {
-  name: 'database',
+  name: "database",
   data() {
     return { activeAccount: false };
   },
   methods: {
     async startup() {
-      // Generate local pub/priv keys if none exist.
-      const crypto = new Crypto();
-      await crypto.keygen();
-
-      // -----moved in Web3vue->startupActions
-      // this.$store.commit('fetchFriends', this.$store.state.activeAccount);
-      // ------------------------------
       setTimeout(() => {
         // Really shouldn't be used, but prevents
         // some potenial race conditions with globals
-        this.$store.commit('starting', false);
+        this.$store.commit("starting", false);
       }, 500);
     },
     makeKey() {
@@ -30,7 +23,7 @@ export default {
     },
   },
   async mounted() {
-    this.$store.commit('starting', true);
+    this.$store.commit("starting", true);
     if (this.$store.state.databaseEnabled) {
       const identity = await this.$Threads.getIdentity();
       const client = await this.$Threads.authorize(identity);
@@ -39,7 +32,7 @@ export default {
       await this.$Threads.init(
         this.$store.state.activeAccount,
         client.client,
-        client.token,
+        client.token
       );
 
       // Initalize ThreadDB
@@ -47,27 +40,35 @@ export default {
       // await this.$ThreadDB.auth();
 
       // Init Remote Storage
-      await this.$RemoteStorage.init('remote-storage');
+      await this.$RemoteStorage.init("remote-storage");
       await this.$RemoteStorage.authorize();
 
       await this.$database.authenticate(
-        'textile',
+        "textile",
         this.$store.state.activeAccount,
         window.v74pin,
         client,
-        identity,
+        identity
       );
-      this.$store.commit('authenticated');
+      this.$store.commit("authenticated");
+
+      if (this.$ethereum.isInitialized) {
+        // Initialize e2ee
+        // @ts-ignore
+        const { messageManager } = this.$database;
+        messageManager.initE2EEngine(this.$ethereum.wallet);
+      }
+
       this.startup();
       await this.$database.initBuckets();
-      this.$store.commit('buckets');
+      this.$store.commit("buckets");
     } else {
       await this.$database.authenticate(
-        'localStorage',
+        "localStorage",
         this.$store.state.activeAccount,
-        window.v74pin,
+        window.v74pin
       );
-      this.$store.commit('authenticated');
+      this.$store.commit("authenticated");
       this.startup();
     }
   },
