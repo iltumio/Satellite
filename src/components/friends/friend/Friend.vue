@@ -17,10 +17,15 @@
       <i class="fas fa-comment-alt-dots" v-if="!add"></i>
       <i class="fas fa-user-plus" v-else></i>
     </button>
-    <!-- Object tag included so we can later configure the svg fill color for whatever theme is being used -->
-    <!-- <object data="static/img/icons/friend-options.svg" type="image/svg+xml" class="friend-options-btn" v-on:click="toggleFriendOptions"> -->
-      <img src="static/img/icons/friend-options.svg" v-on:click="toggleFriendOptions" class="friend-options-btn">
-    <!-- </object> -->
+    <button
+      v-if="action"
+      class="button remove-freind is-danger"
+      v-on:click="toggleRemoveFriend()">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+    <!--
+    <span class="remove-friend-btn" v-on:click="toggleRemoveFriend()">Remove Friend</span>
+      <i class="fa fa-ellipsis-v friend-options-btn" aria-hidden="true" v-on:click="toggleFriendOptions"></i>
     <div v-if="friendOptions" class="friend-options">
       <span>Voice Call</span>
       <span>Video Call</span>
@@ -33,6 +38,7 @@
         <span v-on:click="removeFriendConfirmed(); removeFriend(friend);" class="remove-confirm-btn">Remove</span>
       </div>
     </div>
+    -->
   </div>
 </template>
 
