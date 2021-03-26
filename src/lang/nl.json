@@ -1,0 +1,79 @@
+{
+    "global": {
+        "address": "Adres",
+        "view_full_size": "In volledige grote bekijken",
+        "external_link_title": "Externe link",
+        "external_link_text": "U staat op het punt de app te verlaten, wilt u doorgaan?",
+        "continue": "Doorgaan",
+        "nevermind": "Laat maar zitten",
+        "view_all_achievements": "Alle prestaties bekijken",
+        "not_yet_implemented": "Nog niet geïmplementeerd",
+        "view_on_etherscan": "Bekijk op blockchain-verkenner",
+        "accept": "Accepteren",
+        "deny": "Weigeren",
+        "default": "Standaard"
+    },
+    "dates": {
+        "month_names": {
+            "0": "Januari",
+            "1": "February",
+            "2": "Maart",
+            "3": "April",
+            "4": "Mei",
+            "5": "Juni",
+            "6": "Juli",
+            "7": "Augustus",
+            "8": "September",
+            "9": "Oktober",
+            "10": "November",
+            "11": "December"
+        }
+    },
+    "dwellerid": {
+        "badges": "Kentekens",
+        "status": "Status",
+        "actions": "Acties",
+        "send_message": "Stuur bericht",
+        "account_age": "Account leeftijd",
+        "address": "Dweller ID Adres",
+        "view_contract": "Dweller ID Contract bekijken",
+        "view_address": "Dweller Adres kopiëren"
+    },
+    "file": {
+        "removed": "Bestand weggehaald",
+        "unpinned": "Bestand losgemaakt, bestand word binnekort weggehaald.",
+        "file": "Bestand",
+        "files": "Bestanden"
+    },
+    "fileupload": {
+        "heading": "Bestand uploaden",
+        "description": "Bestanden worden geupload naar het InterPlanetary bestandssyteem.",
+        "select": "Kies een bestand",
+        "chosefile": "Upload een bestand",
+        "file": "Bestand",
+        "link": "IPFS Link",
+        "uploading": "Aan het uploaden naar IPFS...",
+        "waiting": "Authenticeren...",
+        "send": "Bestand versturen",
+        "button_uploading": "Aan het uploaden...",
+        "button_done": "Verstuur",
+        "button_upload_another": "Nog een bestand uploaden",
+        "aiscan": "Onze AI is uw afbeelding aan het scannen"
+    },
+    "loading": {
+        "connecting_blockchain": "Met de blockhain aan het verbinden...",
+        "assembling": "De bijenkorf in elkaar aan het zetten...",
+        "authenticating": "Aan het authenticeren bij Textile.io",
+        "connecting_broker": "Aan het verbinden met 0.satellite.im...",
+        "long_load": "Dit duurt bovengemiddeld lang, heeft u <a href=\"{link}\" target=\"{target}\">{text}</a> geinstalleerd?",
+        "other_tab": "Nogsteeds aan het laden? Sattelite is misschien open in een ander tabblad.",
+        "something_wrong": "Er is mogelijk iets mis gegaan,",
+        "buckets": "Buckets laden...",
+        "retry": "Opnieuw proberen?",
+        "generic": "Bijna klaar...",
+        "textile": "Aan het wachten op Textile.io...",
+        "alpha": "Dit product is in alpha, gebruik alstublieft Goerli Testnet!",
+        "failure-to-load": "Laden gefaald",
+        "retry-button": "Opnieuw proberen?"
+    }
+}
