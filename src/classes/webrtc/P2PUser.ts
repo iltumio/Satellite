@@ -9,7 +9,6 @@ interface Message {
 }
 
 type RTCEvent = '*' |
-  'key-offer' |
   'connection-established' |
   'ping' |
   'pong' |
@@ -48,8 +47,6 @@ export default class P2PUser {
     });
     this.defib();
     this.monitor();
-    // Send over our public key
-    this.sendKey();
   }
 
   // Sends pulses to the peer user every n seconds
@@ -59,13 +56,6 @@ export default class P2PUser {
     setTimeout(() => {
       if (!this.flatlined) this.defib();
     }, config.peer.check_heartbeat);
-  }
-
-  public sendKey() {
-    this.send(
-      'key-offer',
-      JSON.parse(localStorage.getItem('publicKey') || ''),
-    );
   }
 
   /** @function

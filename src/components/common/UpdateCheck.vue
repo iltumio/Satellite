@@ -1,7 +1,7 @@
 <template>
   <div class="updater green" v-on:click="doUpdate" v-if="updateNeeded">
     <i :class="`fas ${updating ? 'fa-spinner-third fa-spin' : 'fa-sync'}`"></i><br>
-    <span class="update-text">Update</span>
+    <span class="update-text">{{$t('update-check.update')}}</span>
   </div>
 </template>
 

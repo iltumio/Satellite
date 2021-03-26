@@ -44,37 +44,8 @@ export default {
      * @argument type the type of message we're broadcasting
      */
     async sendMessage(data, type) {
-      if (this.$database.messageManager) {
-        const msg = this.$database.messageManager.buildMessage(
-          this.$store.state.activeChat,
-          Date.now(),
-          'message',
-          {
-            type: type || 'text',
-            data,
-          },
-        );
+      this.$store.dispatch("sendMessage", { data, type });
 
-        const id = this.$database.threadManager
-          .makeIdentifier(this.$store.state.activeAccount, this.$store.state.activeChat);
-        const threadExists = await this.$database.threadManager.fetchThread(id);
-        if (threadExists) {
-          const threadID = await this.$database.threadManager.threadAt(id);
-          // If we have their public key, we will encrypt their message
-          this.$database.messageManager
-            .addMessageDeterministically(threadID, msg, this.$store.state.activeChat);
-        }
-      }
-      const peer = this.$WebRTC.find(this.$store.state.activeChat);
-      if (peer && peer.isAlive) {
-        peer.send(
-          'message',
-          {
-            type: type || 'text',
-            data,
-          },
-        );
-      }
     },
     /** @method
      * Setter
@@ -128,7 +99,7 @@ export default {
     this.icon = dweller.photo;
     this.getMarketPrice();
   },
-  /* eslint-disable */
+  
   directives: {
     'click-outside': {
       bind: (el, binding) => {
@@ -156,7 +127,7 @@ export default {
       }
     }
   },
-  /* eslint-enable */
+  
 };
 </script>
 

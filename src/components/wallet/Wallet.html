@@ -1,16 +1,16 @@
 <div id="wallet">
   <div class="wallet-header">
     <h1 class="wallet-balance">${{balanceUsd}}</h1>
-    <p class="wallet-balance-subhead">Total Balance (USD)</p>
+    <p class="wallet-balance-subhead">{{$t('wallet.total-balance')}}</p>
   </div>
 
   <p class="yellow ea-warning">
-    Early access operates on a testnet.
+    {{$t('wallet.early-access-warning')}}
     <br>
-    <b>Do not send real funds to your address.</b>
+    <b>{{$t('wallet.early-access-warning-do-not-send-real-funds')}}</b>
   </p>
 
-  <div class="wallet-separator">Token Balances</div>
+  <div class="wallet-separator">{{$t('wallet.token-balances')}}</div>
 
   <div class="asset-container" v-for="asset in assets">
     <Asset

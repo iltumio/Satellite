@@ -99,7 +99,7 @@ export default {
       }
     },
   },
-  /* eslint-disable */
+  
   directives: {
     'click-outside': {
       bind: (el, binding) => {
@@ -127,7 +127,7 @@ export default {
       }
     }
   },
-  /* eslint-enable */
+  
 };
 </script>
 

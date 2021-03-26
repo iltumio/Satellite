@@ -78,8 +78,9 @@ export default class Friends {
    */
   async parseFriend(fr: any) {
     return {
-      id: fr,
+      id: fr.address,
       threadHash: `${ethers.utils.parseBytes32String(fr.threadHash1)}${ethers.utils.parseBytes32String(fr.threadHash2)}`,
+      pubkey: fr.pubkey
     };
   }
 
@@ -118,7 +119,6 @@ export default class Friends {
           ethers.utils.formatBytes32String(hash.substring(28)),
         ],
         this.ethereum.getSharablePublicKey(),
-        { gasLimit: 500000 },
       )
       .then(tx => tx.wait());
   }

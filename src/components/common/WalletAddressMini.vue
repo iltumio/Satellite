@@ -9,7 +9,7 @@
           v-clipboard:success="copySuccess"
           v-clipboard:error="copyError">
         <a class="button is-primary">
-          <i class="fas fa-copy"></i> &nbsp; &nbsp; Copy Account ID
+          <i class="fas fa-copy"></i> &nbsp; &nbsp; {{$t('wallet.copy-account-id')}}
         </a>
       </div>
     </div>

@@ -13,7 +13,7 @@ export default {
     if (!activeChats.includes(clientId)) {
       activeChats.unshift(clientId);
     }
-    // eslint-disable-next-line no-param-reassign
+    
     state.activeChats = activeChats;
   },
   userTyping(state: IState, payload: any) {

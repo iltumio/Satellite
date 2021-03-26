@@ -67,6 +67,23 @@ display: block;
   }
 }
 
+.c-message {
+  p {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    
+    i.sent-status {
+      position: absolute;
+      right: 0;
+    }
+
+    .pending {
+      opacity: 0.6;
+    }
+  }
+}
+
 @media (max-width: 768px) { 
   .c-message-body {
     width: unset;

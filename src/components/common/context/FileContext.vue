@@ -46,14 +46,14 @@ export default {
     },
   },
   watch: {
-    /* eslint-disable */
+    
     x: function (newVal) {
       this.$refs.fileMenu.style.left = `${newVal}px`;
     },
     y: function (newVal) {
       this.$refs.fileMenu.style.top = `${newVal}px`;
     },
-    /* eslint-enable */
+    
   },
   mounted() {
     this.$refs.fileMenu.style.top = `${this.y}px`;

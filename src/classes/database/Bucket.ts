@@ -1,6 +1,6 @@
 import Database from "./Database";
 
-/* eslint-disable */
+
 export default class Bucket {
   name: string;
   database: Database;

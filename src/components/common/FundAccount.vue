@@ -1,20 +1,28 @@
 <template>
     <section class="fund-account-container">
       <p class="head">
-        <strong>Fund your account</strong>
+        <strong>{{$t('fund-account.heading')}}</strong>
       </p>
-      <p class="fund-account-message">
-        You need to fund your account to register on the network.
-        <br/>
+      <p class="fund-account-message" v-if="!funded">
+        {{$t('fund-account.fund-account-message')}}
+        <br>
       </p>
+      <p class="fund-account-message" v-else>
+        {{$t('fund-account.account-funded-message')}}
+        <br>
+      </p>
+
+      <!--
       <div class="input-container">
         <WalletAddressMini :address="activeAccount"/>  
       </div>
+      -->
     </section>
 </template>
 
 <script>
-import WalletAddressMini from '@/components/common/WalletAddressMini';
+import WalletAddressMini from '@/components/common/WalletAddressMini'
+import Faucet from '@/utils/Faucet.ts'
 
 export default {
   name: 'FundAccount',
@@ -22,8 +30,20 @@ export default {
     WalletAddressMini,
   },
   data() {
-    return { activeAccount: this.$ethereum.activeAccount };
+    return {
+      activeAccount: this.$ethereum.activeAccount,
+      funded: false
+    }
   },
+  methods: {
+    async requestTokens(address) {
+      const json = await Faucet.requestTokens(address)
+      this.funded = true;
+    }
+  },
+  mounted() {
+    this.requestTokens(this.activeAccount)
+  }
 };
 </script>
 
