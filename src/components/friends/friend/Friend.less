@@ -7,42 +7,117 @@
   width: 100%;
   float: left;
   margin-top: 0.5rem;
-  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
 }
-
-.address {
-  font-size: 9pt;
-  max-width: calc(100% - 8rem);
-  text-overflow: ellipsis;
-  overflow: hidden;
-  word-wrap: none;
-  display: block;
-}
-.name-address {
-  width: calc(100% - 2rem);
-}
-.modal-close {
-  z-index: 0 !important;
-  position: absolute;
-}
+// Profile icon and online status
 .circle-icon {
-  float: left;
-  margin-right: 1rem;
+  min-width: 3rem;
 }
-.add-friend {
-  margin-top: -2.7rem;
-  float: right;
+.online-wrapper {
+  position: relative;
+  right: 1.4rem;
+  top: 1rem;
+  z-index: 5;
 }
-
 .online {
-  position: absolute;
-  left: 2.8rem;
-  bottom: 0.7rem;
   color: #666;
 }
 .true {
   color: #00d0a1;
 }
+// Username and blockchain address
+.name-address {
+  width: calc(100% - 12rem);
+  margin: 0rem 0.25rem 0rem 0rem;
+}
+.username {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: none;
+}
+
+.address {
+  font-size: 9pt;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: none;
+}
+// Add friend / Chat button
+.add-friend {
+}
+// Friend options (remove friend, voice call, etc.)
+.friend-options-btn {
+  width: 2rem;
+  max-height: 2rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+.friend-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 2px;
+  margin-top: 1rem;
+  span {
+    border-radius: 2px;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    font-size: 12pt;
+    cursor: pointer;
+  }
+}
+.remove-friend-btn {
+  color: #df4c4c;
+  transition: 100ms;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+}
+// Remove friend confirmation modal
+.remove-friend-confirm {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  font-size: 12pt;
+  p {
+    font-style: italic;
+    cursor: default;
+  }
+}
+.remove-friend-confirm-options {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  span {
+    cursor: pointer;
+    padding: 0rem 0.5rem;
+  }
+}
+.remove-confirm-btn {
+  color: #df4c4c;
+  font-weight: 700;
+  transition: 100ms;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+}
+.remove-cancel-btn {
+  text-decoration: underline;
+}
+// Other? not sure what this is for
+.modal-close {
+  z-index: 0 !important;
+  position: absolute;
+}
+
 
 @media (max-width:1200px) {
   .friend {

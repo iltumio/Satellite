@@ -14,6 +14,7 @@ import Registry from '@/classes/contracts/Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';
+import FilePinner from '@/classes/FilePinner.ts';
 
 
 export default {
@@ -153,6 +154,8 @@ export default {
       this.error = false;
       const ipfsResponse = await window.ipfs.add(file);
       this.ipfsHash = ipfsResponse;
+      let filePinner = new FilePinner(config.pinata.jwt)
+      filePinner.PinByHash(this.ipfsHash.path)
     },
     // Set the dweller id profile picture hash on contract
     // after do any final tasks we need to do on chain
