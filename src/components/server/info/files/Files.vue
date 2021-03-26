@@ -1,6 +1,6 @@
 <template>
   <div class="server-actions">
-    <span class="label">Files</span>
+    <span class="label">{{$t('file.files')}}</span>
     <div style="clear: both;"></div>
     <File />
   </div>

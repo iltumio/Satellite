@@ -4,7 +4,7 @@
       <li v-on:click="openSidebar">
           <i class="fas fa-home"></i>
           <br>
-          <span class="nav-subtitle">Home</span>
+          <span class="nav-subtitle">{{$t('mobile-nav.home')}}</span>
       </li>
       <li v-on:click="setMainRoute('friends')">
         <span v-if="$store.state.friendRequests.length > 0" class="indicator">
@@ -12,22 +12,22 @@
         </span>
         <i class="fas fa-user-friends"></i>
         <br>
-        <span class="nav-subtitle">Friends</span>
+        <span class="nav-subtitle">{{$t('mobile-nav.friends')}}</span>
       </li>
       <li v-on:click="setMainRoute('files')">
         <i class="fas fa-folder"></i>
         <br>
-        <span class="nav-subtitle">Files</span>
+        <span class="nav-subtitle">{{$t('mobile-nav.files')}}</span>
       </li>
       <li v-on:click="setMainRoute('wallet')">
         <i class="fas fa-wallet"></i>
         <br>
-        <span class="nav-subtitle">Wallet</span>
+        <span class="nav-subtitle">{{$t('mobile-nav.wallet')}}</span>
       </li>
       <li v-on:click="toggleSettings">
         <i class="fas fa-cogs"></i>
         <br>
-        <span class="nav-subtitle">Settings</span>
+        <span class="nav-subtitle">{{$t('mobile-nav.settings')}}</span>
       </li>
     </ul>
   </div>

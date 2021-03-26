@@ -2,7 +2,7 @@
   <div id="sticker">
     <img :src="`http://ipfs.io/ipfs/${message.data}`" class="embeded-sticker" />
     <br>
-    <span class="verified"><i class="fas fa-badge-check"></i> Verified Sticker</span>
+    <span class="verified"><i class="fas fa-badge-check"></i> {{$t('stickers.verified-sticker')}}</span>
   </div>
 </template>
 
