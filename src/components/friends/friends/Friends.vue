@@ -159,18 +159,10 @@ export default {
     async removeFriend(friend) {
       const friendAddress = friend.address
       console.log('Removing from store')
-      console.log(this.$store.state.friends)
-      console.log(this.$store.state.activeChats)
       this.$store.commit('removeFriend', friendAddress)
       this.friends = this.$store.state.friends
-      console.log(this.$store.state.friends)
-      console.log(this.$store.state.activeChats)
       console.log('Switching Active Chat')
-      console.log(this.$store.state.activeChat)
-      console.log(this.$store.state.activeChats)
       this.$store.state.activeChats.length > 0 ? this.$store.commit('activeChat', this.$store.state.activeChats[0]) : this.$store.commit('activeChat', false);
-      console.log(this.$store.state.activeChat)
-      console.log(this.$store.state.activeChats)
       console.log('Disconnecting from peer')
       await this.$WebRTC.disconnectFromPeer(friendAddress)
       console.log('Removing friend')
