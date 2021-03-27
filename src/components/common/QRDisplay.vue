@@ -3,7 +3,7 @@
     <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
     <div class="modal-background"></div>
     <span class="qr-display">
-      <h4 class="label">Your Friend Scans Me</h4>
+      <h4 class="label">{{$t('qr-scan.adding-friend-label')}}</h4>
       <h2 class="username">{{ $store.state.username }}</h2>
       <vue-qrcode :value="data" />
       <br>

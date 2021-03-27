@@ -82,6 +82,7 @@ export interface IState {
   channel?: any;
   // Stickers
   stickersOpen?: boolean;
+  stickerPack: any;
   availableStickers?: any;
   ownedStickers?: any;
 }
@@ -161,6 +162,7 @@ export const defaultState: IState = {
   server: undefined,
   channel: undefined,
   stickersOpen: false,
+  stickerPack: undefined,
   availableStickers: {},
   ownedStickers: {},
 };

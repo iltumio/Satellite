@@ -14,20 +14,20 @@
     </div>
     <h3>{{$t('friends.heading')}} </h3>
     <hr class="divider">
-    <h2 class="label" v-if="$store.state.friendRequests.length > 0">Add Quickly</h2>
+    <h2 class="label" v-if="$store.state.friendRequests.length > 0">{{$t('friends.add-quickly')}}</h2>
     <button
       class="is-button button is-primary is-small qr-code"
       v-on:click="toggleShareQR">
-      <i class="fas fa-qrcode"></i> &nbsp; SHARE
+      <i class="fas fa-qrcode"></i> &nbsp; {{$t('friends.share')}}
     </button>
     <button
       class="is-button button is-primary is-small qr-code"
       v-on:click="toggleScanQR">
-      <i class="fas fa-qrcode"></i> &nbsp; SCAN
+      <i class="fas fa-qrcode"></i> &nbsp; {{$t('friends.scan')}}
     </button>
     <hr class="divider">
     <h2 class="label">{{$t('friends.find_someone')}}</h2>
-    <span>Enter your friends address...</span>
+    <span>{{$t('friends.enter-friends-address')}}...</span>
     <div class="field has-addons">
       <div class="control" style="width: 100%;">
         <input class="input add-friend-input" type="text" placeholder="0x00000000000000000000000000..." v-model="friendAddress">

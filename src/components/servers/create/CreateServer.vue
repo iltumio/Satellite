@@ -7,6 +7,7 @@ import ServerContract from '@/classes/contracts/ServerContract.ts';
 import Registry from '@/classes/contracts/Registry.ts';
 import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 import config from '@/config/config';
+import FilePinner from '@/classes/FilePinner.ts';
 
 export default {
   name: 'CreateServer',
@@ -75,6 +76,8 @@ export default {
       const ipfsResponse = await window.ipfs.add(file);
       this.$store.commit('setStatus', 'File uploaded to IPFS');
       this.ipfsHash = ipfsResponse;
+      let filePinner = new FilePinner(config.pinata.jwt)
+      filePinner.PinByHash(this.ipfsHash.path)
     },
     async confirm() {
       if (this.name < 5) {

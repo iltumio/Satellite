@@ -177,4 +177,13 @@ export default class Friends {
   isListenerStarted(event: FriendsEvents): boolean {
     return Boolean(this.listeners[event]);
   }
+
+  /** @function
+   * @name removeFriend
+   * @argument friend Friends DwellerID address
+   * @returns transaction hash
+   */
+  async removeFriend(friend: string): Promise<any> {
+    return this.contract.removeFriend( friend, { gasLimit: 300000 }).then(tx => tx.wait());
+  }
 }

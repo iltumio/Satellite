@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Stickers v-if="$store.state.stickersOpen" :sendMessage="sendMessage" />
+    <Stickers v-if="$store.state.stickersOpen || $store.state.stickerPack" :sendMessage="sendMessage" />
     <div id="scrollBottom" v-if="showScrollToBottom" v-on:click="scrollToEnd">
       <i class="fas fa-chevron-down"></i>
     </div>

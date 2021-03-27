@@ -41,7 +41,10 @@
   },
   "file": {
     "removed": "File Removed",
-    "unpinned": "File un-pinned, removing soon."
+    "unpinned": "File un-pinned, removing soon.",
+    "file": "file",
+    "files": "Files"
+
   },
   "fileupload": {
     "heading": "Upload File",
@@ -70,7 +73,9 @@
     "retry": "retry?",
     "generic": "Almost ready...",
     "textile": "Waiting for Textile.io...",
-    "alpha": "This is an alpha product, Please use Goerli Testnet!"
+    "alpha": "This is an alpha product, Please use Goerli Testnet!",
+    "failure-to-load": "Failure to load",
+    "retry-button": "Retry?"
   },
   "files": {
     "heading": "Files",
@@ -79,7 +84,12 @@
     "your_files": "Your Files",
     "your_files_subtext": "Below is a list of all of the files you've uploaded.",
     "loading": "Loading files...",
-    "history": "File History"
+    "history": "File History",
+    "usage": "Usage",
+    "copy-link": "Copy Link",
+    "open-file": "Open File",
+    "remove-file": "Remove File",
+    "removing-file": "Removing File"
   },
   "friends": {
     "heading": "Friends",
@@ -97,6 +107,10 @@
     "search": "Search",
     "your_address": "Your Address",
     "your_address_desc": "Share this address so your friends can add you.",
+    "add-quickly": "Add Quickly",
+    "share": "SHARE",
+    "scan": "SCAN",
+    "enter-friends-address": "Enter your friends address",
     "requests": {
       "heading": "Friend Requests",
       "incoming": "Incoming Requests",
@@ -104,7 +118,8 @@
       "loading": "Loading Requests...",
       "no-outgoing": "No outgoing requests",
       "no-incoming": "No incoming requests",
-      "updating": "Updating request..."
+      "updating": "Updating request...",
+      "sending": "Sending request..."
     }
   },
   "voice_video": {
@@ -121,6 +136,10 @@
   "PWA": {
     "prompt_title": "Install Satellite",
     "prompt_desc": "Quickly install our app on your phone for a seamless experience, it's really easy!"
+    "just-tap": "Just tap",
+    "add-to-homescreen": "then 'Add to homescreen'",
+    "add-to-screen": "then 'Add to screen'",
+    "unsure-device-type": "We're unsure of you're devices type, search for 'How to install PWA apps on [your device]' for instructions if you're interested in downloading our app"
   },
   "settings": {
     "logo": "Settings",
@@ -171,7 +190,13 @@
       "video": "Video",
       "video_heading": "Video Input Device",
       "video_subtext": "Select which video device you'd like to share your beautiful smile from.",
-      "video_default_text": "Default Webcam"
+      "video_default_text": "Default Webcam",
+      "screen-share": "Screen Share",
+      "capture-mouse": "Capture Mouse",
+      "capture-mouse-info": "Would you like to share your mouse in screen shares?",
+      "capture-mouse-always": "Always Capture",
+      "capture-mouse-movement": "On Movement",
+      "capture-mouse-never": "Never Show Mouse"
     },
     "keybinds": {
       "label": "Keybinds",
@@ -258,7 +283,8 @@
       "copy_address": "Copy Address",
       "confirm_transaction": "Please confirm transaction...",
       "recovery_phrase_title": "Recovery Phrase",
-      "recovery_phrase_desc": "Please store this phrase somewhere safe. The order of the words is critical. Satellite can not help you recover your account if you lose this."
+      "recovery_phrase_desc": "Please store this phrase somewhere safe. The order of the words is critical. Satellite can not help you recover your account if you lose this.",
+      "show-phrase": "Show Me the Phrase"
     },
     "contracts": {
       "audit_disclaimer": "These are Alpha contracts and have not been audited yet <br /> It's worth noting these contracts are built to be functional proof of concepts, not performant, and will be re-written pre beta.",
@@ -283,7 +309,8 @@
     "send": "Send {amount} {symbol} ${dollar_equivalent}",
     "balance": "Balance",
     "button": "Send",
-    "prices_disclaimer": " - Prices from CoinCap.io"
+    "prices_disclaimer": " - Prices from CoinCap.io",
+    "pay-label": "Pay"
   },
   "sidebar": {
     "find": "Search Satellite.im...",
@@ -352,7 +379,8 @@
       "typing": "is typing",
       "characters_left": "{characters} Characters Left",
       "pick_emoji": "Pick your emoji...",
-      "securely_message": "Message {name}..."
+      "securely_message": "Message {name}...",
+      "not-implemented": "NOT IMPLEMENTED"
     },
     "conversation": {
       "invite_offline": "Invite {name} to message offline.",
@@ -418,6 +446,10 @@
     }
   },
   "servers": {
+    "server-conversation": "Server Conversation",
+    "server-quick-actions": "Quick Actions",
+    "server": "Server",
+    "users": "Users",
     "create": {
       "heading": "Create a Server",
       "photo_text": "Give your server a face. Chose a memorable photo to show it's members.",
@@ -480,5 +512,46 @@
         }
       }
     }
+  },
+  "wallet": {
+    "total-balance": "Total Balance (USD)",
+    "early-access-warning": "Early access operates on a testnet.",
+    "early-access-warning-do-not-send-real-funds": "Do not send real funds to your address.",
+    "token-balances": "Token Balances",
+    "copy-account-id": "Copy Account ID",
+    "scan": "SCAN"
+  },
+  "stickers": {
+    "my-stickers": "My Stickers",
+    "get-stickers": "Get Stickers",
+    "no-stickers": "You don't have any stickers yet.",
+    "get-some-stickers": "Get Some!",
+    "buy-button-text": "Buy",
+    "buy-button-loading": "buying",
+    "verified-sticker": "Verified Sticker"
+
+  },
+  "security-mask": {
+    "content-redacted": "CONTENT REDACTED",
+    "content-hidden-message": "Content hidden for security."
+  },
+  "qr-scan": {
+    "scan-qr-code": "Scan A QR Code",
+    "adding-friend-label": "Your Friend Scans Me"
+  },
+  "fund-account": {
+    "heading": "Funding Your Account",
+    "fund-account-message": " This one's on the house. We're funding your account with tokens to get you started.",
+    "account-funded-message": "Your account is funded, just a minute and we can continue."
+  },
+  "update-check": {
+    "update": "Update"
+  },
+  "mobile-nav": {
+    "home": "Home",
+    "friends": "Friends",
+    "files": "Files",
+    "wallet": "Wallet",
+    "settings": "Settings"
   }
 }

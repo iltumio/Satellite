@@ -9,7 +9,7 @@
             </header>
             <section class="modal-card-body">
                 <p>
-                    <i class="fab fa-ethereum"></i> Pay {{person}}.
+                    <i class="fab fa-ethereum"></i> {{$t('payments.pay-label')}} {{person}}.
                 </p>
             </section>
         </div>
