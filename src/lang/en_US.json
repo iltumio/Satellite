@@ -120,7 +120,7 @@
   },
   "PWA": {
     "prompt_title": "Install Satellite",
-    "prompt_desc": "Quickly install our app on your phone for a seemless experience, it's really easy!"
+    "prompt_desc": "Quickly install our app on your phone for a seamless experience, it's really easy!"
   },
   "settings": {
     "logo": "Settings",
@@ -143,7 +143,7 @@
     "accounts": {
       "label": "Accounts",
       "heading": "Active Account",
-      "subtext": "Select with Ethereum acccount you'd prefer to default transactions from.",
+      "subtext": "Select with Ethereum account you'd prefer to default transactions from.",
       "balance": "Balance",
       "gas_price": "Gas Price",
       "gas_price_desc": "Higher gas prices will transact faster.",
@@ -205,7 +205,7 @@
       "database_heading": "Enable Database",
       "threadDB": "Satellite utilizes Texile's ThreadDB, a decentralized database, to store your data.",
       "threadDB_learn_more": "You can learn more about them here:",
-      "threadDB_enable": "Enable <b>ThreadDB</b>, a decentralized database used to recieve offline messaging and unlock additional features.<br>Your data is stored on a distributed network and none of that data passes through us.",
+      "threadDB_enable": "Enable <b>ThreadDB</b>, a decentralized database used to receive offline messaging and unlock additional features.<br>Your data is stored on a distributed network and none of that data passes through us.",
       "threadDB_data_id": "Your Data ID",
       "threadDB_data_id_text": "Your data ID references all the data stored in the app. Save this somewhere save to transfer your data to another browser.",
       "storage_label": "Storage",
@@ -261,7 +261,7 @@
       "recovery_phrase_desc": "Please store this phrase somewhere safe. The order of the words is critical. Satellite can not help you recover your account if you lose this."
     },
     "contracts": {
-      "audit_disclaimer": "These are Alpha contracts and have not been audited yet <br /> It's worth noting these contracts are built to be funcitional proof of concepts, not performant, and will be re-written pre beta.",
+      "audit_disclaimer": "These are Alpha contracts and have not been audited yet <br /> It's worth noting these contracts are built to be functional proof of concepts, not performant, and will be re-written pre beta.",
       "label": "Contracts",
       "heading": "Browse Contracts",
       "registry": "Registry",
@@ -434,7 +434,7 @@
   "unlock": {
     "decrypt_account": "Decrypt Account",
     "create_encryption_pin": "Create Encryption Pin",
-    "create_encryption_pin_subtext": "This is like your password, chose somehting safe.",
+    "create_encryption_pin_subtext": "This is like your password, chose something safe.",
     "stay_logged": "Stay logged in?",
     "AES_encryption": "Pin stored with AES encryption using Web Crypto.",
     "pin_placeholder": "alphanumeric pin..."
