@@ -135,7 +135,7 @@
   },
   "PWA": {
     "prompt_title": "Install Satellite",
-    "prompt_desc": "Quickly install our app on your phone for a seamless experience, it's really easy!"
+    "prompt_desc": "Quickly install our app on your phone for a seamless experience, it's really easy!",
     "just-tap": "Just tap",
     "add-to-homescreen": "then 'Add to homescreen'",
     "add-to-screen": "then 'Add to screen'",
