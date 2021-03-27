@@ -16,15 +16,15 @@
       <div class="buttons-container">
         <button
           class="button is-primary centered create-wallet-btn"
-          v-on:click="createWallet()"
-        >
-          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
-        </button>
-        <button
-          class="button is-primary centered create-wallet-btn"
           v-on:click="goToStep('import')"
         >
           {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
+        </button>
+        <button
+          class="button is-primary centered create-wallet-btn"
+          v-on:click="createWallet()"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
         </button>
       </div>
     </section>
@@ -257,10 +257,13 @@ export default {
 </script>
 
 <style scoped lang="less">
+
 .big-btn {
   height: 50px;
-  position: fixed;
-  bottom: 2rem;
+  float: right;
+  margin: 0 auto;
+  display: block;
+  width: 100%;
 }
 .big-btn-higher {
   height: 50px;
@@ -348,6 +351,16 @@ export default {
 }
 
 @media (max-width: 768px) {
+
+  .big-btn {
+    height: 50px;
+    position: fixed;
+    bottom: 2rem;
+    float: unset;
+    margin: unset;
+    display: unset;
+    width: unset;
+  }
   .create-wallet-btn {
     height: 53px;
   }

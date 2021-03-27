@@ -20,7 +20,7 @@
     <button
       v-if="action"
       class="button remove-freind is-danger"
-      v-on:click="toggleRemoveFriend()">
+      v-on:click="removeFriendConfirmed">
       <i class="fa fa-times" aria-hidden="true"></i>
     </button>
     <!--
