@@ -38,12 +38,21 @@ export default {
       showQuickFriends: false,
       version: Package.version,
       requiresUpdate: false,
+      tabRoute: 'chats',
     };
   },
   mounted() {
     // this.updateServers();
   },
   methods: {
+    getTabClass(forTab) {
+      return (forTab === this.tabRoute) ?
+        'button is-small is-primary is-selected' :
+        'button is-small is-black'
+    },
+    setTabClass(route) {
+      this.tabRoute = route
+    },
     onClickClose() {
       this.$nextTick(() => {
         setTimeout(() => {
