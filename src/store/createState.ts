@@ -85,6 +85,7 @@ export interface IState {
   stickerPack: any;
   availableStickers?: any;
   ownedStickers?: any;
+  showCreateGroup: boolean;
 }
 
 export const defaultState: IState = {
@@ -165,6 +166,7 @@ export const defaultState: IState = {
   stickerPack: undefined,
   availableStickers: {},
   ownedStickers: {},
+  showCreateGroup: false
 };
 
 const createState = (customState: any): IState => Object.assign({}, defaultState, customState);

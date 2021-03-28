@@ -45,6 +45,9 @@
           :active="$store.state.activeChat === chat" :key="`${chat}${getFriend($store.state.friends, chat).status}`"
           :unread="isUnread(chat)" :typing="$store.state.typingUsers[chat]" :clientId="chat" />
       </div>
+      <div v-else-if="tabRoute === 'groups'">
+        <Groups />
+      </div>
     </div>
   </div>
   <div v-else>

@@ -23,6 +23,7 @@ import CreateServer from '@/components/servers/create/CreateServer';
 import Context from '@/components/common/context/Context';
 import Polling from '@/components/functional/Polling';
 import Server from '@/components/server/Server';
+import CreateGroup from '@/components/main/popups/creategroup/CreateGroup';
 
 import IPFS from 'ipfs-core';
 
@@ -56,7 +57,8 @@ export default {
     Calling,
     CreateServer,
     Context,
-    Server
+    Server,
+    CreateGroup
   },
   data() {
     return {

@@ -52,4 +52,7 @@ export default {
   toggleUserInfo(state: IState) {
     state.showUser = !state.showUser;
   },
+  showCreateGroup(state: IState, shown: boolean) {
+    state.showCreateGroup = shown;
+  }
 };
