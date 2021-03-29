@@ -1,4 +1,5 @@
-import Peer, { MediaConnection } from "peerjs";
+// import Peer, { MediaConnection } from "peerjs";
+import Peer from "simple-peer";
 import WebRTC from './WebRTC';
 
 type MediaEvent = "HANGUP" | "INCOMING-CALL" | "ANSWER" | "OUTGOING-CALL" | "STREAM-RECIEVED";
@@ -13,12 +14,12 @@ interface Subscriber {
 interface Call {
   state: CallState,
   from: string,
-  call: Peer.MediaConnection,
+  call: any,
 }
 
 export default class WebRTCMedia {
   _mediaSubscriptions: Subscriber[];
-  peer: Peer | null;
+  peer: Peer.Instance | null;
   calls: Call[];
   instance: WebRTC | null;
   constructor() {
@@ -56,7 +57,7 @@ export default class WebRTCMedia {
     return identifier.replace('WRTCx', '0x');
   }
 
-  initMedia(peer: Peer) {
+  initMedia(peer: Peer.Instance) {
     this.peer = peer;
   }
 
@@ -106,17 +107,18 @@ export default class WebRTCMedia {
   }
 
   public call(identifier: string, mediaStream: MediaStream) : Error | null {
-    if (!this.peer) return new Error('Not yet initalizied');
-    const call = this.peer.call(this.buildIdentifier(identifier), mediaStream);
-    call.on('stream', (stream: MediaStream) => {
-      this.publishMediaEvent('STREAM-RECIEVED', identifier, stream);
-    });
-    this.addUpdateCall({
-      state: 'PENDING',
-      from: this.buildIdentifier(identifier),
-      call,
-    });
-    this.publishMediaEvent('OUTGOING-CALL', identifier);
+    // if (!this.peer) return new Error('Not yet initalizied');
+
+    // const call = this.peer.call(this.buildIdentifier(identifier), mediaStream);
+    // call.on('stream', (stream: MediaStream) => {
+    //   this.publishMediaEvent('STREAM-RECIEVED', identifier, stream);
+    // });
+    // this.addUpdateCall({
+    //   state: 'PENDING',
+    //   from: this.buildIdentifier(identifier),
+    //   call,
+    // });
+    // this.publishMediaEvent('OUTGOING-CALL', identifier);
     return null;
   }
 
@@ -159,7 +161,7 @@ export default class WebRTCMedia {
     return null;
   }
 
-  protected addPendingCall(identifier: string, call: MediaConnection) : number {
+  protected addPendingCall(identifier: string, call: any) : number {
     this.publishMediaEvent('INCOMING-CALL', this.revertIdentifier(identifier));
     this.addUpdateCall({
       state: 'PENDING',

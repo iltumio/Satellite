@@ -12,7 +12,6 @@
 
 <script>
 import 'bulma/css/bulma.css';
-import config from '@/config/config';
 import CryptoUtil from '@/utils/Crypto.ts';
 import Unlock from '@/components/unlock/Unlock';
 import SecurityMask from '@/components/common/SecurityMask';
@@ -38,47 +37,25 @@ export default {
         this.$store.commit('setMnemonic', decryptedMnemonic);
       }
       this.decrypted = true;
-      this.checkAccount();
+      // this.checkAccount();
+
+      this.$store.dispatch('startup');
     },
-    initP2P() {
-      if (this.$store.state.friendsLoaded) {
-        // TODO: Move this to polling
-        const addresses = this.$store.state.friends.map(f => f.address);
-        this.$WebRTC.updateRegistry(addresses);
-
-        // TODO: update this when active chats updates.
-
-        this.$WebRTC.subscribe(() => {
-          this.$store.commit('ICEConnected', true);
-        }, ['connection-established']);
-        // Watch for users typing
-        this.$WebRTC.subscribe((event, identifier, message) => {
-          this.$store.commit('userTyping', [identifier, message.data]);
-        }, ['typing-notice'], this.$store.state.activeChats);
-
-        // Track the health of a peer
-        this.$WebRTC.subscribe((event, identifier) => {
-          this.$store.commit('peerHealth', [identifier, 'alive']);
-        }, ['heartbeat'], this.$store.state.activeChats);
-
-        // Track the death of a peer
-        this.$WebRTC.subscribe((event, identifier) => {
-          this.$store.commit('peerHealth', [identifier, 'dead']);
-        }, ['flatlined'], this.$store.state.activeChats);
-
-        // init
-        this.$WebRTC.init(this.$ethereum.activeAccount);
-        this.peerInit = true;
-      }
-    },
-    checkAccount() {
-      if (this.$store.state.activeAccount) {
-        // Attach to peers
-        this.initP2P();
-        return;
-      }
-      setTimeout(this.checkAccount, config.peer.timeout);
-    },
+    // TODO: remove unnecessary comments
+    // initP2P() {
+    //   if (this.$store.state.friendsLoaded) {
+    //     // this.$store.dispatch('initP2P');
+    //     this.peerInit = true;
+    //   }
+    // },
+    // checkAccount() {
+    //   if (this.$store.state.activeAccount) {
+    //     // Attach to peers
+    //     this.initP2P();
+    //     return;
+    //   }
+    //   setTimeout(this.checkAccount, config.peer.timeout);
+    // },
   },
   mounted() {
     document.addEventListener(
@@ -89,29 +66,30 @@ export default {
       false,
     );
 
-    this.$store.commit('starting', true);
-    this.$store.commit('clearFriends');
-    this.$store.commit('clear');
+    // TODO: remove unnecessary comments
+    // this.$store.commit('starting', true);
+    // this.$store.commit('clearFriends');
+    // this.$store.commit('clear');
     // Reset media call data
-    this.$store.commit('clearTypingUsers');
+    // this.$store.commit('clearTypingUsers');
     // Connect when a new friend is added
     // we have active chats with.
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'addFriend') {
-        // Connect to new peer.
-        // TODO: Update WebRTC
-      }
+    // this.$store.subscribe((mutation, state) => {
+    //   if (mutation.type === 'addFriend') {
+    //     // Connect to new peer.
+    //     // TODO: Update WebRTC
+    //   }
 
-      // Use this workaround because vuex $store.watch is not
-      // triggering any update
-      // TODO: find the issue and use $store.wtach together with
-      // getters instead
-      if (!this.friendsLoaded && state.friendsLoaded) {
-        this.initP2P();
+    //   // Use this workaround because vuex $store.watch is not
+    //   // triggering any update
+    //   // TODO: find the issue and use $store.wtach together with
+    //   // getters instead
+    //   if (!this.friendsLoaded && state.friendsLoaded) {
+    //     this.initP2P();
 
-        this.friendsLoaded = true;
-      }
-    });
+    //     this.friendsLoaded = true;
+    //   }
+    // });
     // Set i18n locale based on the user preferred language
     if (this.$store.state.settings.language) {
       this.$i18n.locale = this.$store.state.settings.language;

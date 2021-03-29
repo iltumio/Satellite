@@ -1,11 +1,12 @@
-import { Client, decrypt, ThreadID } from '@textile/hub';
+import { Client, ThreadID } from '@textile/hub';
 import Crypto from '../crypto/Crypto';
-// @ts-ignore
 import Message from '../Message';
+import Signal from '../Signal';
+
 import { utils, Wallet } from 'ethers';
 import { SigningKey } from 'ethers/lib/utils';
 
-interface Message {
+interface IMessage {
   _id: string;
   sender: string;
   to: '';
@@ -17,7 +18,7 @@ interface Message {
   metadata: object;
 }
 
-const messageSchema = <Message>{
+const messageSchema = <IMessage>{
   _id: '',
   sender: '',
   to: '',
@@ -27,6 +28,23 @@ const messageSchema = <Message>{
   encrypted: false,
   secure: false,
   metadata: {}
+};
+
+interface ISignal {
+  _id: string;
+  sender: string;
+  at: number;
+  type: string;
+  payload: any;
+}
+
+const signalSchema = <ISignal>{
+  _id: '',
+  sender: '',
+  to: '',
+  at: Date.now(),
+  type: '',
+  payload: {}
 };
 
 export class MessageManager {
@@ -54,6 +72,12 @@ export class MessageManager {
     this.signingKey = new utils.SigningKey(wallet.privateKey);
   }
 
+  safeThread(threadID: ThreadID | string): ThreadID {
+    return typeof threadID === 'string'
+      ? ThreadID.fromString(threadID.replace(/\W/g, ''))
+      : threadID;
+  }
+
   buildMessage(to: string, at: number, type: string, data: any) {
     const message = new Message(to, this.address, at, type, data);
     return {
@@ -70,14 +94,35 @@ export class MessageManager {
     };
   }
 
-  async ensureCollection(threadID: ThreadID) {
-    await this.client
-      .getCollectionIndexes(threadID, 'messages')
-      .catch(async () => {
-        await this.client.newCollectionFromObject(threadID, messageSchema, {
-          name: 'messages'
-        });
+  buildSignal(data: any) {
+    const signal = new Signal(
+      this.address,
+      new Date().getTime(),
+      'signal',
+      data
+    );
+
+    return {
+      _id: signal._id,
+      sender: signal.sender,
+      at: signal.at,
+      type: signal.type,
+      payload: signal.payload
+    };
+  }
+
+  async ensureCollection(
+    threadID: ThreadID,
+    collectionName: string,
+    schema: any
+  ) {
+    try {
+      await this.client.getCollectionIndexes(threadID, collectionName);
+    } catch (e) {
+      await this.client.newCollectionFromObject(threadID, schema, {
+        name: collectionName
       });
+    }
   }
 
   async addMessageDeterministically(
@@ -93,9 +138,34 @@ export class MessageManager {
   }
 
   async addNewMessage(threadID: ThreadID, message: Message): Promise<ThreadID> {
-    await this.ensureCollection(threadID);
+    await this.ensureCollection(threadID, 'messages', messageSchema);
     await this.client.create(threadID, 'messages', [message]);
     return threadID;
+  }
+
+  async updateSignal(threadID: ThreadID | string, signal: Signal): Promise<ThreadID> {
+    const safeThread = this.safeThread(threadID);
+    await this.ensureCollection(safeThread, 'signal', signalSchema);
+    const signalExists = await this.client.has(safeThread, 'signal', ['signal']);
+    if (signalExists) {
+      await this.client.save(safeThread, 'signal', [signal]);
+    } else {
+      await this.client.create(safeThread, 'signal', [signal]);
+    }
+    return safeThread;
+  }
+
+  async getLastSignalData(
+    threadID: ThreadID | string
+  ): Promise<any> {
+    if (!this.client) return;
+
+    const safeThread =
+      typeof threadID === 'string'
+        ? ThreadID.fromString(threadID.replace(/\W/g, ''))
+        : threadID;
+
+    return this.client.findByID(safeThread, 'signal', 'signal');
   }
 
   computeSharedSecret(signingKey: SigningKey, guestPublicKey: string) {
@@ -110,7 +180,7 @@ export class MessageManager {
     if (!this.signingKey) {
       return null;
     }
-    await this.ensureCollection(threadID);
+    await this.ensureCollection(threadID, 'messages', messageSchema);
 
     const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey);
 
@@ -129,12 +199,11 @@ export class MessageManager {
       }
     });
 
-    await this.client
-      .create(threadID, 'messages', [encryptedMessage]);
+    await this.client.create(threadID, 'messages', [encryptedMessage]);
     return threadID;
   }
 
-  async decryptMessage(message: Message, guestPublicKey: string) {
+  async decryptMessage(message: IMessage, guestPublicKey: string) {
     if (!message.encrypted || !this.signingKey) return message;
 
     const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey);
@@ -158,8 +227,8 @@ export class MessageManager {
     }
   }
 
-  async bulkDecrypt(messages: Message[], guestPublicKey: string) {
-    const decryptedMessages: Promise<Message>[] = [];
+  async bulkDecrypt(messages: IMessage[], guestPublicKey: string) {
+    const decryptedMessages: Promise<IMessage>[] = [];
     messages.map(msg =>
       decryptedMessages.push(this.decryptMessage(msg, guestPublicKey))
     );
@@ -169,12 +238,7 @@ export class MessageManager {
 
   async getMessages(threadID: ThreadID | string): Promise<Message[]> {
     return new Promise(async resolve => {
-      const safeThread =
-        typeof threadID === 'string'
-          ? ThreadID.fromString(threadID.replace(/\W/g, ''))
-          : threadID;
-
-      const decryptedMessages: any[] = [];
+      const safeThread = this.safeThread(threadID);
 
       let messages =
         (await this.client.find(safeThread, 'messages', {}).catch(err => {
@@ -242,10 +306,12 @@ export class MessageManager {
     if (
       typeof this.activeSubscriptions[threadID.toString()].close === 'function'
     ) {
-      try{
+      try {
         this.activeSubscriptions[threadID.toString()].close();
-      } catch(e) {
-        console.warn(`Subscription ${threadID.toString()} was already closed. Skipping.`);
+      } catch (e) {
+        console.warn(
+          `Subscription ${threadID.toString()} was already closed. Skipping.`
+        );
       }
 
       delete this.activeSubscriptions[threadID.toString()];

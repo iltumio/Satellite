@@ -9,6 +9,7 @@ import config from '@/config/config';
 // @ts-ignore
 import { LocalStorage, ThreadDB } from './interpreters';
 import { MessageManager } from './MessageManager';
+import { SignalingManager } from "../webrtc/SignalingManager";
 import ThreadManager from './textile/ThreadManager';
 
 interface Interface {
@@ -40,6 +41,7 @@ export default class Database {
   threadManager: ThreadManager | null;
   bucketManager: BucketManager | null;
   messageManager: MessageManager | null;
+  signalingManager?: SignalingManager;
 
   /** @constructor
    * Construct a Database
@@ -93,6 +95,7 @@ export default class Database {
           extras.client,
           id
         );
+        // this.signalingManager = new SignalingManager(extras.client, id);
         if (identity) {
           this.bucketManager = new BucketManager(
             identity,

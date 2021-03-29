@@ -1,6 +1,7 @@
 // @ts-ignore
 import config from '@/config/config';
-import Peer from "peerjs";
+// import Peer from "peerjs";
+import Peer from "simple-peer";
 import WebRTC from "./WebRTC";
 
 interface Message {
@@ -22,7 +23,7 @@ type RTCEvent = '*' |
 
 export default class P2PUser {
   identifier: string;
-  connection: Peer.DataConnection | null;
+  connection: any;
   eventBus: CallableFunction;
   instance: WebRTC;
   lastHeartbeat: number;
@@ -40,7 +41,7 @@ export default class P2PUser {
     return this.connection && !this.flatlined;
   }
 
-  public bind(connection: Peer.DataConnection) {
+  public bind(connection: any) {
     this.connection = connection;
     this.connection.on('data', (data: any) => {
       this.handleData(data);
@@ -87,9 +88,9 @@ export default class P2PUser {
   }
 
   public call(identifier: string, stream: MediaStream) : Error | null {
-    if (!this.instance.peer) return new Error('Parent connection not established.');
-    if (!this.connection) return new Error('Connection not bound.');
-    this.instance.peer.call(identifier, stream);
+    // if (!this.instance.peer) return new Error('Parent connection not established.');
+    // if (!this.connection) return new Error('Connection not bound.');
+    // this.instance.peer.call(identifier, stream);
     // No errors
     return null;
   }

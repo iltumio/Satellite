@@ -73,11 +73,11 @@ export default {
       commit('profilePictureHash', dwellerPhoto);
       commit('username', ethers.utils.parseBytes32String(dwellerName));
 
-      // Dispatch a new action to fetch friends
-      dispatch('fetchFriends', state.activeAccount);
+      // // Dispatch a new action to fetch friends
+      // dispatch('fetchFriends', state.activeAccount);
 
-      // Dispatch new action to start a listener to new friends requests
-      dispatch('startFriendsListeners');
+      // // Dispatch new action to start a listener to new friends requests
+      // dispatch('startFriendsListeners');
     }
   },
   async getStats({ commit }) {
