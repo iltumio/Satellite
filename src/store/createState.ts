@@ -150,7 +150,7 @@ export const defaultState: IState = {
     '0x6A383cf1F8897585718DCA629a8f1471339abFe4': {
       symbol: 'DAI',
       name: 'Dai',
-      icon: 'QmUJgkxUiPMmQwwExD1rVM5Ka6hxsMrkoKCudfktd2mfGN',
+      icon: 'QmVChZZtAijsiTnMRFb6ziQLnRocXnBU2Lb3F67K2ZPHho',
       contractAddress: '0x6A383cf1F8897585718DCA629a8f1471339abFe4',
       tokenType: 'ERC20',
       balance: 0,
