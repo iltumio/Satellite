@@ -87,6 +87,15 @@ export default class DwellerContract {
   }
 
   /** @function
+   * @name getStatus
+   * @returns status of the dweller who owns this contract
+   */
+   async getStatus() {
+     console.log(this.contract);
+    // return this.contract.getStatus();
+  }
+
+  /** @function
    * @name getPhoto
    * @returns hash of the picture
    */

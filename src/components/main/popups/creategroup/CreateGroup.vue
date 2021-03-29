@@ -59,6 +59,7 @@ export default {
         const options = {
           includeScore: false,
           keys: ["name"],
+          threshold: 0.2
         };
         const fuse = new Fuse(this.$store.state.friends, options);
         const result = fuse.search(keyword);

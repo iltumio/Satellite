@@ -82,7 +82,9 @@ export default class DwellerCachingHelper {
 
     const dwellerName = await dwellerContract.getDwellerName();
     const dwellerPhoto = await dwellerContract.getPhoto();
-
+    const dwellerStatus = await dwellerContract.getStatus();
+    console.log('status', dwellerStatus)
+      
     const dweller = {
       name: ethers.utils.parseBytes32String(dwellerName),
       photo: `${config.ipfs.browser}${dwellerPhoto}`,

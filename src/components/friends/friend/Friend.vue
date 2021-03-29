@@ -22,14 +22,14 @@
           <p :class="`online ${(friend.status == 'alive') ? 'true' : ''}`"><i class="fa fa-circle"></i></p>
         </span>
       </div>
-      <div class="column friend-details">
+      <div :class="`column friend-details ${add ? 'friend-details-smaller' :''}`">
         <p class="username">{{friend.name}}</p>
         <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.address}}</p>
         <p class="address" v-else><i class="fa fa-spinner-third fa-spin"></i> {{$t('friends.requests.sending')}}</p>
       </div>
-      <div class="column buttons-container">
+      <div :class="`column buttons-container ${add ? 'buttons-container-smaller' :''}`">
         <button
-          v-if="action"
+          v-if="action && !add"
           class="button remove-friend is-danger"
           v-on:click="removeFriendConfirmed">
           <i class="fa fa-times" aria-hidden="true"></i>

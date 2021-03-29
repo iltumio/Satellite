@@ -41,15 +41,15 @@ module.exports = {
   registry: {
     mainnet: '0x0',
     goerli: '0xfA22498c3F2bc836d9347F2e8c718E7820eAb308',
-    mumbai: '0x6ef1fcb3a695d962B97C2012D3B831356C199ebF'
+    mumbai: '0x26631E322280B34E44CEDe9Bf4513b3AD8040d48'
   },
   friends: {
     mainnet: '0x0',
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
-    mumbai: '0x8cc8feF7559346d03C8202413273341a85a9F979'
+    mumbai: '0x7874124148DBAcC66647dc7545e15a684B0fE2d1'
   },
   stickers: {
-    mumbai: '0xf6B5c96386b1B014Df9caa44f1403d2d4F7C8c13',
+    mumbai: '0x139ed2A574b9546296cc50A8e44C985C93dC8866',
     mumbaiInfo: {
       deployBlock: 11818681
     }
