@@ -74,3 +74,9 @@ export function getTokenSymbolByNetwork(network: InfuraNetworkNames) {
     }
     return TokenSymbols[network];
 }
+
+export async function marketDataSearch(search: string) {
+    const response = await fetch(`https://api.coincap.io/v2/assets?search=${search}`);
+    const json = await response.json();
+    return json.data.length ? json.data[0] : null;
+}
