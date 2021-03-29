@@ -89,6 +89,7 @@ export default class DwellerCachingHelper {
       name: ethers.utils.parseBytes32String(dwellerName),
       photo: `${config.ipfs.browser}${dwellerPhoto}`,
       address,
+      statusMsg: dwellerStatus,
       expiry: Date.now() + this.expiry
     };
 

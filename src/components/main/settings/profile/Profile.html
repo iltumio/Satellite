@@ -85,6 +85,21 @@
       </div>
       <div style="clear:both;"></div>
       <br>
+      <p class="label">{{$t('settings.profile.status')}}</p>
+      <div class="field has-addons">
+        <div class="control" style="width: 100%;">
+          <input class="input is-small" v-model="$store.state.statusMsg" :readonly="statusSaving" />
+        </div>
+        <div class="control">
+          <button :disabled="statusSaving" class="button is-primary is-small" v-on:click="saveStatus">
+            <i class="fas fa-save" v-if="!statusSaving"></i>
+            <i class="fas fa-spinner-third fa-spin" v-else></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="clear:both;"></div>
+      <br>
       <p class="label">{{$t('settings.profile.your_badges')}}</p>
       <div class="badges">
         <Badge :address="$store.state.activeAccount" />

@@ -252,6 +252,7 @@
       "profile_pic": "Profile Picture (Optional)",
       "upload_profile_pic": "Upload Profile Picture",
       "uploading_ipfs": "Uploading to IPFS...",
+      "status": "Choose a custom status",
       "username": "Username",
       "create_account": "Create Account",
       "creating_transaction": "Creating Transaction",

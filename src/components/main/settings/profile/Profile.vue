@@ -51,6 +51,7 @@ export default {
       showCropper: false,
       config,
       funded: false,
+      statusSaving: false,
       dwellerCachingHelper: new DwellerCachingHelper(
         this.$ethereum,
         config.registryAddress,
@@ -70,6 +71,21 @@ export default {
     });
   },
   methods: {
+    async saveStatus() {
+      this.statusSaving = true;
+      console.log('saving status', this.$store.state.statusMsg)
+      const dwellerContractAddress = await this.registry
+        .getDwellerContract(this.$store.state.activeAccount);
+
+      const dwellerContractInstance = new DwellerContract(this.$ethereum, dwellerContractAddress);
+
+      dwellerContractInstance.setStatus(this.$store.state.statusMsg, (txReceipt) => {
+        this.statusSaving = false
+        this.$toasted.show('ATTN: Status Updated!', {
+          type: 'success', icon: 'check-circle',
+        })
+      })
+    },
     dataURItoBlob(dataURI) {
       // convert base64 to raw binary data held in a string
       // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this

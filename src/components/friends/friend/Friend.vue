@@ -24,7 +24,7 @@
       </div>
       <div :class="`column friend-details ${add ? 'friend-details-smaller' :''}`">
         <p class="username">{{friend.name}}</p>
-        <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.address}}</p>
+        <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.statusMsg}}</p>
         <p class="address" v-else><i class="fa fa-spinner-third fa-spin"></i> {{$t('friends.requests.sending')}}</p>
       </div>
       <div :class="`column buttons-container ${add ? 'buttons-container-smaller' :''}`">

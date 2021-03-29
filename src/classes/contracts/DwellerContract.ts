@@ -50,6 +50,18 @@ export default class DwellerContract {
   }
 
   /** @function
+   * @name setStatus
+   * @argument status status to set
+   * @argument done callback which will be called on the first TX & confirm.
+   */
+   setStatus(status: string, done: CallableFunction) {
+    this.contract
+      .setStatus(status)
+      .then(transaction => transaction.wait())
+      .then(receipt => done(receipt));
+  }
+
+  /** @function
    * @name getDweller
    * @argument done callback which will return the dweller info
    */
@@ -91,8 +103,7 @@ export default class DwellerContract {
    * @returns status of the dweller who owns this contract
    */
    async getStatus() {
-     console.log(this.contract);
-    // return this.contract.getStatus();
+    return this.contract.status();
   }
 
   /** @function

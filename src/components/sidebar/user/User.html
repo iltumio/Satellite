@@ -4,7 +4,7 @@
     <i class="fas fa-sparkles" aria-hidden="true" v-if="isMobile()"></i>
   </p>
   <p >{{friend.name}}</p>
-  <p class="address">{{friend.address}}</p>
+  <p class="address">{{friend.statusMsg}}</p>
   <p id="typing" :class="`online ${(friend.status === 'alive') ? 'true' : ''}`">
     <i v-if="typing && friend.status === 'alive'" class="fas fa-spinner-third fa-spin"></i>
     <i class="fa fa-circle"></i>

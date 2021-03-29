@@ -13,6 +13,7 @@ export interface IState {
   starting: boolean;
   authenticated: boolean;
   buckets: boolean;
+  statusMsg: string;
   // Settings
   settings: ISettings;
   // Theme
@@ -93,6 +94,7 @@ export const defaultState: IState = {
   starting: true,
   authenticated: false,
   buckets: false,
+  statusMsg: 'Orbiting in space...',
   // Settings
   settings: {
     darkMode: true,
