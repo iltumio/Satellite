@@ -43,7 +43,7 @@ export default {
         changePercent24Hr:
           changePercent24Hr > 0
             ? `+ ${changePercent24Hr.toFixed(2)}`
-            : `- ${changePercent24Hr.toFixed(2)}`
+            : `${changePercent24Hr.toFixed(2)}`
       });
     }
   },

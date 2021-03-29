@@ -1,4 +1,4 @@
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import { LangCodes } from '../utils/i18n';
 import { AvailableProviders } from './mutations/web3';
 
@@ -14,10 +14,10 @@ export interface IWalletAsset {
   name: string;
   icon: string;
   contractAddress: string;
-  tokenType: 'default' | 'ERC20' | 'ERC721' | 'ERC1155';
+  tokenType: 'default' | 'ERC20' | 'ERC721' | 'ERC1155' | 'dummy';
   balance?: BigNumber | number;
-  priceUsd?: number
-  changePercent24Hr?: string
+  priceUsd?: number;
+  changePercent24Hr?: string;
 }
 
 export interface IState {
@@ -145,7 +145,7 @@ export const defaultState: IState = {
       tokenType: 'default',
       balance: 0,
       priceUsd: 0,
-      changePercent24Hr: '',
+      changePercent24Hr: ''
     },
     '0x6A383cf1F8897585718DCA629a8f1471339abFe4': {
       symbol: 'DAI',
@@ -155,7 +155,17 @@ export const defaultState: IState = {
       tokenType: 'ERC20',
       balance: 0,
       priceUsd: 0,
-      changePercent24Hr: '',
+      changePercent24Hr: ''
+    },
+    satellite: {
+      symbol: 'SAT',
+      name: 'Satellite',
+      icon: 'QmUUtzqBLguzq1PHXSX91gkJbhp3WznaJpMpywiaCfmLXy',
+      contractAddress: 'dummy',
+      tokenType: 'dummy',
+      balance: utils.parseEther("1538"),
+      priceUsd: 1.3,
+      changePercent24Hr: '5,8'
     }
   },
   // Network
