@@ -1,47 +1,32 @@
 <template src="./Wallet.html"></template>
 
 <script>
-import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
-import Asset from './Asset';
-import config from '@/config/config';
+import MobileNav from "@/components/sidebar/mobilenav/MobileNav";
+import Asset from "./Asset";
+import config from "@/config/config";
 import { ethers } from "ethers";
-import { marketDataByNetwork, getTokenSymbolByNetwork } from "@/utils/EthereumProvider.ts"
+import { marketDataByNetwork } from "@/utils/EthereumProvider.ts";
 
-import MobileUtils from '@/utils/Mobile.ts';
+import MobileUtils from "@/utils/Mobile.ts";
 
 export default {
-  name: 'Wallet',
-  props: ['toggleSettings'],
+  name: "Wallet",
+  props: ["toggleSettings"],
   components: {
     MobileNav,
-    Asset
+    Asset,
   },
   data() {
     return {
       priceUsd: 0,
       balanceUsd: 0,
       parsedBalance: ethers.utils.formatEther(this.$store.state.balance),
-      assets: [
-        {
-          symbol: 'MATIC',
-          name: 'Polygon',
-          icon: 'QmV3z48ftfSLf1kHKEvFHjikiaA1GV88vRSSKFTmbBFgcn',
-        },
-        {
-          symbol: 'SAT',
-          name: 'Satellite',
-          icon: 'QmUUtzqBLguzq1PHXSX91gkJbhp3WznaJpMpywiaCfmLXy',
-        },
-        {
-          symbol: 'ETH',
-          name: 'Ethereum',
-          icon: 'QmUJgkxUiPMmQwwExD1rVM5Ka6hxsMrkoKCudfktd2mfGN',
-        },
-      ],
-    }
+    };
   },
   mounted() {
     this.setBalance();
+
+    this.$store.dispatch("updateAllTokenBalances");
   },
   methods: {
     // Returns if user device is mobile
@@ -49,9 +34,22 @@ export default {
     async setBalance() {
       const marketData = await marketDataByNetwork(config.network.chain);
       this.priceUsd = marketData.priceUsd;
-      this.balanceUsd = Math.floor((this.parsedBalance * this.priceUsd) * 100) / 100;
+      this.balanceUsd =
+        Math.floor(this.parsedBalance * this.priceUsd * 100) / 100;
     },
-  }
+    formatEther(value) {
+      return ethers.utils.formatEther(value);
+    },
+    calcTotal(assets) {
+      return Object.values(assets).reduce(
+        (sum, asset) =>
+          sum +
+          parseFloat(this.formatEther(asset.balance)) *
+            parseFloat(asset.priceUsd),
+        0
+      ).toFixed(2);
+    },
+  },
 };
 </script>
 
