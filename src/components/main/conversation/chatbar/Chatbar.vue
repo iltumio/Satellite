@@ -98,6 +98,16 @@ export default {
     // Send a plain text message from the chatbar to the parent component
     sendMessage() {
       if (this.command) {
+        this.$store.dispatch('dispatchCommand', {
+          command: this.command,
+          args: this.args
+        })
+        // TODO: move this to command function
+        console.log('command', this.command)
+        if (this.command.replace(/\W/g, '') === 'address') {
+          console.log('sending addr: ', this.$store.state.activeAccount)
+          this.handleNewMessage(this.$store.state.activeAccount, 'text')
+        }
         this.messageText = '';
         this.command = false;
         this.args = false;

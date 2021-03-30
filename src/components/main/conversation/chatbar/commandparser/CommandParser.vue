@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import reload from './commands/reload'
+
 export default {
     name: 'CommandParser',
     props: ['command', 'args'],
@@ -47,6 +49,22 @@ export default {
         this.commands.forEach(cmd => {
             this.commandStrings.push(cmd.command)
         })
+        this.$store.subscribeAction((action, state) => {
+            console.log('action type', action.type);
+            console.log(action.payload);
+
+            if (action.type === 'dispatchCommand') {
+                const command = action.payload.command
+                    .replace(/\W/g, '')
+                switch(command) {
+                    case 'reload':
+                        reload.reload()
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     },
     methods: {
         reloadWindow() {
