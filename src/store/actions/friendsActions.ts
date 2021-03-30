@@ -146,7 +146,6 @@ export default {
     }
   },
   async denyRequest({ dispatch }, { address }) {
-    console.log('deny request', address);
     // @ts-ignore
     const friendsContract = new Friends(
       // @ts-ignore

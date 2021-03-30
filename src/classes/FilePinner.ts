@@ -17,7 +17,7 @@ export default class FilePinner {
     const header = this.validateHeader();
     // @ts-ignore
     axios.post('https://api.pinata.cloud/pinning/pinByHash', data, header)
-      .then((res) => { console.log(res); })
+      .then((res) => { /* noop*/ })
       .catch((err) => { throw new Error(err); });
   }
 
@@ -28,7 +28,7 @@ export default class FilePinner {
     const header = this.validateHeader(true);
     // @ts-ignore
     axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', data, header)
-      .then((res) => { console.log(res); })
+      .then((res) => { /* noop*/ })
       .catch((err) => { throw new Error(err); });
   }
 

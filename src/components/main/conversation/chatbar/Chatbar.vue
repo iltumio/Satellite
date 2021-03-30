@@ -103,9 +103,7 @@ export default {
           args: this.args
         })
         // TODO: move this to command function
-        console.log('command', this.command)
         if (this.command.replace(/\W/g, '') === 'address') {
-          console.log('sending addr: ', this.$store.state.activeAccount)
           this.handleNewMessage(this.$store.state.activeAccount, 'text')
         }
         this.messageText = '';
@@ -159,8 +157,6 @@ export default {
         const splitMessage = this.messageText.split(' ')
         const command = splitMessage[0]
         const args = splitMessage.slice(1, splitMessage.length)
-        console.log('command: ', command)
-        console.log('args: ', args)
         this.command = command
         this.args = args
       } else {

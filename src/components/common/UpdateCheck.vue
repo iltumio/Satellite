@@ -30,7 +30,6 @@ export default {
           const localVersion = Package.version;
           const remoteVersion = data.version;
           if (localVersion !== remoteVersion) {
-            console.log(`update needed we're on ${localVersion}, remote has version ${remoteVersion}`);
             this.updateNeeded = true;
             this.update();
           }

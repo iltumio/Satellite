@@ -50,9 +50,6 @@ export default {
             this.commandStrings.push(cmd.command)
         })
         this.$store.subscribeAction((action, state) => {
-            console.log('action type', action.type);
-            console.log(action.payload);
-
             if (action.type === 'dispatchCommand') {
                 const command = action.payload.command
                     .replace(/\W/g, '')

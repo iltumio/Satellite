@@ -17,7 +17,6 @@ export default {
       if(data && data.price) {
         newData["price"] = ethers.utils.formatEther(data.price).toString();
       }
-      console.log('data', newData);
       this.routeData = newData;
     },
     sendSticker(sticker) {

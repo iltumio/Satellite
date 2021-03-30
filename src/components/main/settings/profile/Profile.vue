@@ -73,7 +73,6 @@ export default {
   methods: {
     async saveStatus() {
       this.statusSaving = true;
-      console.log('saving status', this.$store.state.statusMsg)
       const dwellerContractAddress = await this.registry
         .getDwellerContract(this.$store.state.activeAccount);
 
