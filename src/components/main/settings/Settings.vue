@@ -121,7 +121,7 @@ export default {
   props: ['toggleSettings', 'open', 'address'],
   data() {
     return {
-      route: 'personalize',
+      route: 'profile',
       isShowSidebar: false,
     };
   },

@@ -3,7 +3,7 @@
     <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
     <div class="modal-background"></div>
     <span class="qr-display">
-      <h4 class="label">Scan A QR Code</h4>
+      <h4 class="label">{{$t('qr-scan.scan-qr-code')}}</h4>
       <qrcode-stream @decode="onDecode"></qrcode-stream>
       <Friend
         v-if="friend"

@@ -27,21 +27,26 @@
   </div>
   <div v-if="$store.state.mainRoute !== 'server'">
     <div class="tabs">
-      <ul>
-        <li :class="`${route === 'chats' ? 'is-active' : ''}`" v-on:click="setRoute('chats')">
-          <a>{{$t('sidebar.chats')}}</a>
-        </li>
-        <li><a>{{$t('sidebar.groups')}}</a></li>
-      </ul>
+      <div class="buttons has-addons">
+        <button :class="`${getTabClass('chats')}`" v-on:click="setTabClass('chats')">
+          <i class="fas fa-comment-alt-lines"></i> &nbsp; {{$t('sidebar.chats')}}
+        </button>
+        <button :class="`${getTabClass('groups')}`" v-on:click="setTabClass('groups')">
+          <i class="fad fa-users"></i> &nbsp; {{$t('sidebar.groups')}}
+        </button>
+      </div>
       <i class="fa fa-plus add-friend-chat" v-on:click="toggleQuickFriends"></i>
     </div>
     <QuickFriends v-if="showQuickFriends" :close="toggleQuickFriends" />
     <div class="usercontainer">
-      <div v-if="route === 'chats'">
+      <div v-if="tabRoute === 'chats'">
         <User v-if="$store.state.friendsLoaded && getFriend($store.state.friends, chat)"
           v-for="chat in $store.state.activeChats" :friend="getFriend($store.state.friends, chat)"
           :active="$store.state.activeChat === chat" :key="`${chat}${getFriend($store.state.friends, chat).status}`"
           :unread="isUnread(chat)" :typing="$store.state.typingUsers[chat]" :clientId="chat" />
+      </div>
+      <div v-else-if="tabRoute === 'groups'">
+        <Groups />
       </div>
     </div>
   </div>

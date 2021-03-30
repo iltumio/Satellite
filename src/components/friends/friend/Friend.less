@@ -1,49 +1,203 @@
 .friend {
-  padding: 1rem;
+  padding: 1rem 0 !important;
   font-size: 14pt;
   background: #f8f9fb;
   border-radius: 5px;
-  width: 50%;
+  min-width: 300px;
+  width: 100%;
   float: left;
   margin-top: 0.5rem;
-  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
 }
-.address {
-  font-size: 9pt;
-  max-width: calc(100% - 8rem);
-  text-overflow: ellipsis;
-  overflow: hidden;
-  word-wrap: none;
-  display: block;
-}
-.name-address {
-  width: calc(100% - 2rem);
-}
-.modal-close {
-  z-index: 0 !important;
-  position: absolute;
-}
+// Profile icon and online status
 .circle-icon {
-  float: left;
-  margin-right: 1rem;
+  min-width: 3rem;
 }
-.add-friend {
-  margin-top: -2.7rem;
-  float: right;
+.friend-details {
+  max-width: calc(100% - 55px - 9rem);
 }
-
+.online-wrapper {
+  position: relative;
+  right: 1.4rem;
+  top: 1rem;
+  z-index: 5;
+}
+.columns.is-mobile {
+  width: 100%;
+}
 .online {
-  position: absolute;
-  left: 2.8rem;
-  bottom: 0.7rem;
   color: #666;
 }
 .true {
   color: #00d0a1;
 }
+// Username and blockchain address
+.name-address {
+  width: calc(100% - 12rem);
+  margin: 0rem 0.25rem 0rem 0rem;
+}
+.username {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: none;
+  white-space: nowrap;
+}
+.pfp-column {
+  max-width: 55px;
+}
+.address {
+  font-size: 9pt;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: none;
+}
+// Add friend / Chat button
+.add-friend {
+}
+// Friend options (remove friend, voice call, etc.)
+.friend-options-btn {
+  font-size: 21pt;
+  max-height: 2rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  line-height: 1.3;
+}
+.remove-friend, .add-friend {
+  float: right;
+  margin: 0 0.25rem;
+}
+.friend-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 2px;
+  margin-top: 1rem;
+  span {
+    border-radius: 2px;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    font-size: 12pt;
+    cursor: pointer;
+  }
+}
+.remove-friend-btn {
+  color: #df4c4c;
+  transition: 100ms;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+}
+// Remove friend confirmation modal
+.remove-friend-confirm {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  font-size: 12pt;
+  p {
+    font-style: italic;
+    cursor: default;
+  }
+}
+.remove-friend-confirm-options {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  span {
+    cursor: pointer;
+    padding: 0rem 0.5rem;
+  }
+}
+.remove-confirm-btn {
+  color: #df4c4c;
+  font-weight: 700;
+  transition: 100ms;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+}
+.remove-cancel-btn {
+  text-decoration: underline;
+}
+// Other? not sure what this is for
+.modal-close {
+  z-index: 0 !important;
+  position: absolute;
+}
 
-@media (max-width: 768px) {
+.friend-details-smaller {
+  max-width: calc(100% - 55px - 5rem) !important;
+}
+
+.friend {
+  height: 5rem;
+  overflow: hidden;
+}
+
+.buttons-container-smaller {
+  display: unset !important;
+
+  .add-friend {
+    height: 40px !important;
+  }
+}
+
+
+@media (max-width:768px) {
   .friend {
+  // min-width: 300px !important;
     width: 100% !important;
+  }
+  .remove-friend, .add-friend {
+    float: right;
+    margin: 0 0.25rem;
+    height: 100%;
+  }
+  .circle-icon {
+    min-width: unset;
+    width: 45px;
+    height: 45px;
+  }
+  .pfp-column {
+    max-width: 55px;
+  }
+  .buttons-container {
+    display: none;
+  }
+  .friend-details {
+    max-width: calc(100% - 55px);
+  }
+  .friend {
+    height: 5rem;
+    overflow: hidden;
+  }
+  .mobileOptions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 101;
+  }
+  .friendOptions {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #1a1b26;
+    padding: 1.5rem;
+    padding-bottom: 4rem;
+
+    button {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
   }
 }

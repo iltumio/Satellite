@@ -10,6 +10,8 @@ import Package from '../../../../package.json';
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav';
 import ServerSlider from '@/components/sidebar/serverslider/ServerSlider';
 import UpdateCheck from '@/components/common/UpdateCheck';
+import Groups from '@/components/sidebar/groups/Groups';
+
 
 import MobileUtils from '@/utils/Mobile.ts';
 
@@ -31,6 +33,7 @@ export default {
     MobileNav,
     ServerSlider,
     UpdateCheck,
+    Groups
   },
   data() {
     return {
@@ -38,12 +41,21 @@ export default {
       showQuickFriends: false,
       version: Package.version,
       requiresUpdate: false,
+      tabRoute: 'chats',
     };
   },
   mounted() {
     // this.updateServers();
   },
   methods: {
+    getTabClass(forTab) {
+      return (forTab === this.tabRoute) ?
+        'button is-small is-primary is-selected' :
+        'button is-small is-black'
+    },
+    setTabClass(route) {
+      this.tabRoute = route
+    },
     onClickClose() {
       this.$nextTick(() => {
         setTimeout(() => {

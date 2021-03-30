@@ -13,6 +13,10 @@ module.exports = {
   ipfs: {
     browser: 'https://ipfs.io/ipfs/'
   },
+  pinata: {
+    // eslint-disable-next-line max-len
+    jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4NDZkOGUwNi1jZTYwLTQ4NzgtOWE1Ni1hNTMwODc2MTRkZDQiLCJlbWFpbCI6Im1hdHQud2lzbmlld3NraUBqYWNrZXRyaXZlci5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZmFhZTA3NDgxYmE1OGM0ZDc5YTgiLCJzY29wZWRLZXlTZWNyZXQiOiI0YmQzMmI0YmE5YTI2ZTZlYjJkYzRlOTFkYjFlZTZmNGQzZGJlNjlhY2UyNDkzMzYwOGY5OTcyMTQwNjU2YzJjIiwiaWF0IjoxNjE2ODIyMTE1fQ.Lb1Pbl7KLEkiY13Ioefv2AzrE1_CREZ2YPPz_MlboWI'
+  },
   sounds: {
     newMessage: 'QmfGYjbTXg66V8ZHzqQRVutUFmkbd5L3fV6DA72jTHDWAH',
     call: 'QmRdxeQF53abUesaFC8qmoNJ5FLS8LBuSyCmcXT5VhuKSm',
@@ -37,15 +41,15 @@ module.exports = {
   registry: {
     mainnet: '0x0',
     goerli: '0xfA22498c3F2bc836d9347F2e8c718E7820eAb308',
-    mumbai: '0x6ef1fcb3a695d962B97C2012D3B831356C199ebF'
+    mumbai: '0x26631E322280B34E44CEDe9Bf4513b3AD8040d48'
   },
   friends: {
     mainnet: '0x0',
     goerli: '0xd1d99a34Bdb6e2c3d199dd39Fe1B011Ee633D824',
-    mumbai: '0x8cc8feF7559346d03C8202413273341a85a9F979'
+    mumbai: '0x7874124148DBAcC66647dc7545e15a684B0fE2d1'
   },
   stickers: {
-    mumbai: '0xf6B5c96386b1B014Df9caa44f1403d2d4F7C8c13',
+    mumbai: '0x139ed2A574b9546296cc50A8e44C985C93dC8866',
     mumbaiInfo: {
       deployBlock: 11818681
     }
@@ -84,7 +88,7 @@ module.exports = {
     ping_interval: 5000
   },
   web3: {
-    balance_polling_interval: 2000
+    balance_polling_interval: 10000
   },
   toastNotifications: {
     position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast'

@@ -5,6 +5,7 @@ import threadActions from './actions/threadActions';
 import p2pActions from "./actions/p2pActions";
 import databaseActions from "./actions/databaseActions";
 import startup from "./actions/startupActions";
+import walletActions from "./actions/walletActions";
 
 export default {
   ...friendsActions,
@@ -13,5 +14,6 @@ export default {
   ...threadActions,
   ...p2pActions,
   ...databaseActions,
-  ...startup
+  ...walletActions,
+  ...startup,
 };
