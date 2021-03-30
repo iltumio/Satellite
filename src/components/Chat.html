@@ -1,5 +1,8 @@
   <!--@contextmenu="openContext"-->
   <div id="wrapper">
+    <CreateGroup
+      v-if="$store.state.showCreateGroup" />
+
     <Context
       v-if="showContext"
       :x="contextCoordsX"

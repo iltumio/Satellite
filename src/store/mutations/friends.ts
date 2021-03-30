@@ -28,4 +28,16 @@ export default {
     state.friends = [];
     state.friendsLoaded = false;
   },
+  // Remove friend
+  removeFriend(state, address) {
+    const filteredFriends = state.friends.filter(f => f.address !== address);
+    state.friends = filteredFriends;
+    const filteredActiveChats = state.activeChats.filter(userAddress => userAddress !== address);
+    for (let i = 0; i < filteredActiveChats.length; i += 1) {
+      if (filteredActiveChats[i] === state.activeAccount || !filteredActiveChats[i]) {
+        filteredActiveChats.splice(i, 1);
+      }
+    }
+    state.activeChats = filteredActiveChats;
+  },
 };

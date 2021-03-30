@@ -49,12 +49,16 @@
             class="input is-small messageuser"
             autofocus
             rows="1"
-            @input="isTyping(); autoGrow();"
-            @change="autoGrow"
+            @input="isTyping(); handleInputChange();"
+            @change="handleInputChange"
             v-on:keyup="startTyping"
             :placeholder="$t('conversation.chatbar.securely_message', {name: $store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name})"
             v-model="messageText"
             v-on:keyup.enter="sendMessage"></textarea>
+          <CommandParser
+            v-if="command"
+            :command="command"
+            :args="args" />
           <!--<div class="input is-small messageuser" contenteditable role="textbox">
             Securley Message Sophie Chain...
           </div>-->

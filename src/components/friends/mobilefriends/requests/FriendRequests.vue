@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if="!this.friendRequests">
+    <div v-if="!$store.state.friendRequests">
       {{$t('friends.requests.loading')}}
     </div>
-    <div v-if="this.friendRequests.length === 0">
+    <div v-if="$store.state.friendRequests.length === 0">
       <span v-if="outgoing">{{$t('friends.requests.no-outgoing')}}</span>
       <span v-else>{{$t('friends.requests.no-incoming')}}</span>
     </div>
-    <div class="requests" v-for="request in friendRequests" :key="request.address">
+    <div class="requests" v-for="request in $store.state.friendRequests" :key="request.address">
       <div class="friend request">
         <div class="left">
           <h1 class="label name">{{request.name}}</h1>

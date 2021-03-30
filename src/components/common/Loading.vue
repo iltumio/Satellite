@@ -15,8 +15,8 @@
         <Loader size="100" v-if="showLoader"/>
       </p>
       <div class="red" v-if="$store.state.criticalError">
-        <i class="fas fa-skull"></i> Failure to load: {{ $store.state.criticalError }} <br /><br />
-        <button class="button is-danger is-small" v-on:click="reload">Retry?</button>
+        <i class="fas fa-skull"></i> {{ $t('loading.failure-to-load') }}: {{ $store.state.criticalError }} <br /><br />
+        <button class="button is-danger is-small" v-on:click="reload">{{ $t('loading.retry-button') }}</button>
       </div>
       <div v-else-if="!$store.state.dwellerAddress">
         <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.connecting_blockchain') }}

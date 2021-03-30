@@ -14,6 +14,7 @@ import Registry from '@/classes/contracts/Registry.ts';
 import ActionSelector from './editprofile/ActionSeletor';
 import ChangePhoto from './editprofile/ChangePhoto';
 import ChangeUsername from './editprofile/ChangeUsername';
+import FilePinner from '@/classes/FilePinner.ts';
 
 
 export default {
@@ -50,6 +51,7 @@ export default {
       showCropper: false,
       config,
       funded: false,
+      statusSaving: false,
       dwellerCachingHelper: new DwellerCachingHelper(
         this.$ethereum,
         config.registryAddress,
@@ -69,6 +71,20 @@ export default {
     });
   },
   methods: {
+    async saveStatus() {
+      this.statusSaving = true;
+      const dwellerContractAddress = await this.registry
+        .getDwellerContract(this.$store.state.activeAccount);
+
+      const dwellerContractInstance = new DwellerContract(this.$ethereum, dwellerContractAddress);
+
+      dwellerContractInstance.setStatus(this.$store.state.statusMsg, (txReceipt) => {
+        this.statusSaving = false
+        this.$toasted.show('ATTN: Status Updated!', {
+          type: 'success', icon: 'check-circle',
+        })
+      })
+    },
     dataURItoBlob(dataURI) {
       // convert base64 to raw binary data held in a string
       // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
@@ -153,6 +169,8 @@ export default {
       this.error = false;
       const ipfsResponse = await window.ipfs.add(file);
       this.ipfsHash = ipfsResponse;
+      let filePinner = new FilePinner(config.pinata.jwt)
+      filePinner.PinByHash(this.ipfsHash.path)
     },
     // Set the dweller id profile picture hash on contract
     // after do any final tasks we need to do on chain

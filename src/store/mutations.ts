@@ -8,6 +8,8 @@ import account from './mutations/account';
 import server from './mutations/server';
 import web3 from './mutations/web3';
 import stickers from './mutations/stickersMutations';
+import wallet from "./mutations/wallet";
+import commands from "./mutations/commands";
 
 export default {
   ...friends,
@@ -20,6 +22,8 @@ export default {
   ...server,
   ...web3,
   ...stickers,
+  ...wallet,
+  ...commands,
   screenShareRequest(state: any) {
     // eslint-disable-next-line
     state.screenShareRequest = Date.now();

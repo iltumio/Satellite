@@ -15,6 +15,8 @@ import MiniPaymentMobile from '@/components/common/payments/minipaymentmobile/Mi
 import 'emoji-mart-vue-fast/css/emoji-mart.css';
 import FileUpload from '@/components/common/fileupload/FileUpload';
 
+import CommandParser from './commandparser/CommandParser'
+
 import MobileUtils from '@/utils/Mobile.ts';
 
 const emojiIndex = new EmojiIndex(data);
@@ -26,7 +28,8 @@ export default {
     Picker,
     MiniPayment,
     MiniPaymentMobile,
-    FileUpload
+    FileUpload,
+    CommandParser
   },
   data() {
     return {
@@ -38,7 +41,9 @@ export default {
       characters: 0,
       limit: 250,
       file: false,
-      showFileUpload: false
+      showFileUpload: false,
+      command: false,
+      args: false
     };
   },
   mounted() {
@@ -92,6 +97,21 @@ export default {
     },
     // Send a plain text message from the chatbar to the parent component
     sendMessage() {
+      if (this.command) {
+        this.$store.dispatch('dispatchCommand', {
+          command: this.command,
+          args: this.args
+        })
+        // TODO: move this to command function
+        if (this.command.replace(/\W/g, '') === 'address') {
+          this.handleNewMessage(this.$store.state.activeAccount, 'text')
+        }
+        this.messageText = '';
+        this.command = false;
+        this.args = false;
+        this.resetSize()
+        return;
+      }
       if (this.messageText.replace(/\s+/g, '').length >= 1) {
         if (this.messageText.length > this.limit) {
           return;
@@ -127,6 +147,22 @@ export default {
     selectEmoji(emoji) {
       this.messageText += emoji.native;
       this.selectingEmoji = false;
+    },
+    handleInputChange() {
+      this.autoGrow()
+      this.checkCommands()
+    },
+    checkCommands() {
+      if (this.messageText[0] === '/') {
+        const splitMessage = this.messageText.split(' ')
+        const command = splitMessage[0]
+        const args = splitMessage.slice(1, splitMessage.length)
+        this.command = command
+        this.args = args
+      } else {
+        this.command = false
+        this.args = false
+      }
     },
     autoGrow() {
       let messageBox = document.querySelector('.messageuser');

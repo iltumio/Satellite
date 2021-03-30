@@ -94,16 +94,16 @@
         </div>
       </div>
     </article>
-    <h3 class="label">Screen Share</h3>
+    <h3 class="label">{{$t('settings.audio_video.screen-share')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
-        <h2>Capture Mouse</h2>
-        <p>Would you like to share your mouse in screen shares?</p>
+        <h2>{{$t('settings.audio_video.capture-mouse')}}</h2>
+        <p>{{$t('settings.audio_video.capture-mouse-info')}}</p>
         <div class="select">
           <select v-model="$store.state.captureMouse">
-            <option value="always">Always Capture</option>
-            <option value="motion">On Movement</option>
-            <option value="never">Never Show Mouse</option>
+            <option value="always">{{$t('settings.audio_video.capture-mouse-always')}}</option>
+            <option value="motion">{{$t('settings.audio_video.capture-mouse-movement')}}</option>
+            <option value="never">{{$t('settings.audio_video.capture-mouse-never')}}</option>
           </select>
         </div>
       </div>

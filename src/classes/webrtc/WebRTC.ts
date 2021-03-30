@@ -22,7 +22,6 @@ interface Connection {
 }
 
 type RTCEvent = '*' |
-  'key-offer' |
   'connection-established' |
   'ping' |
   'pong' |
@@ -87,7 +86,6 @@ export default class WebRTC extends WebRTCMedia {
     // TODO: Convert this to a string union
     return [
       '*',
-      'key-offer',
       'connection-established',
       'ping',
       'pong',
@@ -227,7 +225,7 @@ export default class WebRTC extends WebRTCMedia {
       }
     });
   }
- 
+
   connect(conn: Peer.DataConnection) {
     const identifier = this.buildIdentifier(conn.peer);
     const exitingPeer = this.find(identifier);
@@ -243,6 +241,18 @@ export default class WebRTC extends WebRTCMedia {
       peer.bind(conn);
       this.registerPeer(identifier, peer);
     });
+  }
+
+  public disconnectFromPeer(_identifier: string) : Promise<Error|null> {
+    return new Promise((resolve, reject) => {
+      if (!this.peer) reject(new Error('You cannot disconnect before initalizing.'))
+      const peer = this.find(_identifier);
+      if (peer) {
+        peer.close();
+        resolve(null);
+      }
+      setTimeout(() =>{ resolve(null) }, 3000)
+    })
   }
 
   public connectIfNotConnected(_identifier: string) {

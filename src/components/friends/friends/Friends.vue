@@ -16,6 +16,7 @@ import FriendRequests from "@/components/friends/friends/requests/FriendRequests
 // Classes
 import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
 import Friend from "@/components/friends/friend/Friend";
+import Friends from '@/classes/contracts/Friends.ts';
 
 export default {
   name: "Friends",
@@ -47,6 +48,11 @@ export default {
     //     this.friends = state.friends;
     //   }
     // });
+
+    this.friendsContract = new Friends(
+      this.$ethereum,
+      config.friends[config.network.chain]
+    );
 
     this.update();
   },
@@ -139,6 +145,24 @@ export default {
       }
       this.error = false;
       this.friend = { ...friend, status: "unchecked" };
+    },
+    /** @method
+     * Remove friend
+     * @name removeFriend
+     * @argument friendAddress Friends ether address
+     */
+    /** @method
+     * Remove friend
+     * @name removeFriend
+     * @argument friendAddress Friends ether address
+     */
+    async removeFriend(friend) {
+      const friendAddress = friend.address
+      this.$store.commit('removeFriend', friendAddress)
+      this.friends = this.$store.state.friends
+      this.$store.state.activeChats.length > 0 ? this.$store.commit('activeChat', this.$store.state.activeChats[0]) : this.$store.commit('activeChat', false);
+      await this.$WebRTC.disconnectFromPeer(friendAddress)
+      await this.friendsContract.removeFriend(friendAddress)
     },
     /** @method
      * Sends a friend request to the active friend
