@@ -30,7 +30,7 @@
       <p>Are you sure you want to remove this friend?</p>
       <div class="remove-friend-confirm-options">
         <span v-on:click="toggleFriendOptions" class="remove-cancel-btn">Cancel</span>
-        <span v-on:click="removeFriendConfirmed(); removeFriend(friend);" class="remove-confirm-btn">Remove</span>
+        <span v-on:click="removeFriendConfirmed(); removeFriend(friend.address);" class="remove-confirm-btn">Remove</span>
       </div>
     </div>
   </div>

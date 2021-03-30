@@ -156,24 +156,9 @@ export default {
      * @name removeFriend
      * @argument friendAddress Friends ether address
      */
-    async removeFriend(friend) {
-      const friendAddress = friend.address
-      console.log('Removing from store')
-      this.$store.commit('removeFriend', friendAddress)
-      this.friends = this.$store.state.friends
-      console.log('Switching Active Chat')
-      this.$store.state.activeChats.length > 0 ? this.$store.commit('activeChat', this.$store.state.activeChats[0]) : this.$store.commit('activeChat', false);
-      console.log('Disconnecting from peer')
-      await this.$WebRTC.disconnectFromPeer(friendAddress)
-      console.log('Removing friend')
-      await this.friendsContract.removeFriend(friendAddress)
-      console.log('DONE')
-      console.log('Remaining')
-      console.log(this.$store.state.friends)
-      console.log(this.friends)
-      console.log(this.$store.state.activeChats)
-      console.log(this.$store.state.activeChat)
-      console.log(this.$store.state)
+    async removeFriend(address) {
+      await this.$WebRTC.disconnectFromPeer(address)
+      await this.$store.dispatch("removeFriend", address);
     },
     /** @method
      * Sends a friend request to the active friend
