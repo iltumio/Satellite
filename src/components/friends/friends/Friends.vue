@@ -35,6 +35,7 @@ export default {
       friend: false,
       friendAddress: "",
       makingRequest: {},
+      removingFriend: {},
       dwellerCachingHelper: new DwellerCachingHelper(
         this.$ethereum,
         config.registry[config.network.chain],
@@ -157,8 +158,10 @@ export default {
      * @argument friendAddress Friends ether address
      */
     async removeFriend(address) {
+      this.removingFriend = {address: address, removed: false};
       await this.$WebRTC.disconnectFromPeer(address)
       await this.$store.dispatch("removeFriend", address);
+      this.removingFriend = {address: address, removed: true};
     },
     /** @method
      * Sends a friend request to the active friend
