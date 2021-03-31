@@ -97,6 +97,12 @@ export default {
     },
     // Send a plain text message from the chatbar to the parent component
     sendMessage() {
+        // var md = require('markdown-it')();
+        var md = require('markdown-it')({
+          html: true,
+          linkify: true,
+          typographer: true
+        });
       if (this.command) {
         this.$store.dispatch('dispatchCommand', {
           command: this.command,
@@ -117,7 +123,27 @@ export default {
           return;
         }
         this.$store.commit('chatWith', this.$store.state.activeChat);
-        this.handleNewMessage(this.messageText, 'text');
+        // var result = md.render(this.messageText);  
+        var result = md.render(this.messageText);
+        this.handleNewMessage(result, 'text');
+        console.log(this.messageText);
+        console.log(result);
+
+
+        // var result2 = md.render('__markdown-it__ ');
+        // this.handleNewMessage(result2, 'text');
+
+        // var result3 = md.render('> markdown-it rulezz!');
+        // this.handleNewMessage(result3, 'text');
+
+        // var result4 = md.render('*markdown-it rulezz!*');
+        // this.handleNewMessage(result4, 'text');
+
+        // var result5 = md.render('~~markdown-it rulezz!~~');
+        // this.handleNewMessage(result5, 'text');
+
+
+        // this.handleNewMessage(this.messageText, 'text');
         this.messageText = '';
         this.stopTyping();
         this.resetSize();
