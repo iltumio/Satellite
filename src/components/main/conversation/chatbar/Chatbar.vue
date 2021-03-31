@@ -97,6 +97,8 @@ export default {
     },
     // Send a plain text message from the chatbar to the parent component
     sendMessage() {
+      let md = require('markdown-it')()
+      .disable('heading');
       if (this.command) {
         this.$store.dispatch('dispatchCommand', {
           command: this.command,
@@ -117,7 +119,9 @@ export default {
           return;
         }
         this.$store.commit('chatWith', this.$store.state.activeChat);
-        this.handleNewMessage(this.messageText, 'text');
+        // Taking the this.messageText to render to Markdown if needed
+        let currentMessage = md.render(this.messageText);
+        this.handleNewMessage(currentMessage, 'text');
         this.messageText = '';
         this.stopTyping();
         this.resetSize();
