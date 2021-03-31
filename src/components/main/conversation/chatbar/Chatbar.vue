@@ -99,9 +99,6 @@ export default {
     sendMessage() {
       let md = require('markdown-it')()
       .disable('heading');
-      // let example = new Ruler();
-      // let printed = example.getRules();
-      // console.log(printed);
       if (this.command) {
         this.$store.dispatch('dispatchCommand', {
           command: this.command,
