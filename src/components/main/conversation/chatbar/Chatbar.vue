@@ -97,11 +97,11 @@ export default {
     },
     // Send a plain text message from the chatbar to the parent component
     sendMessage() {
-      let md = require('markdown-it')({
-          html: true,
-          linkify: true,
-          typographer: true
-        });
+      let md = require('markdown-it')()
+      .disable('heading');
+      // let example = new Ruler();
+      // let printed = example.getRules();
+      // console.log(printed);
       if (this.command) {
         this.$store.dispatch('dispatchCommand', {
           command: this.command,
@@ -125,8 +125,6 @@ export default {
         // Taking the this.messageText to render to Markdown if needed
         let currentMessage = md.render(this.messageText);
         this.handleNewMessage(currentMessage, 'text');
-        // console.log(this.messageText);
-        // console.log(currentMessage);
         this.messageText = '';
         this.stopTyping();
         this.resetSize();
