@@ -6,13 +6,13 @@
         <div class="pwa-header-text">{{ $t('PWA.prompt_title') }}</div>
         <p class="pwa-body-text">{{ $t('PWA.prompt_desc') }}</p>
         <!-- Android -->
-        <div class="pwa-footer" v-if="mobileType() == '/Android/i'">Just tap <img src="static/img/icons/android-pwa-icon.jpg" class="pwa-homescreen-icon"> then 'Add to homescreen'</div>
+        <div class="pwa-footer" v-if="mobileType() == '/Android/i'">{{ $t('PWA.just-tap') }} <img src="static/img/icons/android-pwa-icon.jpg" class="pwa-homescreen-icon"> {{ $t('PWA.add-to-homescreen') }}</div>
         <!-- IOS -->
-        <div class="pwa-footer" v-if="(mobileType() == '/iPhone/i') || (mobileType() == '/iPad/i') || (mobileType() == '/iPod/i')">Just tap <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon"> then 'Add to homescreen'</div>
+        <div class="pwa-footer" v-if="(mobileType() == '/iPhone/i') || (mobileType() == '/iPad/i') || (mobileType() == '/iPod/i')">{{ $t('PWA.just-tap') }} <img src="static/img/icons/apple-share-icon.png" class="pwa-homescreen-icon"> {{ $t('PWA.add-to-homescreen') }}</div>
         <!-- Windows Phone -->
-        <div class="pwa-footer" v-if="(mobileType() == '/Windows Phone/i')">Just tap <img src="static/img/icons/microsoft-edge-share-icon.png" class="pwa-homescreen-icon"> then 'Add to screen'</div>
+        <div class="pwa-footer" v-if="(mobileType() == '/Windows Phone/i')">{{ $t('PWA.just-tap') }} <img src="static/img/icons/microsoft-edge-share-icon.png" class="pwa-homescreen-icon"> {{ $t('PWA.add-to-screen') }}</div>
         <!-- Unknown Device -->
-        <div class="pwa-footer" v-if="mobileType() == undefined">We\'re unsure of you're devices type, search for "How to install PWA apps on [your device]" for instructions if you're interested in downloading our app</div>
+        <div class="pwa-footer" v-if="mobileType() == undefined">{{ $t('PWA.unsure-device-type') }}</div>
       </div>
     </div>
 </template>

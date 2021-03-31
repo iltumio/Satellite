@@ -3,7 +3,7 @@
     <img :src="`http://ipfs.io/ipfs/${sticker}`" alt="" />
     <br />
     <span class="sticker-name" v-if="name">{{name}}</span>
-    <span class="sticker-name" v-else-if="price">Buy: {{price}} MATIC</span>
+    <span class="sticker-name" v-else-if="price">{{$t('stickers.buy-button-text')}}: {{price}} MATIC</span>
   </div>
 </template>
 

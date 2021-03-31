@@ -35,7 +35,6 @@ export default {
     const filteredActiveChats = state.activeChats.filter(userAddress => userAddress !== address);
     for (let i = 0; i < filteredActiveChats.length; i += 1) {
       if (filteredActiveChats[i] === state.activeAccount || !filteredActiveChats[i]) {
-        console.log(filteredActiveChats[i]);
         filteredActiveChats.splice(i, 1);
       }
     }

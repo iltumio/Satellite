@@ -1,3 +1,4 @@
+import { BigNumber, utils } from 'ethers';
 import { LangCodes } from '../utils/i18n';
 import { AvailableProviders } from './mutations/web3';
 
@@ -8,11 +9,25 @@ interface ISettings {
 
 type ThemeName = 'tokyo';
 
+export interface IWalletAsset {
+  symbol: string;
+  name: string;
+  icon: string;
+  contractAddress: string;
+  tokenType: 'default' | 'ERC20' | 'ERC721' | 'ERC1155' | 'dummy';
+  balance?: BigNumber | number;
+  priceUsd?: number;
+  changePercent24Hr?: string;
+}
+
 export interface IState {
+  command: string | boolean;
+  args: Array<string> | boolean;
   pin: string | boolean;
   starting: boolean;
   authenticated: boolean;
   buckets: boolean;
+  statusMsg: string;
   // Settings
   settings: ISettings;
   // Theme
@@ -37,6 +52,8 @@ export interface IState {
   balanceLastUpdate?: number;
   localAccount: boolean;
   mnemonic: string;
+  // Wallet
+  assets: { [key: string]: IWalletAsset };
   // Network
   availableProviders: Array<any>;
   selectedProvider: any;
@@ -82,19 +99,24 @@ export interface IState {
   channel?: any;
   // Stickers
   stickersOpen?: boolean;
+  stickerPack: any;
   availableStickers?: any;
   ownedStickers?: any;
+  showCreateGroup: boolean;
 }
 
 export const defaultState: IState = {
+  command: false,
+  args: false,
   pin: false,
   starting: true,
   authenticated: false,
   buckets: false,
+  statusMsg: 'Orbiting in space...',
   // Settings
   settings: {
     darkMode: true,
-    language: 'en_US',
+    language: 'en_US'
   },
   // Theme
   theme: 'tokyo',
@@ -117,6 +139,39 @@ export const defaultState: IState = {
   balance: 0,
   localAccount: false,
   mnemonic: '',
+  // Wallet
+  assets: {
+    default: {
+      symbol: 'MATIC',
+      name: 'Polygon',
+      icon: 'QmV3z48ftfSLf1kHKEvFHjikiaA1GV88vRSSKFTmbBFgcn',
+      contractAddress: 'default',
+      tokenType: 'default',
+      balance: 0,
+      priceUsd: 0,
+      changePercent24Hr: ''
+    },
+    '0x6A383cf1F8897585718DCA629a8f1471339abFe4': {
+      symbol: 'DAI',
+      name: 'Dai',
+      icon: 'QmVChZZtAijsiTnMRFb6ziQLnRocXnBU2Lb3F67K2ZPHho',
+      contractAddress: '0x6A383cf1F8897585718DCA629a8f1471339abFe4',
+      tokenType: 'ERC20',
+      balance: 0,
+      priceUsd: 0,
+      changePercent24Hr: ''
+    },
+    satellite: {
+      symbol: 'SAT',
+      name: 'Satellite',
+      icon: 'QmUUtzqBLguzq1PHXSX91gkJbhp3WznaJpMpywiaCfmLXy',
+      contractAddress: 'dummy',
+      tokenType: 'dummy',
+      balance: utils.parseEther("1538"),
+      priceUsd: 1.3,
+      changePercent24Hr: '5,8'
+    }
+  },
   // Network
   availableProviders: [AvailableProviders.SATELLITE],
   selectedProvider: null,
@@ -161,10 +216,13 @@ export const defaultState: IState = {
   server: undefined,
   channel: undefined,
   stickersOpen: false,
+  stickerPack: undefined,
   availableStickers: {},
   ownedStickers: {},
+  showCreateGroup: false
 };
 
-const createState = (customState: any): IState => Object.assign({}, defaultState, customState);
+const createState = (customState: any): IState =>
+  Object.assign({}, defaultState, customState);
 
 export default createState;

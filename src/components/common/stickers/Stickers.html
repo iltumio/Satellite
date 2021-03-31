@@ -1,15 +1,15 @@
 <div id="stickers" class="animate__animated animate__slideInUp animate__faster">
   <div class="sticker-nav">
-    <button :class="`button ${(route === 'my-stickers') ? 'is-primary' : 'is-black'} is-small`" v-on:click="setDisplay('my-stickers')">My Stickers</button>
-    <button :class="`button ${(route === 'get-stickers') ? 'is-primary' : 'is-black'} is-small`"  v-on:click="setDisplay('get-stickers')">Get Stickers</button>
+    <button :class="`button ${(route === 'my-stickers') ? 'is-primary' : 'is-black'} is-small`" v-on:click="setDisplay('my-stickers')">{{$t('stickers.my-stickers')}}</button>
+    <button :class="`button ${(route === 'get-stickers') ? 'is-primary' : 'is-black'} is-small`"  v-on:click="setDisplay('get-stickers')">{{$t('stickers.get-stickers')}}</button>
   </div>
   <div class="stickers-container">
     <div class="my-stickers has-details" v-if="route === 'my-stickers'">
       <div v-if="Object.keys(ownedStickers).length === 0" class="no-stickers">
         <p>
-          You don't have any stickers yet.
+          {{$t('stickers.no-stickers')}}
           <br>
-          <button class="button is-primary is-small" v-on:click="setDisplay('get-stickers')">Get Some!</button>
+          <button class="button is-primary is-small" v-on:click="setDisplay('get-stickers')">{{$t('stickers.get-some-stickers')}}</button>
         </p>
       </div>
       <div v-for="sticker in ownedStickers" class="sticker-container" v-on:click="setDisplay('show-stickers', sticker)">
@@ -34,10 +34,10 @@
         :disabled="routeData.pending"
         v-if="!isPending"
         >
-        Buy: {{routeData.price}} MATIC
+        {{$t('stickers.buy-button-text')}}: {{routeData.price}} MATIC
       </button>
       <button class="button is-success is-small buy-button" v-else>
-        buying...
+        {{$t('stickers.buy-button-loading')}}...
       </button>
       <div v-for="sticker in routeData.stickers" class="sticker-container">
         <Sticker :sticker="sticker" />

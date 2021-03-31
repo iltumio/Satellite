@@ -1,7 +1,7 @@
 <template>
     <div id="security-mask">
-      <h2>CONTENT REDACTED</h2>
-      <p>Content hidden for security.<br>
+      <h2>{{$t('security-mask.content-redacted')}}</h2>
+      <p>{{$t('security-mask.content-hidden-message')}}<br>
       </p>
     </div>
 </template>

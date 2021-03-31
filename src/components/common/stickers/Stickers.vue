@@ -21,7 +21,10 @@ export default {
     },
     sendSticker(sticker) {
       this.sendMessage(
-        sticker,
+        {
+          sticker,
+          meta: this.routeData
+        },
         'sticker',
       );
       this.$store.commit('toggleStickers');
@@ -45,6 +48,10 @@ export default {
     }
   },
   async mounted(){
+    if (this.$store.state.stickerPack) {
+      this.route = 'buy-stickers'
+      this.routeData = this.$store.state.stickerPack.meta
+    }
     this.$store.dispatch("fetchStickers");
 
     this.$store.subscribe((mutation, state) => {

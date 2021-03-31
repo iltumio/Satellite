@@ -129,7 +129,9 @@ export default {
   }
   .main {
     width: 500px;
-    margin: 33.33% calc(33.33% - 40px);
+    /* margin: 33.33% calc(33.33% - 40px); */
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 0;
     margin-top: 0;
     padding-top: 20%;
@@ -152,8 +154,10 @@ export default {
   .fa-key {
     font-size: 20pt;
     margin-top: 1.6rem;
+    width: 15px;
+    height: 15px;
     float: right;
-    color: #b2bae1 !important
+    color: #b2bae1 !important;
   }
   button {
     margin-top: 1.5rem;

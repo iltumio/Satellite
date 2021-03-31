@@ -40,7 +40,7 @@
     v-on:click="copied"
     v-clipboard:copy="$store.state.activeAccount">
       <p>{{$store.state.username || 'Anon'}}</p>
-      <p class="address">{{$t('sidebar.controls.status')}}</p>
+      <p class="address">{{$store.state.statusMsg}}</p>
   </div>
   <div class="usercontrols">
       <i class="fa fa-cog" v-on:click="toggleSettings"></i>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PhotoCropper 
+    <PhotoCropper
       field="img"
       langType="en"
       @crop-success="cropSuccess"
@@ -10,7 +10,7 @@
     <button v-if="!ipfsHash" class="button is-primary is-small" v-on:click="toggleCropper">{{$t('settings.profile.upload_profile_pic')}}</button>
     <p v-if="ipfsHash">
       <i class="fa fa-spinner-third fa-spin"></i> {{$t('settings.profile.confirm_transaction')}}
-    </p>    
+    </p>
     <div style="clear: both;"></div>
     <br>
 
@@ -23,6 +23,7 @@ import PhotoCropper from 'vue-image-crop-upload';
 import Registry from '@/classes/contracts/Registry.ts';
 import DwellerContract from '@/classes/contracts/DwellerContract.ts';
 import config from '@/config/config';
+import FilePinner from '@/classes/FilePinner.ts';
 
 export default {
   name: 'ChangePhoto',
@@ -102,6 +103,8 @@ export default {
       const ipfsResponse = await window.ipfs.add(file);
       this.$store.commit('setStatus', 'File uploaded to IPFS');
       this.ipfsHash = ipfsResponse;
+      let filePinner = new FilePinner(config.pinata.jwt)
+      filePinner.PinByHash(this.ipfsHash.path)
       this.changePhoto();
     },
   },

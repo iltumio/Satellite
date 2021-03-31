@@ -1,7 +1,7 @@
 <template>
   <div class="updater green" v-on:click="doUpdate" v-if="updateNeeded">
     <i :class="`fas ${updating ? 'fa-spinner-third fa-spin' : 'fa-sync'}`"></i><br>
-    <span class="update-text">Update</span>
+    <span class="update-text">{{$t('update-check.update')}}</span>
   </div>
 </template>
 
@@ -30,7 +30,6 @@ export default {
           const localVersion = Package.version;
           const remoteVersion = data.version;
           if (localVersion !== remoteVersion) {
-            console.log(`update needed we're on ${localVersion}, remote has version ${remoteVersion}`);
             this.updateNeeded = true;
             this.update();
           }
