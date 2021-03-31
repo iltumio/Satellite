@@ -15578,15 +15578,6 @@ vue-loader@^15.0.11:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-markdown-render@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/vue-markdown-render/-/vue-markdown-render-1.1.1.tgz#076446488c32a4063f39a91923a2d1d0ec3fec84"
-  integrity sha512-NkkGOC4ip6C3Cp0dyFBCEPZ9dDF2yI2wrePSwoU2xamyhvcs0eJk0t9VZcUiKCz1bm5SvVeTelIU0qzVgi6jVQ==
-  dependencies:
-    markdown-it "^12.0.4"
-    punycode "^2.1.1"
-    vue "^2.6.12"
-
 vue-observe-visibility@^0.4.4:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.6.tgz#878cb8ebcf3078e40807af29774e97105ebd519e"
@@ -15662,7 +15653,7 @@ vue2-touch-events@^3.2.1:
   resolved "https://registry.yarnpkg.com/vue2-touch-events/-/vue2-touch-events-3.2.1.tgz#12caf2f4f943d3ae762d83593efc279af1ee42a4"
   integrity sha512-6aQz9tofO1yLSudW7ltISC5lTFKEu0rcBuYNLrega1AApYUosPuRZ8iinzJQ4k5nUncDIVB2JPcz9qJDoSyQVw==
 
-vue@^2.5.16, vue@^2.6.11, vue@^2.6.12:
+vue@^2.5.16, vue@^2.6.11:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==

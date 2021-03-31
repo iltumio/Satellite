@@ -11,7 +11,6 @@ import WebRTC from '@/classes/webrtc/WebRTC'
 import VueI18n from 'vue-i18n'
 import VueCurrencyInput from 'vue-currency-input'
 import Vue2TouchEvents from 'vue2-touch-events'
-import VueMarkdown from 'vue-markdown-render'
 
 import i18nInit from './utils/i18n'
 import App from './App'
