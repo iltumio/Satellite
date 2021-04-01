@@ -28,9 +28,19 @@ export default {
     margin: 0 auto;
     margin-top: 0.5rem;
   }
+
+  .sticker-name:hover {
+    cursor: pointer;
+  }
+
   .inner-sticker {
     display: inline-block;
     height: 125px;
     width: 100%;
   }
+
+  .inner-sticker:hover {
+    cursor: pointer;
+  }
+
 </style>
