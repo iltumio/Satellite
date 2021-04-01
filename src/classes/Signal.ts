@@ -13,7 +13,7 @@ export default class Signal {
    * @argument payload payload recived from the message
    */
   constructor(sender: string, at: number, type: string, payload: any) {
-    this._id = type;
+    this._id = sender;
     this.sender = sender;
     this.at = at;
     this.type = type;

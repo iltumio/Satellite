@@ -1,25 +1,27 @@
 // @ts-ignore
 import config from '@/config/config';
 // import Peer from "peerjs";
-import Peer from "simple-peer";
-import WebRTC from "./WebRTC";
+import Peer from 'simple-peer';
+import WebRTC from './WebRTC';
 
 interface Message {
-  type: string,
-  data: any,
+  type: string;
+  data: any;
 }
 
-type RTCEvent = '*' |
-  'connection-established' |
-  'ping' |
-  'pong' |
-  'heartbeat' |
-  'flatlined' |
-  'message' |
-  'typing-notice' |
-  'call-status' |
-  'data' | 
-  'REMOTE-HANGUP';
+type RTCEvent =
+  | '*'
+  | 'initiator-signal'
+  | 'peer-signal'
+  | 'ping'
+  | 'pong'
+  | 'heartbeat'
+  | 'flatlined'
+  | 'message'
+  | 'typing-notice'
+  | 'call-status'
+  | 'data'
+  | 'REMOTE-HANGUP';
 
 export default class P2PUser {
   identifier: string;
@@ -28,7 +30,11 @@ export default class P2PUser {
   instance: WebRTC;
   lastHeartbeat: number;
   flatlined: boolean;
-  constructor(instance: WebRTC, identifier: string, eventBus: CallableFunction) {
+  constructor(
+    instance: WebRTC,
+    identifier: string,
+    eventBus: CallableFunction
+  ) {
     this.lastHeartbeat = Date.now();
     this.flatlined = false;
     this.instance = instance;
@@ -79,15 +85,15 @@ export default class P2PUser {
   handleData(data: any) {
     const events = this.instance.events;
     const message: Message = {
-      type: (events.includes(data.type)) ? data.type : 'data',
-      data: data.payload,
+      type: events.includes(data.type) ? data.type : 'data',
+      data: data.payload
     };
 
     this.eventBus(message.type, message);
     this.lastHeartbeat = Date.now();
   }
 
-  public call(identifier: string, stream: MediaStream) : Error | null {
+  public call(identifier: string, stream: MediaStream): Error | null {
     // if (!this.instance.peer) return new Error('Parent connection not established.');
     // if (!this.connection) return new Error('Connection not bound.');
     // this.instance.peer.call(identifier, stream);
@@ -95,15 +101,17 @@ export default class P2PUser {
     return null;
   }
 
-  public send(event: string, data: any) : Error | null {
+  public send(event: string, data: any): Error | null {
     if (!this.connection) return new Error('Connection not bound.');
-    if (event === '*') return new Error('The wildcard event is for listening only.');
-    if (!this.instance.events.includes(<RTCEvent>event)) return new Error(`Invalid event type: ${event}`);
+    if (event === '*')
+      return new Error('The wildcard event is for listening only.');
+    if (!this.instance.events.includes(<RTCEvent>event))
+      return new Error(`Invalid event type: ${event}`);
     this.connection.send({
       type: event,
-      payload: data,
+      payload: data
     });
-    
+
     // No errors
     return null;
   }

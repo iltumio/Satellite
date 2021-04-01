@@ -5,6 +5,7 @@ import Signal from '../Signal';
 
 import { utils, Wallet } from 'ethers';
 import { SigningKey } from 'ethers/lib/utils';
+import { Where } from '@textile/threads-client';
 
 interface IMessage {
   _id: string;
@@ -143,10 +144,17 @@ export class MessageManager {
     return threadID;
   }
 
+  async findSignalBySender(threadID: ThreadID, sender: string) {
+    const query = new Where('sender').eq(sender);
+    return this.client.find(threadID, 'signal', query);
+  }
+
   async updateSignal(threadID: ThreadID | string, signal: Signal): Promise<ThreadID> {
     const safeThread = this.safeThread(threadID);
     await this.ensureCollection(safeThread, 'signal', signalSchema);
-    const signalExists = await this.client.has(safeThread, 'signal', ['signal']);
+
+    const signalExists = await this.client.has(safeThread, 'signal', [signal.sender]);
+
     if (signalExists) {
       await this.client.save(safeThread, 'signal', [signal]);
     } else {
@@ -156,7 +164,8 @@ export class MessageManager {
   }
 
   async getLastSignalData(
-    threadID: ThreadID | string
+    threadID: ThreadID | string,
+    sender: string
   ): Promise<any> {
     if (!this.client) return;
 
@@ -165,7 +174,7 @@ export class MessageManager {
         ? ThreadID.fromString(threadID.replace(/\W/g, ''))
         : threadID;
 
-    return this.client.findByID(safeThread, 'signal', 'signal');
+    return this.client.findByID(safeThread, 'signal', sender);
   }
 
   computeSharedSecret(signingKey: SigningKey, guestPublicKey: string) {
@@ -322,5 +331,46 @@ export class MessageManager {
     return threadID
       ? Boolean(this.activeSubscriptions[threadID.toString()])
       : false;
+  }
+
+
+  subscribeToSignal(
+    threadID: ThreadID,
+    callback: CallableFunction,
+    onUnsubscribe: CallableFunction
+  ) {
+    if (this.isSubscribed(threadID)) {
+      console.warn(
+        `Already subscribed to thread ${threadID.toString()}. Skipping.`
+      );
+
+      return;
+    }
+
+    const cb = (update: any) => {
+      // Trigger the onUnsubscribe
+      if (!update?.instance) {
+        this.unsubscribe(threadID);
+        onUnsubscribe(threadID);
+        return;
+      }
+
+      callback(update);
+    };
+
+    const filters = [
+      {
+        collectionName: 'messages'
+      },
+      {
+        actionTypes: ['CREATE']
+      }
+    ];
+
+    const closer = this.client.listen(threadID, filters, cb);
+
+    // Track active subscriptions
+    this.registerListener(threadID, closer);
+    return closer;
   }
 }

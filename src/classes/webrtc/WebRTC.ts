@@ -1,10 +1,7 @@
 import Peer from 'simple-peer';
-// import Peer, { MediaConnection, PeerJSOption } from 'peerjs';
 // @ts-ignore
-import config from '@/config/config';
 import P2PUser from './P2PUser';
-import WebRTCMedia from './WebRTCMedia';
-import { Client } from '@textile/hub-threads-client';
+import { debounce } from '../../utils/utils';
 
 interface Subscriber {
   method: CallableFunction;
@@ -24,7 +21,8 @@ interface Connection {
 
 type RTCEvent =
   | '*'
-  | 'connection-established'
+  | 'initiator-signal'
+  | 'peer-signal'
   | 'ping'
   | 'pong'
   | 'heartbeat'
@@ -36,10 +34,9 @@ type RTCEvent =
   | 'data'
   | 'REMOTE-HANGUP';
 
-
 interface IConnectionData {
-  offer: any,
-  candidates: Array<any>
+  offer: any;
+  candidates: Array<any>;
 }
 
 export default class WebRTC {
@@ -47,10 +44,15 @@ export default class WebRTC {
   private _identifier: string;
   protected _subscribers: Subscriber[];
   private _events: RTCEvent[];
+  initiator: Peer.Instance | null;
   peer: Peer.Instance | null;
   connections: Connection[];
   registry: string[];
-  connectionData?: IConnectionData;
+  initiatorData?: Array<any>;
+  peerData?: Array<any>;
+  debounceTracker: { [key: string]: () => void };
+  peersDataRegistry: { [key: string]: any };
+  connectedPeers: { [key: string]: Peer.Instance };
 
   /** @constructor
    * Construct a new Peer 2 Peer handler
@@ -63,8 +65,14 @@ export default class WebRTC {
     this._subscribers = [];
     this._events = this.events;
     this.peer = null;
+    this.initiator = null;
     this.connections = [];
     this.registry = [];
+    this.debounceTracker = {};
+    this.peersDataRegistry = {};
+    this.initiatorData = [];
+    this.peerData = [];
+    this.connectedPeers = {};
   }
 
   /** @method
@@ -115,7 +123,8 @@ export default class WebRTC {
     // TODO: Convert this to a string union
     return [
       '*',
-      'connection-established',
+      'initiator-signal',
+      'peer-signal',
       'ping',
       'pong',
       'heartbeat',
@@ -125,26 +134,6 @@ export default class WebRTC {
       'data',
       'REMOTE-HANGUP'
     ];
-  }
-
-  /** @method
-   * Get PeerJS options built from the config
-   * @name settings
-   * @returns returns settings object
-   */
-  get settings(): any {
-    return {
-      host: config.peer.network[config.env].host,
-      port: config.peer.network[config.env].port,
-      path: config.peer.network[config.env].path,
-      key: config.peer.network[config.env].key,
-      secure: config.peer.network[config.env].secure,
-      debug: config.debug ? 0 : 2,
-      config: {
-        iceServers: config.peer.network[config.env].iceServers
-      },
-      initiator: true
-    };
   }
 
   /** @method
@@ -180,55 +169,75 @@ export default class WebRTC {
    * @argument identifier string identifier, usually an Ethereum address.
    * @returns returns a promise which will resolve the created WebRTC class
    */
-  async init(identifier: string, client: Client): Promise<WebRTC> {
+  async init(identifier: string): Promise<WebRTC> {
     this._identifier = identifier;
-    const peer = new Peer(this.settings);
-    this.peer = peer;
-      
-    // Emitted once we've connected to the handshake service
-    peer.on('signal', data => {
 
-      // If type offer -> replace old signaling data
-      if(data.type === 'offer') {
-        this.connectionData = {
-          offer: data,
-          candidates: []
-        }
-      } else if(data.type === 'candidate') {
-        this.connectionData?.candidates?.push(data);
-      }
+    // const isInitiator =
+    //   identifier === '0x470Af1C1AD99BE52A04e46Cf0BC373dFeac44685';
 
-      // this.initMedia(this.peer);
-      // We're connected to the PeerJS server and ready to make connections
-      this.connectToRegistry();
-      this.publish('connection-established', '*', {
-        type: 'connection-established',
-        data: this.connectionData
+    this.startInitiator();
+
+    return this;
+  }
+
+  startInitiator() {
+    this.initiator = new Peer({ initiator: true });
+
+    const debouncedPubblish = debounce((data: any) => {
+      this.publish('initiator-signal', '*', {
+        type: 'initiator-signal',
+        data
       });
-      // A new peer has connected to us
-      // peer.on('connection', (conn: Peer) => {
-      //   this.connect(conn);
-      // });
+    }, 1000);
 
-      // peer.on('call', (call: MediaConnection) => {
-      //   this.addPendingCall(call.peer, call);
-      // });
-      
+    const onSignal = data => {
+      this.initiatorData?.push(data);
+      debouncedPubblish(this.initiatorData);
+    };
+
+    // Listen for signals
+    this.initiator.on('signal', onSignal);
+
+    // Listen for connection
+    this.initiator.on('connect', () => {
+      console.log('initiator connected to peer');
     });
 
-      // Attempt reconnection
-      // peer.on('disconnected', () => {
-      //   peer.reconnect();
-      //   // TODO: Also reconnect to peers whom were connected to us
-      // });
+    // Listen for errors
+    this.initiator.on('error', (err: any) => {
+      console.warn('PeerJS Error Initiator: ', err);
+    });
+  }
 
-      peer.on('error', (err: any) => {
-        // This is fine, we don't need to care if they are offline.
-        // @ts-ignore
-        console.warn('PeerJS Error: ', err);
+  startPeer() {
+    this.peer = new Peer();
+
+    const debouncedPubblish = debounce((data: any) => {
+      console.log('data', data);
+      this.publish('peer-signal', '*', {
+        type: 'peer-signal',
+        data
       });
+    }, 1000);
 
-      return this;
+    const onReceiverSignal = data => {
+      console.log('receiver signal', data);
+      this.peerData?.push(data);
+      debouncedPubblish(this.peerData);
+    };
+
+    // Listen for signals
+    this.peer.on('signal', onReceiverSignal);
+
+    // Listen for connection
+    this.peer.on('connect', () => {
+      console.log('peer connected to initiator');
+    });
+
+    // Listen for errors
+    this.peer.on('error', (err: any) => {
+      console.warn('PeerJS Error Peer: ', err.code);
+    });
   }
 
   /** @method
@@ -265,37 +274,86 @@ export default class WebRTC {
     });
   }
 
-  connect(conn: any) {
-    // const identifier = this.buildIdentifier(conn.peer);
-    // const exitingPeer = this.find(identifier);
-    // if (exitingPeer && exitingPeer.connection) {
-    //   exitingPeer.close();
-    // }
-    // const peer = new P2PUser(
-    //   this,
-    //   identifier,
-    //   (event: string, data: Message) => {
-    //     this.publish(event, identifier, data);
-    //   }
-    // );
-    // // Data connection established.
-    // // We can now recieve data from this peer.
-    // conn.on('open', () => {
-    //   peer.bind(conn);
-    //   this.registerPeer(identifier, peer);
-    // });
+  public updatePeersDataRegistry(identifier: string, peerData: any) {
+    this.peersDataRegistry[identifier] = peerData;
   }
 
-  public disconnectFromPeer(_identifier: string) : Promise<Error|null> {
+  public deletePeersDataRegistry(identifier: string) {
+    delete this.peersDataRegistry[identifier];
+  }
+
+  public getPeerDataFromRegistry(identifier: string) {
+    return this.peersDataRegistry[identifier];
+  }
+
+  // connect(conn: any) {
+  //   // const identifier = this.buildIdentifier(conn.peer);
+  //   // const exitingPeer = this.find(identifier);
+  //   // if (exitingPeer && exitingPeer.connection) {
+  //   //   exitingPeer.close();
+  //   // }
+  //   // const peer = new P2PUser(
+  //   //   this,
+  //   //   identifier,
+  //   //   (event: string, data: Message) => {
+  //   //     this.publish(event, identifier, data);
+  //   //   }
+  //   // );
+  //   // // Data connection established.
+  //   // // We can now recieve data from this peer.
+  //   // conn.on('open', () => {
+  //   //   peer.bind(conn);
+  //   //   this.registerPeer(identifier, peer);
+  //   // });
+  // }
+
+  connect(identifier: string, { payload }, onSignal: CallableFunction) {
+    console.log('connect', payload, this._identifier);
+
+    if (this.connectedPeers[identifier]) {
+      console.warn(`Already connected to ${identifier}`);
+      return;
+    }
+
+    const peer = new Peer();
+
+    peer.on('connect', () => {
+      console.log(`Connected to`, identifier);
+    });
+
+    const debouncedPubblish = debounce((data: any) => {
+      onSignal(data);
+    }, 1000);
+
+    peer.on('signal', debouncedPubblish);
+
+    peer.on('error', error => {
+      console.log(`Failed to connect ${identifier}`);
+
+      console.log(error);
+    });
+
+    // Send signaling data
+    payload?.signalingData?.forEach(d => {
+      peer.signal(d);
+    });
+
+    this.connectedPeers[identifier] = peer;
+  }
+
+  public disconnectFromPeer(_identifier: string): Promise<Error | null> {
     return new Promise((resolve, reject) => {
-      if (!this.peer) reject(new Error('You cannot disconnect before initalizing.'))
+      if (!this.peer)
+        reject(new Error('You cannot disconnect before initalizing.'));
       const peer = this.find(_identifier);
       if (peer) {
         peer.close();
         resolve(null);
       }
-      setTimeout(() =>{ resolve(null) }, 3000)
-    })
+      setTimeout(() => {
+        resolve(null);
+      }, 3000);
+    });
   }
 
   public connectIfNotConnected(_identifier: string) {
@@ -335,7 +393,16 @@ export default class WebRTC {
     return null;
   }
 
-  private publish(event: string, identifier: string, message: Message): void {
+  private publish(
+    event: string,
+    identifier: string,
+    message: Message,
+    debounce?: number
+  ): void {
+    if (this.debounceTracker[event]) {
+      return;
+    }
+
     this.subscribers.map(subscriber => {
       const events = subscriber.events;
       const normalizedIdentifiers = subscriber.identifiers
@@ -346,10 +413,7 @@ export default class WebRTC {
       // Ensure the subscriber is listening for the event
       if (events.includes(event) || events.includes('*')) {
         // Chec if the subscriber is only interested in specific users
-        if (
-          normalizedIdentifiers &&
-          normalizedIdentifiers.includes(identifier)
-        ) {
+        if (normalizedIdentifiers?.includes(identifier)) {
           subscriber.method(event, this.revertIdentifier(identifier), message);
           // They arn't listenting to any specific users
         } else if (!normalizedIdentifiers) {

@@ -193,18 +193,18 @@ export default {
     WebRTC.subscribe(() => {
       this.hangup();
     }, ["REMOTE-HANGUP"]);
-    WebRTC.mediaSubscription(
-      ["INCOMING-CALL", "HANGUP", "ANSWER", "OUTGOING-CALL"],
-      (event, identifier) => {
-        switch (event) {
-          case "ANSWER":
-            this.callAnswered(identifier);
-            break;
-          default:
-            break;
-        }
-      }
-    );
+    // WebRTC.mediaSubscription(
+    //   ["INCOMING-CALL", "HANGUP", "ANSWER", "OUTGOING-CALL"],
+    //   (event, identifier) => {
+    //     switch (event) {
+    //       case "ANSWER":
+    //         this.callAnswered(identifier);
+    //         break;
+    //       default:
+    //         break;
+    //     }
+    //   }
+    // );
     this.subscribeToThreads();
     // this.friendsContract = new Friends(config.friends[config.network.chain]);
     this.bindThreads();

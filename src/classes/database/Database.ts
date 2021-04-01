@@ -95,7 +95,7 @@ export default class Database {
           extras.client,
           id
         );
-        // this.signalingManager = new SignalingManager(extras.client, id);
+        this.signalingManager = new SignalingManager(extras.client, id);
         if (identity) {
           this.bucketManager = new BucketManager(
             identity,
