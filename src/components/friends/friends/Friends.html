@@ -89,7 +89,7 @@
         <p>{{$t('friends.no_friends')}}</p>
       </div>
       <Friend
-        v-for="fr in getFilteredFriends(keyword)"
+        v-for="fr in getFilteredFriends($store.state.friends, keyword)"
         :key="fr.address"
         :friend="fr"
         :action="chatFriend"

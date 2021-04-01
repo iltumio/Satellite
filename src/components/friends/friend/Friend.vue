@@ -119,7 +119,7 @@ export default {
       this.confirmRemove = !this.confirmRemove;
     },
     isRemovingFriend(address) {
-      return this.removingFriend.address === address
+      return this.removingFriend && (this.removingFriend.address === address)
     },
     showFriendOptions() {
       if (this.isMobile()) {
