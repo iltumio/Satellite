@@ -12,6 +12,7 @@
   width: 440px;
   bottom: 7rem;
   overflow: hidden;
+  padding-bottom: 1rem;
 
   .my-stickers {
     height: 100%;
@@ -80,17 +81,23 @@
   .stickers-container {
     height: calc(100% - 4.2rem);
     overflow-y: scroll;
-    
   }
+
   .buy-button {
-    position: absolute;
+    position: relative;
     bottom: 1rem;
+    top: 1rem;
     left: 1rem;
     right: 1rem;
     height: 40px;
     width: calc(100% - 2rem);
     z-index: 1;
   }
+
+  .buy-button:hover {
+      color: white !important;
+    }
+
 }
 
 @media (max-width: 768px) {
