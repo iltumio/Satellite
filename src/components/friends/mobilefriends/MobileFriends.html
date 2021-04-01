@@ -82,9 +82,9 @@
     <h2 class="label">{{$t('friends.your_friends')}}</h2>
 
     <div class="friendslist">
-      <div v-for="letter in Object.keys(sortedFriends)">
-        <span class="letter">{{letter}}</span>
-        <div v-for="friend in sortedFriends[letter].record">
+      <div v-for="entry in Object.entries(getAlphaSorted($store.state.friends))">
+        <span class="letter">{{entry[0]}}</span>
+        <div v-for="friend in entry[1]">
           <Friend
             :key="friend.address"
             :friend="friend"

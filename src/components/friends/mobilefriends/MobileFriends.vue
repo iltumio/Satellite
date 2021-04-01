@@ -11,17 +11,15 @@ import WalletAddressMini from "@/components/common/WalletAddressMini";
 import QRDisplay from "@/components/common/QRDisplay";
 import QRScan from "@/components/common/QRScan";
 
-import Fuse from "fuse.js";
-
 import config from "@/config/config";
-import Friends from "@/classes/contracts/Friends.ts";
 // Components
 import CircleIcon from "@/components/common/CircleIcon";
 import FriendRequests from "@/components/friends/mobilefriends/requests/FriendRequests";
 // Classes
 import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
 import Friend from "@/components/friends/friend/Friend";
-// import Ethereum from '@/classes/Ethereum';
+// Utilities
+import { getAlphaSorted, getFilteredFriends } from "@/utils/FriendsUtils.ts";
 
 export default {
   name: "MobileFriends",
@@ -53,22 +51,10 @@ export default {
         this.$ethereum,
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan
-      ),
-      friendsContract: null,
+      )
     };
   },
   mounted() {
-    this.getAlphaSorted(this.friends);
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === "addFriend" || mutation.type === "updateFriends") {
-        this.friends = state.friends;
-        this.getAlphaSorted(this.friends);
-      }
-    });
-    this.friendsContract = new Friends(
-      this.$ethereum,
-      config.friends[config.network.chain]
-    );
     this.update();
   },
   methods: {
@@ -82,24 +68,9 @@ export default {
       this.friendAddress = address;
       this.addFriendQR();
     },
-    getAlphaSorted(friends) {
-      const map = friends.sort((a, b) =>
-        a.name.localeCompare(b.name, "es", { sensitivity: "base" })
-      );
-      let data = map.reduce((r, e) => {
-        // get first letter of name of current element
-        let alphabet = e.name[0].toUpperCase();
-
-        // if there is no property in accumulator with this letter create it
-        if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] };
-        // if there is push current element to children array for that letter
-        else r[alphabet].record.push(e);
-
-        // return accumulator
-        return r;
-      }, {});
-      this.sortedFriends = data;
-    },
+    // Imported from utils
+    getAlphaSorted,
+    getFilteredFriends,
     update() {
       this.fetchFriendRequests();
       this.$store.dispatch("fetchFriends", this.$store.state.activeAccount);
@@ -120,28 +91,10 @@ export default {
      * @argument friendAddress Friends ether address
      */
     async removeFriend(address) {
-      this.removingFriend = {address: address, removed: false};
-      await this.$WebRTC.disconnectFromPeer(address)
+      this.removingFriend = { address: address, removed: false };
+      await this.$WebRTC.disconnectFromPeer(address);
       await this.$store.dispatch("removeFriend", address);
-      this.removingFriend = {address: address, removed: true};
-    },
-    /** @method
-     * Filter friends by stored keyword and
-     * rebind the friends data
-     * @name filterFriends
-     */
-    filterFriends() {
-      if (this.keyword) {
-        const options = {
-          includeScore: false,
-          keys: ["name"],
-        };
-        const fuse = new Fuse(this.friends, options);
-        const result = fuse.search(this.keyword);
-        this.friends = result.map((i) => i.item);
-      } else {
-        this.addFriendQR();
-      }
+      this.removingFriend = { address: address, removed: true };
     },
     /** @method
      * Update all store values so to chat with the given client
@@ -167,7 +120,7 @@ export default {
      * @name close
      */
     close() {
-      this.$store.commit('setMobileSidebar', true);
+      this.$store.commit("setMobileSidebar", true);
     },
     /** @method
      * Do some checks to make sure the friend is valid

@@ -17,6 +17,8 @@ import FriendRequests from "@/components/friends/friends/requests/FriendRequests
 import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
 import Friend from "@/components/friends/friend/Friend";
 import Friends from '@/classes/contracts/Friends.ts';
+// Utilities
+import { getAlphaSorted, getFilteredFriends } from "@/utils/FriendsUtils.ts";
 
 export default {
   name: "Friends",
@@ -69,25 +71,9 @@ export default {
     async fetchFriendRequests() {
       this.$store.dispatch("fetchFriendRequests");
     },
-    /** @method
-     * Filter friends by stored keyword and
-     * rebind the friends data
-     * @name filterFriends
-     * @param keyword string keyword to search for
-     */
-    getFilteredFriends(keyword) {
-      if (keyword) {
-        const options = {
-          includeScore: false,
-          keys: ["name"],
-        };
-        const fuse = new Fuse(this.$store.state.friends, options);
-        const result = fuse.search(keyword);
-        return result.map((i) => i.item);
-      } else {
-        return this.$store.state.friends;
-      }
-    },
+    // Imported from utils
+    getFilteredFriends,
+    getAlphaSorted,
     /** @method
      * Update all store values so to chat with the given client
      * @name chatFriend
