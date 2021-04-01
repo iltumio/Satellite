@@ -1,10 +1,8 @@
 <div>
-  <h3 class="label" v-if="!embeded">{{$t('settings.profile.label')}}</h3>
   <article :class="`${(!embeded) ? 'message is-dark' : ''}`" id="profile">
     <div :class="`${(!embeded) ? 'message-body' : ''}`"
       v-if="this.$store.state.dwellerAddress == '0x0000000000000000000000000000000000000000'">
       <h2>{{$t('settings.profile.heading')}}</h2>
-      <p>{{$t('settings.profile.subtext')}}</p>
       <br>
       <div v-if="!this.created">
         <div class="columns">
