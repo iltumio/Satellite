@@ -73,7 +73,7 @@
         <hr class="spacer">
       </div>
       <h2>{{$t('settings.profile.your_account')}}</h2>
-      <p>{{$t('settings.profile.your_account_subtext')}}</p>
+      <p class="no-mobile">{{$t('settings.profile.your_account_subtext')}}</p>
       <br>
       <CircleIcon class="preview" :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
         :address="$store.state.activeAccount" />
@@ -83,6 +83,7 @@
       </div>
       <div style="clear:both;"></div>
       <br>
+      <hr class="spacer">
       <p class="label">{{$t('settings.profile.status')}}</p>
       <div class="field has-addons">
         <div class="control" style="width: 100%;">
@@ -95,18 +96,20 @@
           </button>
         </div>
       </div>
-
+      <hr class="spacer">
       <div style="clear:both;"></div>
       <br>
       <p class="label">{{$t('settings.profile.your_badges')}}</p>
       <div class="badges">
         <Badge :address="$store.state.activeAccount" />
       </div>
+      <hr class="spacer">
       <p class="label">{{$t('settings.profile.account_address')}}</p>
       <p>{{$t('settings.profile.id_card')}}</p>
       <input class="input" :value="$store.state.activeAccount" readonly />
       <br>
       <br>
+      <hr class="spacer">
       <p class="label">{{$t('settings.profile.recovery_phrase_title')}}</p>
       <p>{{$t('settings.profile.recovery_phrase_desc')}}</p>
       <div class="phrase" v-if="phrase">

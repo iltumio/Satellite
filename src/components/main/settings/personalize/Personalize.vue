@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="label">{{$t('settings.personalize.appearance')}}</h3>
+    <h3 class="label no-mobile">{{$t('settings.personalize.appearance')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
         <h2>{{$t('settings.personalize.theme_heading')}}</h2>
@@ -18,7 +18,8 @@
         </div>
       </div>
     </article>
-    <h3 class="label">{{$t('settings.personalize.permissions')}}</h3>
+    <h3 class="label no-mobile">{{$t('settings.personalize.permissions')}}</h3>
+    <hr class="spacer">
     <article class="message is-dark">
       <div class="message-body">
         <h2>{{$t('settings.personalize.notifications_heading')}}</h2>
@@ -32,7 +33,8 @@
         </button>
       </div>
     </article>
-    <h3 class="label">{{$t('settings.personalize.language')}}</h3>
+    <h3 class="label no-mobile">{{$t('settings.personalize.language')}}</h3>
+    <hr class="spacer">
     <article class="message is-dark">
       <div class="message-body">
         <h2>{{$t('settings.personalize.language_heading')}}</h2>

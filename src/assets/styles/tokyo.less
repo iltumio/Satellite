@@ -694,6 +694,9 @@
     background: @dark-blue-gray !important;
   }
   @media (max-width: 768px) {
+    .no-mobile {
+      display: none;
+    }
     .i:hover {
       color: unset;
     }
@@ -702,6 +705,12 @@
     }
     .unreads {
       background: transparent !important;
+    }
+    .settings-right {
+      .spacer {
+        border-bottom: 1px solid @ohh-so-dark !important;
+        margin: 1rem -1rem !important;
+      }
     }
     .settings-right .message {
       background-color: transparent !important;

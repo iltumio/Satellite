@@ -22,7 +22,7 @@
           <li v-on:click="setRoute('audiovideo')">
             <a :class="`${route == 'audiovideo' ? 'active' : ''}`">{{$t('settings.h_audiovideo')}}</a>
           </li>
-          <li v-on:click="setRoute('keybinds')">
+          <li class="no-mobile" v-on:click="setRoute('keybinds')">
             <a :class="`${route == 'keybinds' ? 'active' : ''}`">{{$t('settings.h_keybinds')}}</a>
           </li>
           <li v-on:click="setRoute('accounts-devices')">
@@ -44,10 +44,10 @@
             <a :class="`${route == 'network' ? 'active' : ''}`">{{$t('settings.h_network')}}</a>
           </li>
         </ul>
-        <p class="menu-label">
+        <p class="menu-label no-mobile">
           {{$t('settings.h_information')}}
         </p>
-        <ul class="menu-list">
+        <ul class="menu-list  no-mobile">
           <li v-on:click="setRoute('contracts')">
             <a :class="`${route == 'contracts' ? 'active' : ''}`">{{$t('settings.h_contracts')}}</a>
           </li>

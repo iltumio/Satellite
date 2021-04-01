@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 class="label">{{$t('settings.audio_video.label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
         <h2>{{$t('settings.audio_video.input_heading')}}</h2>
@@ -35,6 +34,7 @@
               </select>
             </div>
           </div>
+          <hr class="spacer">
           <div class="column">
             <h2>{{$t('settings.audio_video.sample_size')}}</h2>
             <p>{{$t('settings.audio_video.sample_size_subtext')}}</p>
@@ -56,6 +56,7 @@
             <br>
             <ToggleSwitch v-model="$store.state.echoCancellation"/>
           </div>
+          <hr class="spacer">
           <div class="column">
             <h2>{{$t('settings.audio_video.noise_supression')}}</h2>
             <p>{{$t('settings.audio_video.noise_supression_subtext')}}</p>
@@ -67,7 +68,7 @@
         <p v-if="love >= 20">
           <i class="fa fa-heart red" /> Lauren my darling, I love you from now until forever.
         </p>
-        <div class="columns">
+        <div class="columns no-mobile">
           <div class="column image-ipfs" style="max-width: 100px;">
             <img v-on:click="love += 1" src="static/img/icons/opus-logo.png" class="margin" alt="" />
           </div>
@@ -82,6 +83,7 @@
       </div>
       </div>
     </article>
+    <hr class="spacer">
     <h3 class="label">{{$t('settings.audio_video.video')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
@@ -94,6 +96,7 @@
         </div>
       </div>
     </article>
+    <hr class="spacer">
     <h3 class="label">{{$t('settings.audio_video.screen-share')}}</h3>
     <article class="message is-dark">
       <div class="message-body">

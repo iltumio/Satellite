@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="label">{{$t('settings.accounts.label')}}</h3>
+    <h3 class="label no-mobile">{{$t('settings.accounts.label')}}</h3>
     <article class="message is-dark">
       <div class="message-body">
         <h2>{{$t('settings.accounts.heading')}}</h2>
