@@ -28,6 +28,9 @@
       </div>
     </div>
     <div class="my-stickers" v-if="route === 'buy-stickers'">
+      <div v-for="sticker in routeData.stickers" class="sticker-container">
+          <Sticker :sticker="sticker" />
+      </div>
       <button 
         class="button is-success is-small buy-button"
         v-on:click="buySticker(routeData)"
@@ -39,9 +42,8 @@
       <button class="button is-success is-small buy-button" v-else>
         {{$t('stickers.buy-button-loading')}}...
       </button>
-      <div v-for="sticker in routeData.stickers" class="sticker-container">
-        <Sticker :sticker="sticker" />
-      </div>
+      <div class="tester-div"></div>
+  
     </div>
   </div>
 </div>
