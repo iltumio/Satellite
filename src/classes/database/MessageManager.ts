@@ -95,12 +95,13 @@ export class MessageManager {
     };
   }
 
-  buildSignal(data: any) {
+  buildSignal(data: any, initiator: boolean) {
     const signal = new Signal(
       this.address,
       new Date().getTime(),
       'signal',
-      data
+      data,
+      initiator
     );
 
     return {

@@ -3,6 +3,12 @@ import Peer from 'simple-peer';
 import P2PUser from './P2PUser';
 import { debounce } from '../../utils/utils';
 
+export const isInitiator = (data: any) => {
+  return (
+    data && data.reduce((acc, next) => acc || next.type === 'offer', false)
+  );
+};
+
 interface Subscriber {
   method: CallableFunction;
   events: string[];
@@ -21,6 +27,7 @@ interface Connection {
 
 type RTCEvent =
   | 'signal'
+  | 'connect'
   | 'ping'
   | 'pong'
   | 'heartbeat'
@@ -41,7 +48,7 @@ export default class WebRTC {
   public protocol: string;
   protected _identifier: string;
   protected _subscribers: Subscriber[];
-  protected connectedPeers: { [key: string]: Peer.Instance };
+  public connectedPeers: { [key: string]: Peer.Instance };
   protected _peersData: { [key: string]: any };
   protected _peers: { [key: string]: any };
 
@@ -107,157 +114,14 @@ export default class WebRTC {
     return;
   }
 
-  /** @method
-   * Initalize the WebRTC class, we sometimes need to wait for other thigns to be done
-   * before initalizing to prevent race conditions.
-   * @name init
-   * @argument identifier string identifier, usually an Ethereum address.
-   * @returns returns a promise which will resolve the created WebRTC class
-   */
-  async init(identifier: string): Promise<WebRTC> {
-    this._identifier = this.buildIdentifier(identifier);
-
-    console.log('initialize', identifier);
-
-    this.addPeer(identifier, { initiator: true });
-    return this;
-  }
-
-  // startInitiator() {
-
-  //   const debouncedPubblish = debounce((data: any) => {
-  //     this.publish('initiator-signal', '*', {
-  //       type: 'initiator-signal',
-  //       data
-  //     });
-  //   }, 1000);
-
-  //   const onSignal = data => {
-  //     this.initiatorData?.push(data);
-  //     debouncedPubblish(this.initiatorData);
-  //   };
-
-  //   // Listen for signals
-  //   this.initiator.on('signal', onSignal);
-
-  //   // Listen for connection
-  //   this.initiator.on('connect', () => {
-  //     console.log('initiator connected to peer');
-  //   });
-
-  //   // Listen for errors
-  //   this.initiator.on('error', (err: any) => {
-  //     console.warn('PeerJS Error Initiator: ', err);
-  //   });
-  // }
-
-  // startPeer() {
-  //   this.peer = new Peer();
-
-  //   const debouncedPubblish = debounce((data: any) => {
-  //     console.log('data', data);
-  //     this.publish('peer-signal', '*', {
-  //       type: 'peer-signal',
-  //       data
-  //     });
-  //   }, 1000);
-
-  //   const onReceiverSignal = data => {
-  //     console.log('receiver signal', data);
-  //     this.peerData?.push(data);
-  //     debouncedPubblish(this.peerData);
-  //   };
-
-  //   // Listen for signals
-  //   this.peer.on('signal', onReceiverSignal);
-
-  //   // Listen for connection
-  //   this.peer.on('connect', () => {
-  //     console.log('peer connected to initiator');
-  //   });
-
-  //   // Listen for errors
-  //   this.peer.on('error', (err: any) => {
-  //     console.warn('PeerJS Error Peer: ', err.code);
-  //   });
-  // }
-
-  // /** @method
-  //  * Bind a peer connection to an identifier in memory
-  //  * @name registerPeer
-  //  * @argument identifier string identifier, usually an Ethereum address.
-  //  * @argument peer P2PUser to bind identifier to
-  //  */
-  // private registerPeer(identifier: string, peer: P2PUser) {
-  //   this.connections.push({
-  //     identifier,
-  //     user: peer
-  //   });
-  // }
-
-  // public updateRegistry(_identifiers: string[]) {
-  //   const identifiers = _identifiers.map(id => this.buildIdentifier(id));
-  //   this.registry.forEach(id => {
-  //     // If the updated registry doesn't contain one of our friends, close the connection.
-  //     if (!identifiers.includes(id)) {
-  //       const peer = this.find(id);
-  //       peer?.close();
-  //     }
-  //   });
-  //   this.registry = identifiers;
-  // }
-
-  // private connectToRegistry() {
-  //   this.registry.forEach(identifier => {
-  //     const peer = this.find(identifier);
-  //     if (!peer || !peer.connection) {
-  //       this.connectToPeer(identifier);
-  //     }
-  //   });
-  // }
-
-  // public updatePeersDataRegistry(identifier: string, peerData: any) {
-  //   this.peersDataRegistry[identifier] = peerData;
-  // }
-
-  // public deletePeersDataRegistry(identifier: string) {
-  //   delete this.peersDataRegistry[identifier];
-  // }
-
-  // public getPeerDataFromRegistry(identifier: string) {
-  //   return this.peersDataRegistry[identifier];
-  // }
-
-  // connect(conn: any) {
-  //   // const identifier = this.buildIdentifier(conn.peer);
-  //   // const exitingPeer = this.find(identifier);
-  //   // if (exitingPeer && exitingPeer.connection) {
-  //   //   exitingPeer.close();
-  //   // }
-  //   // const peer = new P2PUser(
-  //   //   this,
-  //   //   identifier,
-  //   //   (event: string, data: Message) => {
-  //   //     this.publish(event, identifier, data);
-  //   //   }
-  //   // );
-  //   // // Data connection established.
-  //   // // We can now recieve data from this peer.
-  //   // conn.on('open', () => {
-  //   //   peer.bind(conn);
-  //   //   this.registerPeer(identifier, peer);
-  //   // });
-  // }
-
   addPeer(address: string, options: any) {
     const identifier = this.buildIdentifier(address);
 
     const peer = new Peer(options);
 
-    console.log('creating peer', address);
-
     peer.on('connect', () => {
       console.log(`Connected to`, identifier);
+      this.onConnect(identifier);
     });
 
     const debouncedEmit = debounce((data: any) => {
@@ -268,12 +132,11 @@ export default class WebRTC {
     }, 1000);
 
     const onSignal = data => {
-      if (this._peersData[identifier]) {
+      if (this._peersData[identifier] && data.type !== 'answer') {
         this._peersData[identifier] = [...this._peersData[identifier], data];
       } else {
         this._peersData[identifier] = [data];
       }
-      console.log('receiver signal', data);
       debouncedEmit(this._peersData[identifier]);
     };
 
@@ -281,19 +144,60 @@ export default class WebRTC {
 
     peer.on('error', error => {
       console.log(`Failed to connect ${identifier}`);
-
       console.log(error);
     });
 
+    peer.on('data', data => {
+      this.onPeerData(identifier, data);
+    });
+
     this._peers[identifier] = peer;
+
+    return peer;
   }
 
-  connect(address: string) {
-    if (this._peers[this._identifier]) {
-      this._peers[address] = this._peers[this._identifier];
-    } else {
-      this.addPeer(address, {});
+  connect(address: string, initiator: boolean) {
+    console.log(
+      `Trying to connect to ${address} ${
+        initiator ? 'as initiator' : 'as peer'
+      }`
+    );
+
+    if (this.isPeerConnected(address)) {
+      console.warn(`Already connected to ${address}`);
+      return;
     }
+
+    this.addPeer(address, { initiator });
+  }
+
+  isPeerConnected(address: string) {
+    const identifier = this.buildIdentifier(address);
+    return Boolean(this.connectedPeers[identifier]);
+  }
+
+  onPeerData(identifier: string, data: any) {
+    const decoder = new TextDecoder();
+    const decodedString = decoder.decode(data).toString();
+
+    const parsedData = JSON.parse(decodedString);
+
+    if (parsedData) {
+      this.publish(parsedData.type, identifier, {
+        type: parsedData.type,
+        data: parsedData.data
+      });
+    }
+  }
+
+  onConnect(identifier: string) {
+    this.connectedPeers[identifier] = this._peers[identifier];
+    delete this._peers[identifier];
+
+    this.publish('connect', identifier, {
+      type: 'connect',
+      data: { identifier: this.revertIdentifier(identifier) }
+    });
   }
 
   emit(event: RTCEvent, peerId: string, data: any) {
@@ -306,49 +210,29 @@ export default class WebRTC {
     });
   }
 
-  forwardSignal(address: string, signal: any) {
+  forwardSignal(address: string, signal: any, initiator: boolean) {
     const identifier = this.buildIdentifier(address);
 
-    console.log(this._peers);
+    if (this.isPeerConnected(address)) {
+      console.warn(`Already connected to ${address}`);
+      return;
+    }
 
-    console.log(identifier);
+    if (initiator) {
+      delete this._peers[identifier];
+    }
 
-    const peer = this._peers[identifier];
+    let peer: Peer.Instance | null = null;
+    if (this._peers[identifier]) {
+      peer = this._peers[identifier];   
+    } else {
+      peer = this.addPeer(address, { initiator: false });
+    }
 
-    console.log(peer);
-    peer?.signal(signal);
+    if (signal.length) {
+      signal.forEach(s => peer?.signal(s));
+    }
   }
-
-  // public disconnectFromPeer(_identifier: string): Promise<Error | null> {
-  //   return new Promise((resolve, reject) => {
-  //     if (!this.peer)
-  //       reject(new Error('You cannot disconnect before initalizing.'));
-  //     const peer = this.find(_identifier);
-  //     if (peer) {
-  //       peer.close();
-  //       resolve(null);
-  //     }
-  //     setTimeout(() => {
-  //       resolve(null);
-  //     }, 3000);
-  //   });
-  // }
-
-  // public connectIfNotConnected(_identifier: string) {
-  //   // if (!this.peer) return new Error('You cannot connect before initalizing.');
-  //   // const identifier = this.buildIdentifier(_identifier);
-  //   // if (this.isConnected(identifier)) return;
-  //   // const connection = this.peer.connect(identifier);
-  //   // this.connect(connection);
-  // }
-
-  // public connectToPeer(_identifier: string): Error | null {
-  //   // if (!this.peer) return new Error('You cannot connect before initalizing.');
-  //   // const identifier = this.buildIdentifier(_identifier);
-  //   // const connection = this.peer.connect(identifier);
-  //   // this.connect(connection);
-  //   return null;
-  // }
 
   public subscribe(
     method: CallableFunction,
@@ -396,8 +280,16 @@ export default class WebRTC {
     this.publish('flatlined', identifier, { type: 'flatlined', data: true });
   }
 
-  // // Ideally, this should be called before the app closes.
-  // public terminate() {
-  //   this.peer?.destroy();
-  // }
+  public send(address: string, data: any) {
+    if (this.isPeerConnected(address)) {
+      const identifier = this.buildIdentifier(address);
+      const peer = this.connectedPeers[identifier];
+
+      peer.send(JSON.stringify(data));
+    } else {
+      console.warn(
+        `Impossible to send p2p message to ${address}. Peer not connected`
+      );
+    }
+  }
 }

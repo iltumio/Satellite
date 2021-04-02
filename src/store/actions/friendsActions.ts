@@ -47,7 +47,6 @@ export default {
       updatedFriends = parsedFriends;
     }
 
-    
     dispatch('subscribeToAllThreads', { friends: updatedFriends });
 
     // TODO: eventually limit UI updates if friends didn't change
@@ -156,5 +155,12 @@ export default {
 
     await friendsContract.denyRequest(address).catch(console.log);
     dispatch('fetchFriendRequests');
+  },
+  async setFriendStatus({ state, commit }, { address, status }) {
+    const updatedFriends = state.friends.map(f =>
+      f.address === address ? { ...f, status } : f
+    );
+
+    commit('updateFriends', updatedFriends);
   }
 };

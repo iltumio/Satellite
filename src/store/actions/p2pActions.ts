@@ -1,22 +1,26 @@
 import ThreadID from '@textile/threads-id';
+import { isInitiator } from '../../classes/webrtc/WebRTC';
 
 export default {
   async initP2P({ commit, dispatch, state }, { client }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
-    // @ts-ignore
-    const ethereum = this.$app.$ethereum;
 
     dispatch('subscribeToFriendsSignals');
 
     WebRTC.subscribe(
       (event: string, identifier: string, { type, data }) => {
-        console.log('signal', event, identifier, data);
-        dispatch('secureSignal', { signal: data, identifier: identifier });
-
-        // commit('ICEConnected', true);
+        dispatch('signal', { signal: data, identifier: identifier });
+        commit('ICEConnected', true);
       },
       ['signal']
+    );
+
+    WebRTC.subscribe(
+      (event: string, identifier: string, { type, data }) => {
+        dispatch('setFriendStatus', { address: identifier, status: 'alive' });
+      },
+      ['connect']
     );
 
     // Watch for users typing
@@ -45,26 +49,14 @@ export default {
       ['flatlined'],
       state.activeChats
     );
-
-    WebRTC.init(ethereum.activeAccount);
   },
-  async signal({ commit, dispatch, state }, { signal }) {
-    // @ts-ignore
-    const signalingManager = this.$app.$signalingManager;
-
-    const sig = signalingManager.buildSignal(signal);
-
-    await signalingManager.updateSignal(sig);
-  },
-  async secureSignal({ commit, dispatch, state }, { signal, identifier }) {
+  async signal({ commit, dispatch, state }, { signal, identifier }) {
     // @ts-ignore
     const { signalingManager } = this.$app.$database;
 
-    const sig = signalingManager.buildSignal(signal);
+    const sig = signalingManager.buildSignal(signal, isInitiator(signal));
 
     const friend = state.friends.find(f => f.address === identifier);
-
-    console.log('secure signal', identifier);
 
     if (friend) {
       signalingManager.updateSignal(friend.threadID, sig);
@@ -73,13 +65,8 @@ export default {
   async subscribeToFriendsSignals({ state, dispatch }) {
     state.friends.forEach(friend => {
       dispatch('subscribeToFriendSignal', { friend });
+      dispatch('tryConnect', { friend });
     });
-
-    const friend = state.friends[0];
-    // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
-
-    await WebRTC.connect(friend.address);
   },
   async subscribeToFriendSignal({ dispatch }, { friend }) {
     // @ts-ignore
@@ -94,17 +81,13 @@ export default {
       friend.address,
       async update => {
         if (update?.instance) {
-          console.log('sender', update?.instance);
           const sender = update?.instance?.sender;
           const data = update?.instance?.payload?.signalingData;
 
-          if (sender && data) {
-            data.forEach(d => {
-              console.log('forward signal', d);
-              WebRTC.forwardSignal(d);
-            });
+          const initiator = isInitiator(data);
 
-            // dispatch('secureSignal', { signal: data, identifier: sender });
+          if (sender && data) {
+            WebRTC.forwardSignal(sender, data, initiator);
           }
         }
       },
@@ -122,5 +105,11 @@ export default {
       friend.threadID,
       friend.address
     );
+  },
+  async tryConnect({}, { friend }) {
+    // @ts-ignore
+    const WebRTC = this.$app.$WebRTC;
+
+    await WebRTC.connect(friend.address, true);
   }
 };

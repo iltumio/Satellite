@@ -36,12 +36,13 @@ export class SignalingManager {
       : threadID;
   }
 
-  buildSignal(data: any) {
+  buildSignal(data: any, initiator: boolean) {
     const signal = new Signal(
       this.address,
       new Date().getTime(),
       'signal',
-      data
+      data,
+      initiator
     );
 
     return {
@@ -49,7 +50,8 @@ export class SignalingManager {
       sender: signal.sender,
       at: signal.at,
       type: signal.type,
-      payload: { signalingData: signal.payload }
+      payload: { signalingData: signal.payload },
+      initiator: signal.initiator
     };
   }
 
@@ -78,8 +80,6 @@ export class SignalingManager {
   ): Promise<ThreadID> {
     const safeThread = this.safeThread(threadID);
     await this.ensureCollection(safeThread, 'signal', signalSchema);
-
-    console.log('signal to save', signal);
 
     const signalExists = await this.client.has(safeThread, 'signal', [
       signal.sender

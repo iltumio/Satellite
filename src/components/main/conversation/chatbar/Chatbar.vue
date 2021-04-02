@@ -118,18 +118,17 @@ export default {
     startTyping() {
       if (!this.typing) {
         this.typing = true;
-        const WebRTCUser = this.$WebRTC.find(this.$store.state.activeChat);
-        if (WebRTCUser && WebRTCUser.isAlive) {
-          WebRTCUser.send('typing-notice', true);
-        }
+
+        this.$WebRTC.send(this.$store.state.activeChat, {type: 'typing-notice', data: true})
+        // const WebRTCUser = this.$WebRTC.find(this.$store.state.activeChat);
+        // if (WebRTCUser && WebRTCUser.isAlive) {
+        //   WebRTCUser.send('typing-notice', true);
+        // }
       }
     },
     stopTyping() {
       this.typing = false;
-      const WebRTCUser = this.$WebRTC.find(this.$store.state.activeChat);
-      if (WebRTCUser && WebRTCUser.isAlive) {
-        WebRTCUser.send('typing-notice', false);
-      }
+      this.$WebRTC.send(this.$store.state.activeChat, {type: 'typing-notice', data: false})
     },
     // eslint-disable-next-line
     isTyping: debounce(function(e) {

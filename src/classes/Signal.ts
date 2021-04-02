@@ -4,6 +4,7 @@ export default class Signal {
   at: number;
   type: string;
   payload: any;
+  initiator: boolean;
 
   /** @constructor
    * Construct a new Message
@@ -12,11 +13,12 @@ export default class Signal {
    * @argument type string type of the message
    * @argument payload payload recived from the message
    */
-  constructor(sender: string, at: number, type: string, payload: any) {
+  constructor(sender: string, at: number, type: string, payload: any, initiator: boolean) {
     this._id = sender;
     this.sender = sender;
     this.at = at;
     this.type = type;
     this.payload = payload;
+    this.initiator = initiator;
   }
 }
