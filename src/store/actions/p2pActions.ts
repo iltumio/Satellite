@@ -6,28 +6,17 @@ export default {
     const WebRTC = this.$app.$WebRTC;
     // @ts-ignore
     const ethereum = this.$app.$ethereum;
-    // @ts-ignore
-    // const signalingManager = this.$app.$signalingManager;
-
-    // Signaling Manager initialization
-    // signalingManager.init(client, state.activeAccount);
-
-    // TODO: Move this to polling
-    const addresses = state.friends.map(f => f.address);
-    WebRTC.updateRegistry(addresses);
-
-    // TODO: update this when active chats updates.
 
     dispatch('subscribeToFriendsSignals');
 
     WebRTC.subscribe(
       (event: string, identifier: string, { type, data }) => {
         console.log('signal', event, identifier, data);
-        dispatch('secureSignal', { signal: data });
+        dispatch('secureSignal', { signal: data, identifier: identifier });
 
-        commit('ICEConnected', true);
+        // commit('ICEConnected', true);
       },
-      ['peer-signal', 'initiator-signal']
+      ['signal']
     );
 
     // Watch for users typing
@@ -57,9 +46,7 @@ export default {
       state.activeChats
     );
 
-    // init
-    WebRTC.init(ethereum.activeAccount, client);
-    // this.peerInit = true;
+    WebRTC.init(ethereum.activeAccount);
   },
   async signal({ commit, dispatch, state }, { signal }) {
     // @ts-ignore
@@ -69,20 +56,30 @@ export default {
 
     await signalingManager.updateSignal(sig);
   },
-  async secureSignal({ commit, dispatch, state }, { signal }) {
+  async secureSignal({ commit, dispatch, state }, { signal, identifier }) {
     // @ts-ignore
     const { signalingManager } = this.$app.$database;
 
     const sig = signalingManager.buildSignal(signal);
 
-    state.friends.forEach(friend => {
+    const friend = state.friends.find(f => f.address === identifier);
+
+    console.log('secure signal', identifier);
+
+    if (friend) {
       signalingManager.updateSignal(friend.threadID, sig);
-    });
+    }
   },
   async subscribeToFriendsSignals({ state, dispatch }) {
     state.friends.forEach(friend => {
       dispatch('subscribeToFriendSignal', { friend });
     });
+
+    const friend = state.friends[0];
+    // @ts-ignore
+    const WebRTC = this.$app.$WebRTC;
+
+    await WebRTC.connect(friend.address);
   },
   async subscribeToFriendSignal({ dispatch }, { friend }) {
     // @ts-ignore
@@ -97,13 +94,18 @@ export default {
       friend.address,
       async update => {
         if (update?.instance) {
-          console.log('sender', update?.instance?.sender);
-          // WebRTC.updatePeersDataRegistry(friend.address, update?.instance);
-          // console.log('instance', update);
-          WebRTC.connect(friend.address, update?.instance, (data)=>{
-            const sig = signalingManager.buildSignal(data);
-            signalingManager.updateSignal(friend.threadID, sig)
-          });
+          console.log('sender', update?.instance);
+          const sender = update?.instance?.sender;
+          const data = update?.instance?.payload?.signalingData;
+
+          if (sender && data) {
+            data.forEach(d => {
+              console.log('forward signal', d);
+              WebRTC.forwardSignal(d);
+            });
+
+            // dispatch('secureSignal', { signal: data, identifier: sender });
+          }
         }
       },
       () => {

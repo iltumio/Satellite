@@ -83,14 +83,14 @@ export default class P2PUser {
   }
 
   handleData(data: any) {
-    const events = this.instance.events;
-    const message: Message = {
-      type: events.includes(data.type) ? data.type : 'data',
-      data: data.payload
-    };
+    // const events = this.instance.events;
+    // const message: Message = {
+    //   type: events.includes(data.type) ? data.type : 'data',
+    //   data: data.payload
+    // };
 
-    this.eventBus(message.type, message);
-    this.lastHeartbeat = Date.now();
+    // this.eventBus(message.type, message);
+    // this.lastHeartbeat = Date.now();
   }
 
   public call(identifier: string, stream: MediaStream): Error | null {
@@ -102,15 +102,15 @@ export default class P2PUser {
   }
 
   public send(event: string, data: any): Error | null {
-    if (!this.connection) return new Error('Connection not bound.');
-    if (event === '*')
-      return new Error('The wildcard event is for listening only.');
-    if (!this.instance.events.includes(<RTCEvent>event))
-      return new Error(`Invalid event type: ${event}`);
-    this.connection.send({
-      type: event,
-      payload: data
-    });
+    // if (!this.connection) return new Error('Connection not bound.');
+    // if (event === '*')
+    //   return new Error('The wildcard event is for listening only.');
+    // if (!this.instance.events.includes(<RTCEvent>event))
+    //   return new Error(`Invalid event type: ${event}`);
+    // this.connection.send({
+    //   type: event,
+    //   payload: data
+    // });
 
     // No errors
     return null;
