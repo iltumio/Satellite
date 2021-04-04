@@ -12,35 +12,34 @@ export default {
       config.stickers[config.network.chain],
     );
 
-    const availableSets = await stickerFactory.getAvailableSets();
+    const availableSets = await stickerFactory.getAvailableSets()
 
     availableSets.forEach(async (set) => {
       // @ts-ignore
       const stickerContract = new Sticker(this.$app.$ethereum, set.stickerContract);
 
-      const uri = await stickerContract.getBaseURI();
-      const price = await stickerContract.getPrice();
+      const uri = await stickerContract.getBaseURI()
+      const price = await stickerContract.getPrice()
 
-      const response = await fetch(`${config.ipfs.browser}/${uri}`);
-      const stickerRawData = await response.text();
-      const stickerData = JSON.parse(stickerRawData);
-
+      const response = await fetch(`${config.ipfs.browser}/${uri}`)
+      const stickerRawData = await response.text()
+      const stickerData = JSON.parse(stickerRawData)
       const artistDetails = await stickerFactory.getArtistDetails(set.creator);
-
+      
       commit('addSticker', { ...stickerData, price, contract: set, artist: artistDetails});
 
-      const balance = await stickerContract.getBalance();
+      const balance = await stickerContract.getBalance()
 
       if (balance > 0) {
-        const ownedSerials = await stickerContract.getOwnedStickers();
+        const ownedSerials = await stickerContract.getOwnedStickers()
 
         commit('addOwnedSticker', {
           ...stickerData, price, contract: set, ownedSerials,
-        });
+        })
       } else {
        // console.log('No stickers');
       }
-    });
+    })
   },
   async buySticker({ dispatch }, { sticker }) {
     // @ts-ignore
