@@ -34,11 +34,11 @@ export default class StickerFactory {
     setSymbol: string,
     limit: BigNumber | string,
     uri: string,
-    initialPrice: BigNumber | string,
+    initialPrice: BigNumber | string
   ) {
     return this.contract
       .createSticker(setName, setSymbol, limit, uri, initialPrice, {
-        gasLimit: 4700000,
+        gasLimit: 4700000
       })
       .then(tx => tx.wait());
   }
@@ -52,13 +52,14 @@ export default class StickerFactory {
   }
 
   /** @function
-   * @name getArtist
-   * @argument artist string address of artist
-   * @returns an object containing metadata about a given artist
+   * @name getArtistDetails
+   * @argument address The address of the artist you want to receive information of
+   * @returns artist details
    */
-  async getArtist(artist: string) {
-    console.log('contract', this.contract);
-    const foundArtist = await this.contract.artists(artist);
-    console.log('foundArtist', foundArtist);
+  async getArtistDetails(address: string) {
+    const { addr, name, signature, description } = await this.contract.artists(
+      address
+    );
+    return { addr, name, signature, description };
   }
 }
