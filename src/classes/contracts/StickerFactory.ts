@@ -50,4 +50,15 @@ export default class StickerFactory {
   async getAvailableSets() {
     return this.contract.getAvailableSets();
   }
+
+  /** @function
+   * @name getArtist
+   * @argument artist string address of artist
+   * @returns an object containing metadata about a given artist
+   */
+  async getArtist(artist: string) {
+    console.log('contract', this.contract);
+    const foundArtist = await this.contract.artists(artist);
+    console.log('foundArtist', foundArtist);
+  }
 }

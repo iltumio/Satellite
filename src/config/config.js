@@ -49,7 +49,7 @@ module.exports = {
     mumbai: '0x7874124148DBAcC66647dc7545e15a684B0fE2d1'
   },
   stickers: {
-    mumbai: '0x139ed2A574b9546296cc50A8e44C985C93dC8866',
+    mumbai: '0xe0dF995982D2a72e434C9E87d8974a4cEefF6298',
     mumbaiInfo: {
       deployBlock: 11818681
     }
