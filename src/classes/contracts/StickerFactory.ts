@@ -50,4 +50,13 @@ export default class StickerFactory {
   async getAvailableSets() {
     return this.contract.getAvailableSets();
   }
+
+  /** @function
+   * @name getArtistDetails
+   * @argument address The address of the artist you want to receive information of
+   * @returns artist details
+   */
+  async getArtistDetails(address: string) {
+    return this.contract.artists(address);
+  }
 }
