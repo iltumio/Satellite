@@ -16,7 +16,7 @@ export default {
 
     availableSets.forEach(async (set) => {
       // @ts-ignore
-      const stickerContract = new Sticker(this.$app.$ethereum, set);
+      const stickerContract = new Sticker(this.$app.$ethereum, set.stickerContract);
 
       const uri = await stickerContract.getBaseURI();
       const price = await stickerContract.getPrice();
@@ -25,10 +25,9 @@ export default {
       const stickerRawData = await response.text();
       const stickerData = JSON.parse(stickerRawData);
 
-      console.log(set);
-      // const artistDetails = 
+      const artistDetails = await stickerFactory.getArtistDetails(set.creator);
 
-      commit('addSticker', { ...stickerData, price, contract: set });
+      commit('addSticker', { ...stickerData, price, contract: set, artist: artistDetails});
 
       const balance = await stickerContract.getBalance();
 
