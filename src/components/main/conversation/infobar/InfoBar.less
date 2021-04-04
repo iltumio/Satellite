@@ -83,17 +83,23 @@
   font-size: 18px;
   font-family: 'Space Mono', monospace;
 }
+
+.name:hover{
+  color: black;
+  cursor: pointer;
+}
 .circle-icon {
   display: none;
 }
 .address {
-    font-size: 9pt;
-    color: #ccc;
+  font-size: 9pt;
+  color: #ccc;
 }
 i:hover {
   color: #000;
 }
-@media only screen and (max-width: 600px) { 
+
+@media only screen and (max-width: 768px) { 
   .searchuser {
     display: none;
   }
@@ -119,12 +125,16 @@ i:hover {
     padding: 0.2rem 0.5rem;
     font-size: 14pt;
   }
-  .fa-desktop {
-    display: none;
-  }
+
   // .fa-address-card {
   //   display: none;
   // }
+}
+
+@media only screen and (max-width: 830px) { 
+  .fa-desktop {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 600px) { 
