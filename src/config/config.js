@@ -49,9 +49,9 @@ module.exports = {
     mumbai: '0x7874124148DBAcC66647dc7545e15a684B0fE2d1'
   },
   stickers: {
-    mumbai: '0x139ed2A574b9546296cc50A8e44C985C93dC8866',
+    mumbai: '0xFE5c676E471A3C2a65B7a70df5FA36DD26bC202f',
     mumbaiInfo: {
-      deployBlock: 11818681
+      deployBlock: 12347307
     }
   },
   debug: false,
