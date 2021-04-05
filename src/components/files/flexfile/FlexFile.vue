@@ -1,29 +1,27 @@
 <template src="./FlexFile.html"></template>
 
 <script>
-import FileIconMapper from '@/utils/FileIconMapper.ts';
+import FileIconMapper from '@/utils/FileIconMapper.ts'
 
 export default {
   name: 'File',
-  props: [
-    'file',
-    'updateParent',
-    'index',
-  ],
-  data() {
+  props: ['file', 'updateParent', 'index'],
+  data () {
     return {
       hovered: false,
-      unpinned: false,
-    };
+      unpinned: false
+    }
   },
   methods: {
-    isImage(string) {
-      return string === 'image/png' ||
+    isImage (string) {
+      return (
+        string === 'image/png' ||
         string === 'image/jpeg' ||
         string === 'img/png' ||
         string === 'img/jpg' ||
         string === 'image/jpg' ||
-        string === 'img/webp';
+        string === 'img/webp'
+      )
     },
     /** @method
      * Converts the bytes to a readable string
@@ -31,25 +29,25 @@ export default {
      * @argument bytes value to convert to human readable string
      * @returns human readable filesize
      */
-    bytesToSize(bytes) {
-      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-      if (bytes === 0) return '0 Bytes';
+    bytesToSize (bytes) {
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+      if (bytes === 0) return '0 Bytes'
       // eslint-disable-next-line
-      const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+      const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
       // eslint-disable-next-line
-      return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+      return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i]
     },
     /** @method
      * Setter
      * Remove the file from the local cache, not IPFS
      * @name deleteFile
      */
-    async deleteFile() {
-      this.$database.bucketManager.removeFile(this.file, this.file.path);
-      this.unpinned = true;
+    async deleteFile () {
+      this.$database.bucketManager.removeFile(this.file, this.file.path)
+      this.unpinned = true
       setTimeout(() => {
-        this.updateParent();
-      }, 4000);
+        this.updateParent()
+      }, 4000)
     },
     /** @method
      * Setter
@@ -58,11 +56,11 @@ export default {
      * @argument filetype the filetype to map to
      * @returns fontawesome class identifying the given filetype
      */
-    translateFiletype(filetype) {
-      return FileIconMapper.translateFiletype(filetype, FileIconMapper.mappings);
-    },
-  },
-};
+    translateFiletype (filetype) {
+      return FileIconMapper.translateFiletype(filetype, FileIconMapper.mappings)
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

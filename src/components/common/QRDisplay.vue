@@ -1,27 +1,31 @@
 <template>
   <div>
-    <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      v-on:click="close"
+    ></button>
     <div class="modal-background"></div>
     <span class="qr-display">
-      <h4 class="label">{{$t('qr-scan.adding-friend-label')}}</h4>
+      <h4 class="label">{{ $t('qr-scan.adding-friend-label') }}</h4>
       <h2 class="username">{{ $store.state.username }}</h2>
       <vue-qrcode :value="data" />
-      <br>
+      <br />
       <!--<button class="is-button button is-small is-primary"><i class="fas fa-download"></i></button>-->
     </span>
   </div>
 </template>
 
 <script>
-import VueQrcode from 'vue-qrcode';
+import VueQrcode from 'vue-qrcode'
 
 export default {
   name: 'QRDisplay',
   props: ['data', 'close'],
   components: {
-    VueQrcode,
+    VueQrcode
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

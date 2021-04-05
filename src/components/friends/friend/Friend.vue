@@ -3,13 +3,17 @@
     <div
       class="mobileOptions"
       v-if="containsOptions && isMobile() && showOptions"
-      v-on:click="showOptions = false">
+      v-on:click="showOptions = false"
+    >
       <div class="friendOptions">
         <button class="button is-primary" v-on:click="action(friend.address)">
           <i class="fas fa-comment-alt-dots"></i>
           &nbsp; Message
         </button>
-        <button class="button is-danger" v-on:click="removeFriend(friend.address);">
+        <button
+          class="button is-danger"
+          v-on:click="removeFriend(friend.address)"
+        >
           <i class="fa fa-times"></i>
           &nbsp; Remove
         </button>
@@ -19,49 +23,49 @@
       <div class="column pfp-column">
         <CircleIcon :image="friend.photo" :address="friend.address" />
         <span class="online-wrapper" v-if="friend.status">
-          <p :class="`online ${(friend.status == 'alive') ? 'true' : ''}`"><i class="fa fa-circle"></i></p>
+          <p :class="`online ${friend.status == 'alive' ? 'true' : ''}`">
+            <i class="fa fa-circle"></i>
+          </p>
         </span>
       </div>
-      <div :class="`column friend-details ${add ? 'friend-details-smaller' :''}`">
-        <p class="username">{{friend.name}}</p>
-        <p class="address" v-if="!isMakingRequest(friend.address)">{{friend.statusMsg}}</p>
-        <p class="address" v-if="isRemovingFriend(friend.address)"><i class="fa fa-spinner-third fa-spin"></i> Removing friend ...</p>
-        <p class="address" v-if="isMakingRequest(friend.address)"><i class="fa fa-spinner-third fa-spin"></i> {{$t('friends.requests.sending')}}</p>
+      <div
+        :class="`column friend-details ${add ? 'friend-details-smaller' : ''}`"
+      >
+        <p class="username">{{ friend.name }}</p>
+        <p class="address" v-if="!isMakingRequest(friend.address)">
+          {{ friend.statusMsg }}
+        </p>
+        <p class="address" v-if="isRemovingFriend(friend.address)">
+          <i class="fa fa-spinner-third fa-spin"></i> Removing friend ...
+        </p>
+        <p class="address" v-if="isMakingRequest(friend.address)">
+          <i class="fa fa-spinner-third fa-spin"></i>
+          {{ $t('friends.requests.sending') }}
+        </p>
       </div>
-      <div :class="`column buttons-container ${add ? 'buttons-container-smaller' :''}`">
+      <div
+        :class="
+          `column buttons-container ${add ? 'buttons-container-smaller' : ''}`
+        "
+      >
         <button
           v-if="action && !add"
           class="button remove-friend is-danger"
-          v-on:click="removeFriend(friend.address)">
+          v-on:click="removeFriend(friend.address)"
+        >
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
         <button
           :disabled="isMakingRequest(friend.address)"
           v-if="action"
           class="button add-friend is-primary"
-          v-on:click="action(friend.address)">
+          v-on:click="action(friend.address)"
+        >
           <i class="fas fa-comment-alt-dots" v-if="!add"></i>
           <i class="fas fa-user-plus" v-else></i>
         </button>
       </div>
     </div>
-
-    <!--
-    <span class="remove-friend-btn" v-on:click="toggleRemoveFriend()">Remove Friend</span>
-      <i class="fa fa-ellipsis-v friend-options-btn" aria-hidden="true" v-on:click="toggleFriendOptions"></i>
-    <div v-if="friendOptions" class="friend-options">
-      <span>Voice Call</span>
-      <span>Video Call</span>
-      <span class="remove-friend-btn" v-on:click="toggleRemoveFriend()">Remove Friend</span>
-    </div>
-    <div v-if="confirmRemove" class="remove-friend-confirm">
-      <p>Are you sure you want to remove this friend?</p>
-      <div class="remove-friend-confirm-options">
-        <span v-on:click="toggleFriendOptions" class="remove-cancel-btn">Cancel</span>
-        <span v-on:click="removeFriendConfirmed(); removeFriend(friend.address);" class="remove-confirm-btn">Remove</span>
-      </div>
-    </div>
-    -->
   </div>
 </template>
 
@@ -70,9 +74,9 @@
   Represents a singular friend
 -->
 <script>
-import CircleIcon from '@/components/common/CircleIcon';
-import Badge from '@/components/common/Badge';
-import MobileUtils from '@/utils/Mobile.ts';
+import CircleIcon from '@/components/common/CircleIcon'
+import Badge from '@/components/common/Badge'
+import MobileUtils from '@/utils/Mobile.ts'
 
 export default {
   name: 'Friend',
@@ -88,46 +92,49 @@ export default {
   ],
   components: {
     CircleIcon,
-    Badge,
+    Badge
   },
   watch: {
-    removingFriend(newValue) {
-      if (newValue.address === this.friend.address && newValue.removed === true) {
+    removingFriend (newValue) {
+      if (
+        newValue.address === this.friend.address &&
+        newValue.removed === true
+      ) {
         this.isFriend = false
       }
     }
   },
-  data() {
+  data () {
     return {
       friendOptions: false,
       confirmRemove: false,
       isFriend: true,
-      showOptions: false,
+      showOptions: false
     }
   },
   methods: {
     isMobile: MobileUtils.isMobile,
-    isMakingRequest(address) {
-      return this.makingRequest && this.makingRequest[address];
+    isMakingRequest (address) {
+      return this.makingRequest && this.makingRequest[address]
     },
-    toggleFriendOptions() {
+    toggleFriendOptions () {
       this.confirmRemove = false
-      this.friendOptions = !this.friendOptions;
+      this.friendOptions = !this.friendOptions
     },
-    toggleRemoveFriend() {
+    toggleRemoveFriend () {
       this.friendOptions = false
-      this.confirmRemove = !this.confirmRemove;
+      this.confirmRemove = !this.confirmRemove
     },
-    isRemovingFriend(address) {
-      return this.removingFriend && (this.removingFriend.address === address)
+    isRemovingFriend (address) {
+      return this.removingFriend && this.removingFriend.address === address
     },
-    showFriendOptions() {
+    showFriendOptions () {
       if (this.isMobile()) {
-        this.showOptions = true;
+        this.showOptions = true
       }
     }
-  },
-};
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
