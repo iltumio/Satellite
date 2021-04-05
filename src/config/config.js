@@ -2,7 +2,7 @@ module.exports = {
   env: 'prod',
   textile: {
     localURI: 'http://localhost:6007',
-    key: 'b4xorkfi3bfxxqoxnuxxfylop4q',
+    key: 'b3y2jgeqlvpqnxmwqsvvc4hc7ym',
     browser: 'https://hub.textile.io'
   },
   network: {
@@ -49,9 +49,9 @@ module.exports = {
     mumbai: '0x7874124148DBAcC66647dc7545e15a684B0fE2d1'
   },
   stickers: {
-    mumbai: '0x139ed2A574b9546296cc50A8e44C985C93dC8866',
+    mumbai: '0x383F4C3cFF28c6E07D289b795d19cDcC4D145731',
     mumbaiInfo: {
-      deployBlock: 11818681
+      deployBlock: 12349058
     }
   },
   debug: false,

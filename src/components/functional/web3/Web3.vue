@@ -1,47 +1,57 @@
 <template>
   <div>
-    <ProviderSelection v-if="!$store.state.selectedProvider" :onProviderSelected="onProviderSelected" />
+    <ProviderSelection
+      v-if="!$store.state.selectedProvider"
+      :onProviderSelected="onProviderSelected"
+    />
     <WalletCreation
-      v-if="$store.state.selectedProvider && !$store.state.accounts.length && !$store.state.mnemonic"
+      v-if="
+        $store.state.selectedProvider &&
+          !$store.state.accounts.length &&
+          !$store.state.mnemonic
+      "
       :onWalletCreated="onWalletCreated"
     />
   </div>
 </template>
 
 <script>
-import ProviderSelection from '@/components/common/ProviderSelection';
-import WalletCreation from '@/components/common/WalletCreation';
+import ProviderSelection from '@/components/common/ProviderSelection'
+import WalletCreation from '@/components/common/wallet/WalletCreation'
 
 export default {
   name: 'Web3',
-  data() {
+  data () {
     return {
       connected: false,
       selectedProvider: null,
-      ethereum: null,
-    };
+      ethereum: null
+    }
   },
   components: {
     ProviderSelection,
-    WalletCreation,
+    WalletCreation
   },
   methods: {
-    onProviderSelected(provider){
-      this.$store.dispatch('selectProvider', {provider});
+    onProviderSelected (provider) {
+      this.$store.dispatch('selectProvider', { provider })
     },
-    onWalletCreated(wallet) {
-      const { selectedProvider } = this.$store.state;
+    onWalletCreated (wallet) {
+      const { selectedProvider } = this.$store.state
 
       // Connect the selected provider, based on the user selection
       // this action will automatically call the startup action and get stats action
-      this.$store.dispatch('connectProvider', {providerInfo: selectedProvider, wallet});
-    },
+      this.$store.dispatch('connectProvider', {
+        providerInfo: selectedProvider,
+        wallet
+      })
+    }
   },
-  mounted() {
-    this.$store.dispatch('detectInjected');
-    this.$store.dispatch('web3Start');
-  },
-};
+  mounted () {
+    this.$store.dispatch('detectInjected')
+    this.$store.dispatch('web3Start')
+  }
+}
 </script>
 
 <style scoped lang="less">

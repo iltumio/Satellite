@@ -1,28 +1,28 @@
 <template src="./Sidebar.html"></template>
 
 <script>
-import Group from './group/Group';
+import Group from './group/Group'
 
 export default {
   name: 'ServerSidebar',
   components: {
-    Group,
+    Group
   },
-  data() {
+  data () {
     return {
       groups: [
         {
           name: 'Text Channels',
-          channels: [ 1, 2, 3 ],
+          channels: [1, 2, 3]
         },
         {
           name: 'Voice Channels',
-          channels: [ 4, 5, 6 ],
+          channels: [4, 5, 6]
         },
         {
           name: 'Dev Center',
-          channels: [ 0, 7, 8, 9 ],
-        },
+          channels: [0, 7, 8, 9]
+        }
       ],
       channels: {
         '0': {
@@ -57,16 +57,16 @@ export default {
           users: [
             {
               name: 'RetroPronghorn',
-              address: '0x43aF5230d1493511fBDeAe0Fbe4C5555E087Bf24',
+              address: '0x43aF5230d1493511fBDeAe0Fbe4C5555E087Bf24'
             },
             {
               name: 'im_eatin_cookies',
-              address: '0x5635e06B8655C1455Da640162061c1392DB16357',
+              address: '0x5635e06B8655C1455Da640162061c1392DB16357'
             },
             {
               name: 'XileHorizon',
-              address: '0xD3312142f90B6002D6CF01A9d858BED4e49Afcf7',
-            },
+              address: '0xD3312142f90B6002D6CF01A9d858BED4e49Afcf7'
+            }
           ]
         },
         '6': {
@@ -90,24 +90,24 @@ export default {
           name: 'Dev Chat'
         }
       }
-    };
+    }
   },
   methods: {
-    setActiveChannel(channel) {
-      const nonText = ['voice', 'label'];
+    setActiveChannel (channel) {
+      const nonText = ['voice', 'label']
       if (!nonText.includes(channel.type)) {
-        this.$store.commit('activeChannel', channel);
+        this.$store.commit('activeChannel', channel)
       } else {
         // TODO: Join voice channel
       }
-    },
-  },
-  mounted() {
-    if (!this.$store.state.channel) {
-      this.$store.commit('activeChannel', this.channels['0']);
     }
   },
-};
+  mounted () {
+    if (!this.$store.state.channel) {
+      this.$store.commit('activeChannel', this.channels['0'])
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

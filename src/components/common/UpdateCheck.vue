@@ -1,52 +1,53 @@
 <template>
   <div class="updater green" v-on:click="doUpdate" v-if="updateNeeded">
-    <i :class="`fas ${updating ? 'fa-spinner-third fa-spin' : 'fa-sync'}`"></i><br>
-    <span class="update-text">{{$t('update-check.update')}}</span>
+    <i :class="`fas ${updating ? 'fa-spinner-third fa-spin' : 'fa-sync'}`"></i
+    ><br />
+    <span class="update-text">{{ $t('update-check.update') }}</span>
   </div>
 </template>
 
 <script>
-import Package from '../../../package.json';
+import Package from '../../../package.json'
 
 export default {
   name: 'UpdateCheck',
   props: ['update'],
-  data() {
+  data () {
     return {
       updateNeeded: false,
-      updating: false,
+      updating: false
     }
   },
   methods: {
-    checkUpdate() {
+    checkUpdate () {
       fetch(
         'https://raw.githubusercontent.com/Satellite-im/Satellite/master/package.json',
         {
-          cache: 'no-cache',
+          cache: 'no-cache'
         }
       )
         .then(response => response.json())
         .then(data => {
-          const localVersion = Package.version;
-          const remoteVersion = data.version;
+          const localVersion = Package.version
+          const remoteVersion = data.version
           if (localVersion !== remoteVersion) {
-            this.updateNeeded = true;
-            this.update();
+            this.updateNeeded = true
+            this.update()
           }
-        });
+        })
     },
-    doUpdate() {
-      this.updating = true;
+    doUpdate () {
+      this.updating = true
       setTimeout(() => {
-        window.location.reload(true);
-      }, 2000);
-    },
+        window.location.reload(true)
+      }, 2000)
+    }
   },
-  mounted() {
-    this.checkUpdate();
+  mounted () {
+    this.checkUpdate()
     setInterval(() => {
-      this.checkUpdate();
-    }, 15000);
+      this.checkUpdate()
+    }, 15000)
   }
 }
 </script>

@@ -11,7 +11,11 @@ export default class FilePinner {
     this.privKey = privKey;
   }
 
-  // Documentation: https://pinata.cloud/documentation#PinByHash
+  /** @function
+   * Documentation: https://pinata.cloud/documentation#PinByHash
+   * @name PinByHash
+   * @argument hash File hash to pin
+   */
   async PinByHash(hash) {
     const data = { hashToPin: hash };
     const header = this.validateHeader();
@@ -21,7 +25,11 @@ export default class FilePinner {
       .catch((err) => { throw new Error(err); });
   }
 
-  // Documentation: https://pinata.cloud/documentation#PinFileToIPFS
+  /** @function
+   * Documentation: https://pinata.cloud/documentation#PinFileToIPFS
+   * @name PinByFile
+   * @argument hash file to pin
+   */
   async PinByFile(file) {
     const data = new FormData();
     data.append('file', file);
@@ -32,6 +40,11 @@ export default class FilePinner {
       .catch((err) => { throw new Error(err); });
   }
 
+  /** @function
+   * Validates if the built header contains a valid keyset or JWT
+   * @name PinByFile
+   * @argument isFile boolean representing if we're pinning a file, or hash
+   */
   validateHeader(isFile = false) {
     const pinataHeader = { headers: {} };
     // @ts-ignore

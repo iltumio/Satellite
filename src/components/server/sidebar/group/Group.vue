@@ -1,29 +1,25 @@
 <template src="./Group.html"></template>
 
 <script>
-import Channel from '../channel/Channel';
+import Channel from '../channel/Channel'
 
 export default {
   name: 'Group',
-  props: [
-    'group',
-    'channels',
-    'setActiveChannel',
-  ],
+  props: ['group', 'channels', 'setActiveChannel'],
   components: {
-    Channel,
+    Channel
   },
-  data() {
+  data () {
     return {
-      collapsed: false,
-    };
+      collapsed: false
+    }
   },
   methods: {
-    toggleCollapse() {
-      this.collapsed = !this.collapsed;
+    toggleCollapse () {
+      this.collapsed = !this.collapsed
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

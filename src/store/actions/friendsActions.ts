@@ -47,7 +47,7 @@ export default {
       updatedFriends = parsedFriends;
     }
 
-    
+
     dispatch('subscribeToAllThreads', { friends: updatedFriends });
 
     // TODO: eventually limit UI updates if friends didn't change
@@ -155,5 +155,18 @@ export default {
 
     await friendsContract.denyRequest(address).catch(console.log);
     dispatch('fetchFriendRequests');
+  },
+  async removeFriend({ commit, state }, address) {
+    // @ts-ignore
+    const friendsContract = new Friends(
+      // @ts-ignore
+      this.$app.$ethereum,
+      config.friends[config.network.chain],
+    );
+    // @ts-ignore
+    await friendsContract.removeFriend(address)
+
+    commit('removeFriend', address)
+    state.activeChats.length > 0 ? commit('activeChat', state.activeChats[0]) : commit('activeChat', false);
   }
 };

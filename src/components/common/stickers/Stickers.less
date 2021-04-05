@@ -12,6 +12,13 @@
   width: 440px;
   bottom: 7rem;
   overflow: hidden;
+  padding-bottom: 1rem;
+
+  .stickers-scroll-wrap {
+    width: 100%;
+    height: calc(100% - 4rem);
+    overflow-y: scroll;
+  }
 
   .my-stickers {
     height: 100%;
@@ -80,16 +87,46 @@
   .stickers-container {
     height: calc(100% - 4.2rem);
     overflow-y: scroll;
-    
   }
+
   .buy-button {
-    position: absolute;
+    position: relative;
     bottom: 1rem;
+    top: 1rem;
     left: 1rem;
     right: 1rem;
     height: 40px;
     width: calc(100% - 2rem);
     z-index: 1;
+    font-size: 11pt;
+    /* font-weight: bold; */
+    font-family: 'Space Mono', monospace;  
+  }
+
+  .buy-button:hover {
+    color: white !important;
+  }
+
+  .artist-signature {
+    padding: 1rem 2rem;
+  }
+
+  .artist {
+    text-align: center;
+    padding-top: 0.5rem;
+    text-align: center;
+    background: #1a1b26;
+    padding-top: 0.5rem;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 1rem 0;
+
+    .artist-name {
+      font-family: 'Space Mono', monospace;  
+      font-size: 15pt;
+      text-align: center;
+      color: #faf2f8;
+    }
   }
 }
 

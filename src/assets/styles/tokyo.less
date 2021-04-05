@@ -333,6 +333,11 @@
   .c-message-content {
     color: @lighter-blue-gray !important;
   }
+
+  strong {
+    color: @basically-white !important;
+  }
+
   .charlimit {
     color: @nearly-white !important;
   }
@@ -602,6 +607,9 @@
   .username {
     color: @basically-white !important;
   }
+  .name:hover{
+     color: @basically-white !important;
+  }
   .red {
     color: @red !important;
   }
@@ -689,6 +697,9 @@
     background: @dark-blue-gray !important;
   }
   @media (max-width: 768px) {
+    .no-mobile {
+      display: none;
+    }
     .i:hover {
       color: unset;
     }
@@ -698,5 +709,45 @@
     .unreads {
       background: transparent !important;
     }
+    .settings-right {
+      .spacer {
+        border-bottom: 1px solid @ohh-so-dark !important;
+        margin: 1rem -1rem !important;
+      }
+    }
+    .settings-right .message {
+      background-color: transparent !important;
+    }
+    .settings-right .message-body {
+      background: transparent !important;
+      border: none;
+      margin: 0 -1.5rem;
+
+      input {
+        background-color: #000 !important;
+      }
+      
+      h2 {
+        background-color: transparent !important;
+      }
+
+      .select {
+        width: 100%;
+
+        select {
+          width: 100%;
+          background: #000 !important;
+        }
+      }
+    }
+  }
+
+  code {
+    background-color: @less-dark-blue-gray;
+    color: @basically-white;
+    border-radius: 2px;
+    font-size: 0.875em;
+    font-weight: normal;
+    padding: 0.25em 0.5em 0.25em;
   }
 }

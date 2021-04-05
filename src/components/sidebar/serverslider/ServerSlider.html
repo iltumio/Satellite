@@ -2,7 +2,7 @@
   <div>
     <div class="circleicon-wrapper">
       <CircleIcon :action="toggleCreateServer" id="addServer" color="#101016" icon="fa fa-plus" />
-      <span>{{$t('servers.server')}}</span>
+      <span style="white-space: nowrap;">{{$t('servers.server')}}</span>
     </div>
 
     <div class="server"
@@ -14,7 +14,7 @@
         class="circleicon-wrapper server-icon">
         <CircleIcon
           :image="`https://ipfs.io/ipfs/${server.photo}`" />
-        <span>{{server.name}}</span>
+        <span style="white-space: nowrap;">{{server.name}}</span>
       </div>
       <div 
         v-else
@@ -23,7 +23,7 @@
         <CircleIcon
           :address="server.address"
           class="server-icon" />
-        <span>{{server.name}}</span>
+        <span style="white-space: nowrap;">{{server.name}}</span>
       </div>
     </div>
   </div>

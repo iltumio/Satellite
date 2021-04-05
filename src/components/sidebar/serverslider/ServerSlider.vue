@@ -1,15 +1,15 @@
 <template src="./ServerSlider.html"></template>
 
 <script>
-import CircleIcon from '@/components/common/CircleIcon';
+import CircleIcon from '@/components/common/CircleIcon'
 
 export default {
   name: 'ServerSlider',
   props: ['toggleCreateServer', 'servers'],
   components: {
-    CircleIcon,
-  },
-};
+    CircleIcon
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
