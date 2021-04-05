@@ -26,7 +26,7 @@ export default {
       const stickerData = JSON.parse(stickerRawData)
       const artistDetails = await stickerFactory.getArtistDetails(set.creator);
       
-      commit('addSticker', { ...stickerData, price, contract: set, artist: artistDetails});
+      commit('addSticker', { ...stickerData, price, contract: set.stickerContract, artist: artistDetails});
 
       const balance = await stickerContract.getBalance()
 
