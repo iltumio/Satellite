@@ -24,24 +24,38 @@
 
     <div class="my-stickers has-details" v-if="route === 'get-stickers'">
       <div v-for="sticker in availableStickers" class="sticker-container" v-on:click="setDisplay('buy-stickers', sticker)">
-        <Sticker :sticker="sticker.preview_hash" :name="sticker.name" />
+        <Sticker :sticker="sticker.preview_hash" :signature="sticker.artist" :name="sticker.name" />
       </div>
     </div>
     <div class="my-stickers" v-if="route === 'buy-stickers'">
-      <div v-for="sticker in routeData.stickers" class="sticker-container">
-          <Sticker :sticker="sticker" />
+      <div class="stickers-scroll-wrap">
+        <div v-if="routeData.artist">
+          <p class="artist">
+            <span class="artist-name">{{routeData.artist.name}}</span><br>
+            <span class="artist-desc">{{routeData.artist.description}}</span>
+          </p>
+        </div>
+        <div v-for="sticker in routeData.stickers" class="sticker-container">
+            <Sticker :sticker="sticker" />
+        </div>
+        <div v-if="routeData.artist">
+          <img :src="`http://ipfs.io/ipfs/${routeData.artist.signature}`" alt="" class="artist-signature">
+        </div>
       </div>
-      <button 
-        class="button is-success is-small buy-button"
-        v-on:click="buySticker(routeData)"
-        :disabled="routeData.pending"
-        v-if="!isPending"
-        >
-        {{$t('stickers.buy-button-text')}}: {{routeData.price}} MATIC
-      </button>
-      <button class="button is-success is-small buy-button" v-else>
-        {{$t('stickers.buy-button-loading')}}...
-      </button>
+      <div class="buy-container">
+        <button 
+          class="button is-success is-small buy-button"
+          v-on:click="buySticker(routeData)"
+          :disabled="routeData.pending"
+          v-if="!isPending"
+          >
+          <i class="fas fa-dollar-sign"></i> &nbsp; 
+          {{$t('stickers.buy-button-text')}}: {{routeData.price}} MATIC
+        </button>
+        <button class="button is-success is-small buy-button" v-else>
+          {{$t('stickers.buy-button-loading')}}...
+        </button>
+      </div>
     </div>
   </div>
 </div>
