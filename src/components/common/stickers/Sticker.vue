@@ -2,7 +2,10 @@
   <div class="inner-sticker">
     <img :src="`http://ipfs.io/ipfs/${sticker}`" alt="" />
     <br />
-    <span class="sticker-name" v-if="name">{{name}}</span>
+    <span :class="`sticker-name ${signature ? 'signature' : ''}`" v-if="name">
+      <i class="fas fa-signature" v-if="signature"></i> &nbsp;
+      {{name}}
+    </span>
     <span class="sticker-name" v-else-if="price">{{$t('stickers.buy-button-text')}}: {{price}} MATIC</span>
   </div>
 </template>
@@ -10,7 +13,7 @@
 <script>
 export default {
   name: 'Sticker',
-  props: ['sticker', 'name', 'price']
+  props: ['sticker', 'name', 'price', 'signature']
 }
 </script>
 
@@ -27,6 +30,10 @@ export default {
     max-width: 100%;
     margin: 0 auto;
     margin-top: 0.5rem;
+  }
+
+  .sticker-name.signature {
+    background: #1abc9c;
   }
 
   .sticker-name:hover {
