@@ -1,24 +1,23 @@
 <template src="./Channel.html"></template>
 
 <script>
-import VoiceUser from '../voice/VoiceUser';
+import VoiceUser from '../voice/VoiceUser'
 
 export default {
   name: 'Channel',
-  props: [
-    'channel',
-    'setActiveChannel',
-  ],
+  props: ['channel', 'setActiveChannel'],
   components: {
-    VoiceUser,
+    VoiceUser
   },
   methods: {
-    getChannelClass() {
-      return (this.$store.state.channel &&
-        this.$store.state.channel.id === this.channel.id) ? 'active' : '';
-    },
-  },
-};
+    getChannelClass () {
+      return this.$store.state.channel &&
+        this.$store.state.channel.id === this.channel.id
+        ? 'active'
+        : ''
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

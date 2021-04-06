@@ -100,10 +100,6 @@ export default class Sticker {
         ownedTokens[event.args?.tokenId?.toString()] = true;
       }
     });
-
-    // console.log('out', outgoingTransfers);
-    // console.log('in', incomingTransfers);
-
     return Object.keys(ownedTokens);
   }
 }

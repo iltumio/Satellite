@@ -21,6 +21,8 @@ export interface IWalletAsset {
 }
 
 export interface IState {
+  command: string | boolean;
+  args: Array<string> | boolean;
   pin: string | boolean;
   starting: boolean;
   authenticated: boolean;
@@ -104,6 +106,8 @@ export interface IState {
 }
 
 export const defaultState: IState = {
+  command: false,
+  args: false,
   pin: false,
   starting: true,
   authenticated: false,

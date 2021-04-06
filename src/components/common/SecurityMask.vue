@@ -1,15 +1,14 @@
 <template>
-    <div id="security-mask">
-      <h2>{{$t('security-mask.content-redacted')}}</h2>
-      <p>{{$t('security-mask.content-hidden-message')}}<br>
-      </p>
-    </div>
+  <div id="security-mask">
+    <h2>{{ $t('security-mask.content-redacted') }}</h2>
+    <p>{{ $t('security-mask.content-hidden-message') }}<br /></p>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'SecurityMask',
-};
+  name: 'SecurityMask'
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

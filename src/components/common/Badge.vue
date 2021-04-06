@@ -1,33 +1,25 @@
 <template>
-    <span class="badge-container">
-      <span class="has-tooltip-arrow"
-        data-tooltip="Developer">
-        <i 
-          v-if="isRank('developers')"
-          class="fas fa-hat-wizard"></i>
-      </span>
-      <span class="has-tooltip-arrow"
-        data-tooltip="Supporter">
-        <i 
-          v-if="isRank('supporters')"
-          class="fas fa-heart"></i>
-      </span>
-      <span class="has-tooltip-arrow" data-tooltip="Alpha">
-        <i
-          v-if="isRank('alpha')"
-          class="fas fa-ghost"></i>
-      </span>
-      <span class="has-tooltip-arrow" data-tooltip="Contributor">
-        <i
-          v-if="isRank('contributors')"
-          class="fas fa-code"></i>
-      </span>
-      <span v-if="showNoBadges" class="has-tooltip-arrow" data-tooltip="No Badges">
-        <i
-          v-if="hasNoRank()"
-          class="fas fa-ban"></i>
-      </span>
+  <span class="badge-container">
+    <span class="has-tooltip-arrow" data-tooltip="Developer">
+      <i v-if="isRank('developers')" class="fas fa-hat-wizard"></i>
     </span>
+    <span class="has-tooltip-arrow" data-tooltip="Supporter">
+      <i v-if="isRank('supporters')" class="fas fa-heart"></i>
+    </span>
+    <span class="has-tooltip-arrow" data-tooltip="Alpha">
+      <i v-if="isRank('alpha')" class="fas fa-ghost"></i>
+    </span>
+    <span class="has-tooltip-arrow" data-tooltip="Contributor">
+      <i v-if="isRank('contributors')" class="fas fa-code"></i>
+    </span>
+    <span
+      v-if="showNoBadges"
+      class="has-tooltip-arrow"
+      data-tooltip="No Badges"
+    >
+      <i v-if="hasNoRank()" class="fas fa-ban"></i>
+    </span>
+  </span>
 </template>
 
 <script>
@@ -40,32 +32,32 @@ export default {
      * @argument rank string rang to check for
      * @returns boolean of wether or not the user had the specified rank
      */
-    isRank(rank) {
-      return this[rank].includes(this.address);
+    isRank (rank) {
+      return this[rank].includes(this.address)
     },
     /** @method
      * @name hasNoRank
      * @returns boolean of wether or not the user has a rank
      */
-    hasNoRank() {
-      const hasDevelopers = this.isRank('developers');
-      const hasSupporters = this.isRank('supporters');
-      const hasAlpha = this.isRank('alpha');
-      const hasContributors = this.isRank('contributors');
-      return !hasDevelopers && !hasSupporters && !hasAlpha && !hasContributors;
-    },
+    hasNoRank () {
+      const hasDevelopers = this.isRank('developers')
+      const hasSupporters = this.isRank('supporters')
+      const hasAlpha = this.isRank('alpha')
+      const hasContributors = this.isRank('contributors')
+      return !hasDevelopers && !hasSupporters && !hasAlpha && !hasContributors
+    }
   },
-  data() {
+  data () {
     return {
       developers: [
         '0xD02248C262b3690CC6eE73D24F5f2F19095585Fb',
-        '0xaf77cf319CB4f0597e5bB0974E8981fAe49Ea4A9',
+        '0xaf77cf319CB4f0597e5bB0974E8981fAe49Ea4A9'
       ],
       supporters: [
         '0xaf77cf319CB4f0597e5bB0974E8981fAe49Ea4A9',
         '0xD02248C262b3690CC6eE73D24F5f2F19095585Fb',
         '0x61E0E9ADe660551cd78B584Fb54d492CaEAAaD55',
-        '0xA0eAf1961243E3708bAe85927D2645D8f8e8cC67',
+        '0xA0eAf1961243E3708bAe85927D2645D8f8e8cC67'
       ],
       alpha: [
         '0xaf77cf319CB4f0597e5bB0974E8981fAe49Ea4A9',
@@ -94,36 +86,36 @@ export default {
         '0xB94952AF176401365d85096F8d463E32b39e9EC8',
         '0x7ccaEBA528A581b34954D72087b611883F58Cf20',
         '0x47130b1937f8E68A674C00C618cb5743f74404b3',
-        '0x0Ab2787797eF974DF6F739A2195E463D2f17763E',
+        '0x0Ab2787797eF974DF6F739A2195E463D2f17763E'
       ],
       contributors: [
         '0xaf77cf319CB4f0597e5bB0974E8981fAe49Ea4A9',
         '0x1aDe7295759574ecC7887A9B76844939B38eE315',
-        '0x7Ec83F5A35848E5337380253f03dfCca6Fba7B73',
-      ],
-    };
-  },
-};
+        '0x7Ec83F5A35848E5337380253f03dfCca6Fba7B73'
+      ]
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    span[data-tooltip] {
-      border-bottom: none;
-    }
-    .fas {
-      font-size: 8pt;
-    }
-    .fa-heart {
-      color: #ff7675 !important; 
-    }
-    .fa-hat-wizard {
-      color: #a29bfe !important;
-    }
-    .fa-ghost {
-      color: #f368e0 !important;
-    }
-    .fa-code {
-      color: #feca57 !important;
-    }
+span[data-tooltip] {
+  border-bottom: none;
+}
+.fas {
+  font-size: 8pt;
+}
+.fa-heart {
+  color: #ff7675 !important;
+}
+.fa-hat-wizard {
+  color: #a29bfe !important;
+}
+.fa-ghost {
+  color: #f368e0 !important;
+}
+.fa-code {
+  color: #feca57 !important;
+}
 </style>

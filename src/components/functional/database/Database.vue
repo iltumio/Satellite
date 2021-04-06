@@ -1,18 +1,18 @@
 <template></template>
 <script>
-import config from "@/config/config";
+import config from "@/config/config"
 
 export default {
-  name: "database",
-  data() {
-    return { activeAccount: false };
+  name: 'database',
+  data () {
+    return { activeAccount: false }
   },
   methods: {
     makeKey() {
       return {
-        key: config.textile.key,
-      };
-    },
+        key: config.textile.key
+      }
+    }
   },
   async mounted() {
     // this.$store.dispatch('initDatabase');
@@ -21,5 +21,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>

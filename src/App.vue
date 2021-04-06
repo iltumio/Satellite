@@ -5,16 +5,16 @@
         <router-view></router-view>
       </transition>
     </main>
-    <Unlock class="theme" v-else :decrypted="decrypt"/>
+    <Unlock class="theme" v-else :decrypted="decrypt" />
     <SecurityMask v-if="mask" />
   </div>
 </template>
 
 <script>
-import 'bulma/css/bulma.css';
-import CryptoUtil from '@/utils/Crypto.ts';
-import Unlock from '@/components/unlock/Unlock';
-import SecurityMask from '@/components/common/SecurityMask';
+import 'bulma/css/bulma.css'
+import CryptoUtil from '@/utils/Crypto.ts'
+import Unlock from '@/components/unlock/Unlock'
+import SecurityMask from '@/components/common/SecurityMask'
 
 export default {
   name: 'app',
@@ -22,87 +22,46 @@ export default {
     Unlock,
     SecurityMask
   },
-  data() {
+  data () {
     return {
       decrypted: false,
       friendsLoaded: false,
-      mask: false,
-    };
+      mask: false
+    }
   },
   methods: {
-    async decrypt(pin) {
-      let decryptedMnemonic = localStorage.getItem('mnemonic');
+    async decrypt (pin) {
+      let decryptedMnemonic = localStorage.getItem('mnemonic')
       if (decryptedMnemonic) {
-        decryptedMnemonic = await CryptoUtil.decrypt(decryptedMnemonic, pin);
-        this.$store.commit('setMnemonic', decryptedMnemonic);
+        decryptedMnemonic = await CryptoUtil.decrypt(decryptedMnemonic, pin)
+        this.$store.commit('setMnemonic', decryptedMnemonic)
       }
       this.decrypted = true;
       // this.checkAccount();
 
       this.$store.dispatch('startup');
     },
-    // TODO: remove unnecessary comments
-    // initP2P() {
-    //   if (this.$store.state.friendsLoaded) {
-    //     // this.$store.dispatch('initP2P');
-    //     this.peerInit = true;
-    //   }
-    // },
-    // checkAccount() {
-    //   if (this.$store.state.activeAccount) {
-    //     // Attach to peers
-    //     this.initP2P();
-    //     return;
-    //   }
-    //   setTimeout(this.checkAccount, config.peer.timeout);
-    // },
   },
-  mounted() {
+  mounted () {
     document.addEventListener(
       'visibilitychange',
       () => {
-        this.mask = document.hidden;
+        this.mask = document.hidden
       },
-      false,
-    );
-
-    // TODO: remove unnecessary comments
-    // this.$store.commit('starting', true);
-    // this.$store.commit('clearFriends');
-    // this.$store.commit('clear');
-    // Reset media call data
-    // this.$store.commit('clearTypingUsers');
-    // Connect when a new friend is added
-    // we have active chats with.
-    // this.$store.subscribe((mutation, state) => {
-    //   if (mutation.type === 'addFriend') {
-    //     // Connect to new peer.
-    //     // TODO: Update WebRTC
-    //   }
-
-    //   // Use this workaround because vuex $store.watch is not
-    //   // triggering any update
-    //   // TODO: find the issue and use $store.wtach together with
-    //   // getters instead
-    //   if (!this.friendsLoaded && state.friendsLoaded) {
-    //     this.initP2P();
-
-    //     this.friendsLoaded = true;
-    //   }
-    // });
+      false
+    )
     // Set i18n locale based on the user preferred language
     if (this.$store.state.settings.language) {
-      this.$i18n.locale = this.$store.state.settings.language;
+      this.$i18n.locale = this.$store.state.settings.language
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="less">
 .notification {
   position: absolute;
 }
-
 
 #app {
   height: 100%;
@@ -126,19 +85,19 @@ export default {
 <style lang="less" src="@/assets/styles/app.less"></style>
 <style lang="less">
 .dark {
-  @import "assets/styles/true_dark.less";
+  @import 'assets/styles/true_dark.less';
 }
 .ice {
-  @import "assets/styles/ice.less";
+  @import 'assets/styles/ice.less';
 }
 .tokyo {
-  @import "assets/styles/tokyo.less";
+  @import 'assets/styles/tokyo.less';
 }
 .next {
-  @import "assets/styles/next.less";
+  @import 'assets/styles/next.less';
 }
 .zenburn {
-  @import "assets/styles/zenburn.less";
+  @import 'assets/styles/zenburn.less';
 }
 .notification {
   z-index: 10;

@@ -145,7 +145,6 @@ export default {
     }
   },
   async denyRequest({ dispatch }, { address }) {
-    console.log('deny request', address);
     // @ts-ignore
     const friendsContract = new Friends(
       // @ts-ignore
@@ -162,5 +161,18 @@ export default {
     );
 
     commit('updateFriends', updatedFriends);
+  },
+  async removeFriend({ commit, state }, address) {
+    // @ts-ignore
+    const friendsContract = new Friends(
+      // @ts-ignore
+      this.$app.$ethereum,
+      config.friends[config.network.chain],
+    );
+    // @ts-ignore
+    await friendsContract.removeFriend(address)
+
+    commit('removeFriend', address)
+    state.activeChats.length > 0 ? commit('activeChat', state.activeChats[0]) : commit('activeChat', false);
   }
 };

@@ -1,9 +1,8 @@
 <template src="./Groups.html"></template>
 
 <script>
-
 export default {
-  name: 'Groups',
+  name: 'Groups'
 }
 </script>
 

@@ -1,26 +1,22 @@
 <template src="./FileUpload.html"></template>
 
 <script>
-import config from '@/config/config';
-import FileC from '@/classes/FileC.ts';
-import PrimaryHeading from '@/components/common/typography/PrimaryHeading';
+import config from '@/config/config'
+import FileC from '@/classes/FileC.ts'
+import PrimaryHeading from '@/components/common/typography/PrimaryHeading'
 import * as nsfwjs from 'nsfwjs'
 
-import MobileUtils from '@/utils/Mobile.ts';
+import MobileUtils from '@/utils/Mobile.ts'
 
-const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`);
+const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`)
 
 export default {
   name: 'FileUpload',
   components: {
-    PrimaryHeading,
+    PrimaryHeading
   },
-  props: [
-    'file',
-    'relayResult',
-    'close',
-  ],
-  data() {
+  props: ['file', 'relayResult', 'close'],
+  data () {
     return {
       ipfsHash: false,
       selectedFile: false,
@@ -30,11 +26,11 @@ export default {
       fileClass: false,
       error: false,
       aiScanning: false
-    };
+    }
   },
-  mounted() {
-    this.selectedFile = this.file || false;
-    if (this.file) this.sendToIpfs(this.selectedFile);
+  mounted () {
+    this.selectedFile = this.file || false
+    if (this.file) this.sendToIpfs(this.selectedFile)
   },
   methods: {
     isMobile: MobileUtils.isMobile,
@@ -43,8 +39,8 @@ export default {
      * @name getURL
      * @returns created Object URL
      */
-    getURL() {
-      return URL.createObjectURL(this.selectedFile);
+    getURL () {
+      return URL.createObjectURL(this.selectedFile)
     },
     /** @method
      * Setter
@@ -54,12 +50,12 @@ export default {
      * @argument type string value of the type of file to check
      * @returns simple file type name for checking later
      */
-    determineFileType(type) {
-      let ft = 'file';
-      if (type.includes('image')) ft = 'image';
-      if (type.includes('audio')) ft = 'audio';
-      if (type.includes('video')) ft = 'video';
-      return ft;
+    determineFileType (type) {
+      let ft = 'file'
+      if (type.includes('image')) ft = 'image'
+      if (type.includes('audio')) ft = 'audio'
+      if (type.includes('video')) ft = 'video'
+      return ft
     },
     /** @method
      * Setter
@@ -68,19 +64,19 @@ export default {
      * files cache stored in Localhost
      * @name sendFileMessage
      */
-    async sendFileMessage() {
+    async sendFileMessage () {
       if (this.ipfsHash) {
-        this.close();
+        this.close()
         this.fileClass = new FileC(
           this.imageURL,
           this.ipfsHash,
-          this.selectedFile,
-        );
+          this.selectedFile
+        )
         this.relayResult(
           this.fileClass.getObject(),
-          this.determineFileType(this.selectedFile.type),
-        );
-        uploadAudio.play();
+          this.determineFileType(this.selectedFile.type)
+        )
+        uploadAudio.play()
       }
     },
     /** @method
@@ -90,22 +86,22 @@ export default {
      * @name setFile
      * @argument event DOM event for selecting file
      */
-    async setFile(event) {
-      this.error = false;
-      [this.selectedFile] = event.target.files;
-      const size = this.selectedFile.size / 1024 / 1024; // MiB
-      this.aiScanning = true;
-      let isNSFW = await this.isNSFW(this.selectedFile);
-      this.aiScanning = false;
+    async setFile (event) {
+      this.error = false
+      ;[this.selectedFile] = event.target.files
+      const size = this.selectedFile.size / 1024 / 1024 // MiB
+      this.aiScanning = true
+      let isNSFW = await this.isNSFW(this.selectedFile)
+      this.aiScanning = false
 
       if (size > 40) {
-        this.error = 'Please select a file smaller than 40 MiB';
-        this.selectedFile = false;
+        this.error = 'Please select a file smaller than 40 MiB'
+        this.selectedFile = false
       } else if (isNSFW) {
-        this.error = 'Our AI thinks this image is NSFW';
-        this.selectedFile = false;
+        this.error = 'Our AI thinks this image is NSFW'
+        this.selectedFile = false
       } else {
-        this.sendToIpfs(this.selectedFile);
+        this.sendToIpfs(this.selectedFile)
       }
     },
     /** @method
@@ -113,26 +109,28 @@ export default {
      * @name isNSFW
      * @argument file blob containing the file to scan for NSFW content
      */
-    async isNSFW(file) {
-      let fileTypePrefix = file.type.split('/')[0];
+    async isNSFW (file) {
+      let fileTypePrefix = file.type.split('/')[0]
       if (fileTypePrefix !== 'image') {
-        return false;
+        return false
       }
-      let fileURL = URL.createObjectURL(file);
-      let imgElement = document.createElement('IMG');
-      imgElement.src = fileURL;
-      return nsfwjs.load()
-        .then((model) => {
-          return model.classify(imgElement);
+      let fileURL = URL.createObjectURL(file)
+      let imgElement = document.createElement('IMG')
+      imgElement.src = fileURL
+      return nsfwjs
+        .load()
+        .then(model => {
+          return model.classify(imgElement)
         })
-        .then((predictionsArr) => {
-          let predictionObj = {};
+        .then(predictionsArr => {
+          let predictionObj = {}
           for (let prediction of predictionsArr) {
             predictionObj[prediction.className] = prediction.probability
           }
-          let predictionParams = (predictionObj.Porn > 0.6 || predictionObj.Hentai > 0.6);
-          return predictionParams;
-        });
+          let predictionParams =
+            predictionObj.Porn > 0.6 || predictionObj.Hentai > 0.6
+          return predictionParams
+        })
     },
     /** @method
      * Setter
@@ -141,32 +139,36 @@ export default {
      * @name sendToIpfs
      * @argument file the file to be uploaded to IPFS
      */
-    async sendToIpfs(file) {
-      const path = `/${this.$database.bucketManager.prefix}/uploads/${file.name}`;
-      const result = await this.$database.bucketManager.pushFile(file, path, (progress) => {
-        this.progress = progress;
-      });
-      this.imageURL = `https://hub.textile.io${result.root}${path}`;
-      this.$store.commit('setStatus', 'Uploading file to IPFS');
-      this.ipfsHash = result.root.replace('/ipfs/', '');
+    async sendToIpfs (file) {
+      const path = `/${this.$database.bucketManager.prefix}/uploads/${file.name}`
+      const result = await this.$database.bucketManager.pushFile(
+        file,
+        path,
+        progress => {
+          this.progress = progress
+        }
+      )
+      this.imageURL = `https://hub.textile.io${result.root}${path}`
+      this.$store.commit('setStatus', 'Uploading file to IPFS')
+      this.ipfsHash = result.root.replace('/ipfs/', '')
       this.fileClass = new FileC(
         this.imageURL,
         this.ipfsHash,
-        this.selectedFile,
-      );
+        this.selectedFile
+      )
       // Update file index
-      this.$database.bucketManager.addToIndex(file, result.root, path);
+      this.$database.bucketManager.addToIndex(file, result.root, path)
 
-      uploadAudio.play();
-      this.$store.commit('setStatus', 'File uploaded to IPFS');
+      uploadAudio.play()
+      this.$store.commit('setStatus', 'File uploaded to IPFS')
       this.$nextTick(() => {
         if (!this.isMobile()) {
-          this.$refs.hidden.focus();
+          this.$refs.hidden.focus()
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
