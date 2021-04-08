@@ -4,20 +4,20 @@ export default {
   async startup({ commit, dispatch, state }) {
     // First load wallet and connect
     if (state.mnemonic) {
-      const wallet = ethers.Wallet.fromMnemonic(state.mnemonic);
-      await dispatch('connectProvider', {
-        providerInfo: state.selectedProvider,
-        wallet
-      });
+      await dispatch('web3Start');
+
+      const { client } = await dispatch('initDatabase');
+
+      // Dispatch a new action to fetch friends
+      await dispatch('fetchFriends', state.activeAccount);
+
+      // Dispatch a new action to fetch servers
+      await dispatch('fetchServers');
+
+      // Dispatch new action to start a listener to new friends requests
+      dispatch('startFriendsListeners');
+
+      await dispatch('initP2P', { client });
     }
-
-    const { client } = await dispatch('initDatabase');
-
-    // Dispatch a new action to fetch friends
-    await dispatch('fetchFriends', state.activeAccount);
-    // Dispatch new action to start a listener to new friends requests
-    dispatch('startFriendsListeners');
-
-    await dispatch('initP2P', { client });
   }
 };

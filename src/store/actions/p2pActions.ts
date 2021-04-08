@@ -32,29 +32,27 @@ export default {
       state.activeChats
     );
 
-    // Track the health of a peer
+    // Watch for users typing
     WebRTC.subscribe(
-      (event, identifier) => {
-        commit('peerHealth', [identifier, 'alive']);
+      (event, identifier, message) => {
+        console.log('incoming call from', identifier, message);
+        commit('incomingCall', identifier);
       },
-      ['heartbeat'],
-      state.activeChats
+      ['incoming-call']
     );
 
-    // Track the death of a peer
     WebRTC.subscribe(
-      (event, identifier) => {
-        commit('peerHealth', [identifier, 'dead']);
+      (event, identifier, message) => {
+        dispatch('setFriendStatus', { address: identifier, status: 'dead' });
       },
-      ['flatlined'],
-      state.activeChats
+      ['disconnect']
     );
   },
   async signal({ commit, dispatch, state }, { signal, identifier }) {
     // @ts-ignore
     const { signalingManager } = this.$app.$database;
 
-    const sig = signalingManager.buildSignal(signal, isInitiator(signal));
+    const sig = signalingManager.buildSignal(signal);
 
     const friend = state.friends.find(f => f.address === identifier);
 
@@ -84,10 +82,12 @@ export default {
           const sender = update?.instance?.sender;
           const data = update?.instance?.payload?.signalingData;
 
-          const initiator = isInitiator(data);
+          // const initiator = isInitiator(data);
+
+          // console.log('instance', data);
 
           if (sender && data) {
-            WebRTC.forwardSignal(sender, data, initiator);
+            WebRTC.forwardSignal(sender, data);
           }
         }
       },
@@ -111,5 +111,20 @@ export default {
     const WebRTC = this.$app.$WebRTC;
 
     await WebRTC.connect(friend.address, true);
+  },
+  async call({}, { friend }) {
+    // @ts-ignore
+    const WebRTC = this.$app.$WebRTC;
+
+    await WebRTC.call(friend.address);
+  },
+  async answerCall({ commit, state }, { friend, stream }) {
+    // @ts-ignore
+    const WebRTC = this.$app.$WebRTC;
+
+    WebRTC.answerCall(friend.address, stream);
+
+    commit('incomingCall', false);
+    commit('activeCall', state.activeChat);
   }
 };

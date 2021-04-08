@@ -95,7 +95,7 @@ export interface IState {
   databaseEnabled: boolean;
   criticalError?: any;
   // Servers
-  server?: Array<any>;
+  servers: Array<any>;
   channel?: any;
   // Stickers
   stickersOpen?: boolean;
@@ -213,7 +213,7 @@ export const defaultState: IState = {
   databaseEnabled: true,
   criticalError: false,
   // Servers
-  server: undefined,
+  servers: [],
   channel: undefined,
   stickersOpen: false,
   stickerPack: undefined,

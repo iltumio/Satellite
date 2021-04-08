@@ -1,122 +1,205 @@
-// @ts-ignore
-import config from '@/config/config';
-// import Peer from "peerjs";
 import Peer from 'simple-peer';
-import WebRTC from './WebRTC';
+import { debounce } from '../../utils/utils';
 
-interface Message {
-  type: string;
-  data: any;
-}
-
-type RTCEvent =
+export type CallEvent =
   | '*'
-  | 'initiator-signal'
-  | 'peer-signal'
-  | 'ping'
-  | 'pong'
-  | 'heartbeat'
-  | 'flatlined'
-  | 'message'
-  | 'typing-notice'
-  | 'call-status'
-  | 'data'
-  | 'REMOTE-HANGUP';
+  | 'call-connected'
+  | 'call-stream'
+  | 'call-track'
+  | 'call-error';
+
+type ListenersObject = { [key: string]: CallableFunction };
 
 export default class P2PUser {
   identifier: string;
-  connection: any;
-  eventBus: CallableFunction;
-  instance: WebRTC;
-  lastHeartbeat: number;
-  flatlined: boolean;
+  listeners: ListenersObject;
+  instance: Peer.Instance;
+  _peerData: any;
+  emitSignal: CallableFunction;
+  isConnected: boolean;
+  options: Peer.Options;
+  activeCall?: Peer.Instance;
+  callListener?: CallableFunction;
+  incomingCallData?: Peer.SignalData;
+
   constructor(
-    instance: WebRTC,
     identifier: string,
-    eventBus: CallableFunction
+    options: Peer.Options,
+    listeners: ListenersObject
   ) {
-    this.lastHeartbeat = Date.now();
-    this.flatlined = false;
-    this.instance = instance;
     this.identifier = identifier;
-    this.connection = null;
-    this.eventBus = eventBus; // Signals back to subscribers
-  }
+    this.listeners = listeners;
 
-  get isAlive() {
-    return this.connection && !this.flatlined;
-  }
+    this.instance = new Peer(options);
 
-  public bind(connection: any) {
-    this.connection = connection;
-    this.connection.on('data', (data: any) => {
-      this.handleData(data);
-    });
-    this.defib();
-    this.monitor();
-  }
+    this.options = options;
 
-  // Sends pulses to the peer user every n seconds
-  // this is used to signal the peer is still online.
-  public defib() {
-    this.send('heartbeat', Date.now());
-    setTimeout(() => {
-      if (!this.flatlined) this.defib();
-    }, config.peer.check_heartbeat);
-  }
-
-  /** @function
-   * @name monitor
-   * Check that the remote peer is alive and well via a ping-pong heartbeat
-   */
-  monitor() {
-    if (Date.now() - this.lastHeartbeat > config.peer.heartbeat_timeout) {
-      if (!this.flatlined) {
-        // TODO: close the connection
-        this.flatlined = true;
-        this.instance.publishDeath(this.identifier);
+    const emitSignal = data => {
+      if (typeof this.listeners.onSignal === 'function') {
+        this.listeners.onSignal(data);
       }
+    };
+
+    this.emitSignal = options.trickle ? debounce(emitSignal, 1000) : emitSignal;
+
+    this.instance.on('connect', this.onConnect.bind(this));
+    this.instance.on('signal', this.onSignal.bind(this));
+    this.instance.on('error', this.onError.bind(this));
+    this.instance.on('data', this.onData.bind(this));
+    this.instance.on('track', this.onTrack.bind(this));
+    this.instance.on('stream', this.onStream.bind(this));
+    this.instance.on('close', this.onClose.bind(this));
+
+    this.isConnected = false;
+  }
+
+  public onSignal(data) {
+    this._peerData = data;
+    this.emitSignal(this._peerData);
+  }
+
+  public onConnect() {
+    this.isConnected = true;
+    if (typeof this.listeners.onConnect === 'function') {
+      this.listeners.onConnect(this.identifier);
     }
-    setTimeout(() => {
-      this.monitor();
-    }, config.peer.check_heartbeat);
   }
 
-  handleData(data: any) {
-    // const events = this.instance.events;
-    // const message: Message = {
-    //   type: events.includes(data.type) ? data.type : 'data',
-    //   data: data.payload
-    // };
-
-    // this.eventBus(message.type, message);
-    // this.lastHeartbeat = Date.now();
+  public onError(error) {
+    console.log(`Failed to connect ${this.identifier}`);
+    console.log(error);
+    if (typeof this.listeners.onError === 'function') {
+      this.listeners.onError(error);
+    }
   }
 
-  public call(identifier: string, stream: MediaStream): Error | null {
-    // if (!this.instance.peer) return new Error('Parent connection not established.');
-    // if (!this.connection) return new Error('Connection not bound.');
-    // this.instance.peer.call(identifier, stream);
-    // No errors
-    return null;
+  public onClose() {
+    console.log('onclose');
+    this.isConnected = false;
+    if (typeof this.listeners.onClose === 'function') {
+      this.listeners.onClose();
+    }
   }
 
-  public send(event: string, data: any): Error | null {
-    // if (!this.connection) return new Error('Connection not bound.');
-    // if (event === '*')
-    //   return new Error('The wildcard event is for listening only.');
-    // if (!this.instance.events.includes(<RTCEvent>event))
-    //   return new Error(`Invalid event type: ${event}`);
-    // this.connection.send({
-    //   type: event,
-    //   payload: data
-    // });
+  public onData(data) {
+    const decoder = new TextDecoder();
+    const decodedString = decoder.decode(data);
+    const parsedData = JSON.parse(decodedString);
 
-    // No errors
-    return null;
+    if (parsedData?.type === 'call-request') {
+      this.incomingCallData = parsedData.data;
+      if (typeof this.listeners.onCall === 'function') {
+        this.listeners.onCall(parsedData?.type);
+      }
+    } else if (parsedData?.type === 'call-answer') {
+      this.activeCall?.signal(parsedData.data);
+    } else if (parsedData?.type === 'call-hangup') {
+      this.hangupCall();
+    } else if (typeof this.listeners.onData === 'function') {
+      this.listeners.onData(parsedData);
+    }
   }
 
-  public close() {
-    this.connection?.close();
+  public onTrack(track, stream) {
+    console.log('track', track);
+    console.log('stream', stream);
+    if (typeof this.listeners.onTrack === 'function') {
+      this.listeners.onTrack(track, stream);
+    }
+  }
+
+  public onStream(stream) {
+    console.log('stream', stream);
+    if (typeof this.listeners.onStream === 'function') {
+      this.listeners.onStream(stream);
+    }
+  }
+
+  public forwardSignal(data) {
+    this.instance.signal(data);
+  }
+
+  public subscribeToCallEvents(callback: CallableFunction) {
+    this.callListener = callback;
+  }
+
+  private emitCallEvent(event: CallEvent, ...args) {
+    if (this.callListener) {
+      this.callListener(event, ...args);
+    }
+  }
+
+  private createCallPeer(options: Peer.Options): Peer.Instance {
+    const callPeer = new Peer(options);
+
+    callPeer.on('signal', data => {
+      const type = data.type === 'offer' ? 'call-request' : 'call-answer';
+      this.instance.send(JSON.stringify({ type, data }));
+    });
+
+    callPeer.on('connect', () => {
+      this.emitCallEvent('call-connected');
+    });
+
+    callPeer.on('stream', stream => {
+      this.emitCallEvent('call-stream', stream);
+    });
+
+    callPeer.on('track', (track, stream) => {
+      this.emitCallEvent('call-track', track, stream);
+    });
+
+    callPeer.on('error', error => {
+      this.emitCallEvent('call-error', error);
+    });
+
+    return callPeer;
+  }
+
+  public call(stream: MediaStream) {
+    if (!this.isConnected)
+      return new Error('Parent connection not established.');
+
+    if (this.activeCall) {
+      console.warn('Call already active');
+      return null;
+    }
+
+    const callPeer = this.createCallPeer({
+      initiator: true,
+      trickle: false,
+      stream: stream
+    });
+
+    this.activeCall = callPeer;
+  }
+
+  public answerCall(stream: MediaStream) {
+    const callPeer = this.createCallPeer({
+      initiator: false,
+      trickle: false,
+      stream: stream
+    });
+
+    if (this.incomingCallData) {
+      callPeer.signal(this.incomingCallData);
+    }
+
+    this.activeCall = callPeer;
+  }
+
+  public hangupCall() {
+    console.log("hang");
+    this.activeCall?.end();
+    this.activeCall = undefined;
+  }
+
+  public send(data: any) {
+    this.instance.send(data);
+  }
+
+  public destroy() {
+    this.activeCall?.destroy();
+    this.instance.destroy();
   }
 }

@@ -7,6 +7,7 @@ import databaseActions from "./actions/databaseActions";
 import startup from "./actions/startupActions";
 import walletActions from './actions/walletActions';
 import commandActions from './actions/commandActions';
+import serverActions from './actions/serverActions';
 
 export default {
   ...friendsActions,
@@ -17,5 +18,6 @@ export default {
   ...databaseActions,
   ...startup,
   ...walletActions,
-  ...commandActions
+  ...commandActions,
+  ...serverActions
 };

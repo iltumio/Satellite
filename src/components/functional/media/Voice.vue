@@ -40,30 +40,34 @@ export default {
       },
       ['REMOTE-HANGUP']
     )
-    WebRTC.mediaSubscription(
-      ['INCOMING-CALL', 'HANGUP', 'STREAM-RECIEVED', 'OUTGOING-CALL', 'ANSWER'],
-      (event, identifier, mediaStream) => {
-        switch (event) {
-          case 'OUTGOING-CALL':
-            this.outgoingCall(identifier)
-            break
-          case 'INCOMING-CALL':
-            this.incomingCall(identifier)
-            break
-          case 'HANGUP':
-            this.callEnded(identifier)
-            break
-          case 'STREAM-RECIEVED':
-            this.streamRecived(identifier, mediaStream)
-            break
-          case 'ANSWER':
-            this.callAnswered(identifier)
-            break
-          default:
-            break
-        }
-      }
-    )
+    WebRTC.subscribe((event, identifier, {type, data})=>{
+      console.log('type', event, identifier, data);
+      this.streamRecived(identifier, data[0]);
+    },['call-stream'])
+    // WebRTC.mediaSubscription(
+    //   ['INCOMING-CALL', 'HANGUP', 'STREAM-RECIEVED', 'OUTGOING-CALL', 'ANSWER'],
+    //   (event, identifier, mediaStream) => {
+    //     switch (event) {
+    //       case 'OUTGOING-CALL':
+    //         this.outgoingCall(identifier)
+    //         break
+    //       case 'INCOMING-CALL':
+    //         this.incomingCall(identifier)
+    //         break
+    //       case 'HANGUP':
+    //         this.callEnded(identifier)
+    //         break
+    //       case 'STREAM-RECIEVED':
+    //         this.streamRecived(identifier, mediaStream)
+    //         break
+    //       case 'ANSWER':
+    //         this.callAnswered(identifier)
+    //         break
+    //       default:
+    //         break
+    //     }
+    //   }
+    // )
   },
   methods: {
     /** @method
@@ -94,6 +98,7 @@ export default {
       callingSound.stop()
     },
     streamRecived (from, mediaStream) {
+      console.log('stream received');
       connectedSound.play()
       callingSound.stop()
       this.playRemoteStream(mediaStream)

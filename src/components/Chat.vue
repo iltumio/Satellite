@@ -33,11 +33,6 @@ import CreateGroup from '@/components/common/popups/creategroup/CreateGroup'
 
 import IPFS from 'ipfs-core'
 
-import config from '@/config/config'
-import Registry from '@/classes/contracts/Registry.ts'
-import DwellerContract from '@/classes/contracts/DwellerContract.ts'
-import ServerContract from '@/classes/contracts/ServerContract.ts'
-
 import MobileUtils from '@/utils/Mobile.ts'
 
 export default {
@@ -135,28 +130,7 @@ export default {
     },
     async updateServers () {
       this.loadingServers = true
-      const registry = new Registry(
-        this.$ethereum,
-        config.registry[config.network.chain]
-      )
-      const dwellerContractAddress = await registry.getDwellerContract(
-        this.$store.state.activeAccount
-      )
-      const dwellerContract = new DwellerContract(
-        this.$ethereum,
-        dwellerContractAddress
-      )
-      const serverAddresses = await dwellerContract.getServers(
-        this.$store.state.activeAccount
-      )
-
-      const fetchServers = serverAddresses.map(serverAddress => {
-        const serverContract = new ServerContract(this.$ethereum, serverAddress)
-        return serverContract.get(serverAddress)
-      })
-      const servers = await Promise.all(fetchServers)
-
-      this.servers = servers
+      this.$store.dispatch('fetchServers')
       this.loadingServers = false
     }
   },
@@ -170,20 +144,10 @@ export default {
     })
     const ipfs = await IPFS.create()
     window.ipfs = ipfs
-    const checkPeer = () => {
-      if (this.$WebRTC.connection) {
-        this.windowBound = true
-      } else {
-        setTimeout(() => {
-          checkPeer()
-        }, 500)
-      }
-    }
-    checkPeer()
     this.checkMobile()
     window.addEventListener('resize', this.checkMobile, true)
 
-    this.updateServers()
+    // this.updateServers()
   }
 }
 </script>

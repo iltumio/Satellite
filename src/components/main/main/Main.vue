@@ -98,7 +98,7 @@ export default {
       };
       const stream = await this.$WebRTC.getMediaStream(constraints);
       this.$streamManager.addLocalStream(stream);
-      this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat);
+      // this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat);
       this.$WebRTC.call(
         this.$store.state.activeChat,
         this.$streamManager.localStreams[0]
@@ -121,7 +121,7 @@ export default {
     hangup() {
       this.stopStream();
       const id = this.$store.state.incomingCall || this.$store.state.activeCall;
-      this.$WebRTC.hangup(id);
+      this.$WebRTC.hangupCall(id);
       this.$store.commit("activeCall", false);
       this.voice = false;
       this.mediaOpen = false;

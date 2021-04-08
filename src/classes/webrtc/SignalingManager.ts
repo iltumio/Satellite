@@ -36,13 +36,13 @@ export class SignalingManager {
       : threadID;
   }
 
-  buildSignal(data: any, initiator: boolean) {
+  buildSignal(data: any) {
     const signal = new Signal(
       this.address,
       new Date().getTime(),
       'signal',
       data,
-      initiator
+      data.type === 'offer'
     );
 
     return {

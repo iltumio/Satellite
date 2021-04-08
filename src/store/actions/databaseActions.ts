@@ -37,7 +37,7 @@ export default {
 
       commit('authenticated');
 
-      if (ethereum.isInitialized) {
+      if (ethereum.isInitialized && ethereum.wallet) {
         // Initialize e2ee
         // @ts-ignore
         const { messageManager } = database;

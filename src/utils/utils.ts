@@ -11,3 +11,16 @@ export const debounce = (func: CallableFunction, wait: number) => {
     timeout = setTimeout(later, wait);
   };
 };
+
+export function getMediaStream(constraints: MediaStreamConstraints) : Promise<MediaStream>{
+  // @ts-ignore
+  const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  return new Promise(resolve => {
+    getUserMedia(constraints, (stream) => {
+      resolve(stream);
+    }, (err) => {
+      // @ts-ignore
+      console.warn('Failed to get Media Stream.', err);
+    });
+  });
+}

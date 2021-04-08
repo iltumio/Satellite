@@ -34,14 +34,7 @@ export default {
      * @name getNetwork
      */
     getNetwork () {
-      switch (this.$store.state.web3Stats.nettype.name) {
-        case 'private':
-          return 'Testnet'
-        case 'main':
-          return 'Mainnet'
-        default:
-          return 'Unknown'
-      }
+      return config.network.chainName || 'Unknown';
     },
     /** @method
      * Jump to the active media stream location

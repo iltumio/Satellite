@@ -50,7 +50,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('detectInjected')
-    this.$store.dispatch('web3Start')
+    // this.$store.dispatch('web3Start')
   }
 }
 </script>

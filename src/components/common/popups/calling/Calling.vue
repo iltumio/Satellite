@@ -1,23 +1,23 @@
 <template src="./Calling.html"></template>
 
 <script>
-import config from '@/config/config'
-import CircleIcon from '@/components/common/CircleIcon'
-import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts'
+import config from "@/config/config";
+import CircleIcon from "@/components/common/CircleIcon";
+import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
 
 export default {
-  name: 'Calling',
-  props: ['active', 'callerId'],
+  name: "Calling",
+  props: ["active", "callerId"],
   components: {
-    CircleIcon
+    CircleIcon,
   },
-  data () {
+  data() {
     return {
-      dweller: false
-    }
+      dweller: false,
+    };
   },
   methods: {
-    async acceptCall () {
+    async acceptCall() {
       const constraints = {
         audio: {
           autoGainControl: false,
@@ -27,33 +27,39 @@ export default {
           noiseSuppression: this.$store.state.noiseSuppression,
           sampleRate: this.$store.state.audioQuality * 1000,
           sampleSize: this.$store.state.audioSamples,
-          volume: 1.0
-        }
-      }
-      const stream = await this.$WebRTC.getMediaStream(constraints)
-      this.$streamManager.addLocalStream(stream)
-      this.$WebRTC.answer(
-        this.$store.state.incomingCall,
-        this.$streamManager.localStreams[0]
-      )
-      this.$store.commit('incomingCall', false)
-      this.$store.commit('activeCall', this.$store.state.activeChat)
+          volume: 1.0,
+        },
+      };
+      // const stream = await this.$WebRTC.getMediaStream(constraints);
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      this.$streamManager.addLocalStream(stream);
+
+      const friend = this.$store.state.friends.find(
+        (f) => f.address === this.$store.state.incomingCall
+      );
+
+      this.$store.dispatch("answerCall", { friend, stream });
     },
-    denyCall () {
-      this.$WebRTC.hangup(this.$store.state.incomingCall)
-      this.$store.commit('incomingCall', false)
-    }
+    denyCall() {
+      this.$WebRTC.hangupCall(this.$store.state.incomingCall);
+      this.$store.commit("incomingCall", false);
+    },
+    getFriendInfo(address) {
+      return this.$store.state.friends
+        ? this.$store.state.friends.find((f) => f.address === address)
+        : null;
+    },
   },
-  async mounted () {
+  async mounted() {
     this.dwellerCachingHelper = new DwellerCachingHelper(
       this.$ethereum,
       config.registryAddress,
       config.cacher.dwellerLifespan
-    )
+    );
 
     this.$WebRTC.subscribe(() => {
       this.denyCall();
-    }, ['REMOTE-HANGUP']);
+    }, ["REMOTE-HANGUP"]);
     // this.$WebRTC.mediaSubscription(
     //   ['INCOMING-CALL'],
     //   async (event, identifier) => {
