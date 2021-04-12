@@ -166,9 +166,9 @@ export class SignalingManager {
       try {
         this.activeSubscriptions[threadID.toString()].close();
       } catch (e) {
-        console.warn(
-          `Subscription ${threadID.toString()} was already closed. Skipping.`
-        );
+        // console.warn(
+        //   `Subscription ${threadID.toString()} was already closed. Skipping.`
+        // );
       }
 
       delete this.activeSubscriptions[threadID.toString()];

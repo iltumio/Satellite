@@ -2,72 +2,60 @@
 
 <script>
 // @ts-ignore
-import config from '@/config/config'
-import { Howl } from 'howler'
+import config from "@/config/config";
+import { Howl } from "howler";
 
 const callingSound = new Howl({
   src: [`${config.ipfs.browser}${config.sounds.call}`],
   loop: true,
   volume: 1.0,
-  html5: true
-})
+  html5: true,
+});
 
 const hangupSound = new Howl({
   src: [`${config.ipfs.browser}${config.sounds.hangup}`],
   volume: 1.0,
-  html5: true
-})
+  html5: true,
+});
 
 const connectedSound = new Howl({
   src: [`${config.ipfs.browser}${config.sounds.connected}`],
   volume: 1.0,
-  html5: true
-})
+  html5: true,
+});
 
 export default {
-  name: 'Voice',
-  data () {
+  name: "Voice",
+  data() {
     return {
-      audioStream: null
-    }
+      audioStream: null,
+    };
   },
-  mounted () {
+  mounted() {
     // @ts-ignore
-    const WebRTC = this.$WebRTC
+    const WebRTC = this.$WebRTC;
     WebRTC.subscribe(
-      (event, identifier) => {
-        this.callEnded(identifier)
+      (event, identifier, { type, data }) => {
+        switch(event) {
+          case 'incoming-call':
+            this.incomingCall(identifier)
+            break;
+          case 'outgoing-call':
+            this.outgoingCall(identifier)
+            break;
+          case 'call-ended':
+            this.callEnded(identifier);
+            break;
+          case 'call-stream':
+            this.streamRecived(identifier, data[0]);
+            break;
+          default:
+            break;
+        }
+
       },
-      ['REMOTE-HANGUP']
-    )
-    WebRTC.subscribe((event, identifier, {type, data})=>{
-      console.log('type', event, identifier, data);
-      this.streamRecived(identifier, data[0]);
-    },['call-stream'])
-    // WebRTC.mediaSubscription(
-    //   ['INCOMING-CALL', 'HANGUP', 'STREAM-RECIEVED', 'OUTGOING-CALL', 'ANSWER'],
-    //   (event, identifier, mediaStream) => {
-    //     switch (event) {
-    //       case 'OUTGOING-CALL':
-    //         this.outgoingCall(identifier)
-    //         break
-    //       case 'INCOMING-CALL':
-    //         this.incomingCall(identifier)
-    //         break
-    //       case 'HANGUP':
-    //         this.callEnded(identifier)
-    //         break
-    //       case 'STREAM-RECIEVED':
-    //         this.streamRecived(identifier, mediaStream)
-    //         break
-    //       case 'ANSWER':
-    //         this.callAnswered(identifier)
-    //         break
-    //       default:
-    //         break
-    //     }
-    //   }
-    // )
+      ["call-ended", "call-stream","incoming-call", "outgoing-call"]
+    );
   },
   methods: {
     /** @method
@@ -75,35 +63,34 @@ export default {
      * @name playRemoteStream
      * @argument e source object to play audio to
      */
-    playRemoteStream (e) {
-      this.audioStream = new Audio()
-      this.audioStream.muted = false
-      this.audioStream.srcObject = e
-      this.audioStream.play()
+    playRemoteStream(e) {
+      this.audioStream = new Audio();
+      this.audioStream.muted = false;
+      this.audioStream.srcObject = e;
+      this.audioStream.play();
     },
-    incomingCall (from) {
-      callingSound.play()
-      this.$store.commit('incomingCall', from)
+    incomingCall(from) {
+      callingSound.play();
+      this.$store.commit("incomingCall", from);
     },
-    outgoingCall () {
-      callingSound.play()
+    outgoingCall() {
+      callingSound.play();
     },
-    callEnded () {
-      hangupSound.play()
-      callingSound.stop()
-      this.audioStream = null
+    callEnded() {
+      hangupSound.play();
+      callingSound.stop();
+      this.audioStream = null;
     },
-    callAnswered () {
-      connectedSound.play()
-      callingSound.stop()
+    callAnswered() {
+      connectedSound.play();
+      callingSound.stop();
     },
-    streamRecived (from, mediaStream) {
-      console.log('stream received');
-      connectedSound.play()
-      callingSound.stop()
-      this.playRemoteStream(mediaStream)
-      this.$streamManager.addRemoteStream(mediaStream)
-    }
-  }
-}
+    streamRecived(from, mediaStream) {
+      connectedSound.play();
+      callingSound.stop();
+      this.playRemoteStream(mediaStream);
+      this.$streamManager.addRemoteStream(mediaStream);
+    },
+  },
+};
 </script>

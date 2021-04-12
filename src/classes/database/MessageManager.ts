@@ -150,11 +150,16 @@ export class MessageManager {
     return this.client.find(threadID, 'signal', query);
   }
 
-  async updateSignal(threadID: ThreadID | string, signal: Signal): Promise<ThreadID> {
+  async updateSignal(
+    threadID: ThreadID | string,
+    signal: Signal
+  ): Promise<ThreadID> {
     const safeThread = this.safeThread(threadID);
     await this.ensureCollection(safeThread, 'signal', signalSchema);
 
-    const signalExists = await this.client.has(safeThread, 'signal', [signal.sender]);
+    const signalExists = await this.client.has(safeThread, 'signal', [
+      signal.sender
+    ]);
 
     if (signalExists) {
       await this.client.save(safeThread, 'signal', [signal]);
@@ -286,9 +291,7 @@ export class MessageManager {
 
     const filters = [
       {
-        collectionName: 'messages'
-      },
-      {
+        collectionName: 'messages',
         actionTypes: ['CREATE']
       }
     ];
@@ -319,9 +322,9 @@ export class MessageManager {
       try {
         this.activeSubscriptions[threadID.toString()].close();
       } catch (e) {
-        console.warn(
-          `Subscription ${threadID.toString()} was already closed. Skipping.`
-        );
+        // console.warn(
+        //   `Subscription ${threadID.toString()} was already closed. Skipping.`
+        // );
       }
 
       delete this.activeSubscriptions[threadID.toString()];
@@ -332,46 +335,5 @@ export class MessageManager {
     return threadID
       ? Boolean(this.activeSubscriptions[threadID.toString()])
       : false;
-  }
-
-
-  subscribeToSignal(
-    threadID: ThreadID,
-    callback: CallableFunction,
-    onUnsubscribe: CallableFunction
-  ) {
-    if (this.isSubscribed(threadID)) {
-      console.warn(
-        `Already subscribed to thread ${threadID.toString()}. Skipping.`
-      );
-
-      return;
-    }
-
-    const cb = (update: any) => {
-      // Trigger the onUnsubscribe
-      if (!update?.instance) {
-        this.unsubscribe(threadID);
-        onUnsubscribe(threadID);
-        return;
-      }
-
-      callback(update);
-    };
-
-    const filters = [
-      {
-        collectionName: 'messages'
-      },
-      {
-        actionTypes: ['CREATE']
-      }
-    ];
-
-    const closer = this.client.listen(threadID, filters, cb);
-
-    // Track active subscriptions
-    this.registerListener(threadID, closer);
-    return closer;
   }
 }

@@ -2,11 +2,11 @@ import Peer from 'simple-peer';
 import { debounce } from '../../utils/utils';
 
 export type CallEvent =
-  | '*'
   | 'call-connected'
   | 'call-stream'
   | 'call-track'
-  | 'call-error';
+  | 'call-error'
+  | 'call-ended';
 
 type ListenersObject = { [key: string]: CallableFunction };
 
@@ -19,6 +19,7 @@ export default class P2PUser {
   isConnected: boolean;
   options: Peer.Options;
   activeCall?: Peer.Instance;
+  activeStream?: MediaStream;
   callListener?: CallableFunction;
   incomingCallData?: Peer.SignalData;
 
@@ -53,11 +54,20 @@ export default class P2PUser {
     this.isConnected = false;
   }
 
+  /**
+   * @method onSignal
+   * @description Handles the callback for the signal event from SimplePeer
+   * @param data Data received from SimplePeer signal event
+   */
   public onSignal(data) {
     this._peerData = data;
     this.emitSignal(this._peerData);
   }
 
+  /**
+   * @method onDisconnect
+   * @description Handles the callback for the connect event from SimplePeer
+   */
   public onConnect() {
     this.isConnected = true;
     if (typeof this.listeners.onConnect === 'function') {
@@ -65,22 +75,34 @@ export default class P2PUser {
     }
   }
 
+  /**
+   * @method onError
+   * @description Handles the callback for the error event from SimplePeer
+   * @param error Error received from SimplePeer error event
+   */
   public onError(error) {
-    console.log(`Failed to connect ${this.identifier}`);
-    console.log(error);
+    console.error(`Failed to connect ${this.identifier}`, error);
     if (typeof this.listeners.onError === 'function') {
       this.listeners.onError(error);
     }
   }
 
+  /**
+   * @method onClose
+   * @description Handles the callback for the close event from SimplePeer
+   */
   public onClose() {
-    console.log('onclose');
     this.isConnected = false;
     if (typeof this.listeners.onClose === 'function') {
       this.listeners.onClose();
     }
   }
 
+  /**
+   * @method onData
+   * @description Handles the callback for the data event from SimplePeer
+   * @param data Data received from SimplePeer data event
+   */
   public onData(data) {
     const decoder = new TextDecoder();
     const decodedString = decoder.decode(data);
@@ -100,35 +122,65 @@ export default class P2PUser {
     }
   }
 
+  /**
+   * @method onTrack
+   * @description Handles the callback for the track event from SimplePeer
+   * @param track New track received from SimplePeer track event
+   * @param stream Stream received from SimplePeer track event
+   */
   public onTrack(track, stream) {
-    console.log('track', track);
-    console.log('stream', stream);
     if (typeof this.listeners.onTrack === 'function') {
       this.listeners.onTrack(track, stream);
     }
   }
 
+  /**
+   * @method onStream
+   * @description Handles the callback for the steram event from SimplePeer
+   * @param stream Steram received from SimplePeer stream event
+   */
   public onStream(stream) {
-    console.log('stream', stream);
     if (typeof this.listeners.onStream === 'function') {
       this.listeners.onStream(stream);
     }
   }
 
+  /**
+   * @method forwardSignal
+   * @description Forwards signal data to the SimplePeer instance
+   * @param data Signaling data to forward
+   */
   public forwardSignal(data) {
     this.instance.signal(data);
   }
 
+  /**
+   * @method subscribeToCallEvents
+   * @description Allows to subscribe to call events
+   * @param callback Callback to be invoked when a call event occour
+   */
   public subscribeToCallEvents(callback: CallableFunction) {
     this.callListener = callback;
   }
 
+  /**
+   * @method emitCallEvent
+   * @description Internal function to emit a new call event
+   * @param event Event name to be emitted
+   * @arg args List of arguments to be emitted for the given event
+   */
   private emitCallEvent(event: CallEvent, ...args) {
     if (this.callListener) {
       this.callListener(event, ...args);
     }
   }
 
+  /**
+   * @method createCallPeer
+   * @description Internal function to create a new SimplePeer instance
+   * related to che current call
+   * @param options SimplePeer options object for the call connection
+   */
   private createCallPeer(options: Peer.Options): Peer.Instance {
     const callPeer = new Peer(options);
 
@@ -153,6 +205,10 @@ export default class P2PUser {
       this.emitCallEvent('call-error', error);
     });
 
+    callPeer.on('close', () => {
+      this.emitCallEvent('call-ended');
+    });
+
     return callPeer;
   }
 
@@ -172,6 +228,8 @@ export default class P2PUser {
     });
 
     this.activeCall = callPeer;
+    // Store the active stream to destroy it after hangup
+    this.activeStream = stream;
   }
 
   public answerCall(stream: MediaStream) {
@@ -186,12 +244,23 @@ export default class P2PUser {
     }
 
     this.activeCall = callPeer;
+    // Store the active stream to destroy it after hangup
+    this.activeStream = stream;
   }
 
-  public hangupCall() {
-    console.log("hang");
-    this.activeCall?.end();
-    this.activeCall = undefined;
+  public hangupCall(sendToRemote?: boolean) {
+    if (this.activeCall) {
+      this.activeCall?.destroy();
+      this.activeCall = undefined;
+      this.activeStream?.getTracks().forEach(function(track) {
+        track.stop();
+      });
+    } else {
+      this.emitCallEvent('call-ended');
+    }
+
+    if (sendToRemote)
+      this.instance.send(JSON.stringify({ type: 'call-hangup' }));
   }
 
   public send(data: any) {

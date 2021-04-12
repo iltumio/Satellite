@@ -22,10 +22,9 @@ type RTCEvent =
   | 'connect'
   | 'message'
   | 'incoming-call'
+  | 'outgoing-call'
   | 'typing-notice'
-  | 'call-status'
   | 'data'
-  | 'REMOTE-HANGUP'
   | 'disconnect';
 
 export default class WebRTC {
@@ -85,6 +84,9 @@ export default class WebRTC {
    * @returns returns if the peer is online or not, represented by a boolean
    */
   public isConnected(identifier: string): boolean {
+    const id = identifier.startsWith('WRTCx')
+      ? identifier
+      : this.buildIdentifier(identifier);
     return Boolean(this.connectedPeers[identifier]);
   }
 
@@ -95,15 +97,20 @@ export default class WebRTC {
    * @returns returns either a peer, or undefined if not found
    */
   public find(identifier: string): P2PUser | undefined {
-    return;
+    return this._identifier[identifier];
   }
 
-  addPeer(address: string, options: any) {
+  /**
+   * @function addPeer
+   * @param address Ethereum address of the recipient
+   * @param options Connection options
+   * @returns a P2PUser instance
+   */
+  addPeer(address: string, options: any): P2PUser {
     const identifier = this.buildIdentifier(address);
 
     const listeners = {
       onConnect: () => {
-        console.log(`Connected to`, identifier);
         this.onConnect(identifier);
       },
       onSignal: (data: any) => {
@@ -113,11 +120,9 @@ export default class WebRTC {
         });
       },
       onError: error => {
-        console.log(`Failed to connect ${identifier}`);
-        console.log(error);
+        console.error(`Failed to connect ${identifier}`, error);
       },
       onData: data => {
-        console.log('ondata', data);
         this.onPeerData(identifier, data);
       },
       onClose: () => {
@@ -142,13 +147,24 @@ export default class WebRTC {
     return peer;
   }
 
-  connect(address: string, initiator: boolean) {
-    console.log(
-      `Trying to connect to ${address} ${
-        initiator ? 'as initiator' : 'as peer'
-      }`
-    );
+  /**
+   * @function isPeerConnected
+   * @description Checks if a given peer is connected
+   * @param address Ethereum address of the peer to check
+   * @returns true | false
+   */
+  isPeerConnected(address: string): Boolean {
+    const identifier = this.buildIdentifier(address);
+    return Boolean(this.connectedPeers[identifier]);
+  }
 
+  /**
+   * @function connect
+   * @description Initiates a peer and tries to connect
+   * @param address Ethereum address to connect
+   * @param initiator Boolean value if the peer must be an initiator or not
+   */
+  connect(address: string, initiator: boolean) {
     if (this.isPeerConnected(address)) {
       console.warn(`Already connected to ${address}`);
       return;
@@ -157,11 +173,11 @@ export default class WebRTC {
     this.addPeer(address, { initiator, trickle: false });
   }
 
-  isPeerConnected(address: string) {
-    const identifier = this.buildIdentifier(address);
-    return Boolean(this.connectedPeers[identifier]);
-  }
-
+  /**
+   * @funciton onPeerData
+   * @description Callback fired whenever a peer receives data
+   * @param identifier Identifier of the peer that sent data
+   */
   onPeerData(identifier: string, data: any) {
     this.publish(data.type, identifier, {
       type: data.type,
@@ -169,6 +185,11 @@ export default class WebRTC {
     });
   }
 
+  /**
+   * @funciton onConnect
+   * @description Callback fired whenever a peer connects to another one
+   * @param identifier Identifier of the peer that has connected
+   */
   onConnect(identifier: string) {
     const peer = this._peers[identifier];
     this.connectedPeers[identifier] = peer;
@@ -180,14 +201,23 @@ export default class WebRTC {
     });
   }
 
+  /**
+   * @funciton onDisconnect
+   * @description Callback fired whenever a peer disconects
+   * @param identifier Identifier of the peer that has disconnected
+   */
   onDisconnect(identifier: string) {
-    console.log('on disconnect', identifier);
-
     delete this.connectedPeers[identifier];
-
     this.emit('disconnect', identifier, {});
   }
 
+  /**
+   * @function emit
+   * @description Emits a specific event to subscriber
+   * @param event Event name
+   * @param peerId id of the peer (identifier)
+   * @param data data emitted by the event
+   */
   emit(event: RTCEvent | CallEvent, peerId: string, data: any) {
     this.subscribers.map(subscriber => {
       const events = subscriber.events;
@@ -198,35 +228,46 @@ export default class WebRTC {
     });
   }
 
+  /**
+   * @function forwardSignal
+   * @description Forwards signaling data to a given peer
+   * @param address Ethereum address
+   * @param signal Signaling data to forward
+   */
   forwardSignal(address: string, signal: any) {
     const identifier = this.buildIdentifier(address);
 
     if (this.isPeerConnected(address)) {
-      console.warn(`Already connected to ${address}`);
-
       const peer = this.connectedPeers[identifier];
-
       peer?.forwardSignal(signal);
-    } else {
-      if (signal.type === 'offer') {
-        if (this._peers[identifier]) {
-          console.log(this._peers[identifier]);
-          this._peers[identifier].destroy();
-        }
-        delete this._peers[identifier];
-      }
-
-      let peer: P2PUser | null = null;
-      if (this._peers[identifier]) {
-        peer = this._peers[identifier];
-      } else {
-        peer = this.addPeer(address, { initiator: false, trickle: false });
-      }
-
-      peer?.forwardSignal(signal);
+      return;
     }
+
+    if (signal.type === 'offer') {
+      if (this._peers[identifier]) {
+        this._peers[identifier].destroy();
+      }
+      delete this._peers[identifier];
+    }
+
+    let peer: P2PUser | null = null;
+    if (this._peers[identifier]) {
+      peer = this._peers[identifier];
+    } else {
+      peer = this.addPeer(address, { initiator: false, trickle: false });
+    }
+
+    peer?.forwardSignal(signal);
   }
 
+  /**
+   * @function subscribe
+   * @description Subscribe to multiple events
+   * @param method Callback function
+   * @param events events to
+   * @param identifiers Listen only to events coming from this identifier
+   * @returns listener id
+   */
   public subscribe(
     method: CallableFunction,
     events: string[],
@@ -241,6 +282,12 @@ export default class WebRTC {
     return id;
   }
 
+  /**
+   * @function unSubscribe
+   * @description Removes a listener
+   * @param index index of the listener to remove (listener id)
+   * @returns Error or null
+   */
   public unSubscribe(index: number): Error | null {
     if (index > this.subscribers.length)
       return new Error('Index out of bounds');
@@ -248,6 +295,13 @@ export default class WebRTC {
     return null;
   }
 
+  /**
+   * @function publish
+   * @description Emit an event
+   * @param event event name to emit
+   * @param identifier identifier of the peer the event is related to
+   * @param message event information
+   */
   private publish(event: string, identifier: string, message: Message): void {
     this.subscribers.map(subscriber => {
       const events = subscriber.events;
@@ -269,6 +323,12 @@ export default class WebRTC {
     });
   }
 
+  /**
+   * @function send
+   * @description Sends data through p2p connection
+   * @param address Address of the recipient
+   * @param data data to send
+   */
   public send(address: string, data: any) {
     if (this.isPeerConnected(address)) {
       const identifier = this.buildIdentifier(address);
@@ -282,6 +342,12 @@ export default class WebRTC {
     }
   }
 
+  /**
+   * @function call
+   * @description Allow users to call a specific address
+   * @param address Ethereum address of the receipient
+   * @param stream Media Stream
+   */
   public async call(address: string, stream: MediaStream) {
     const identifier = this.buildIdentifier(address);
     if (!this.isConnected(identifier)) {
@@ -292,8 +358,19 @@ export default class WebRTC {
     const peer = this.connectedPeers[identifier];
 
     peer.call(stream);
+
+    this.emit('outgoing-call', identifier, {
+      type: 'outgoing-call',
+      data: {}
+    });
   }
 
+  /**
+   * @function answerCall
+   * @description Allow users to answer a call
+   * @param address Ethereum address of the sender
+   * @param stream Media Stream
+   */
   public async answerCall(address: string, stream: MediaStream) {
     const identifier = this.buildIdentifier(address);
     if (!this.isConnected(identifier)) {
@@ -306,6 +383,11 @@ export default class WebRTC {
     peer.answerCall(stream);
   }
 
+  /**
+   * @function hangupCall
+   * @description Terminate the active call
+   * @param address Address of the recipient
+   */
   public async hangupCall(address: string) {
     const identifier = this.buildIdentifier(address);
     if (!this.isConnected(identifier)) {
@@ -315,6 +397,7 @@ export default class WebRTC {
 
     const peer = this.connectedPeers[identifier];
 
-    peer.hangupCall();
+    // Hangup the call and send the information to the connected peer
+    peer.hangupCall(true);
   }
 }

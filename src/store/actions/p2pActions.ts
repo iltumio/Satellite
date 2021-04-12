@@ -2,11 +2,11 @@ import ThreadID from '@textile/threads-id';
 import { isInitiator } from '../../classes/webrtc/WebRTC';
 
 export default {
-  async initP2P({ commit, dispatch, state }, { client }) {
+  async initP2P({ commit, dispatch, state }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
 
-    dispatch('subscribeToFriendsSignals');
+    dispatch('subscribeToFriendsSignals', { friends: state.friends });
 
     WebRTC.subscribe(
       (event: string, identifier: string, { type, data }) => {
@@ -35,7 +35,6 @@ export default {
     // Watch for users typing
     WebRTC.subscribe(
       (event, identifier, message) => {
-        console.log('incoming call from', identifier, message);
         commit('incomingCall', identifier);
       },
       ['incoming-call']
@@ -60,8 +59,8 @@ export default {
       signalingManager.updateSignal(friend.threadID, sig);
     }
   },
-  async subscribeToFriendsSignals({ state, dispatch }) {
-    state.friends.forEach(friend => {
+  async subscribeToFriendsSignals({ dispatch }, { friends }) {
+    friends.forEach(friend => {
       dispatch('subscribeToFriendSignal', { friend });
       dispatch('tryConnect', { friend });
     });
@@ -82,28 +81,14 @@ export default {
           const sender = update?.instance?.sender;
           const data = update?.instance?.payload?.signalingData;
 
-          // const initiator = isInitiator(data);
-
-          // console.log('instance', data);
-
           if (sender && data) {
             WebRTC.forwardSignal(sender, data);
           }
         }
       },
       () => {
-        console.log('unsubscribed from ', friend.address);
         dispatch('subscribeToFriendSignal', { friend });
       }
-    );
-  },
-  async getLastSignalData({}, { friend }) {
-    // @ts-ignore
-    const { signalingManager } = this.$app.$database;
-
-    const signal = await signalingManager.getLastSignalData(
-      friend.threadID,
-      friend.address
     );
   },
   async tryConnect({}, { friend }) {

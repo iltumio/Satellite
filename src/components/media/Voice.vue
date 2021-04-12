@@ -34,33 +34,28 @@ export default {
   mounted() {
     // @ts-ignore
     const WebRTC = this.$WebRTC;
-    WebRTC.subscribe((event, identifier) => {
-      this.callEnded(identifier);
-    }, ['REMOTE-HANGUP']);
-    // WebRTC.mediaSubscription(
-    //   ['INCOMING-CALL', 'HANGUP', 'STREAM-RECIEVED', 'OUTGOING-CALL', 'ANSWER'],
-    //   (event, identifier, mediaStream) => {
-    //     switch (event) {
-    //       case 'OUTGOING-CALL':
-    //         this.outgoingCall(identifier);
-    //         break;
-    //       case 'INCOMING-CALL':
-    //         this.incomingCall(identifier);
-    //         break;
-    //       case 'HANGUP':
-    //         this.callEnded(identifier);
-    //         break;
-    //       case 'STREAM-RECIEVED':
-    //         this.streamRecived(identifier, mediaStream);
-    //         break;
-    //       case 'ANSWER':
-    //         this.callAnswered(identifier);
-    //         break;
-    //       default:
-    //         break;
-    //     }
-    //   },
-    // );
+    WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        switch(event) {
+          case 'incoming-call':
+            this.incomingCall(identifier)
+            break;
+          case 'outgoing-call':
+            this.outgoingCall(identifier)
+            break;
+          case 'call-ended':
+            this.callEnded(identifier);
+            break;
+          case 'call-stream':
+            this.streamRecived(identifier, data[0]);
+            break;
+          default:
+            break;
+        }
+
+      },
+      ["call-ended", "call-stream","incoming-call", "outgoing-call"]
+    );
   },
   methods: {
     /** @method

@@ -28,9 +28,10 @@ export default {
           sampleRate: this.$store.state.audioQuality * 1000,
           sampleSize: this.$store.state.audioSamples,
           volume: 1.0,
+          deviceId: "default"
         },
       };
-      // const stream = await this.$WebRTC.getMediaStream(constraints);
+  
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       this.$streamManager.addLocalStream(stream);
 
@@ -57,9 +58,11 @@ export default {
       config.cacher.dwellerLifespan
     );
 
-    this.$WebRTC.subscribe(() => {
-      this.denyCall();
-    }, ["REMOTE-HANGUP"]);
+    
+
+    // this.$WebRTC.subscribe(() => {
+    //   this.denyCall();
+    // }, ["REMOTE-HANGUP"]);
     // this.$WebRTC.mediaSubscription(
     //   ['INCOMING-CALL'],
     //   async (event, identifier) => {
