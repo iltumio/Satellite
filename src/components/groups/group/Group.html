@@ -1,0 +1,9 @@
+<section :class="`group ${(active) ? 'group-active' : ''}`">
+  <CircleIcon :address="group.identifier" :icon="false"/>
+  <p class="unreads" v-if="unread">
+    <i class="fas fa-sparkles" aria-hidden="true" v-if="isMobile()"></i>
+  </p>
+  <p>{{group.name}}</p>
+  <p class="address">{{group.description}}</p>
+  <i v-if="hovered" class="fa fa-times"></i>
+</section>

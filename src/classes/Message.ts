@@ -26,6 +26,7 @@ export default class Message {
     this.type = type;
     this.payload = payload;
   }
+
   /** @function
    * @name parseYoutubeLink
    * Check if a message contains a youtube link
@@ -38,6 +39,7 @@ export default class Message {
     const YTRegex = /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?/;
     return this.payload.data.match(YTRegex);
   }
+
   /** @function
    * @name parseEthAddress
    * Check if a message contains a ethereum address

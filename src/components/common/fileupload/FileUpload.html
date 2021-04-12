@@ -47,11 +47,14 @@
                   <span v-else>{{$t('fileupload.uploading')}}</span>
                 </div>
               </div>
-              <progress
-                v-if="progress != 100"
-                class="progress is-primary is-small"
-                :value="progress"
-                max="100">{{progress}}%</progress>
+              <div v-if="progress != 100">
+                <Meter 
+                  :ticks="progress / 4"
+                  type="loading"
+                  :height="1" />
+                <br>
+                <span class="label">{{progress.toFixed(3)}}% Uploaded...</span>
+              </div>
             </div>
             <div v-if="error">
               <br>
