@@ -269,6 +269,6 @@ export default class P2PUser {
 
   public destroy() {
     this.activeCall?.destroy();
-    this.instance.destroy();
+    this.instance?.destroy();
   }
 }

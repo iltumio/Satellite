@@ -145,44 +145,6 @@ export class MessageManager {
     return threadID;
   }
 
-  async findSignalBySender(threadID: ThreadID, sender: string) {
-    const query = new Where('sender').eq(sender);
-    return this.client.find(threadID, 'signal', query);
-  }
-
-  async updateSignal(
-    threadID: ThreadID | string,
-    signal: Signal
-  ): Promise<ThreadID> {
-    const safeThread = this.safeThread(threadID);
-    await this.ensureCollection(safeThread, 'signal', signalSchema);
-
-    const signalExists = await this.client.has(safeThread, 'signal', [
-      signal.sender
-    ]);
-
-    if (signalExists) {
-      await this.client.save(safeThread, 'signal', [signal]);
-    } else {
-      await this.client.create(safeThread, 'signal', [signal]);
-    }
-    return safeThread;
-  }
-
-  async getLastSignalData(
-    threadID: ThreadID | string,
-    sender: string
-  ): Promise<any> {
-    if (!this.client) return;
-
-    const safeThread =
-      typeof threadID === 'string'
-        ? ThreadID.fromString(threadID.replace(/\W/g, ''))
-        : threadID;
-
-    return this.client.findByID(safeThread, 'signal', sender);
-  }
-
   computeSharedSecret(signingKey: SigningKey, guestPublicKey: string) {
     return signingKey.computeSharedSecret(`0x04${guestPublicKey.slice(2)}`);
   }
@@ -278,7 +240,7 @@ export class MessageManager {
       return;
     }
 
-    const cb = (update: any) => {
+    const cb = (update: any, err: any) => {
       // Trigger the onUnsubscribe
       if (!update?.instance) {
         this.unsubscribe(threadID);
@@ -296,15 +258,12 @@ export class MessageManager {
       }
     ];
 
-    const closer = this.client.listen(threadID, filters, cb);
+    const listener = this.client.listen(threadID, filters, cb);
 
-    // Track active subscriptions
-    this.registerListener(threadID, closer);
-    return closer;
-  }
-
-  registerListener(threadID: ThreadID, listener: any) {
+    // Track listener
     this.activeSubscriptions[threadID.toString()] = listener;
+
+    return listener;
   }
 
   unsubscribe(threadID: ThreadID) {
@@ -316,16 +275,12 @@ export class MessageManager {
       return;
     }
 
-    if (
-      typeof this.activeSubscriptions[threadID.toString()].close === 'function'
-    ) {
+    const subscription = this.activeSubscriptions[threadID.toString()];
+
+    if (typeof subscription.close === 'function') {
       try {
-        this.activeSubscriptions[threadID.toString()].close();
-      } catch (e) {
-        // console.warn(
-        //   `Subscription ${threadID.toString()} was already closed. Skipping.`
-        // );
-      }
+        subscription.close();
+      } catch (e) {}
 
       delete this.activeSubscriptions[threadID.toString()];
     }

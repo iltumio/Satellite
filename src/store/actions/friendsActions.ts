@@ -1,6 +1,6 @@
 import config from '../../config/config';
 import DwellerCachingHelper from '../../classes/DwellerCachingHelper';
-import Friends from '../../classes/contracts/Friends';
+import Friends, { FriendsEvents } from '../../classes/contracts/Friends';
 import IFriend from '../../interfaces/IFriend';
 
 export default {
@@ -68,10 +68,12 @@ export default {
       config.friends[config.network.chain]
     );
 
-    friendsContract.startAllListeners(() => {
-      // Fetch friends requests
+    friendsContract.startAllListeners(eventName => {
       dispatch('fetchFriendRequests');
-      dispatch('fetchFriends');
+
+      if (eventName === FriendsEvents.FriendRequestAccepted) {
+        dispatch('fetchFriends');
+      }
     });
   },
   async fetchFriendRequests({ commit }) {

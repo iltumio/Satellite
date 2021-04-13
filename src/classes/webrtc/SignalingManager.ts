@@ -1,6 +1,7 @@
 import { Client, ThreadID } from '@textile/hub';
 import Signal from '../Signal';
 import { Where } from '@textile/threads-client';
+import dayjs from 'dayjs';
 
 interface ISignal {
   _id: string;
@@ -60,13 +61,11 @@ export class SignalingManager {
     collectionName: string,
     schema: any
   ) {
-    try {
-      await this.client.getCollectionIndexes(threadID, collectionName);
-    } catch (e) {
-      await this.client.newCollectionFromObject(threadID, schema, {
+    await this.client
+      .newCollectionFromObject(threadID, schema, {
         name: collectionName
-      });
-    }
+      })
+      .catch(e => null);
   }
 
   async findSignalBySender(threadID: ThreadID, sender: string) {
@@ -74,22 +73,69 @@ export class SignalingManager {
     return this.client.find(threadID, 'signal', query);
   }
 
-  async updateSignal(
+  async initializeConnection(
     threadID: ThreadID | string,
-    signal: Signal
+    signal: Signal,
+    receiver: string
   ): Promise<ThreadID> {
     const safeThread = this.safeThread(threadID);
     await this.ensureCollection(safeThread, 'signal', signalSchema);
 
-    const signalExists = await this.client.has(safeThread, 'signal', [
-      signal.sender
-    ]);
+    const transaction = this.client.writeTransaction(safeThread, 'signal');
+
+    await transaction.start();
+
+    const hasReceiverSignal = await transaction.has([receiver]);
+
+    if(hasReceiverSignal) {
+      const receiverSignal = await transaction.findByID<any>(receiver);
+
+      const elapsedTime = dayjs().diff(dayjs(receiverSignal.at), "seconds");
+      if(elapsedTime <= 60) {
+        await transaction.discard();
+        await transaction.end();
+
+        setTimeout(()=>{
+          this.initializeConnection(threadID, signal, receiver);
+        }, 10000);
+
+        return safeThread;
+      }
+    }
+
+    const signalExists = await transaction.has([signal.sender]);
 
     if (signalExists) {
-      await this.client.save(safeThread, 'signal', [signal]);
+      await transaction.save([signal]);
     } else {
-      await this.client.create(safeThread, 'signal', [signal]);
+      await transaction.create([signal]);
     }
+
+    await transaction.end();
+    return safeThread;
+  }
+
+  async updateSignal(
+    threadID: ThreadID | string,
+    signal: Signal,
+  ) {
+    const safeThread = this.safeThread(threadID);
+    await this.ensureCollection(safeThread, 'signal', signalSchema);
+
+    const transaction = this.client.writeTransaction(safeThread, 'signal');
+
+    await transaction.start();
+
+    const signalExists = await transaction.has([signal.sender]);
+
+    if (signalExists) {
+      await transaction.save([signal]);
+    } else {
+      await transaction.create([signal]);
+    }
+
+    await transaction.end();
+
     return safeThread;
   }
 
@@ -104,7 +150,16 @@ export class SignalingManager {
         ? ThreadID.fromString(threadID.replace(/\W/g, ''))
         : threadID;
 
-    return this.client.findByID(safeThread, 'signal', sender);
+    await this.ensureCollection(safeThread, 'signal', signalSchema);
+
+    let result: any;
+    try {
+      result = await this.client.findByID<any>(safeThread, 'signal', sender);
+    } catch (e) {
+      result = null;
+    }
+
+    return result;
   }
 
   subscribe(
@@ -121,7 +176,7 @@ export class SignalingManager {
       return;
     }
 
-    const cb = (update: any) => {
+    const cb = (update: any, err: any) => {
       // Trigger the onUnsubscribe
       if (!update?.instance) {
         this.unsubscribe(threadID);
@@ -140,15 +195,11 @@ export class SignalingManager {
       }
     ];
 
-    const closer = this.client.listen(threadID, filters, cb);
+    const listener = this.client.listen(threadID, filters, cb);
 
     // Track active subscriptions
-    this.registerListener(threadID, closer);
-    return closer;
-  }
-
-  registerListener(threadID: ThreadID, listener: any) {
     this.activeSubscriptions[threadID.toString()] = listener;
+    return listener;
   }
 
   unsubscribe(threadID: ThreadID) {
@@ -160,16 +211,12 @@ export class SignalingManager {
       return;
     }
 
-    if (
-      typeof this.activeSubscriptions[threadID.toString()].close === 'function'
-    ) {
+    const listener = this.activeSubscriptions[threadID.toString()];
+
+    if (typeof listener.close === 'function') {
       try {
-        this.activeSubscriptions[threadID.toString()].close();
-      } catch (e) {
-        // console.warn(
-        //   `Subscription ${threadID.toString()} was already closed. Skipping.`
-        // );
-      }
+        listener.close();
+      } catch (e) {}
 
       delete this.activeSubscriptions[threadID.toString()];
     }

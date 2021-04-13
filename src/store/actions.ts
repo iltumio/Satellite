@@ -4,7 +4,7 @@ import stickersActions from './actions/stickersActions';
 import threadActions from './actions/threadActions';
 import p2pActions from "./actions/p2pActions";
 import databaseActions from "./actions/databaseActions";
-import startup from "./actions/startupActions";
+import commonActions from "./actions/commonActions";
 import walletActions from './actions/walletActions';
 import commandActions from './actions/commandActions';
 import serverActions from './actions/serverActions';
@@ -16,8 +16,8 @@ export default {
   ...threadActions,
   ...p2pActions,
   ...databaseActions,
-  ...startup,
   ...walletActions,
   ...commandActions,
-  ...serverActions
+  ...serverActions,
+  ...commonActions
 };

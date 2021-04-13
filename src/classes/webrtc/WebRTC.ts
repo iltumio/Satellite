@@ -34,6 +34,7 @@ export default class WebRTC {
   public connectedPeers: { [key: string]: P2PUser };
   protected _peersData: { [key: string]: any };
   protected _peers: { [key: string]: any };
+  protected _isHandshaking: boolean;
 
   /** @constructor
    * Construct a new Peer 2 Peer handler
@@ -46,6 +47,7 @@ export default class WebRTC {
     this.connectedPeers = {};
     this._peersData = {};
     this._peers = {};
+    this._isHandshaking = false;
   }
 
   /** @method
@@ -164,13 +166,61 @@ export default class WebRTC {
    * @param address Ethereum address to connect
    * @param initiator Boolean value if the peer must be an initiator or not
    */
-  connect(address: string, initiator: boolean) {
+  initiateConnection(address: string) {
     if (this.isPeerConnected(address)) {
       console.warn(`Already connected to ${address}`);
       return;
     }
 
-    this.addPeer(address, { initiator, trickle: false });
+    this.addPeer(address, { initiator: true, trickle: false });
+  }
+
+  /**
+   * @function connect
+   * @description Initiates a peer and tries to connect
+   * @param address Ethereum address to connect
+   * @param initiator Boolean value if the peer must be an initiator or not
+   */
+  connectToRemote(address: string, signal: any) {  
+    if (this.isPeerConnected(address)) {
+      console.warn(`Already connected to ${address}`);
+      return;
+    }
+    
+    const identifier = this.buildIdentifier(address);
+    
+    if (this._peers[identifier]) {
+      this._peers[identifier].destroy();
+      this._peers[identifier] = null;
+    }
+
+    const peer = this.addPeer(address, { initiator: false, trickle: false });
+    peer?.forwardSignal(signal);
+  }
+
+  /**
+   * @function forwardSignal
+   * @description Forwards signaling data to a given peer
+   * @param address Ethereum address
+   * @param signal Signaling data to forward
+   */
+   forwardSignal(address: string, signal: any) {
+    const identifier = this.buildIdentifier(address);
+
+    if (this.isPeerConnected(address)) {
+      const peer = this.connectedPeers[identifier];
+      peer?.forwardSignal(signal);
+      return;
+    }
+
+    let peer: P2PUser | null = null;
+    if (this._peers[identifier]) {
+      peer = this._peers[identifier];
+    } else {
+      peer = this.addPeer(address, { initiator: false, trickle: false });
+    }
+
+    peer?.forwardSignal(signal);
   }
 
   /**
@@ -226,38 +276,6 @@ export default class WebRTC {
         subscriber.method(event, this.revertIdentifier(peerId), data);
       }
     });
-  }
-
-  /**
-   * @function forwardSignal
-   * @description Forwards signaling data to a given peer
-   * @param address Ethereum address
-   * @param signal Signaling data to forward
-   */
-  forwardSignal(address: string, signal: any) {
-    const identifier = this.buildIdentifier(address);
-
-    if (this.isPeerConnected(address)) {
-      const peer = this.connectedPeers[identifier];
-      peer?.forwardSignal(signal);
-      return;
-    }
-
-    if (signal.type === 'offer') {
-      if (this._peers[identifier]) {
-        this._peers[identifier].destroy();
-      }
-      delete this._peers[identifier];
-    }
-
-    let peer: P2PUser | null = null;
-    if (this._peers[identifier]) {
-      peer = this._peers[identifier];
-    } else {
-      peer = this.addPeer(address, { initiator: false, trickle: false });
-    }
-
-    peer?.forwardSignal(signal);
   }
 
   /**
