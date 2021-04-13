@@ -6,7 +6,8 @@ export type CallEvent =
   | 'call-stream'
   | 'call-track'
   | 'call-error'
-  | 'call-ended';
+  | 'call-ended'
+  | 'call-answered';
 
 type ListenersObject = { [key: string]: CallableFunction };
 

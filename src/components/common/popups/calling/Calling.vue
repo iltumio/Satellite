@@ -58,17 +58,9 @@ export default {
       config.cacher.dwellerLifespan
     );
 
-    
-
-    // this.$WebRTC.subscribe(() => {
-    //   this.denyCall();
-    // }, ["REMOTE-HANGUP"]);
-    // this.$WebRTC.mediaSubscription(
-    //   ['INCOMING-CALL'],
-    //   async (event, identifier) => {
-    //     this.dweller = await this.dwellerCachingHelper.getDweller(identifier);
-    //   },
-    // );
+    this.$WebRTC.subscribe(() => {
+      this.$store.commit("incomingCall", false);
+    }, ["call-ended"]);
   },
 };
 </script>

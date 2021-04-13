@@ -48,6 +48,7 @@ export default {
             break;
           case 'call-stream':
             this.streamRecived(identifier, data[0]);
+            this.callAnswered();
             break;
           default:
             break;

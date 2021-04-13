@@ -94,6 +94,7 @@ export default {
           sampleRate: this.$store.state.audioQuality * 1000,
           sampleSize: this.$store.state.audioSamples,
           volume: 1.0,
+          deviceId: "default"
         },
       };
 
@@ -101,7 +102,7 @@ export default {
 
       this.$WebRTC.call(this.$store.state.activeChat, stream);
 
-      // this.$streamManager.addLocalStream(stream)
+      this.$streamManager.addLocalStream(stream)
       // this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat)
       // this.$WebRTC.call(
       //   this.$store.state.activeChat,
@@ -113,19 +114,21 @@ export default {
       // } else if (this.$store.state.muted) {
       //   this.$streamManager.toggleLocalStreams()
       // }
-      // this.$store.commit('activeCall', this.$store.state.activeChat)
-      // this.voice = true
-      // this.mediaOpen = true
-      // this.sendMessage(Date.now(), 'call');
+      this.$store.commit('activeCall', this.$store.state.activeChat)
+      this.voice = true
+      this.mediaOpen = true
+      this.sendMessage(Date.now(), 'call');
     },
     callAnswered() {
       this.voice = true;
       this.mediaOpen = true;
     },
     hangup() {
-      this.stopStream();
       const id = this.$store.state.incomingCall || this.$store.state.activeCall;
       this.$WebRTC.hangupCall(id);
+    },
+    onHangup(){
+      this.stopStream();
       this.$store.commit("activeCall", false);
       this.voice = false;
       this.mediaOpen = false;
@@ -193,22 +196,27 @@ export default {
           break;
       }
     });
+
+    // @ts-ignore
     const WebRTC = this.$WebRTC;
-    WebRTC.subscribe(() => {
-      this.hangup();
-    }, ["REMOTE-HANGUP"]);
-    // WebRTC.mediaSubscription(
-    //   ['INCOMING-CALL', 'HANGUP', 'ANSWER', 'OUTGOING-CALL'],
-    //   (event, identifier) => {
-    //     switch (event) {
-    //       case 'ANSWER':
-    //         this.callAnswered(identifier)
-    //         break
-    //       default:
-    //         break
-    //     }
-    //   }
-    // )
+    WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        switch(event) {
+          case 'call-stream':
+            console.log('call answered')
+            this.callAnswered();
+            break;
+          case 'call-ended':
+            this.onHangup();
+            break;
+          default:
+            break;
+        }
+
+      },
+      ["call-stream", "call-ended"]
+    );
+
     this.subscribeToThreads();
     // this.friendsContract = new Friends(config.friends[config.network.chain]);
     this.bindThreads();

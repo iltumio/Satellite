@@ -399,6 +399,8 @@ export default class WebRTC {
     const peer = this.connectedPeers[identifier];
 
     peer.answerCall(stream);
+
+    peer.send(JSON.stringify({ type: 'call-answered' }));
   }
 
   /**
@@ -408,6 +410,8 @@ export default class WebRTC {
    */
   public async hangupCall(address: string) {
     const identifier = this.buildIdentifier(address);
+
+    console.log('going to hangup call', address);
     if (!this.isConnected(identifier)) {
       console.warn('[Method: hangupCall] Peer not connected');
       return;
