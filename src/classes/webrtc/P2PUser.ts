@@ -7,7 +7,10 @@ export type CallEvent =
   | 'call-track'
   | 'call-error'
   | 'call-ended'
-  | 'call-answered';
+  | 'call-answered'
+  | 'call-busy';
+
+export type CallInternalEvent = 'track' | 'stream' | 'data' | 'connect';
 
 type ListenersObject = { [key: string]: CallableFunction };
 
@@ -207,7 +210,7 @@ export default class P2PUser {
     });
 
     callPeer.on('close', () => {
-      this.emitCallEvent('call-ended');
+      this.emitCallEvent('call-ended', this.identifier);
     });
 
     return callPeer;
@@ -233,7 +236,7 @@ export default class P2PUser {
     this.activeStream = stream;
   }
 
-  public answerCall(stream: MediaStream) {
+  public answerCall(stream: MediaStream, sendToRemote?: boolean) {
     const callPeer = this.createCallPeer({
       initiator: false,
       trickle: false,
@@ -247,6 +250,9 @@ export default class P2PUser {
     this.activeCall = callPeer;
     // Store the active stream to destroy it after hangup
     this.activeStream = stream;
+
+    if (sendToRemote)
+      this.instance.send(JSON.stringify({ type: 'call-answered' }));
   }
 
   public hangupCall(sendToRemote?: boolean) {
@@ -257,7 +263,7 @@ export default class P2PUser {
         track.stop();
       });
     } else {
-      this.emitCallEvent('call-ended');
+      this.emitCallEvent('call-ended', this.identifier);
     }
 
     if (sendToRemote)

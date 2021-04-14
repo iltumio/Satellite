@@ -13,8 +13,8 @@ export default {
       } else if (state.mnemonic) {
         const wallet = ethers.Wallet.fromMnemonic(state.mnemonic);
         dispatch('connectProvider', {
-          providerInfo: state.selectedProvider,
-          wallet,
+          providerInfo: { type: 'satellite' },
+          wallet
         });
       }
     }
@@ -57,9 +57,11 @@ export default {
 
     const registry = new Registry(
       ethereum,
-      config.registry[config.network.chain],
+      config.registry[config.network.chain]
     );
-    const dwellerContract = await registry.getDwellerContract(ethereum.activeAccount);
+    const dwellerContract = await registry.getDwellerContract(
+      ethereum.activeAccount
+    );
 
     // Update the state with the dweller address fetched from the blockchain
     commit('dwellerAddress', dwellerContract);
@@ -90,7 +92,7 @@ export default {
     // Update the state with the retrieved stats
     commit('web3Stats', {
       blockNumber,
-      nettype,
+      nettype
     });
-  },
+  }
 };

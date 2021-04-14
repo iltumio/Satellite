@@ -5,6 +5,10 @@ export default {
   async initP2P({ commit, dispatch, state }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
+    // @ts-ignore
+    const SoundManager = this.$app.$sound;
+    // @ts-ignore
+    const streamManager = this.$app.$streamManager;
 
     WebRTC.subscribe(
       (event: string, identifier: string, { type, data }) => {
@@ -33,8 +37,42 @@ export default {
     WebRTC.subscribe(
       (event, identifier, message) => {
         commit('incomingCall', identifier);
+        SoundManager.play('callingSound');
       },
       ['incoming-call']
+    );
+
+    WebRTC.subscribe(
+      (event, identifier, message) => {
+        SoundManager.stop('callingSound');
+        SoundManager.stop('connectedSound');
+      },
+      ['call-answered']
+    );
+
+    WebRTC.subscribe(
+      (event, identifier, message) => {
+        SoundManager.play('callingSound');
+      },
+      ['outgoing-call']
+    );
+
+    WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        SoundManager.stop('callingSound');
+        SoundManager.stop('connectedSound');
+        streamManager.addRemoteStream(identifier, data[0]);
+        streamManager.playStream('remote', identifier);
+      },
+      ['call-stream']
+    );
+
+    WebRTC.subscribe(
+      (event, identifier, message) => {
+        SoundManager.stop('callingSound');
+        SoundManager.play('hangupSound');
+      },
+      ['call-ended']
     );
 
     WebRTC.subscribe(
@@ -133,19 +171,57 @@ export default {
 
     await WebRTC.initiateConnection(friend.address, true);
   },
-  async call({}, { friend }) {
+  async call({ commit, dispatch }, { friendAddress, stream }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
+    // @ts-ignore
+    const streamManager = this.$app.$streamManager;
 
-    await WebRTC.call(friend.address);
+    // Close active call
+    WebRTC.getActiveCalls().forEach(activeCall => {
+      activeCall[1].hangupCall();
+    });
+
+    await WebRTC.call(friendAddress, stream);
+
+    // Add the local stream using the recipient address as id
+    streamManager.addLocalStream(friendAddress, stream);
+
+    commit('addActiveCall', friendAddress);
+    dispatch('sendMessage', { data: Date.now(), type: 'call' });
   },
-  async answerCall({ commit, state }, { friend, stream }) {
+  async answerCall({ commit, dispatch }, { friend, stream }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
+    // @ts-ignore
+    const streamManager = this.$app.$streamManager;
 
-    WebRTC.answerCall(friend.address, stream);
+    // Add the local stream using the sender address as id
+    streamManager.addLocalStream(friend.address, stream);
+
+    // Close active call
+    WebRTC.getActiveCalls().forEach(activeCall => {
+      activeCall[1].hangupCall();
+      streamManager.stopStream('remote', activeCall);
+      streamManager.stopStream('local', activeCall);
+    });
+
+    await WebRTC.answerCall(friend.address, stream);
 
     commit('incomingCall', false);
-    commit('activeCall', state.activeChat);
+    commit('addActiveCall', friend.address);
+    dispatch('setActiveChat', { friendAddress: friend.address });
+  },
+  async hangupCall({ commit, dispatch }, { friendAddress }) {
+    // @ts-ignore
+    const WebRTC = this.$app.$WebRTC;
+    // @ts-ignore
+    const streamManager = this.$app.$streamManager;
+
+    streamManager.stopStream('remote', friendAddress);
+
+    await WebRTC.hangupCall(friendAddress);
+
+    commit('removeActiveCall', friendAddress);
   }
 };

@@ -50,7 +50,7 @@ export default {
     state.criticalError = false;
     state.ICEConnected = false;
     state.dwellerAddress = false;
-    state.activeCall = null;
+    state.activeCalls = [];
     state.incomingCall = null;
   },
   setLanguage(state, lang) {

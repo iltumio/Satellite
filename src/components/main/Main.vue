@@ -13,6 +13,7 @@ import UserInfo from "@/components/conversation/userinfo/UserInfo";
 import Crypto from "@/classes/crypto/Crypto.ts";
 
 import MobileUtils from "@/utils/Mobile.ts";
+import { isCallActive } from "@/utils/CallUtils.ts";
 
 import { Howl } from "howler";
 
@@ -49,41 +50,25 @@ export default {
     };
   },
   methods: {
+    // Imported from library
+    isCallActive,
     async fetchMessages(address) {
       this.$store.dispatch("fetchMessages", { address });
     },
-    bindThreads() {
-      // TODO: remove all references to bind threads
-      // this.$store.dispatch('bindAllThreads');
-    },
-    async subscribeToThreads() {
-      this.$store.dispatch("subscribeToAllThreads", {});
-      // Iterate over all friends
-      // TODO: In the future we may want to do this in a more repsonsible way.
-      // this.$store.state.friends.forEach(async (friend) => {
-      //   this.$store.dispatch('subscribeToThread', {friend});
-      // });
-    },
+    // async subscribeToThreads() {
+
+    //   // Iterate over all friends
+    //   // TODO: In the future we may want to do this in a more repsonsible way.
+    //   // this.$store.state.friends.forEach(async (friend) => {
+    //   //   this.$store.dispatch('subscribeToThread', {friend});
+    //   // });
+    // },
     // Switch from one media stream to another
     switchTo(voice = false) {
       this.mediaOpen = true;
       this.voice = voice;
     },
-
-    // TODO: Move all this somewhere more relevant...
-    /** @method
-     * Clear the usage of the audio devices
-     * @name stopStream
-     */
-    stopStream() {
-      if (!this.$streamManager) return;
-      this.$streamManager.killStreams();
-    },
     async makeCall() {
-      if (this.$store.state.activeCall) {
-        this.hangup();
-      }
-
       const constraints = {
         audio: {
           autoGainControl: false,
@@ -94,15 +79,18 @@ export default {
           sampleRate: this.$store.state.audioQuality * 1000,
           sampleSize: this.$store.state.audioSamples,
           volume: 1.0,
-          deviceId: "default"
+          deviceId: "default",
         },
       };
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-      this.$WebRTC.call(this.$store.state.activeChat, stream);
+      this.$store.dispatch("call", {
+        friendAddress: this.$store.state.activeChat,
+        stream,
+      });
 
-      this.$streamManager.addLocalStream(stream)
+      // this.$streamManager.addLocalStream(stream)
       // this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat)
       // this.$WebRTC.call(
       //   this.$store.state.activeChat,
@@ -114,22 +102,24 @@ export default {
       // } else if (this.$store.state.muted) {
       //   this.$streamManager.toggleLocalStreams()
       // }
-      this.$store.commit('activeCall', this.$store.state.activeChat)
-      this.voice = true
-      this.mediaOpen = true
-      this.sendMessage(Date.now(), 'call');
+      // this.$store.commit('addActiveCall', this.$store.state.activeChat)
+      this.voice = true;
+      this.mediaOpen = true;
+      // this.sendMessage(Date.now(), 'call');
     },
     callAnswered() {
       this.voice = true;
       this.mediaOpen = true;
     },
     hangup() {
-      const id = this.$store.state.incomingCall || this.$store.state.activeCall;
-      this.$WebRTC.hangupCall(id);
+      // const id = this.$store.state.incomingCall || this.$store.state.activeCall;
+      // this.$WebRTC.hangupCall(this.$store.state.activeChat);
+      this.$store.dispatch("hangupCall", {
+        friendAddress: this.$store.state.activeChat,
+      });
     },
-    onHangup(){
-      this.stopStream();
-      this.$store.commit("activeCall", false);
+    onHangup(identifier) {
+      this.$store.commit("removeActiveCall", identifier);
       this.voice = false;
       this.mediaOpen = false;
     },
@@ -172,54 +162,51 @@ export default {
     },
   },
   mounted() {
-    let lastChat = this.$store.state.activeChat;
-    this.fetchMessages(lastChat);
-    this.$store.subscribe((mutation, state) => {
-      switch (mutation.type) {
-        case "addFriend":
-          this.subscribeToThreads();
-          break;
-        case "connectMediaStream":
-          // Connect to new peer.
-          if (state.activeMediaStreamPeer) {
-            this.voice = true;
-          }
-          break;
-        case "activeChat":
-          if (lastChat !== mutation.payload) {
-            lastChat = mutation.payload;
-            this.$store.commit("loadingMessages");
-            this.fetchMessages(mutation.payload);
-          }
-          break;
-        default:
-          break;
-      }
-    });
+    // @deprecated---------------------
+    // let lastChat = this.$store.state.activeChat;
+    // this.fetchMessages(lastChat);
+    // this.$store.subscribe((mutation, state) => {
+    //   switch (mutation.type) {
+    //     case "addFriend":
+    //       this.subscribeToThreads();
+    //       break;
+    //     case "connectMediaStream":
+    //       // Connect to new peer.
+    //       if (state.activeMediaStreamPeer) {
+    //         this.voice = true;
+    //       }
+    //       break;
+    //     case "activeChat":
+    //       if (lastChat !== mutation.payload) {
+    //         lastChat = mutation.payload;
+    //         this.$store.commit("loadingMessages");
+    //         this.fetchMessages(mutation.payload);
+    //       }
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // });
+    // this.$store.dispatch("subscribeToAllThreads", {});
+    //---------------------
 
     // @ts-ignore
     const WebRTC = this.$WebRTC;
     WebRTC.subscribe(
       (event, identifier, { type, data }) => {
-        switch(event) {
-          case 'call-stream':
-            console.log('call answered')
+        switch (event) {
+          case "call-stream":
             this.callAnswered();
             break;
-          case 'call-ended':
-            this.onHangup();
+          case "call-ended":
+            this.onHangup(identifier);
             break;
           default:
             break;
         }
-
       },
       ["call-stream", "call-ended"]
     );
-
-    this.subscribeToThreads();
-    // this.friendsContract = new Friends(config.friends[config.network.chain]);
-    this.bindThreads();
   },
 };
 </script>

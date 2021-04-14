@@ -33,7 +33,7 @@ export default {
       };
   
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      this.$streamManager.addLocalStream(stream);
+      // this.$streamManager.addLocalStream(stream);
 
       const friend = this.$store.state.friends.find(
         (f) => f.address === this.$store.state.incomingCall

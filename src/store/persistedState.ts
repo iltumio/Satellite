@@ -36,7 +36,7 @@ const blacklist: IBlacklist = {
   authenticated: true,
   criticalError: true,
   ICEConnected: true,
-  activeCall: true,
+  activeCalls: true,
   incomingCall: true,
 };
 

@@ -33,29 +33,30 @@ export default {
   },
   mounted() {
     // @ts-ignore
-    const WebRTC = this.$WebRTC;
-    WebRTC.subscribe(
-      (event, identifier, { type, data }) => {
-        switch(event) {
-          case 'incoming-call':
-            this.incomingCall(identifier)
-            break;
-          case 'outgoing-call':
-            this.outgoingCall(identifier)
-            break;
-          case 'call-ended':
-            this.callEnded(identifier);
-            break;
-          case 'call-stream':
-            this.streamRecived(identifier, data[0]);
-            break;
-          default:
-            break;
-        }
+    // const WebRTC = this.$WebRTC;
+    // WebRTC.subscribe(
+    //   (event, identifier, { type, data }) => {
+    //     switch(event) {
+    //       case 'incoming-call':
+    //         this.incomingCall(identifier)
+    //         break;
+    //       case 'outgoing-call':
+    //         this.outgoingCall(identifier)
+    //         break;
+    //       case 'call-ended':
+    //         this.callEnded(identifier);
+    //         break;
+    //       case 'call-stream':
+    //         console.log('stream received voice', identifier);
+    //         this.streamRecived(identifier, data[0]);
+    //         break;
+    //       default:
+    //         break;
+    //     }
 
-      },
-      ["call-ended", "call-stream","incoming-call", "outgoing-call"]
-    );
+    //   },
+    //   ["call-ended", "call-stream","incoming-call", "outgoing-call"]
+    // );
   },
   methods: {
     /** @method
@@ -64,32 +65,32 @@ export default {
      * @argument e source object to play audio to
      */
     playRemoteStream(e) {
-      this.audioStream = new Audio();
-      this.audioStream.muted = false;
-      this.audioStream.srcObject = e;
-      this.audioStream.play();
+      // this.audioStream = new Audio();
+      // this.audioStream.muted = false;
+      // this.audioStream.srcObject = e;
+      // this.audioStream.play();
     },
     incomingCall(from) {
-      callingSound.play();
-      this.$store.commit('incomingCall', from);
+      // callingSound.play();
+      // this.$store.commit('incomingCall', from);
     },
     outgoingCall() {
-      callingSound.play();
+      // callingSound.play();
     },
     callEnded() {
-      hangupSound.play();
-      callingSound.stop();
+      // hangupSound.play();
+      // callingSound.stop();
       this.audioStream = null;
     },
     callAnswered() {
-      connectedSound.play();
-      callingSound.stop();
+      // connectedSound.play();
+      // callingSound.stop();
     },
     streamRecived(from, mediaStream) {
-      connectedSound.play();
-      callingSound.stop();
-      this.playRemoteStream(mediaStream);
-      this.$streamManager.addRemoteStream(mediaStream);
+      // connectedSound.play();
+      // callingSound.stop();
+      // this.playRemoteStream(mediaStream);
+      // this.$streamManager.addRemoteStream(mediaStream);
     },
   },
 };

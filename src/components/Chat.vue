@@ -11,7 +11,6 @@ import Loading from '@/components/common/Loading'
 import Achievement from '@/components/common/Achievement'
 import Context from '@/components/common/context/Context'
 // Functional
-import Voice from '@/components/functional/media/Voice'
 import ScreenCapture from '@/components/functional/media/ScreenCapture'
 import Web3 from '@/components/functional/web3/Web3'
 import BalanceFetcher from '@/components/functional/web3/BalanceFetcher'
@@ -53,7 +52,6 @@ export default {
     BalanceFetcher,
     Database,
     Loading,
-    Voice,
     ScreenCapture,
     Calling,
     CreateServer,

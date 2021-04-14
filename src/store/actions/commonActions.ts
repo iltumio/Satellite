@@ -5,15 +5,15 @@ export default {
       await dispatch('web3Start');
 
       const { client } = await dispatch('initDatabase');
-      
+
       // Initialize p2p connection
       await dispatch('initP2P', { client });
-      
+
       // Dispatch a new action to fetch friends
       await dispatch('fetchFriends', state.activeAccount);
 
       // Fetch friend requests
-      await dispatch('fetchFriendRequests')
+      await dispatch('fetchFriendRequests');
 
       // Dispatch a new action to fetch servers
       await dispatch('fetchServers');
@@ -27,10 +27,12 @@ export default {
   async setActiveChat({ commit, state, dispatch }, { friendAddress }) {
     commit('activeChat', friendAddress);
 
+    dispatch('fetchMessages', { address: friendAddress });
+
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
 
-    if(!WebRTC.isPeerConnected(friendAddress)){
+    if (!WebRTC.isPeerConnected(friendAddress)) {
       const friend = state.friends.find(f => f.address === friendAddress);
       dispatch('initiateConnection', { friend });
     }
