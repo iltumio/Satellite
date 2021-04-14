@@ -142,12 +142,14 @@ export default class StreamManager {
     }
 
     this.stopAllTracks(stream);
+
+    delete this[streamTypeId][identifier];
     
     const audioStream = this[audioTypeId]?.[identifier];
 
     if(audioStream) {
       audioStream.pause();
-      delete this[audioTypeId];
+      delete this[audioTypeId][identifier];
     }
   }
 

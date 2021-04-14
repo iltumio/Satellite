@@ -71,6 +71,9 @@ export default {
       (event, identifier, message) => {
         SoundManager.stop('callingSound');
         SoundManager.play('hangupSound');
+
+        streamManager.stopStream('remote', identifier);
+        streamManager.stopStream('local', identifier);
       },
       ['call-ended']
     );
@@ -215,10 +218,6 @@ export default {
   async hangupCall({ commit, dispatch }, { friendAddress }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
-    // @ts-ignore
-    const streamManager = this.$app.$streamManager;
-
-    streamManager.stopStream('remote', friendAddress);
 
     await WebRTC.hangupCall(friendAddress);
 
