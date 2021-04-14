@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Group v-for="group in groups" :key="group.id" :group="group" />
+    <Group 
+      v-for="group in groups" 
+      :key="group.id" 
+      :active="$store.state.group.identifier === group.identifier"
+      :group="group" />
   </div>
 </template>
 

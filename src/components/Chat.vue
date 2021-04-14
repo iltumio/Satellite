@@ -26,6 +26,8 @@ import MobileFriends from '@/components/friends/mobilefriends/MobileFriends'
 // Servers
 import CreateServer from '@/components/servers/create/CreateServer'
 import Server from '@/components/server/Server'
+// Groups
+import Group from '@/components/group/Group'
 // Popups
 import Error from '@/components/common/popups/error/Error'
 import Calling from '@/components/common/popups/calling/Calling'
@@ -64,6 +66,7 @@ export default {
     CreateServer,
     Context,
     Server,
+    Group,
     CreateGroup
   },
   data () {

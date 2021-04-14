@@ -97,6 +97,8 @@ export interface IState {
   // Servers
   server?: Array<any>;
   channel?: any;
+  // Groups
+  group?: any;
   // Stickers
   stickersOpen?: boolean;
   stickerPack: any;
@@ -219,7 +221,9 @@ export const defaultState: IState = {
   stickerPack: undefined,
   availableStickers: {},
   ownedStickers: {},
-  showCreateGroup: false
+  showCreateGroup: false,
+  // Groups 
+  group: false
 };
 
 const createState = (customState: any): IState =>

@@ -6,6 +6,7 @@ import messaging from './mutations/messaging';
 import peer from './mutations/peer';
 import account from './mutations/account';
 import server from './mutations/server';
+import group from './mutations/group';
 import web3 from './mutations/web3';
 import stickers from './mutations/stickersMutations';
 import wallet from "./mutations/wallet";
@@ -20,6 +21,7 @@ export default {
   ...peer,
   ...account,
   ...server,
+  ...group,
   ...web3,
   ...stickers,
   ...wallet,

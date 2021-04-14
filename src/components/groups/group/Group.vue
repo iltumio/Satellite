@@ -20,7 +20,11 @@ export default {
   },
   props: ['group', 'unread', 'active'],
   methods: {
-    // Returns if user device is mobile
+    openGroup () {
+      console.log('opening group', this.group)
+      this.$store.commit('activeGroup', this.group)
+      this.$store.commit('changeRoute', 'group')
+    },
     isMobile: MobileUtils.isMobile
   },
 }

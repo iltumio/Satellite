@@ -14771,6 +14771,11 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
+three@^0.118.3:
+  version "0.118.3"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.118.3.tgz#c0bf8c10a68155478f12f4ccac2ff979526a4a0a"
+  integrity sha512-ijECXrNzDkHieoeh2H69kgawTGH8DiamhR4uBN8jEM7VHSKvfTdEvOoHsA8Aq7dh7PHAxhlqBsN5arBI3KixSw==
+
 through2@^2.0.0:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.5.tgz#01c1e39eb31d07cb7d03a96a70823260b23132cd"
@@ -15571,6 +15576,13 @@ void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
+
+vue-3d-model@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/vue-3d-model/-/vue-3d-model-1.3.1.tgz#6b79f95a16137043d2a748f7aa6c55bd6b06b301"
+  integrity sha512-md+ZgtcSa0NcwhEWYG/uWgmtQjkAaUb+9jaHmZYdsnaPEBlT9IW3ptVQJRiA7VOGvobXaHy72ASCFaQJf08/rA==
+  dependencies:
+    three "^0.118.3"
 
 vue-add-globals@^2.0.0:
   version "2.0.1"

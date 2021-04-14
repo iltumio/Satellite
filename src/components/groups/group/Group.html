@@ -1,4 +1,4 @@
-<section :class="`group ${(active) ? 'group-active' : ''}`">
+<section :class="`group ${(active) ? 'group-active' : ''}`" v-on:click="openGroup">
   <CircleIcon :address="group.identifier" :icon="false"/>
   <p class="unreads" v-if="unread">
     <i class="fas fa-sparkles" aria-hidden="true" v-if="isMobile()"></i>
