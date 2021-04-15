@@ -4,11 +4,6 @@ Browse the codebase fast: https://github1s.com/Satellite-im/Satellite
 
 ![](https://site.satellite.im/_nuxt/img/phonestack.fdf036e.png)
 
-Decentralized chat & sharing platform
-
-
-![](https://c.gitcoin.co/docs/8d49c129c59c3431b4127f521993eae2/unknown.png)
-
 ## Running Locally
 
 You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application. 
