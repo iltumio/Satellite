@@ -235,6 +235,7 @@ export default {
   height: calc(100% - 7.2rem);
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-top: env(safe-area-inset-top, 0);
 }
 .progress {
   border-radius: 0;
@@ -337,6 +338,7 @@ h3 {
 .modal-close {
   z-index: 0 !important;
   position: absolute;
+  top: env(safe-area-inset-top, 0);
 }
 
 ul {
