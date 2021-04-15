@@ -1,23 +1,23 @@
 <template src="./Calling.html"></template>
 
 <script>
-import config from "@/config/config";
-import CircleIcon from "@/components/common/CircleIcon";
-import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
+import config from '@/config/config'
+import CircleIcon from '@/components/common/CircleIcon'
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts'
 
 export default {
-  name: "Calling",
-  props: ["active", "callerId"],
+  name: 'Calling',
+  props: ['active', 'callerId'],
   components: {
-    CircleIcon,
+    CircleIcon
   },
-  data() {
+  data () {
     return {
-      dweller: false,
-    };
+      dweller: false
+    }
   },
   methods: {
-    async acceptCall() {
+    async acceptCall () {
       const constraints = {
         audio: {
           autoGainControl: false,
@@ -28,41 +28,41 @@ export default {
           sampleRate: this.$store.state.audioQuality * 1000,
           sampleSize: this.$store.state.audioSamples,
           volume: 1.0,
-          deviceId: "default"
-        },
-      };
-  
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          deviceId: 'default'
+        }
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints)
       // this.$streamManager.addLocalStream(stream);
 
       const friend = this.$store.state.friends.find(
-        (f) => f.address === this.$store.state.incomingCall
-      );
+        f => f.address === this.$store.state.incomingCall
+      )
 
-      this.$store.dispatch("answerCall", { friend, stream });
+      this.$store.dispatch('answerCall', { friend, stream })
     },
-    denyCall() {
-      this.$WebRTC.hangupCall(this.$store.state.incomingCall);
-      this.$store.commit("incomingCall", false);
+    denyCall () {
+      this.$WebRTC.hangupCall(this.$store.state.incomingCall)
+      this.$store.commit('incomingCall', false)
     },
-    getFriendInfo(address) {
+    getFriendInfo (address) {
       return this.$store.state.friends
-        ? this.$store.state.friends.find((f) => f.address === address)
-        : null;
-    },
+        ? this.$store.state.friends.find(f => f.address === address)
+        : null
+    }
   },
-  async mounted() {
+  async mounted () {
     this.dwellerCachingHelper = new DwellerCachingHelper(
       this.$ethereum,
       config.registryAddress,
       config.cacher.dwellerLifespan
-    );
+    )
 
     this.$WebRTC.subscribe(() => {
-      this.$store.commit("incomingCall", false);
-    }, ["call-ended"]);
-  },
-};
+      this.$store.commit('incomingCall', false)
+    }, ['call-ended'])
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

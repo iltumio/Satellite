@@ -1,9 +1,9 @@
 export default {
-  async requestTokens(address: string) {
+  async requestTokens (address: string) {
     const data = {
       address,
-      network: "mumbai",
-      token: "maticToken"
+      network: 'mumbai',
+      token: 'maticToken'
     }
 
     const response = await fetch(

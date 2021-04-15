@@ -1,18 +1,18 @@
-import { ethers } from 'ethers';
-import Ethereum from '../../classes/Ethereum';
-import IIPFSHash from '../../interfaces/IIPFSHash';
-import IServer from '../../interfaces/IServer';
+import { ethers } from 'ethers'
+import Ethereum from '../../classes/Ethereum'
+import IIPFSHash from '../../interfaces/IIPFSHash'
+import IServer from '../../interfaces/IServer'
 // @ts-ignore
-import * as ServerInterface from '@/contracts/build/contracts/Server.json';
+import * as ServerInterface from '@/contracts/build/contracts/Server.json'
 export default class Server {
-  ethereum: any;
-  contract: ethers.Contract;
-  bytecode: any;
+  ethereum: any
+  contract: ethers.Contract
+  bytecode: any
 
-  constructor(ethereum: typeof Ethereum, address: string) {
-    this.ethereum = ethereum;
-    this.contract = this.getContract(address);
-    this.bytecode = ServerInterface.bytecode.object;
+  constructor (ethereum: typeof Ethereum, address: string) {
+    this.ethereum = ethereum
+    this.contract = this.getContract(address)
+    this.bytecode = ServerInterface.bytecode.object
   }
 
   /** @function
@@ -20,8 +20,8 @@ export default class Server {
    * @argument address Address of the DwellerID contract
    * @returns contract instance ready for method execution
    */
-  getContract(address: string) {
-    return this.ethereum.getContract(ServerInterface.abi, address);
+  getContract (address: string) {
+    return this.ethereum.getContract(ServerInterface.abi, address)
   }
 
   /** @function
@@ -32,7 +32,7 @@ export default class Server {
    * @argument done callback which will be called on the first TX & confirm.
    * @returns server payload which contains all information about the dweller
    */
-  async setPhoto(ipfsHash: IIPFSHash, done: CallableFunction) {
+  async setPhoto (ipfsHash: IIPFSHash, done: CallableFunction) {
     this.contract
       .setPhoto(
         [
@@ -44,11 +44,11 @@ export default class Server {
         }
       )
       .then(tx => tx.wait())
-      .then(done);
+      .then(done)
   }
 
   // TODO: Cache this in the future
-  async get(address: string): Promise<IServer> {
+  async get (address: string): Promise<IServer> {
     const server = <IServer>{
       address,
       registry: await this.contract.registry(),
@@ -58,24 +58,24 @@ export default class Server {
       members: await this.contract.getMembers(),
       photo: await this.contract.getPhoto(),
       isAdmin: async (address: string) => {
-        return this.contract.administrators(address);
+        return this.contract.administrators(address)
       },
       getChannel: async (id: number) => {
-        return this.contract.channels(id);
+        return this.contract.channels(id)
       },
       getGroup: async (id: number) => {
-        return this.contract.groups(id);
+        return this.contract.groups(id)
       },
       getMember: async (id: number) => {
-        return this.contract.members(id);
+        return this.contract.members(id)
       },
       getMemberStatus: async (address: string) => {
-        return this.contract.memberStatus(address);
+        return this.contract.memberStatus(address)
       },
       setName: async (name: string) => {
         return this.contract.setName(ethers.utils.formatBytes32String(name), {
           gasLimit: 4700000
-        });
+        })
       },
       setThreadID: async (hash: string) => {
         return this.contract.setDBHash(
@@ -86,7 +86,7 @@ export default class Server {
           {
             gasLimit: 4700000
           }
-        );
+        )
       },
       setPhoto: async (hash: string) => {
         return this.contract.setPhoto(
@@ -97,12 +97,12 @@ export default class Server {
           {
             gasLimit: 4700000
           }
-        );
+        )
       },
       addAdmin: async (address: string) => {
         return this.contract.addAdmin(address, {
           gasLimit: 4700000
-        });
+        })
       },
       addChannel: async (name: string, type: number) => {
         return this.contract.addChannel(
@@ -111,7 +111,7 @@ export default class Server {
           {
             gasLimit: 4700000
           }
-        );
+        )
       },
       addChannelGroup: async (name: string) => {
         return this.contract.createGroup(
@@ -119,7 +119,7 @@ export default class Server {
           {
             gasLimit: 4700000
           }
-        );
+        )
       },
       addChannelToGroup: async (group: string, channel: string) => {
         return this.contract.createGroup(
@@ -128,17 +128,17 @@ export default class Server {
           {
             gasLimit: 4700000
           }
-        );
+        )
       },
       delChannel: async (id: number) => {
         return this.contract.delChannel(id, {
           gasLimit: 4700000
-        });
+        })
       },
       delGroup: async (id: number) => {
         return this.contract.delGroup(id, {
           gasLimit: 4700000
-        });
+        })
       },
       delChannelFromGroup: async (group: string, id: number) => {
         return this.contract.delChannel(
@@ -147,33 +147,33 @@ export default class Server {
           {
             gasLimit: 4700000
           }
-        );
+        )
       },
       inviteMember: async (address: string) => {
         return this.contract.inviteMember(address, {
           gasLimit: 4700000
-        });
+        })
       }
-    };
+    }
 
     const nil =
-      '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+      '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
 
     if (server.photo !== nil) {
-      const sliced = server.photo.slice(2);
-      const firstHalf = sliced.substr(0, 64);
-      const secondHalf = sliced.substr(64, 128);
+      const sliced = server.photo.slice(2)
+      const firstHalf = sliced.substr(0, 64)
+      const secondHalf = sliced.substr(64, 128)
       server.photo =
         ethers.utils.parseBytes32String(`0x${firstHalf}`) +
-        ethers.utils.parseBytes32String(`0x${secondHalf}`);
+        ethers.utils.parseBytes32String(`0x${secondHalf}`)
     } else {
-      server.photo = '';
+      server.photo = ''
     }
 
     // TODO: check threadID
     server.threadID =
-      server.threadID.substr(0, 48) + server.threadID.substr(66, 46);
+      server.threadID.substr(0, 48) + server.threadID.substr(66, 46)
 
-    return server;
+    return server
   }
 }

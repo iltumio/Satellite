@@ -1,6 +1,6 @@
 <template></template>
 <script>
-import config from "@/config/config"
+import config from '@/config/config'
 
 export default {
   name: 'database',
@@ -8,16 +8,16 @@ export default {
     return { activeAccount: false }
   },
   methods: {
-    makeKey() {
+    makeKey () {
       return {
         key: config.textile.key
       }
     }
   },
-  async mounted() {
+  async mounted () {
     // this.$store.dispatch('initDatabase');
-  },
-};
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

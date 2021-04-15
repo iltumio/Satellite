@@ -6,7 +6,7 @@ import FileC from '@/classes/FileC.ts'
 import * as nsfwjs from 'nsfwjs'
 
 import MobileUtils from '@/utils/Mobile.ts'
-import Meter from '@/components/common/meter/Meter';
+import Meter from '@/components/common/meter/Meter'
 
 const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`)
 
@@ -14,7 +14,7 @@ export default {
   name: 'FileUploadInline',
   props: ['relayResult', 'uploadDone', 'noAutoSelect'],
   components: {
-    Meter,
+    Meter
   },
   data () {
     return {

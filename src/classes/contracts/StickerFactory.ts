@@ -1,15 +1,15 @@
-import { BigNumber, ethers } from 'ethers';
-import Ethereum from '../../classes/Ethereum';
+import { BigNumber, ethers } from 'ethers'
+import Ethereum from '../../classes/Ethereum'
 // @ts-ignore
-import * as StickerFactoryInterface from '@/contracts/build/contracts/StickerFactory.json';
+import * as StickerFactoryInterface from '@/contracts/build/contracts/StickerFactory.json'
 
 export default class StickerFactory {
-  ethereum: any;
-  contract: ethers.Contract;
+  ethereum: any
+  contract: ethers.Contract
 
-  constructor(ethereum: typeof Ethereum, address: string) {
-    this.ethereum = ethereum;
-    this.contract = this.getContract(address);
+  constructor (ethereum: typeof Ethereum, address: string) {
+    this.ethereum = ethereum
+    this.contract = this.getContract(address)
   }
 
   /** @function
@@ -17,8 +17,8 @@ export default class StickerFactory {
    * @argument address Address of the DwellerID contract
    * @returns contract instance ready for method execution
    */
-  getContract(address: string) {
-    return this.ethereum.getContract(StickerFactoryInterface.abi, address);
+  getContract (address: string) {
+    return this.ethereum.getContract(StickerFactoryInterface.abi, address)
   }
 
   /** @function
@@ -29,7 +29,7 @@ export default class StickerFactory {
    * @argument uri Uri of the current sticker set
    * @argument initialPrice Initial price of the sticker set
    */
-  async createStickerSet(
+  async createStickerSet (
     setName: string,
     setSymbol: string,
     limit: BigNumber | string,
@@ -40,15 +40,15 @@ export default class StickerFactory {
       .createSticker(setName, setSymbol, limit, uri, initialPrice, {
         gasLimit: 4700000
       })
-      .then(tx => tx.wait());
+      .then(tx => tx.wait())
   }
 
   /** @function
    * @name getAvailableSets
    * @returns an array of addresses related to available sets
    */
-  async getAvailableSets() {
-    return this.contract.getAvailableSets();
+  async getAvailableSets () {
+    return this.contract.getAvailableSets()
   }
 
   /** @function
@@ -56,10 +56,10 @@ export default class StickerFactory {
    * @argument address The address of the artist you want to receive information of
    * @returns artist details
    */
-  async getArtistDetails(address: string) {
+  async getArtistDetails (address: string) {
     const { addr, name, signature, description } = await this.contract.artists(
       address
-    );
-    return { addr, name, signature, description };
+    )
+    return { addr, name, signature, description }
   }
 }

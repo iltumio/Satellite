@@ -1,31 +1,31 @@
 <template src="./Main.html"></template>
 
 <script>
-import config from "@/config/config";
-import DwellerCachingHelper from "@/classes/DwellerCachingHelper.ts";
-import InfoBar from "@/components/conversation/infobar/InfoBar";
-import Chatbar from "@/components/conversation/chatbar/Chatbar";
-import VoiceVideo from "@/components/conversation/voicevideo/VoiceVideo";
-import Conversation from "@/components/conversation/conversation/Conversation";
-import NoConversation from "@/components/conversation/conversation/NoConversation";
-import LoadingConvorsation from "@/components/conversation/conversation/LoadingConvorsation";
-import UserInfo from "@/components/conversation/userinfo/UserInfo";
-import Crypto from "@/classes/crypto/Crypto.ts";
+import config from '@/config/config'
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts'
+import InfoBar from '@/components/conversation/infobar/InfoBar'
+import Chatbar from '@/components/conversation/chatbar/Chatbar'
+import VoiceVideo from '@/components/conversation/voicevideo/VoiceVideo'
+import Conversation from '@/components/conversation/conversation/Conversation'
+import NoConversation from '@/components/conversation/conversation/NoConversation'
+import LoadingConvorsation from '@/components/conversation/conversation/LoadingConvorsation'
+import UserInfo from '@/components/conversation/userinfo/UserInfo'
+import Crypto from '@/classes/crypto/Crypto.ts'
 
-import MobileUtils from "@/utils/Mobile.ts";
-import { isCallActive } from "@/utils/CallUtils.ts";
+import MobileUtils from '@/utils/Mobile.ts'
+import { isCallActive } from '@/utils/CallUtils.ts'
 
-import { Howl } from "howler";
+import { Howl } from 'howler'
 
 const newMessage = new Howl({
   src: [`${config.ipfs.browser}${config.sounds.newMessage}`],
   loop: false,
   volume: 0.8,
-  html5: true,
-});
+  html5: true
+})
 
 export default {
-  name: "Main",
+  name: 'Main',
   components: {
     InfoBar,
     Chatbar,
@@ -33,9 +33,9 @@ export default {
     LoadingConvorsation,
     VoiceVideo,
     NoConversation,
-    UserInfo,
+    UserInfo
   },
-  data() {
+  data () {
     return {
       mediaOpen: false,
       voice: false,
@@ -46,14 +46,14 @@ export default {
         this.$ethereum,
         config.registry[config.network.chain],
         config.cacher.dwellerLifespan
-      ),
-    };
+      )
+    }
   },
   methods: {
     // Imported from library
     isCallActive,
-    async fetchMessages(address) {
-      this.$store.dispatch("fetchMessages", { address });
+    async fetchMessages (address) {
+      this.$store.dispatch('fetchMessages', { address })
     },
     // async subscribeToThreads() {
 
@@ -64,11 +64,11 @@ export default {
     //   // });
     // },
     // Switch from one media stream to another
-    switchTo(voice = false) {
-      this.mediaOpen = true;
-      this.voice = voice;
+    switchTo (voice = false) {
+      this.mediaOpen = true
+      this.voice = voice
     },
-    async makeCall() {
+    async makeCall () {
       const constraints = {
         audio: {
           autoGainControl: false,
@@ -79,16 +79,16 @@ export default {
           sampleRate: this.$store.state.audioQuality * 1000,
           sampleSize: this.$store.state.audioSamples,
           volume: 1.0,
-          deviceId: "default",
-        },
-      };
+          deviceId: 'default'
+        }
+      }
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      const stream = await navigator.mediaDevices.getUserMedia(constraints)
 
-      this.$store.dispatch("call", {
+      this.$store.dispatch('call', {
         friendAddress: this.$store.state.activeChat,
-        stream,
-      });
+        stream
+      })
 
       // this.$streamManager.addLocalStream(stream)
       // this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat)
@@ -103,65 +103,65 @@ export default {
       //   this.$streamManager.toggleLocalStreams()
       // }
       // this.$store.commit('addActiveCall', this.$store.state.activeChat)
-      this.voice = true;
-      this.mediaOpen = true;
+      this.voice = true
+      this.mediaOpen = true
       // this.sendMessage(Date.now(), 'call');
     },
-    callAnswered() {
-      this.voice = true;
-      this.mediaOpen = true;
+    callAnswered () {
+      this.voice = true
+      this.mediaOpen = true
     },
-    hangup() {
+    hangup () {
       // const id = this.$store.state.incomingCall || this.$store.state.activeCall;
       // this.$WebRTC.hangupCall(this.$store.state.activeChat);
-      this.$store.dispatch("hangupCall", {
-        friendAddress: this.$store.state.activeChat,
-      });
+      this.$store.dispatch('hangupCall', {
+        friendAddress: this.$store.state.activeChat
+      })
     },
-    onHangup(identifier) {
-      this.$store.commit("removeActiveCall", identifier);
-      this.voice = false;
-      this.mediaOpen = false;
+    onHangup (identifier) {
+      this.$store.commit('removeActiveCall', identifier)
+      this.voice = false
+      this.mediaOpen = false
     },
     // Enter a voice or video call
-    toggleMedia(voice = false) {
-      this.voice = voice;
-      this.mediaOpen = !this.mediaOpen;
+    toggleMedia (voice = false) {
+      this.voice = voice
+      this.mediaOpen = !this.mediaOpen
       if (!this.mediaOpen) {
-        this.voice = false;
+        this.voice = false
       }
     },
     // Send a message in the chat, this will probably
     // be rewritten when the chat is functional
-    async sendMessage(data, type) {
-      this.$store.dispatch("sendMessage", { data, type });
+    async sendMessage (data, type) {
+      this.$store.dispatch('sendMessage', { data, type })
     },
     isMobile: MobileUtils.isMobile,
-    swipeHandler(direction) {
+    swipeHandler (direction) {
       if (this.isMobile()) {
-        if (direction === "right") {
+        if (direction === 'right') {
           //toggle for mobileSidebar
-          if (!localStorage.hasOwnProperty("userSwiped")) {
-            this.$store.commit("setMobileSidebar", true);
+          if (!localStorage.hasOwnProperty('userSwiped')) {
+            this.$store.commit('setMobileSidebar', true)
           } else if (
-            localStorage.hasOwnProperty("userSwiped") &&
-            localStorage.getItem("userSwiped") === "true"
+            localStorage.hasOwnProperty('userSwiped') &&
+            localStorage.getItem('userSwiped') === 'true'
           ) {
             //Logic to avoid users going from userInfo all the way to MobileSidebar in one swipe
-            localStorage.setItem("userSwiped", false);
+            localStorage.setItem('userSwiped', false)
           } else {
-            this.$store.commit("setMobileSidebar", true);
+            this.$store.commit('setMobileSidebar', true)
           }
         }
-        if (direction === "left") {
+        if (direction === 'left') {
           //toggle for userInfo
-          localStorage.setItem("userSwiped", true);
-          this.$store.commit("toggleUserInfo");
+          localStorage.setItem('userSwiped', true)
+          this.$store.commit('toggleUserInfo')
         }
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     // @deprecated---------------------
     // let lastChat = this.$store.state.activeChat;
     // this.fetchMessages(lastChat);
@@ -191,24 +191,24 @@ export default {
     //---------------------
 
     // @ts-ignore
-    const WebRTC = this.$WebRTC;
+    const WebRTC = this.$WebRTC
     WebRTC.subscribe(
       (event, identifier, { type, data }) => {
         switch (event) {
-          case "call-stream":
-            this.callAnswered();
-            break;
-          case "call-ended":
-            this.onHangup(identifier);
-            break;
+          case 'call-stream':
+            this.callAnswered()
+            break
+          case 'call-ended':
+            this.onHangup(identifier)
+            break
           default:
-            break;
+            break
         }
       },
-      ["call-stream", "call-ended"]
-    );
-  },
-};
+      ['call-stream', 'call-ended']
+    )
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

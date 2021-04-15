@@ -1,16 +1,16 @@
-import { Howl } from 'howler';
-import config from '../config/config';
+import { Howl } from 'howler'
+import config from '../config/config'
 
 /**
  * Class representing a Soundmanager
  * @class SoundManager
  */
 export default class SoundManager {
-  sounds: any;
+  sounds: any
   /**
    * @constructs SoundManager
    */
-  constructor() {
+  constructor () {
     this.sounds = {
       // TODO: Move sound files from mute / unmute / call ended, etc
       newMessage: new Howl({
@@ -35,7 +35,7 @@ export default class SoundManager {
         volume: 1.0,
         html5: true
       })
-    };
+    }
   }
 
   /** @function
@@ -44,13 +44,13 @@ export default class SoundManager {
    * @argument soundName Name of the sound file to play.
    * @returns null
    */
-  play(soundName: string) {
+  play (soundName: string) {
     if (!this.sounds[soundName]) {
-      console.error('Sound not found');
-      return;
+      console.error('Sound not found')
+      return
     }
 
-    this.sounds[soundName].play();
+    this.sounds[soundName].play()
   }
 
   /** @function
@@ -59,13 +59,13 @@ export default class SoundManager {
    * @argument soundName Name of the sound file to play.
    * @returns null
    */
-  stop(soundName: string) {
+  stop (soundName: string) {
     if (!this.sounds[soundName]) {
-      console.error('Sound not found');
-      return;
+      console.error('Sound not found')
+      return
     }
 
-    this.sounds[soundName].stop();
+    this.sounds[soundName].stop()
   }
 
   /** @function
@@ -74,12 +74,12 @@ export default class SoundManager {
    * @argument soundName Name of the sound file to play.
    * @returns null
    */
-  isPlaying(soundName: string): boolean {
+  isPlaying (soundName: string): boolean {
     if (!this.sounds[soundName]) {
-      console.error('Sound not found');
-      return false;
+      console.error('Sound not found')
+      return false
     }
 
-    return this.sounds[soundName].playing();
+    return this.sounds[soundName].playing()
   }
 }

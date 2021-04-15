@@ -36,11 +36,11 @@ export default {
         decryptedMnemonic = await CryptoUtil.decrypt(decryptedMnemonic, pin)
         this.$store.commit('setMnemonic', decryptedMnemonic)
       }
-      this.decrypted = true;
+      this.decrypted = true
       // this.checkAccount();
 
-      this.$store.dispatch('startup');
-    },
+      this.$store.dispatch('startup')
+    }
   },
   mounted () {
     document.addEventListener(

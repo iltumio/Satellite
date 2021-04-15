@@ -4,7 +4,7 @@
     v-touch:swipe="swipeHandler"
     v-touch-options="{
       touchHoldTolerance: 50,
-      swipeTolerance: 80,
+      swipeTolerance: 80
     }"
     class="animate__animated animate__slideInRight animate__faster"
   >
@@ -13,10 +13,10 @@
       v-on:click="$store.commit('toggleUserInfo')"
     ></i>
     <div class="heading">
-      <span class="label">{{ $t("conversation.userinfo.heading") }}</span>
+      <span class="label">{{ $t('conversation.userinfo.heading') }}</span>
       <span class="username">{{
         $store.state.friends.filter(
-          (f) => f.address === $store.state.activeChat
+          f => f.address === $store.state.activeChat
         )[0].name
       }}</span>
     </div>
@@ -25,7 +25,7 @@
       <CircleIcon
         :image="
           $store.state.friends.filter(
-            (f) => f.address === $store.state.activeChat
+            f => f.address === $store.state.activeChat
           )[0].photo
         "
         :address="$store.state.activeChat"
@@ -33,13 +33,13 @@
       <p class="username">
         {{
           $store.state.friends.filter(
-            (f) => f.address === $store.state.activeChat
+            f => f.address === $store.state.activeChat
           )[0].name
         }}
       </p>
       <p class="address">{{ $store.state.activeChat.substr(0, 12) }}...</p>
       <hr class="divider" />
-      <span class="label">{{ $t("conversation.userinfo.badges") }}</span>
+      <span class="label">{{ $t('conversation.userinfo.badges') }}</span>
       <Badge :address="$store.state.activeChat" showNoBadges="true" />
       <hr class="divider" />
     </div>
@@ -71,7 +71,7 @@
     </div>
 
     <div class="notes">
-      <span class="label">{{ $t("conversation.userinfo.notes") }}</span>
+      <span class="label">{{ $t('conversation.userinfo.notes') }}</span>
       <textarea
         class="textarea"
         :placeholder="$t('conversation.userinfo.notes_placeholder')"
@@ -82,19 +82,19 @@
 </template>
 
 <script>
-import Badge from "@/components/common/Badge";
-import CircleIcon from "@/components/common/CircleIcon";
-import config from "@/config/config";
-import { getExplorerByNetwork } from "@/utils/EthereumProvider.ts";
+import Badge from '@/components/common/Badge'
+import CircleIcon from '@/components/common/CircleIcon'
+import config from '@/config/config'
+import { getExplorerByNetwork } from '@/utils/EthereumProvider.ts'
 
-import MobileUtils from "@/utils/Mobile.ts";
+import MobileUtils from '@/utils/Mobile.ts'
 
 export default {
-  name: "UserInfo",
-  props: ["makeCall", "toggle"],
+  name: 'UserInfo',
+  props: ['makeCall', 'toggle'],
   components: {
     CircleIcon,
-    Badge,
+    Badge
   },
   methods: {
     /** @method
@@ -103,30 +103,30 @@ export default {
      * @argument message string to wrap links in
      * @returns string value of formatted message
      */
-    messageUser(user) {
+    messageUser (user) {
       // this.$store.commit('activeChat', user)
-      this.$store.dispatch("setActiveChat", { friendAddress: user });
+      this.$store.dispatch('setActiveChat', { friendAddress: user })
     },
     /** @method
      * Opens an etherscan link to the given address
      * @name etherscan
      * @argument address address to open to
      */
-    etherscan(address) {
+    etherscan (address) {
       window.open(
         `${getExplorerByNetwork(config.network.chain)}/address/${address}`
-      );
+      )
     },
     isMobile: MobileUtils.isMobile,
-    swipeHandler(direction) {
+    swipeHandler (direction) {
       if (this.isMobile()) {
-        if (direction === "right") {
-          this.$store.commit("toggleUserInfo");
+        if (direction === 'right') {
+          this.$store.commit('toggleUserInfo')
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

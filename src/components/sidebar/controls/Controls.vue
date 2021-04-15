@@ -1,94 +1,94 @@
 <template src="./Controls.html"></template>
 
 <script>
-import Mousetrap from "mousetrap";
-import CircleIcon from "@/components/common/CircleIcon";
-import config from "@/config/config";
+import Mousetrap from 'mousetrap'
+import CircleIcon from '@/components/common/CircleIcon'
+import config from '@/config/config'
 
-const muteAudio = new Audio(`${config.ipfs.browser}${config.sounds.mute}`);
+const muteAudio = new Audio(`${config.ipfs.browser}${config.sounds.mute}`)
 
-const unmuteAudio = new Audio(`${config.ipfs.browser}${config.sounds.unmute}`);
+const unmuteAudio = new Audio(`${config.ipfs.browser}${config.sounds.unmute}`)
 
-const deafenAudio = new Audio(`${config.ipfs.browser}${config.sounds.deafen}`);
+const deafenAudio = new Audio(`${config.ipfs.browser}${config.sounds.deafen}`)
 const unDeafenAudio = new Audio(
   `${config.ipfs.browser}${config.sounds.undeafen}`
-);
+)
 
 export default {
-  name: "Controls",
-  props: ["toggleSettings"],
+  name: 'Controls',
+  props: ['toggleSettings'],
   components: {
-    CircleIcon,
+    CircleIcon
   },
-  data() {
+  data () {
     return {
       muted: false,
       deafened: false,
-      tooltip: "Copy Account",
-      config,
-    };
+      tooltip: 'Copy Account',
+      config
+    }
   },
   methods: {
     /** @method
      * parse the stored nettype to readable string
      * @name getNetwork
      */
-    getNetwork() {
-      return config.network.chainName || "Unknown";
+    getNetwork () {
+      return config.network.chainName || 'Unknown'
     },
     /** @method
      * Jump to the active media stream location
      * @name jumpTo
      */
-    jumpTo() {
-      this.$store.commit("changeRoute", "main");
+    jumpTo () {
+      this.$store.commit('changeRoute', 'main')
       // this.$store.commit('activeChat', this.$store.state.activeMediaStreamPeer)
-      this.$store.dispatch("setActiveChat", {
-        friendAddress: this.$store.state.activeMediaStreamPeer,
-      });
+      this.$store.dispatch('setActiveChat', {
+        friendAddress: this.$store.state.activeMediaStreamPeer
+      })
     },
     /** @method
      * Set tooltip text to represent the fact
      * that we copied the addreass of the client
      * @name copied
      */
-    copied() {
-      const original = this.tooltip;
-      this.tooltip = "Copied!";
+    copied () {
+      const original = this.tooltip
+      this.tooltip = 'Copied!'
       setTimeout(() => {
-        this.tooltip = original;
-      }, 1000);
+        this.tooltip = original
+      }, 1000)
     },
     /** @method
      * Mute the active stream
      * @name copied
      */
-    toggleMute() {
-      this.muted = !this.muted;
-      if (this.muted) muteAudio.play();
-      if (!this.muted) unmuteAudio.play();
-      this.$store.commit("muted", this.muted);
-      this.$streamManager.toggleLocalStreams(this.muted);
+    toggleMute () {
+      this.muted = !this.muted
+      if (this.muted) muteAudio.play()
+      if (!this.muted) unmuteAudio.play()
+      this.$store.commit('muted', this.muted)
+      this.$streamManager.toggleLocalStreams(this.muted)
     },
     /** @method
      * Mute the active stream &
      * mute remote audio
      * @name toggleDeafen
      */
-    toggleDeafen() {
-      this.deafened = !this.deafened;
-      if (this.deafened) deafenAudio.play();
-      if (!this.deafened) unDeafenAudio.play();
-      this.$store.commit("deafened", this.deafened);
-      this.$streamManager.toggleLocalStreams(this.muted || this.deafened);
-      this.$streamManager.toggleRemoteStreams(this.deafened);
-    },
+    toggleDeafen () {
+      this.deafened = !this.deafened
+      if (this.deafened) deafenAudio.play()
+      if (!this.deafened) unDeafenAudio.play()
+      this.$store.commit('deafened', this.deafened)
+      this.$streamManager.toggleLocalStreams(this.muted || this.deafened)
+      this.$streamManager.toggleRemoteStreams(this.deafened)
+    }
   },
-  mounted() {
-    Mousetrap.bind("option+m", this.toggleMute);
-    Mousetrap.bind("option+d", this.toggleDeafen);
-  },
-};
+  mounted () {
+    Mousetrap.bind('option+m', this.toggleMute)
+    Mousetrap.bind('option+d', this.toggleDeafen)
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
