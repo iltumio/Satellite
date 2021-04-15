@@ -2,7 +2,7 @@
 
 Browse the codebase fast: https://github1s.com/Satellite-im/Satellite
 
-![](https://ipfs.io/ipfs/QmW2Kbkx2APq8rmGDnGaMPZy4amTk4fzhrMiDq257h745J)
+![](https://site.satellite.im/_nuxt/img/phonestack.fdf036e.png)
 
 Decentralized chat & sharing platform
 
@@ -47,7 +47,7 @@ Install Truffle `npm i -g truffle`
 
 Build Contracts `cd src/contracts && truffle build`
 
-### Running Vault
+### Running Satellite
 
 **Start in Devmode**
 
