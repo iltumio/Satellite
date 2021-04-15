@@ -38,7 +38,8 @@ export default {
      * @name message
      */
     message () {
-      this.$store.commit('activeChat', this.address)
+      // this.$store.commit('activeChat', this.address)
+      this.$store.dispatch('setActiveChat', { friendAddress: this.address })
       this.toggle()
     }
   },

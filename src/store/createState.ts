@@ -90,13 +90,15 @@ export interface IState {
   pendingMediaStream?: any;
   activeMediaStreamPeer?: any;
   incomingCall?: any;
-  activeCall?: any;
+  activeCalls: Array<string>;
   // Database
   databaseEnabled: boolean;
   criticalError?: any;
   // Servers
-  server?: Array<any>;
+  servers: Array<any>;
   channel?: any;
+  // Groups
+  group?: any;
   // Stickers
   stickersOpen?: boolean;
   stickerPack: any;
@@ -208,18 +210,20 @@ export const defaultState: IState = {
   pendingMediaStream: false,
   activeMediaStreamPeer: false,
   incomingCall: false,
-  activeCall: false,
+  activeCalls: [],
   // Database
   databaseEnabled: true,
   criticalError: false,
   // Servers
-  server: undefined,
+  servers: [],
   channel: undefined,
   stickersOpen: false,
   stickerPack: undefined,
   availableStickers: {},
   ownedStickers: {},
-  showCreateGroup: false
+  showCreateGroup: false,
+  // Groups 
+  group: false
 };
 
 const createState = (customState: any): IState =>

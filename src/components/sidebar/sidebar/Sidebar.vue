@@ -14,9 +14,6 @@ import Groups from '@/components/sidebar/groups/Groups'
 
 import MobileUtils from '@/utils/Mobile.ts'
 
-// import Registry from '@/classes/contracts/Registry.ts';
-// import DwellerContract from '@/classes/contracts/DwellerContract.ts';
-// import ServerContract from '@/classes/contracts/ServerContract.ts';
 // Servers
 import ServerSidebar from '@/components/server/sidebar/Sidebar'
 
@@ -40,7 +37,8 @@ export default {
       showQuickFriends: false,
       version: Package.version,
       requiresUpdate: false,
-      tabRoute: 'chats'
+      tabRoute: this.$store.state.group ?
+        'groups' : 'chats'
     }
   },
   mounted () {

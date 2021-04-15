@@ -1,0 +1,13 @@
+<div class="server-sidebar-group">
+  <h5 v-on:click="toggleCollapse">
+    <i class="fas fa-chevron-right" v-if="collapsed"></i>
+    <i class="fas fa-chevron-down" v-else></i>
+    <span class="server-sidebar-group-name">{{group.name}}</span>
+    <i class="fas fa-plus add-channel"></i>
+  </h5>
+  <div v-for="channel in group.channels" :class="`${collapsed ? 'collapsed' : 'expanded'}`">
+    <Channel
+      :channel="channels[channel]"
+      :setActiveChannel="setActiveChannel" />
+  </div>
+</div>

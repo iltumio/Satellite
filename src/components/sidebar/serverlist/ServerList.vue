@@ -35,7 +35,8 @@ export default {
     // Marks an unread message as read
     viewUnread (unread) {
       this.$store.commit('changeRoute', 'main')
-      this.$store.commit('activeChat', unread.address)
+      // this.$store.commit('activeChat', unread.address)
+      this.$store.dispatch('setActiveChat', { friendAddress: unread.address })
       this.$store.commit('newChat', unread.address)
       this.$nextTick(() => {
         setTimeout(() => {

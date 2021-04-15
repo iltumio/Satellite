@@ -12,15 +12,15 @@
         :uploadDone="fetchRecentFiles"
         :noAutoSelect="true"
       />
+      <hr class="divider">
+      <Meter 
+        :ticks="bytesPercentageUsed(fileSizeTotal) / 4" 
+        type="usage"
+        :height="1.5"/>
       <h2 class="label">
         {{ $t('files.usage') }} ({{ bytesToSize(fileSizeTotal) }} / 4GB)
       </h2>
-      <progress
-        class="progress is-info"
-        :value="bytesPercentageUsed(fileSizeTotal)"
-        max="100"
-        >{{ bytesToSize(fileSizeTotal) }} / 4GB</progress
-      >
+      <br>
       <h2 class="label">{{ $t('files.history') }}</h2>
       <div v-if="!loading" class="files-container">
         <ul>
@@ -98,6 +98,7 @@ import MobileNav from '@/components/sidebar/mobilenav/MobileNav'
 import FileContext from '@/components/common/context/FileContext'
 import FileUploadInline from '@/components/common/fileuploadinline/FileUploadInline'
 import FlexFile from '../flexfile/FlexFile.vue'
+import Meter from '@/components/common/meter/Meter'
 
 export default {
   name: 'Files',
@@ -106,7 +107,8 @@ export default {
     FileUploadInline,
     FlexFile,
     FileContext,
-    MobileNav
+    MobileNav,
+    Meter
   },
   data () {
     return {
@@ -123,7 +125,7 @@ export default {
   methods: {
     bytesPercentageUsed (used) {
       const total = 4294965097
-      return (used / total) * 100 * 10
+      return (used / total) * 100
     },
     /** @method
      * Converts the bytes to a readable string

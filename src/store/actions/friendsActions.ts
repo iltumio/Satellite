@@ -1,6 +1,6 @@
 import config from '../../config/config';
 import DwellerCachingHelper from '../../classes/DwellerCachingHelper';
-import Friends from '../../classes/contracts/Friends';
+import Friends, { FriendsEvents } from '../../classes/contracts/Friends';
 import IFriend from '../../interfaces/IFriend';
 
 export default {
@@ -47,12 +47,17 @@ export default {
       updatedFriends = parsedFriends;
     }
 
-
+    // Dispatch a databaseAction to subscribe to friends threads
     dispatch('subscribeToAllThreads', { friends: updatedFriends });
+
+    // Dispatch a p2pAction to subscribe for signals
+    dispatch('subscribeToFriendsSignals', { friends: updatedFriends });
 
     // TODO: eventually limit UI updates if friends didn't change
     //   !state.friendsLoaded ||
     //   JSON.stringify(state.friends) !== JSON.stringify(updatedFriends)
+
+    // Commit changes to the store
     commit('updateFriends', updatedFriends);
   },
   async startFriendsListeners({ dispatch }) {
@@ -63,10 +68,12 @@ export default {
       config.friends[config.network.chain]
     );
 
-    friendsContract.startAllListeners(() => {
-      // Fetch friends requests
+    friendsContract.startAllListeners(eventName => {
       dispatch('fetchFriendRequests');
-      dispatch('fetchFriends');
+
+      if (eventName === FriendsEvents.FriendRequestAccepted) {
+        dispatch('fetchFriends');
+      }
     });
   },
   async fetchFriendRequests({ commit }) {
@@ -156,17 +163,26 @@ export default {
     await friendsContract.denyRequest(address).catch(console.log);
     dispatch('fetchFriendRequests');
   },
+  async setFriendStatus({ state, commit }, { address, status }) {
+    const updatedFriends = state.friends.map(f =>
+      f.address === address ? { ...f, status } : f
+    );
+
+    commit('updateFriends', updatedFriends);
+  },
   async removeFriend({ commit, state }, address) {
     // @ts-ignore
     const friendsContract = new Friends(
       // @ts-ignore
       this.$app.$ethereum,
-      config.friends[config.network.chain],
+      config.friends[config.network.chain]
     );
     // @ts-ignore
-    await friendsContract.removeFriend(address)
+    await friendsContract.removeFriend(address);
 
-    commit('removeFriend', address)
-    state.activeChats.length > 0 ? commit('activeChat', state.activeChats[0]) : commit('activeChat', false);
+    commit('removeFriend', address);
+    state.activeChats.length > 0
+      ? commit('activeChat', state.activeChats[0])
+      : commit('activeChat', false);
   }
 };

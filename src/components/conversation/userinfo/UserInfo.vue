@@ -104,7 +104,8 @@ export default {
      * @returns string value of formatted message
      */
     messageUser (user) {
-      this.$store.commit('activeChat', user)
+      // this.$store.commit('activeChat', user)
+      this.$store.dispatch('setActiveChat', { friendAddress: user })
     },
     /** @method
      * Opens an etherscan link to the given address

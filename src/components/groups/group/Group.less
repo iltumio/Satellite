@@ -1,0 +1,67 @@
+.group {
+  height: 55px;
+  position: relative;
+  padding-left: 4rem;
+  padding-top: 0.4rem;
+  border-radius: 4px;
+  margin-bottom: 0.2rem;
+}
+.group:hover {
+  cursor: pointer;
+  background: #f6f6f6;
+}
+.unreads {
+  position: absolute;
+  top: calc(50% - 15px);
+  left: -8px;
+  width: 10px;
+  height: 30px;
+  border-radius: 2px;
+  background: #ccc;
+}
+.fa-chevron-right {
+  position: absolute;
+  right: -0.5rem;
+  top: 0.8rem;
+}
+.group .circle-icon {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.45rem;
+  width: 40px;
+  height: 40px;
+}
+.fa-spin {
+  position: absolute;
+  left: 0.16rem;
+  top: 0.45rem;
+  font-size: 8pt;
+  color: #fff;
+  -webkit-text-fill-color: #000 !important;
+  -webkit-text-stroke-width: 0;
+  -webkit-text-stroke-color: #fff;
+}
+.address {
+  font-size: 8pt;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #bbb;
+}
+
+@media (max-width: 768px) {
+  .unreads {
+    position: absolute;
+    top: calc(50% - 15px);
+    right: 0;
+    left: unset;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    /* background: #ccc; */
+    font-size: 24px;
+    background: transparent !important;
+    color: #74b9ff !important;
+  }
+}

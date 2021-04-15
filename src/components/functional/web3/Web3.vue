@@ -37,19 +37,22 @@ export default {
       this.$store.dispatch('selectProvider', { provider })
     },
     onWalletCreated (wallet) {
-      const { selectedProvider } = this.$store.state
-
+      // const { selectedProvider } = this.$store.state;
       // Connect the selected provider, based on the user selection
       // this action will automatically call the startup action and get stats action
       this.$store.dispatch('connectProvider', {
-        providerInfo: selectedProvider,
+        providerInfo: { type: 'satellite' },
         wallet
       })
     }
   },
   mounted () {
+    // this.$store.dispatch('detectInjected');
+    // this.$store.dispatch('web3Start');
+  },
+  mounted () {
     this.$store.dispatch('detectInjected')
-    this.$store.dispatch('web3Start')
+    // this.$store.dispatch('web3Start')
   }
 }
 </script>

@@ -49,7 +49,7 @@ export default {
         }
 
         // If we're recieving messages from a peer and they are not connected, try to connect.
-        WebRTC.connectIfNotConnected(update.instance.sender);
+        // WebRTC.connectIfNotConnected(update.instance.sender);
       },
       () => {
         dispatch('subscribeToThread', { friend });

@@ -1619,6 +1619,13 @@
   resolved "https://registry.yarnpkg.com/@types/seedrandom/-/seedrandom-2.4.27.tgz#9db563937dd86915f69092bc43259d2f48578e41"
   integrity sha1-nbVjk33YaRX2kJK8QyWdL0hXjkE=
 
+"@types/simple-peer@^9.6.2":
+  version "9.6.2"
+  resolved "https://registry.yarnpkg.com/@types/simple-peer/-/simple-peer-9.6.2.tgz#a72afb6bd280fc4083d37e00247b30975304c071"
+  integrity sha512-FirllZ8397Qo8LfAgD4UuMgIOQmP1zdcP2eFNRDpaFDGQs42j2XxKOcTcvYZjXHv4HD7hgoNXzjB6iiEspKniw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/to-json-schema@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@types/to-json-schema/-/to-json-schema-0.2.0.tgz#6c76736449942aa8a16a522fa2d3fcfd3bcb8d15"
@@ -6708,7 +6715,7 @@ generate-object-property@^1.1.0:
   dependencies:
     is-property "^1.0.0"
 
-get-browser-rtc@^1.0.0:
+get-browser-rtc@^1.0.0, get-browser-rtc@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/get-browser-rtc/-/get-browser-rtc-1.1.0.tgz#d1494e299b00f33fc8e9d6d3343ba4ba99711a2c"
   integrity sha512-MghbMJ61EJrRsDe7w1Bvqt3ZsBuqhce5nrn/XAwgwOXhcsz53/ltdxOse1h/8eKXj5slzxdsz56g5rzOFSGwfQ==
@@ -8142,6 +8149,22 @@ ipld@^0.28.0:
     merge-options "^2.0.0"
     multicodec "^2.0.0"
     typical "^6.0.0"
+
+ipns@^0.10.0:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/ipns/-/ipns-0.10.1.tgz#55a84dc185bf07447cff787c5cea691804bf9ad5"
+  integrity sha512-/0qYbQrgPvehuBQw7JxToJ3DoUPcyHOScaVt3UavgmF3SaROE2p+ImaZB4/K4eCawBEyO172iNeH6FkclmQEOw==
+  dependencies:
+    debug "^4.2.0"
+    err-code "^3.0.1"
+    interface-datastore "^3.0.1"
+    libp2p-crypto "^0.19.0"
+    multibase "^4.0.2"
+    multihashes "^4.0.2"
+    peer-id "^0.14.2"
+    protobufjs "^6.10.2"
+    timestamp-nano "^1.0.0"
+    uint8arrays "^2.0.5"
 
 ipns@^0.8.0:
   version "0.8.2"
@@ -10867,6 +10890,13 @@ multibase@^4.0.1:
     "@multiformats/base-x" "^4.0.1"
     web-encoding "^1.1.0"
 
+multibase@^4.0.2:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/multibase/-/multibase-4.0.4.tgz#55ef53e6acce223c5a09341a8a3a3d973871a577"
+  integrity sha512-8/JmrdSGzlw6KTgAJCOqUBSGd1V6186i/X8dDCGy/lbCKrQ+1QB6f3HE+wPr7Tpdj4U3gutaj9jG2rNX6UpiJg==
+  dependencies:
+    "@multiformats/base-x" "^4.0.1"
+
 multicast-dns@^7.2.0:
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/multicast-dns/-/multicast-dns-7.2.2.tgz#5731da04f47d1e435ac457e5ac7b4b39d866a5a1"
@@ -12711,7 +12741,7 @@ proto-list@~1.2.1:
   resolved "https://registry.yarnpkg.com/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
   integrity sha1-IS1b/hMYMGpCD2QCuOJv85ZHqEk=
 
-protobufjs@^6.10.1:
+protobufjs@^6.10.1, protobufjs@^6.10.2:
   version "6.10.2"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.10.2.tgz#b9cb6bd8ec8f87514592ba3fdfd28e93f33a469b"
   integrity sha512-27yj+04uF6ya9l+qfpH187aqEzfCF4+Uit0I9ZBQVqK09hk/SQzKa2MUqUpXaVa7LOFRg1TSSr3lVxGOk6c0SQ==
@@ -12938,7 +12968,7 @@ querystringify@^2.0.0, querystringify@^2.1.1:
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
   integrity sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==
 
-queue-microtask@^1.1.0, queue-microtask@^1.2.2:
+queue-microtask@^1.1.0, queue-microtask@^1.2.2, queue-microtask@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
@@ -13895,6 +13925,19 @@ simple-get@^2.7.0:
     once "^1.3.1"
     simple-concat "^1.0.0"
 
+simple-peer@^9.10.0:
+  version "9.11.0"
+  resolved "https://registry.yarnpkg.com/simple-peer/-/simple-peer-9.11.0.tgz#e8d27609c7a610c3ddd75767da868e8daab67571"
+  integrity sha512-qvdNu/dGMHBm2uQ7oLhQBMhYlrOZC1ywXNCH/i8I4etxR1vrjCnU6ZSQBptndB1gcakjo2+w4OHo7Sjza1SHxg==
+  dependencies:
+    buffer "^6.0.3"
+    debug "^4.3.1"
+    err-code "^3.0.1"
+    get-browser-rtc "^1.1.0"
+    queue-microtask "^1.2.3"
+    randombytes "^2.1.0"
+    readable-stream "^3.6.0"
+
 simple-swizzle@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
@@ -14776,6 +14819,11 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
+three@^0.118.3:
+  version "0.118.3"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.118.3.tgz#c0bf8c10a68155478f12f4ccac2ff979526a4a0a"
+  integrity sha512-ijECXrNzDkHieoeh2H69kgawTGH8DiamhR4uBN8jEM7VHSKvfTdEvOoHsA8Aq7dh7PHAxhlqBsN5arBI3KixSw==
+
 through2@^2.0.0:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.5.tgz#01c1e39eb31d07cb7d03a96a70823260b23132cd"
@@ -15576,6 +15624,13 @@ void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
+
+vue-3d-model@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/vue-3d-model/-/vue-3d-model-1.3.1.tgz#6b79f95a16137043d2a748f7aa6c55bd6b06b301"
+  integrity sha512-md+ZgtcSa0NcwhEWYG/uWgmtQjkAaUb+9jaHmZYdsnaPEBlT9IW3ptVQJRiA7VOGvobXaHy72ASCFaQJf08/rA==
+  dependencies:
+    three "^0.118.3"
 
 vue-add-globals@^2.0.0:
   version "2.0.1"

@@ -81,7 +81,7 @@ export default {
           return;
         }
         this.$store.commit('chatWith', this.$store.state.activeChat);
-        this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat);
+        // this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat);
         this.handleNewMessage(this.messageText, 'text');
         this.messageText = '';
         this.stopTyping();

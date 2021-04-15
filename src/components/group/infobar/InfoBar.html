@@ -1,0 +1,31 @@
+<section class="infobar noselect">
+    <div class="columns">
+        <div class="column is-half">
+            <div class="profile">
+                
+                <i class="fas fa-chevron-left mobile" v-on:click="$store.commit('toggleMobileSidebar')"></i>
+            </div>
+            <div class="profile-details" v-on:click="toggleGroupInfo">
+                <p>
+                    <CircleIcon
+                        :diameter="20"
+                        :image="$store.state.group.photo"
+                        :address="$store.state.group.identifier" />
+                    <span class="name">
+                        {{$store.state.group.name}}
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="profile-actions">
+                <i class="fas fa-phone" ></i>
+                <i class="fas fa-video disabled-icon"></i>
+                <i class="fas fa-desktop"></i>
+                <input class="input is-small searchuser" type="text"
+                    :placeholder="$t('conversation.infobar.search_placeholder')">
+                <i class="fas fa-info-circle" v-on:click="toggleGroupInfo"></i>
+            </div>
+        </div>
+    </div>
+</section>

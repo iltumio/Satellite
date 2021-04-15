@@ -7,8 +7,8 @@ interface Channel {
 }
 
 export default {
-  activeServer(state: IState, server: any) {
-    state.server = server;
+  updateServers(state: IState, servers: Array<any>) {
+    state.servers = servers;
   },
   activeChannel(state: IState, channel: Channel) {
     state.channel = channel;
