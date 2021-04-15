@@ -1,11 +1,13 @@
-import { Client, decrypt, ThreadID } from '@textile/hub';
+import { Client, ThreadID } from '@textile/hub';
 import Crypto from '../crypto/Crypto';
-// @ts-ignore
 import Message from '../Message';
+import Signal from '../Signal';
+
 import { utils, Wallet } from 'ethers';
 import { SigningKey } from 'ethers/lib/utils';
+import { Where } from '@textile/threads-client';
 
-interface Message {
+interface IMessage {
   _id: string;
   sender: string;
   to: '';
@@ -17,7 +19,7 @@ interface Message {
   metadata: object;
 }
 
-const messageSchema = <Message>{
+const messageSchema = <IMessage>{
   _id: '',
   sender: '',
   to: '',
@@ -27,6 +29,23 @@ const messageSchema = <Message>{
   encrypted: false,
   secure: false,
   metadata: {}
+};
+
+interface ISignal {
+  _id: string;
+  sender: string;
+  at: number;
+  type: string;
+  payload: any;
+}
+
+const signalSchema = <ISignal>{
+  _id: '',
+  sender: '',
+  to: '',
+  at: Date.now(),
+  type: '',
+  payload: {}
 };
 
 export class MessageManager {
@@ -54,6 +73,12 @@ export class MessageManager {
     this.signingKey = new utils.SigningKey(wallet.privateKey);
   }
 
+  safeThread(threadID: ThreadID | string): ThreadID {
+    return typeof threadID === 'string'
+      ? ThreadID.fromString(threadID.replace(/\W/g, ''))
+      : threadID;
+  }
+
   buildMessage(to: string, at: number, type: string, data: any) {
     const message = new Message(to, this.address, at, type, data);
     return {
@@ -70,14 +95,36 @@ export class MessageManager {
     };
   }
 
-  async ensureCollection(threadID: ThreadID) {
-    await this.client
-      .getCollectionIndexes(threadID, 'messages')
-      .catch(async () => {
-        await this.client.newCollectionFromObject(threadID, messageSchema, {
-          name: 'messages'
-        });
+  buildSignal(data: any, initiator: boolean) {
+    const signal = new Signal(
+      this.address,
+      new Date().getTime(),
+      'signal',
+      data,
+      initiator
+    );
+
+    return {
+      _id: signal._id,
+      sender: signal.sender,
+      at: signal.at,
+      type: signal.type,
+      payload: signal.payload
+    };
+  }
+
+  async ensureCollection(
+    threadID: ThreadID,
+    collectionName: string,
+    schema: any
+  ) {
+    try {
+      await this.client.getCollectionIndexes(threadID, collectionName);
+    } catch (e) {
+      await this.client.newCollectionFromObject(threadID, schema, {
+        name: collectionName
       });
+    }
   }
 
   async addMessageDeterministically(
@@ -93,7 +140,7 @@ export class MessageManager {
   }
 
   async addNewMessage(threadID: ThreadID, message: Message): Promise<ThreadID> {
-    await this.ensureCollection(threadID);
+    await this.ensureCollection(threadID, 'messages', messageSchema);
     await this.client.create(threadID, 'messages', [message]);
     return threadID;
   }
@@ -110,7 +157,7 @@ export class MessageManager {
     if (!this.signingKey) {
       return null;
     }
-    await this.ensureCollection(threadID);
+    await this.ensureCollection(threadID, 'messages', messageSchema);
 
     const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey);
 
@@ -129,12 +176,11 @@ export class MessageManager {
       }
     });
 
-    await this.client
-      .create(threadID, 'messages', [encryptedMessage]);
+    await this.client.create(threadID, 'messages', [encryptedMessage]);
     return threadID;
   }
 
-  async decryptMessage(message: Message, guestPublicKey: string) {
+  async decryptMessage(message: IMessage, guestPublicKey: string) {
     if (!message.encrypted || !this.signingKey) return message;
 
     const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey);
@@ -158,8 +204,8 @@ export class MessageManager {
     }
   }
 
-  async bulkDecrypt(messages: Message[], guestPublicKey: string) {
-    const decryptedMessages: Promise<Message>[] = [];
+  async bulkDecrypt(messages: IMessage[], guestPublicKey: string) {
+    const decryptedMessages: Promise<IMessage>[] = [];
     messages.map(msg =>
       decryptedMessages.push(this.decryptMessage(msg, guestPublicKey))
     );
@@ -169,12 +215,7 @@ export class MessageManager {
 
   async getMessages(threadID: ThreadID | string): Promise<Message[]> {
     return new Promise(async resolve => {
-      const safeThread =
-        typeof threadID === 'string'
-          ? ThreadID.fromString(threadID.replace(/\W/g, ''))
-          : threadID;
-
-      const decryptedMessages: any[] = [];
+      const safeThread = this.safeThread(threadID);
 
       let messages =
         (await this.client.find(safeThread, 'messages', {}).catch(err => {
@@ -199,7 +240,7 @@ export class MessageManager {
       return;
     }
 
-    const cb = (update: any) => {
+    const cb = (update: any, err: any) => {
       // Trigger the onUnsubscribe
       if (!update?.instance) {
         this.unsubscribe(threadID);
@@ -212,22 +253,17 @@ export class MessageManager {
 
     const filters = [
       {
-        collectionName: 'messages'
-      },
-      {
+        collectionName: 'messages',
         actionTypes: ['CREATE']
       }
     ];
 
-    const closer = this.client.listen(threadID, filters, cb);
+    const listener = this.client.listen(threadID, filters, cb);
 
-    // Track active subscriptions
-    this.registerListener(threadID, closer);
-    return closer;
-  }
-
-  registerListener(threadID: ThreadID, listener: any) {
+    // Track listener
     this.activeSubscriptions[threadID.toString()] = listener;
+
+    return listener;
   }
 
   unsubscribe(threadID: ThreadID) {
@@ -239,14 +275,12 @@ export class MessageManager {
       return;
     }
 
-    if (
-      typeof this.activeSubscriptions[threadID.toString()].close === 'function'
-    ) {
-      try{
-        this.activeSubscriptions[threadID.toString()].close();
-      } catch(e) {
-        console.warn(`Subscription ${threadID.toString()} was already closed. Skipping.`);
-      }
+    const subscription = this.activeSubscriptions[threadID.toString()];
+
+    if (typeof subscription.close === 'function') {
+      try {
+        subscription.close();
+      } catch (e) {}
 
       delete this.activeSubscriptions[threadID.toString()];
     }

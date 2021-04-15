@@ -5,7 +5,7 @@ import config from '../../config/config';
 // @ts-ignore
 import * as FriendsInterface from '@/contracts/build/contracts/Friends.json';
 
-enum FriendsEvents {
+export enum FriendsEvents {
   FriendRequestSent = 'FriendRequestSent',
   FriendRequestDenied = 'FriendRequestDenied',
   FriendRequestAccepted = 'FriendRequestAccepted'

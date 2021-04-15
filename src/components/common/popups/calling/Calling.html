@@ -1,9 +1,9 @@
 <div :class="`modal ${active ? 'is-active' : ''}`">
   <div class="modal-background"></div>
   <div class="modal-card">
-    <section class="modal-card-body" v-if="dweller">
-      <CircleIcon :image="dweller.photo" :address="dweller.address" />
-      <h2 class="person">{{dweller.name}}</h2>
+    <section class="modal-card-body" v-if="getFriendInfo($store.state.incomingCall)">
+      <CircleIcon :image="getFriendInfo($store.state.incomingCall).photo" :address="getFriendInfo($store.state.incomingCall).address" />
+      <h2 class="person">{{getFriendInfo($store.state.incomingCall).name}}</h2>
       <h2 class="label">{{$t('popups.calling.is_calling_you')}}</h2>
       <hr class="divider">
       <button class="button is-success" v-on:click="acceptCall"><i class="fas fa-phone"></i> &nbsp; {{$t('global.accept')}}</button>

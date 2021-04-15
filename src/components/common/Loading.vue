@@ -58,10 +58,6 @@
       <div v-else-if="$store.state.starting">
         <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.generic') }}
       </div>
-      <div v-else-if="!$store.state.ICEConnected">
-        <i class="fas fa-spinner-third fa-spin"></i>
-        {{ $t('loading.connecting_broker') }}
-      </div>
       <div
         class="metamask"
         v-if="
@@ -83,9 +79,9 @@
         <span v-if="!$store.state.friendsLoaded">
           {{ $t('loading.textile') }}
         </span>
-        <span v-else-if="!$store.state.ICEConnected">
+        <!-- <span v-else-if="!$store.state.ICEConnected">
           {{ $t('loading.other_tab') }}
-        </span>
+        </span> -->
         <span v-else>
           {{ $t('loading.something_wrong') }}
           <a href="#" target="_blank" v-on:click="window.location.reload()">{{

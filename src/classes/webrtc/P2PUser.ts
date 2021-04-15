@@ -1,113 +1,281 @@
-// @ts-ignore
-import config from '@/config/config';
-import Peer from "peerjs";
-import WebRTC from "./WebRTC";
+import Peer from 'simple-peer';
+import { debounce } from '../../utils/utils';
 
-interface Message {
-  type: string,
-  data: any,
-}
+export type CallEvent =
+  | 'call-connected'
+  | 'call-stream'
+  | 'call-track'
+  | 'call-error'
+  | 'call-ended'
+  | 'call-answered'
+  | 'call-busy';
 
-type RTCEvent = '*' |
-  'connection-established' |
-  'ping' |
-  'pong' |
-  'heartbeat' |
-  'flatlined' |
-  'message' |
-  'typing-notice' |
-  'call-status' |
-  'data' | 
-  'REMOTE-HANGUP';
+export type CallInternalEvent = 'track' | 'stream' | 'data' | 'connect';
+
+type ListenersObject = { [key: string]: CallableFunction };
 
 export default class P2PUser {
   identifier: string;
-  connection: Peer.DataConnection | null;
-  eventBus: CallableFunction;
-  instance: WebRTC;
-  lastHeartbeat: number;
-  flatlined: boolean;
-  constructor(instance: WebRTC, identifier: string, eventBus: CallableFunction) {
-    this.lastHeartbeat = Date.now();
-    this.flatlined = false;
-    this.instance = instance;
+  listeners: ListenersObject;
+  instance: Peer.Instance;
+  _peerData: any;
+  emitSignal: CallableFunction;
+  isConnected: boolean;
+  options: Peer.Options;
+  activeCall?: Peer.Instance;
+  activeStream?: MediaStream;
+  callListener?: CallableFunction;
+  incomingCallData?: Peer.SignalData;
+
+  constructor(
+    identifier: string,
+    options: Peer.Options,
+    listeners: ListenersObject
+  ) {
     this.identifier = identifier;
-    this.connection = null;
-    this.eventBus = eventBus; // Signals back to subscribers
-  }
+    this.listeners = listeners;
 
-  get isAlive() {
-    return this.connection && !this.flatlined;
-  }
+    this.instance = new Peer(options);
 
-  public bind(connection: Peer.DataConnection) {
-    this.connection = connection;
-    this.connection.on('data', (data: any) => {
-      this.handleData(data);
-    });
-    this.defib();
-    this.monitor();
-  }
+    this.options = options;
 
-  // Sends pulses to the peer user every n seconds
-  // this is used to signal the peer is still online.
-  public defib() {
-    this.send('heartbeat', Date.now());
-    setTimeout(() => {
-      if (!this.flatlined) this.defib();
-    }, config.peer.check_heartbeat);
-  }
-
-  /** @function
-   * @name monitor
-   * Check that the remote peer is alive and well via a ping-pong heartbeat
-   */
-  monitor() {
-    if (Date.now() - this.lastHeartbeat > config.peer.heartbeat_timeout) {
-      if (!this.flatlined) {
-        // TODO: close the connection
-        this.flatlined = true;
-        this.instance.publishDeath(this.identifier);
+    const emitSignal = data => {
+      if (typeof this.listeners.onSignal === 'function') {
+        this.listeners.onSignal(data);
       }
-    }
-    setTimeout(() => {
-      this.monitor();
-    }, config.peer.check_heartbeat);
-  }
-
-  handleData(data: any) {
-    const events = this.instance.events;
-    const message: Message = {
-      type: (events.includes(data.type)) ? data.type : 'data',
-      data: data.payload,
     };
 
-    this.eventBus(message.type, message);
-    this.lastHeartbeat = Date.now();
+    this.emitSignal = options.trickle ? debounce(emitSignal, 1000) : emitSignal;
+
+    this.instance.on('connect', this.onConnect.bind(this));
+    this.instance.on('signal', this.onSignal.bind(this));
+    this.instance.on('error', this.onError.bind(this));
+    this.instance.on('data', this.onData.bind(this));
+    this.instance.on('track', this.onTrack.bind(this));
+    this.instance.on('stream', this.onStream.bind(this));
+    this.instance.on('close', this.onClose.bind(this));
+
+    this.isConnected = false;
   }
 
-  public call(identifier: string, stream: MediaStream) : Error | null {
-    if (!this.instance.peer) return new Error('Parent connection not established.');
-    if (!this.connection) return new Error('Connection not bound.');
-    this.instance.peer.call(identifier, stream);
-    // No errors
-    return null;
+  /**
+   * @method onSignal
+   * @description Handles the callback for the signal event from SimplePeer
+   * @param data Data received from SimplePeer signal event
+   */
+  public onSignal(data) {
+    this._peerData = data;
+    this.emitSignal(this._peerData);
   }
 
-  public send(event: string, data: any) : Error | null {
-    if (!this.connection) return new Error('Connection not bound.');
-    if (event === '*') return new Error('The wildcard event is for listening only.');
-    if (!this.instance.events.includes(<RTCEvent>event)) return new Error(`Invalid event type: ${event}`);
-    this.connection.send({
-      type: event,
-      payload: data,
+  /**
+   * @method onDisconnect
+   * @description Handles the callback for the connect event from SimplePeer
+   */
+  public onConnect() {
+    this.isConnected = true;
+    if (typeof this.listeners.onConnect === 'function') {
+      this.listeners.onConnect(this.identifier);
+    }
+  }
+
+  /**
+   * @method onError
+   * @description Handles the callback for the error event from SimplePeer
+   * @param error Error received from SimplePeer error event
+   */
+  public onError(error) {
+    console.error(`Failed to connect ${this.identifier}`, error);
+    if (typeof this.listeners.onError === 'function') {
+      this.listeners.onError(error);
+    }
+  }
+
+  /**
+   * @method onClose
+   * @description Handles the callback for the close event from SimplePeer
+   */
+  public onClose() {
+    this.isConnected = false;
+    if (typeof this.listeners.onClose === 'function') {
+      this.listeners.onClose();
+    }
+  }
+
+  /**
+   * @method onData
+   * @description Handles the callback for the data event from SimplePeer
+   * @param data Data received from SimplePeer data event
+   */
+  public onData(data) {
+    const decoder = new TextDecoder();
+    const decodedString = decoder.decode(data);
+    const parsedData = JSON.parse(decodedString);
+
+    if (parsedData?.type === 'call-request') {
+      this.incomingCallData = parsedData.data;
+      if (typeof this.listeners.onCall === 'function') {
+        this.listeners.onCall(parsedData?.type);
+      }
+    } else if (parsedData?.type === 'call-answer') {
+      this.activeCall?.signal(parsedData.data);
+    } else if (parsedData?.type === 'call-hangup') {
+      this.hangupCall();
+    } else if (typeof this.listeners.onData === 'function') {
+      this.listeners.onData(parsedData);
+    }
+  }
+
+  /**
+   * @method onTrack
+   * @description Handles the callback for the track event from SimplePeer
+   * @param track New track received from SimplePeer track event
+   * @param stream Stream received from SimplePeer track event
+   */
+  public onTrack(track, stream) {
+    if (typeof this.listeners.onTrack === 'function') {
+      this.listeners.onTrack(track, stream);
+    }
+  }
+
+  /**
+   * @method onStream
+   * @description Handles the callback for the steram event from SimplePeer
+   * @param stream Steram received from SimplePeer stream event
+   */
+  public onStream(stream) {
+    if (typeof this.listeners.onStream === 'function') {
+      this.listeners.onStream(stream);
+    }
+  }
+
+  /**
+   * @method forwardSignal
+   * @description Forwards signal data to the SimplePeer instance
+   * @param data Signaling data to forward
+   */
+  public forwardSignal(data) {
+    this.instance.signal(data);
+  }
+
+  /**
+   * @method subscribeToCallEvents
+   * @description Allows to subscribe to call events
+   * @param callback Callback to be invoked when a call event occour
+   */
+  public subscribeToCallEvents(callback: CallableFunction) {
+    this.callListener = callback;
+  }
+
+  /**
+   * @method emitCallEvent
+   * @description Internal function to emit a new call event
+   * @param event Event name to be emitted
+   * @arg args List of arguments to be emitted for the given event
+   */
+  private emitCallEvent(event: CallEvent, ...args) {
+    if (this.callListener) {
+      this.callListener(event, ...args);
+    }
+  }
+
+  /**
+   * @method createCallPeer
+   * @description Internal function to create a new SimplePeer instance
+   * related to che current call
+   * @param options SimplePeer options object for the call connection
+   */
+  private createCallPeer(options: Peer.Options): Peer.Instance {
+    const callPeer = new Peer(options);
+
+    callPeer.on('signal', data => {
+      const type = data.type === 'offer' ? 'call-request' : 'call-answer';
+      this.instance.send(JSON.stringify({ type, data }));
     });
-    
-    // No errors
-    return null;
+
+    callPeer.on('connect', () => {
+      this.emitCallEvent('call-connected');
+    });
+
+    callPeer.on('stream', stream => {
+      this.emitCallEvent('call-stream', stream);
+    });
+
+    callPeer.on('track', (track, stream) => {
+      this.emitCallEvent('call-track', track, stream);
+    });
+
+    callPeer.on('error', error => {
+      this.emitCallEvent('call-error', error);
+    });
+
+    callPeer.on('close', () => {
+      this.emitCallEvent('call-ended', this.identifier);
+    });
+
+    return callPeer;
   }
 
-  public close() {
-    this.connection?.close();
+  public call(stream: MediaStream) {
+    if (!this.isConnected)
+      return new Error('Parent connection not established.');
+
+    if (this.activeCall) {
+      console.warn('Call already active');
+      return null;
+    }
+
+    const callPeer = this.createCallPeer({
+      initiator: true,
+      trickle: false,
+      stream: stream
+    });
+
+    this.activeCall = callPeer;
+    // Store the active stream to destroy it after hangup
+    this.activeStream = stream;
+  }
+
+  public answerCall(stream: MediaStream, sendToRemote?: boolean) {
+    const callPeer = this.createCallPeer({
+      initiator: false,
+      trickle: false,
+      stream: stream
+    });
+
+    if (this.incomingCallData) {
+      callPeer.signal(this.incomingCallData);
+    }
+
+    this.activeCall = callPeer;
+    // Store the active stream to destroy it after hangup
+    this.activeStream = stream;
+
+    if (sendToRemote)
+      this.instance.send(JSON.stringify({ type: 'call-answered' }));
+  }
+
+  public hangupCall(sendToRemote?: boolean) {
+    if (this.activeCall) {
+      this.activeCall?.destroy();
+      this.activeCall = undefined;
+      this.activeStream?.getTracks().forEach(function(track) {
+        track.stop();
+      });
+    } else {
+      this.emitCallEvent('call-ended', this.identifier);
+    }
+
+    if (sendToRemote)
+      this.instance.send(JSON.stringify({ type: 'call-hangup' }));
+  }
+
+  public send(data: any) {
+    this.instance.send(data);
+  }
+
+  public destroy() {
+    this.activeCall?.destroy();
+    this.instance?.destroy();
   }
 }

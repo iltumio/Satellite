@@ -17,13 +17,6 @@
             '0x0000000000000000000000000000000000000000'
       "
     />
-    <Voice
-      v-if="
-        $store.state.p2pOnline &&
-          $store.state.dwellerAddress !==
-            '0x0000000000000000000000000000000000000000'
-      "
-    />
     <ScreenCapture
       v-if="
         windowBound &&
@@ -43,7 +36,6 @@
     <Loading
       v-else-if="
         !$store.state.friendsLoaded ||
-          !$store.state.p2pOnline ||
           $store.state.dwellerAddress ===
             '0x0000000000000000000000000000000000000000' ||
           !$store.state.dwellerAddress ||
@@ -76,7 +68,7 @@
           <Sidebar
             :toggleSettings="toggleSettings"
             :toggleCreateServer="toggleCreateServer"
-            :servers="servers"
+            :servers="$store.state.servers"
             :loadingServers="loadingServers"
           />
         </div>
