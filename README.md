@@ -1,15 +1,17 @@
-# Satellite
+[![Netlify Status](https://api.netlify.com/api/v1/badges/266deaf5-681e-49a4-9469-d558042b01b4/deploy-status)](https://app.netlify.com/sites/focused-aryabhata-5c2feb/deploys)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+# Satellite.im
+
+Satellite gives you peace of mind with end-to-end
+encryption without sacrificing quality.
+Stream in 4k, chat in 500kbs+, share 10GB files.
 
 Browse the codebase fast: https://github1s.com/Satellite-im/Satellite
 
-![](https://ipfs.io/ipfs/QmW2Kbkx2APq8rmGDnGaMPZy4amTk4fzhrMiDq257h745J)
+![](https://site.satellite.im/_nuxt/img/phonestack.fdf036e.png)
 
-Decentralized chat & sharing platform
-
-
-![](https://c.gitcoin.co/docs/8d49c129c59c3431b4127f521993eae2/unknown.png)
-
-## Running Locally
+## Developing Locally
 
 You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application. 
 
@@ -47,7 +49,7 @@ Install Truffle `npm i -g truffle`
 
 Build Contracts `cd src/contracts && truffle build`
 
-### Running Vault
+### Running Satellite
 
 **Start in Devmode**
 
@@ -57,56 +59,22 @@ Navigate to `http://localhost:8080`. (This should open automatically.)
 
 In your browser, use something like metamask connected to the goerli testnet.
 
-## Theming
 
-Themes can be added by adding them to the list in `src/components/main/settings/personalize`
-You should clone one of the themes in `src/assets/styles/` first then add the name of the theme in `Personalize.vue`.
+## Code Quality
 
-Example. if your theme is named `cyan.less` you'd add the following to Personalize.
-
-```vue
-<div class="select">
-    <select v-model="$store.state.theme">
-        <option value="dark">Simply Dark</option>
-        <option value="light">Eye Strain</option>
-        <option value="ice">Ice Cold</option>
-        <option value="tokyo">Tokyo Night</option>
-        <option value="tokyo-lights">Tokyo Lights</option>
-        <!-- Your Theme! -->
-        <option value="cyan">Oh So Cyan</option>
-    </select>
-</div>
-```
-
-In `App.vue` make sure to add your class to the bottom of the file with the same name as the vaule of your `<select>` option.
-
-```less
-.dark {
-  @import "assets/styles/true_dark.less";
-}
-.ice {
-  @import "assets/styles/ice.less";
-}
-.tokyo {
-  @import "assets/styles/tokyo.less";
-}
-.tokyo-lights {
-  @import "assets/styles/tokyo_lights.less";
-}
-/* Your Theme */
-.cyan {
-  @import "assets/styles/cyan.less";
-}
-```
-Save your changes and select your theme under settings. Please do not set your theme to default before submitting a PR. Please be sure to check all aspects of the app for concistancy before uploading your theme. Please make sure to use the variables at the top of the theme as opposed to manually editing everything.
-
-## Contributing Rules
+## Documentation & Style Guide
+Satellite is intended to be built by the community. PLEASE document all new methods with JSDoc clearly so that future developers can pick up and improve Satellite rapidly. We also use the Standard.js style guide. Maintain this style guide wherever possible.
 
 ### Single File Components
 If a single file component exceeds 150 lines please split it into a three file component.
 
-### ESLint
-Please make sure your changes pass the linter before commiting code
+## Testing 
 
-### Documentation
-Please add at least a comment to new methods so it is clear what they do.
+Nothing is here yet, that's a problem, if you'd love a great place to start we would love to setup some automated testing!
+
+## Important Gotchas
+This repository encompases all of Satellite's infastructure. There is no back-end API to store keys or anything really. With this in mind please be mindful that anything you add to the repository will be visible to the end user. Traditional secret key authentication into external APIs will expose those secrets to the public. 
+
+
+## Loving the project?
+We're probably hiring, if you've made it this far you're probably interested in the tech side. Please feel free to reach out and chat with us!

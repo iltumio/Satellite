@@ -34,14 +34,7 @@ export default {
      * @name getNetwork
      */
     getNetwork () {
-      switch (this.$store.state.web3Stats.nettype.name) {
-        case 'private':
-          return 'Testnet'
-        case 'main':
-          return 'Mainnet'
-        default:
-          return 'Unknown'
-      }
+      return config.network.chainName || 'Unknown'
     },
     /** @method
      * Jump to the active media stream location
@@ -49,7 +42,10 @@ export default {
      */
     jumpTo () {
       this.$store.commit('changeRoute', 'main')
-      this.$store.commit('activeChat', this.$store.state.activeMediaStreamPeer)
+      // this.$store.commit('activeChat', this.$store.state.activeMediaStreamPeer)
+      this.$store.dispatch('setActiveChat', {
+        friendAddress: this.$store.state.activeMediaStreamPeer
+      })
     },
     /** @method
      * Set tooltip text to represent the fact

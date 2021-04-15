@@ -1,0 +1,8 @@
+<div class="server-sidebar">
+  <div v-for="group in groups">
+    <Group
+      :group="group"
+      :channels="channels"
+      :setActiveChannel="setActiveChannel" />
+  </div>
+</div>

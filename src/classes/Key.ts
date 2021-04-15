@@ -1,19 +1,19 @@
-import Web3EthAccounts from 'web3-eth-accounts';
+import Web3EthAccounts from 'web3-eth-accounts'
 
 export default class Key {
-  account: any;
+  account: any
 
   /** @constructor
    * Construct a new Key
    * @argument web3 web3 object
    */
-  constructor(web3: any) {
+  constructor (web3: any) {
     if (!web3) {
       // @ts-ignore
-      const w3 = new Web3EthAccounts();
-      this.account = w3.create();
+      const w3 = new Web3EthAccounts()
+      this.account = w3.create()
     } else {
-      this.account = web3.eth.accounts.create();
+      this.account = web3.eth.accounts.create()
     }
   }
 
@@ -22,8 +22,8 @@ export default class Key {
    * Get the keys account address
    * @returns key account address
    */
-  getAccount() {
-    return this.account.address;
+  getAccount () {
+    return this.account.address
   }
 
   /** @function
@@ -31,8 +31,8 @@ export default class Key {
    * Get the keys public key
    * @returns public key
    */
-  getPublicKey() {
-    return this.account.address;
+  getPublicKey () {
+    return this.account.address
   }
 
   /** @function
@@ -40,8 +40,8 @@ export default class Key {
    * Get the keys private key
    * @returns private key
    */
-  getPrivateKey() {
-    return this.account.privateKey;
+  getPrivateKey () {
+    return this.account.privateKey
   }
 
   /** @function
@@ -50,8 +50,8 @@ export default class Key {
    * @argument password password to encrypt with
    * @returns encryption method
    */
-  encrypt(password: string) {
-    return this.account.encrypt(password);
+  encrypt (password: string) {
+    return this.account.encrypt(password)
   }
 
   /** @function
@@ -60,7 +60,7 @@ export default class Key {
    * @argument password password to decrypt with
    * @returns decryption method
    */
-  decrypt(password: string) {
-    return this.account.decrypt(password);
+  decrypt (password: string) {
+    return this.account.decrypt(password)
   }
 }

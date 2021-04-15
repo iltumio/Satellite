@@ -80,7 +80,9 @@ export default {
      */
     handleChat (fr) {
       this.$store.commit('newChat', fr.address)
-      this.$store.commit('activeChat', fr.address)
+      // this.$store.commit('activeChat', fr.address)
+      this.$store.dispatch('setActiveChat', { friendAddress: fr.address })
+
       this.$store.commit('changeRoute', 'main')
       this.close()
       this.$nextTick(() => {

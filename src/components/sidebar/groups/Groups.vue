@@ -1,8 +1,13 @@
 <template src="./Groups.html"></template>
 
 <script>
+import GroupList from '@/components/groups/list/GroupList'
+
 export default {
-  name: 'Groups'
+  name: 'Groups',
+  components: {
+    GroupList
+  }
 }
 </script>
 

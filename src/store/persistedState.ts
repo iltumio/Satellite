@@ -32,6 +32,12 @@ const blacklist: IBlacklist = {
   pin: true,
   availableStickers: true,
   ownedStickers: true,
+  buckets: true,
+  authenticated: true,
+  criticalError: true,
+  ICEConnected: true,
+  activeCalls: true,
+  incomingCall: true,
 };
 
 const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key]);

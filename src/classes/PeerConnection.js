@@ -55,7 +55,7 @@ export default class PeerConnection {
         message: 'connected'
       }
       this.watcher('status', this.status)
-      remPeer.on('data', (data) => {
+      remPeer.on('data', data => {
         this.handleIncomingData(data)
       })
       this.bindGateway(remPeer)
@@ -170,9 +170,11 @@ export default class PeerConnection {
    * @returns status object, includes the status code and message
    */
   getStatus () {
-    return this.status || {
-      code: 0,
-      message: 'unknown'
-    }
+    return (
+      this.status || {
+        code: 0,
+        message: 'unknown'
+      }
+    )
   }
 }

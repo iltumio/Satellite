@@ -29,7 +29,7 @@
     name: 'MessageBody',
     props: ['messages', 'scrollToEnd'],
     components: {
-      CircleIcon,
+     CircleIcon,
       MessageContext,
       // Embeds
       Link,

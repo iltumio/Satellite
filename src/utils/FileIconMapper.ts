@@ -1,5 +1,5 @@
 interface Mappings {
-  default: string,
+  default: string
 }
 // Useful methods to translate filenames into classes
 export default {
@@ -15,7 +15,7 @@ export default {
     'application/x-javascript': 'fab fa-js-square',
     'text/javascript': 'fab fa-js-square',
     'application/java-archive': 'fab fa-java',
-    'text/css': 'fab fa-css3-alt',
+    'text/css': 'fab fa-css3-alt'
   },
   /** @function
    * @name translateFiletype
@@ -23,14 +23,14 @@ export default {
    * @argument mappings mapping to check through for translation
    * @returns classname to be used for fontawesome icons describing the filetype
    */
-  translateFiletype(filetype: string, mappings: Mappings) {
-    let classname = mappings.default;
+  translateFiletype (filetype: string, mappings: Mappings) {
+    let classname = mappings.default
     // eslint-disable-next-line
     for (const [key] of Object.entries(mappings)) {
       if (filetype.includes(key)) {
-        classname = mappings[key];
+        classname = mappings[key]
       }
     }
-    return classname;
-  },
-};
+    return classname
+  }
+}

@@ -6,11 +6,11 @@ import config from '../config/config'
  * @class SoundManager
  */
 export default class SoundManager {
-  sounds: any;
+  sounds: any
   /**
    * @constructs SoundManager
    */
-  constructor() {
+  constructor () {
     this.sounds = {
       // TODO: Move sound files from mute / unmute / call ended, etc
       newMessage: new Howl({
@@ -18,22 +18,68 @@ export default class SoundManager {
         loop: false,
         volume: 0.8,
         html5: true
+      }),
+      callingSound: new Howl({
+        src: [`${config.ipfs.browser}${config.sounds.call}`],
+        loop: true,
+        volume: 1.0,
+        html5: true
+      }),
+      hangupSound: new Howl({
+        src: [`${config.ipfs.browser}${config.sounds.hangup}`],
+        volume: 1.0,
+        html5: true
+      }),
+      connectedSound: new Howl({
+        src: [`${config.ipfs.browser}${config.sounds.connected}`],
+        volume: 1.0,
+        html5: true
       })
-    };
+    }
   }
-  
+
   /** @function
    * Plays a specified sound
    * @name play
    * @argument soundName Name of the sound file to play.
    * @returns null
    */
-  play(soundName: string) {
+  play (soundName: string) {
     if (!this.sounds[soundName]) {
-      console.error('Sound not found');
-      return;
+      console.error('Sound not found')
+      return
     }
 
-    this.sounds[soundName].play();
+    this.sounds[soundName].play()
+  }
+
+  /** @function
+   * Stops a specified sound
+   * @name stop
+   * @argument soundName Name of the sound file to play.
+   * @returns null
+   */
+  stop (soundName: string) {
+    if (!this.sounds[soundName]) {
+      console.error('Sound not found')
+      return
+    }
+
+    this.sounds[soundName].stop()
+  }
+
+  /** @function
+   * Checks if the sound is currently playing
+   * @name isPlaying
+   * @argument soundName Name of the sound file to play.
+   * @returns null
+   */
+  isPlaying (soundName: string): boolean {
+    if (!this.sounds[soundName]) {
+      console.error('Sound not found')
+      return false
+    }
+
+    return this.sounds[soundName].playing()
   }
 }

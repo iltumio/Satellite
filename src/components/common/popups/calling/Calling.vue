@@ -27,21 +27,28 @@ export default {
           noiseSuppression: this.$store.state.noiseSuppression,
           sampleRate: this.$store.state.audioQuality * 1000,
           sampleSize: this.$store.state.audioSamples,
-          volume: 1.0
+          volume: 1.0,
+          deviceId: 'default'
         }
       }
-      const stream = await this.$WebRTC.getMediaStream(constraints)
-      this.$streamManager.addLocalStream(stream)
-      this.$WebRTC.answer(
-        this.$store.state.incomingCall,
-        this.$streamManager.localStreams[0]
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints)
+      // this.$streamManager.addLocalStream(stream);
+
+      const friend = this.$store.state.friends.find(
+        f => f.address === this.$store.state.incomingCall
       )
-      this.$store.commit('incomingCall', false)
-      this.$store.commit('activeCall', this.$store.state.activeChat)
+
+      this.$store.dispatch('answerCall', { friend, stream })
     },
     denyCall () {
-      this.$WebRTC.hangup(this.$store.state.incomingCall)
+      this.$WebRTC.hangupCall(this.$store.state.incomingCall)
       this.$store.commit('incomingCall', false)
+    },
+    getFriendInfo (address) {
+      return this.$store.state.friends
+        ? this.$store.state.friends.find(f => f.address === address)
+        : null
     }
   },
   async mounted () {
@@ -52,14 +59,8 @@ export default {
     )
 
     this.$WebRTC.subscribe(() => {
-      this.denyCall()
-    }, ['REMOTE-HANGUP'])
-    this.$WebRTC.mediaSubscription(
-      ['INCOMING-CALL'],
-      async (event, identifier) => {
-        this.dweller = await this.dwellerCachingHelper.getDweller(identifier)
-      }
-    )
+      this.$store.commit('incomingCall', false)
+    }, ['call-ended'])
   }
 }
 </script>

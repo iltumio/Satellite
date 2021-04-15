@@ -25,7 +25,8 @@ export default {
     // Navigate to the main route
     navigateToUser (address) {
       this.$store.commit('changeRoute', 'main')
-      this.$store.commit('activeChat', address)
+      // this.$store.commit('activeChat', address)
+      this.$store.dispatch('setActiveChat', { friendAddress: address })
       this.$nextTick(() => {
         setTimeout(() => {
           this.$store.commit('setMobileSidebar', false)

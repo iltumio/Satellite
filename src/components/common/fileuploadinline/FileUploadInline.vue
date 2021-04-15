@@ -6,12 +6,16 @@ import FileC from '@/classes/FileC.ts'
 import * as nsfwjs from 'nsfwjs'
 
 import MobileUtils from '@/utils/Mobile.ts'
+import Meter from '@/components/common/meter/Meter'
 
 const uploadAudio = new Audio(`${config.ipfs.browser}${config.sounds.upload}`)
 
 export default {
   name: 'FileUploadInline',
   props: ['relayResult', 'uploadDone', 'noAutoSelect'],
+  components: {
+    Meter
+  },
   data () {
     return {
       link: false,
@@ -52,8 +56,8 @@ export default {
       let isNSFW = await this.isNSFW(this.selectedFile)
       this.aiScanning = false
 
-      if (size > 40) {
-        this.error = 'Please select a file smaller than 40 MiB'
+      if (size > 256) {
+        this.error = 'Please select a file smaller than 256 MiB'
         this.selectedFile = false
       } else if (isNSFW) {
         this.error = 'Our AI thinks this image is NSFW'

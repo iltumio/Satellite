@@ -73,7 +73,7 @@ export default {
     getFilteredFriends,
     update () {
       this.fetchFriendRequests()
-      this.$store.dispatch('fetchFriends', this.$store.state.activeAccount)
+      // this.$store.dispatch('fetchFriends', this.$store.state.activeAccount)
     },
     getFriends () {
       this.friends = this.$store.state.friends
@@ -83,7 +83,7 @@ export default {
      * @name fetchFriendRequests
      */
     async fetchFriendRequests () {
-      this.$store.dispatch('fetchFriendRequests')
+      // this.$store.dispatch('fetchFriendRequests')
     },
     /** @method
      * Remove friend
@@ -103,7 +103,8 @@ export default {
      */
     chatFriend (address) {
       this.$store.commit('newChat', address)
-      this.$store.commit('activeChat', address)
+      // this.$store.commit('activeChat', address)
+      this.$store.dispatch('setActiveChat', { friendAddress: address })
       this.$store.commit('changeRoute', 'main')
     },
     /** @method

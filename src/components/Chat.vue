@@ -11,7 +11,6 @@ import Loading from '@/components/common/Loading'
 import Achievement from '@/components/common/Achievement'
 import Context from '@/components/common/context/Context'
 // Functional
-import Voice from '@/components/functional/media/Voice'
 import ScreenCapture from '@/components/functional/media/ScreenCapture'
 import Web3 from '@/components/functional/web3/Web3'
 import BalanceFetcher from '@/components/functional/web3/BalanceFetcher'
@@ -26,17 +25,14 @@ import MobileFriends from '@/components/friends/mobilefriends/MobileFriends'
 // Servers
 import CreateServer from '@/components/servers/create/CreateServer'
 import Server from '@/components/server/Server'
+// Groups
+import Group from '@/components/group/Group'
 // Popups
 import Error from '@/components/common/popups/error/Error'
 import Calling from '@/components/common/popups/calling/Calling'
 import CreateGroup from '@/components/common/popups/creategroup/CreateGroup'
 
 import IPFS from 'ipfs-core'
-
-import config from '@/config/config'
-import Registry from '@/classes/contracts/Registry.ts'
-import DwellerContract from '@/classes/contracts/DwellerContract.ts'
-import ServerContract from '@/classes/contracts/ServerContract.ts'
 
 import MobileUtils from '@/utils/Mobile.ts'
 
@@ -58,12 +54,12 @@ export default {
     BalanceFetcher,
     Database,
     Loading,
-    Voice,
     ScreenCapture,
     Calling,
     CreateServer,
     Context,
     Server,
+    Group,
     CreateGroup
   },
   data () {
@@ -135,28 +131,7 @@ export default {
     },
     async updateServers () {
       this.loadingServers = true
-      const registry = new Registry(
-        this.$ethereum,
-        config.registry[config.network.chain]
-      )
-      const dwellerContractAddress = await registry.getDwellerContract(
-        this.$store.state.activeAccount
-      )
-      const dwellerContract = new DwellerContract(
-        this.$ethereum,
-        dwellerContractAddress
-      )
-      const serverAddresses = await dwellerContract.getServers(
-        this.$store.state.activeAccount
-      )
-
-      const fetchServers = serverAddresses.map(serverAddress => {
-        const serverContract = new ServerContract(this.$ethereum, serverAddress)
-        return serverContract.get(serverAddress)
-      })
-      const servers = await Promise.all(fetchServers)
-
-      this.servers = servers
+      this.$store.dispatch('fetchServers')
       this.loadingServers = false
     }
   },
@@ -170,20 +145,10 @@ export default {
     })
     const ipfs = await IPFS.create()
     window.ipfs = ipfs
-    const checkPeer = () => {
-      if (this.$WebRTC.connection) {
-        this.windowBound = true
-      } else {
-        setTimeout(() => {
-          checkPeer()
-        }, 500)
-      }
-    }
-    checkPeer()
     this.checkMobile()
     window.addEventListener('resize', this.checkMobile, true)
 
-    this.updateServers()
+    // this.updateServers()
   }
 }
 </script>

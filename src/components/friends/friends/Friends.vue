@@ -62,14 +62,14 @@ export default {
   methods: {
     update () {
       this.fetchFriendRequests()
-      this.$store.dispatch('fetchFriends', this.$store.state.activeAccount)
+      // this.$store.dispatch('fetchFriends', this.$store.state.activeAccount)
     },
     /** @method
      * Get all the friend requests that are actively stored on chain
      * @name fetchFriendRequests
      */
     async fetchFriendRequests () {
-      this.$store.dispatch('fetchFriendRequests')
+      // this.$store.dispatch('fetchFriendRequests')
     },
     // Imported from utils
     getFilteredFriends,
@@ -81,7 +81,8 @@ export default {
      */
     chatFriend (address) {
       this.$store.commit('newChat', address)
-      this.$store.commit('activeChat', address)
+      // this.$store.commit('activeChat', address)
+      this.$store.dispatch('setActiveChat', { friendAddress: address })
       this.$store.commit('changeRoute', 'main')
     },
     /** @method
