@@ -61,7 +61,12 @@ In your browser, use something like metamask connected to the goerli testnet.
 
 
 ## Code Quality
+
+## Documentation & Style Guide
 Satellite is intended to be built by the community. PLEASE document all new methods with JSDoc clearly so that future developers can pick up and improve Satellite rapidly. We also use the Standard.js style guide. Maintain this style guide wherever possible.
+
+### Single File Components
+If a single file component exceeds 150 lines please split it into a three file component.
 
 ## Testing 
 
@@ -69,11 +74,5 @@ Nothing is here yet, that's a problem, if you'd love a great place to start we w
 
 ## Contributing Rules
 
-### Single File Components
-If a single file component exceeds 150 lines please split it into a three file component.
-
-### ESLint
-Please make sure your changes pass the linter before commiting code
-
-### Documentation
-Please add at least a comment to new methods so it is clear what they do.
+## Important Gotchas
+This repository encompases all of Satellite's infastructure. There is no back-end API to store keys or anything really. With this in mind please be mindful that anything you add to the repository will be visible to the end user. Traditional secret key authentication into external APIs will expose those secrets to the public. 
