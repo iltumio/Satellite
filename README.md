@@ -72,7 +72,9 @@ If a single file component exceeds 150 lines please split it into a three file c
 
 Nothing is here yet, that's a problem, if you'd love a great place to start we would love to setup some automated testing!
 
-## Contributing Rules
-
 ## Important Gotchas
 This repository encompases all of Satellite's infastructure. There is no back-end API to store keys or anything really. With this in mind please be mindful that anything you add to the repository will be visible to the end user. Traditional secret key authentication into external APIs will expose those secrets to the public. 
+
+
+## Loving the project?
+We're probably hiring, if you've made it this far you're probably interested in the tech side. Please feel free to reach out and chat with us!
