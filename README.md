@@ -1,5 +1,5 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/266deaf5-681e-49a4-9469-d558042b01b4/deploy-status)](https://app.netlify.com/sites/focused-aryabhata-5c2feb/deploys)
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 # Satellite.im
 
@@ -11,7 +11,7 @@ Browse the codebase fast: https://github1s.com/Satellite-im/Satellite
 
 ![](https://site.satellite.im/_nuxt/img/phonestack.fdf036e.png)
 
-## Running Locally
+## Developing Locally
 
 You must install [Node.JS](https://nodejs.org/en/download/) on your system prior to running the application. 
 
@@ -59,48 +59,13 @@ Navigate to `http://localhost:8080`. (This should open automatically.)
 
 In your browser, use something like metamask connected to the goerli testnet.
 
-## Theming
 
-Themes can be added by adding them to the list in `src/components/main/settings/personalize`
-You should clone one of the themes in `src/assets/styles/` first then add the name of the theme in `Personalize.vue`.
+## Code Quality
+Satellite is intended to be built by the community. PLEASE document all new methods with JSDoc clearly so that future developers can pick up and improve Satellite rapidly. We also use the Standard.js style guide. Maintain this style guide wherever possible.
 
-Example. if your theme is named `cyan.less` you'd add the following to Personalize.
+## Testing 
 
-```vue
-<div class="select">
-    <select v-model="$store.state.theme">
-        <option value="dark">Simply Dark</option>
-        <option value="light">Eye Strain</option>
-        <option value="ice">Ice Cold</option>
-        <option value="tokyo">Tokyo Night</option>
-        <option value="tokyo-lights">Tokyo Lights</option>
-        <!-- Your Theme! -->
-        <option value="cyan">Oh So Cyan</option>
-    </select>
-</div>
-```
-
-In `App.vue` make sure to add your class to the bottom of the file with the same name as the vaule of your `<select>` option.
-
-```less
-.dark {
-  @import "assets/styles/true_dark.less";
-}
-.ice {
-  @import "assets/styles/ice.less";
-}
-.tokyo {
-  @import "assets/styles/tokyo.less";
-}
-.tokyo-lights {
-  @import "assets/styles/tokyo_lights.less";
-}
-/* Your Theme */
-.cyan {
-  @import "assets/styles/cyan.less";
-}
-```
-Save your changes and select your theme under settings. Please do not set your theme to default before submitting a PR. Please be sure to check all aspects of the app for concistancy before uploading your theme. Please make sure to use the variables at the top of the theme as opposed to manually editing everything.
+Nothing is here yet, that's a problem, if you'd love a great place to start we would love to setup some automated testing!
 
 ## Contributing Rules
 
