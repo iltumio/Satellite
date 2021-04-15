@@ -1,4 +1,11 @@
-# Satellite
+[![Netlify Status](https://api.netlify.com/api/v1/badges/266deaf5-681e-49a4-9469-d558042b01b4/deploy-status)](https://app.netlify.com/sites/focused-aryabhata-5c2feb/deploys)
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
+# Satellite.im
+
+Satellite gives you peace of mind with end-to-end
+encryption without sacrificing quality.
+Stream in 4k, chat in 500kbs+, share 10GB files.
 
 Browse the codebase fast: https://github1s.com/Satellite-im/Satellite
 
