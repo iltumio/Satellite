@@ -1,12 +1,14 @@
 <template>
-  <div class="group group-wrapper">
+  <div class="group group-wrapper"
+      v-touch:swipe="swipeHandler"
+  >
     <div class="main">
       <InfoBar />
       <LoadingConvorsation />
       <Chatbar :handleNewMessage="() => {}" />
     </div>
     <div class="right-bar">
-      <Info />
+      <!-- <Info /> -->
     </div>
   </div>
 </template>
@@ -24,6 +26,24 @@ export default {
     LoadingConvorsation,
     Info,
     InfoBar
+  },
+  methods: {
+    // isMobile: MobileUtils.isMobile,
+
+  swipeHandler (direction) {
+      // if (this.isMobile()) {
+        if (direction === 'right') {
+          // this.$store.commit('toggleUserInfo')
+          console.log("go back to the bar thingy");
+           this.$store.commit('setMobileSidebar', true);
+
+        }
+        if (direction === 'left') {
+          // this.$store.commit('toggleUserInfo')
+          console.log("show group chat info");
+        }
+      // }
+    }
   }
 }
 </script>
@@ -50,5 +70,25 @@ export default {
   height: 100%;
   float: right;
   padding: 1rem;
+}
+
+@media (max-width: 768px) {
+
+  .main {
+  width: 100%;
+  height: 100%;
+  float: left;
+  position: relative;
+  background: #101016 !important;
+}
+
+.right-bar {
+  display: none;
+  width: 100%;
+  height: 100%;
+  float: right;
+  padding: 1rem;
+  }
+
 }
 </style>
