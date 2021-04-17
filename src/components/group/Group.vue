@@ -1,13 +1,19 @@
 <template>
   <div class="group group-wrapper"
       v-touch:swipe="swipeHandler"
+      v-touch-options="{
+      touchHoldTolerance: 50,
+      swipeTolerance: 80
+    }"
   >
     <div class="main">
       <InfoBar />
       <LoadingConvorsation />
       <Chatbar :handleNewMessage="() => {}" />
     </div>
-    <div class="right-bar">
+    <!-- <div class="right-bar"> -->
+    <!-- <div :class="`this.$store.state.showGroupInfo ? 'right-bar' : 'right-bar right-bar-close'`"> -->
+    <div :class="`${this.$store.state.showGroupInfo ? 'right-bar' : 'right-bar right-bar-close'}`">
       <Info />
     </div>
   </div>
@@ -48,14 +54,16 @@ export default {
     swipeHandler (direction) {
       if (this.isMobile()) {
         if (direction === 'right') {
-          // this.$store.commit('toggleUserInfo')
           console.log("go back to the bar thingy");
            this.$store.commit('setMobileSidebar', true);
 
         }
         if (direction === 'left') {
-          // this.$store.commit('toggleUserInfo')
-          console.log("show group chat info");
+          // console.log("show group chat info");
+          // console.log(this.$store.state.showGroupInfo);
+          this.$store.commit('toggleGroupInfo');
+          // console.log(this.$store.state.showGroupInfo);
+
         }
       }
     }
@@ -97,12 +105,15 @@ export default {
 }
 
 .right-bar {
-  display: none;
   width: 100%;
   height: 100%;
   float: right;
   padding: 1rem;
   }
+
+.right-bar-close {
+  position: absolute;
+}
 
 }
 </style>

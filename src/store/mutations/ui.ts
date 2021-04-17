@@ -54,5 +54,8 @@ export default {
   },
   showCreateGroup(state: IState, shown: boolean) {
     state.showCreateGroup = shown;
-  }
+  },
+  toggleGroupInfo(state: IState) {
+    state.showGroupInfo = !state.showGroupInfo;
+  },
 };

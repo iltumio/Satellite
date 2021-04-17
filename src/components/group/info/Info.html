@@ -1,4 +1,6 @@
-<div class="server-info">
+<div class="server-info"
+    v-touch:swipe="swipeHandler"
+  >
   <h3>@{{$store.state.group.name}}</h3>
   <p>{{$store.state.group.description}}</p>
   <hr class="divider">
