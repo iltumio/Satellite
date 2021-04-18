@@ -50,10 +50,16 @@ module.exports = {
     mumbai: '0x7874124148DBAcC66647dc7545e15a684B0fE2d1'
   },
   stickers: {
-    mumbai: '0x383F4C3cFF28c6E07D289b795d19cDcC4D145731',
+    mumbai: '0x090533F85d85713d913fd2B0bbaD7B04F7c3BA1a',
     mumbaiInfo: {
-      deployBlock: 12349058
-    }
+      deployBlock: 12823378
+    },
+    validated: [
+      '0x5C08D263d20a55b56BB126A9b4bBF85660293B1a', // Genshin 1
+      '0xEA299Eda01218487FD39C1ea933824F06DE95633', // Genshin 2
+      '0xaE0fe6b8c466F4a6652E6a48EeD335A6029f60a3', // Star Wars
+      '0x91acdb98D38C5e2df744Ae91707C2F0E101861Ad' // Dina Birds
+    ]
   },
   debug: false,
   cacher: {
@@ -96,6 +102,6 @@ module.exports = {
   },
   verified_addresses: [
     '0xEE81E0B011Cd2D36D03F3E1C0A4549f78a56cb5E',
-    '0x788b8fe274fcA4c4D441d1C2c95e7A2105ea669F'
+    '0x4C5F7aFc2e263ef5eDe2849263399BF6FC4B6354'
   ] // TODO: move this to a contract
 }

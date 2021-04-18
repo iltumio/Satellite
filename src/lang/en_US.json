@@ -528,7 +528,8 @@
     "no-stickers": "You don't have any stickers yet.",
     "get-some-stickers": "Get Some!",
     "buy-button-text": "Buy",
-    "buy-button-loading": "buying",
+    "buy-button-free": "Free",
+    "buy-button-loading": "Transmitting",
     "verified-sticker": "Verified Sticker"
 
   },
