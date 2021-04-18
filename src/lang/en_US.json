@@ -139,7 +139,7 @@
     "just-tap": "Just tap",
     "add-to-homescreen": "then 'Add to homescreen'",
     "add-to-screen": "then 'Add to screen'",
-    "unsure-device-type": "We're unsure of you're devices type, search for 'How to install PWA apps on [your device]' for instructions if you're interested in downloading our app"
+    "unsure-device-type": "We're unsure of your device type, search for 'How to install PWA apps on [your device]' for instructions if you're interested in downloading our app"
   },
   "settings": {
     "logo": "Settings",

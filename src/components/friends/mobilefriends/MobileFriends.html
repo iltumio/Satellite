@@ -1,5 +1,5 @@
 <div id="friends">
-  <div class="main-content">
+  <div class="main-content" v-if="showMainContent">
     <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
     <div class="qr-modal" v-if="showShareQR">
       <QRDisplay :data="$store.state.activeAccount" :close="toggleShareQR" />
@@ -12,6 +12,9 @@
         :sendFriendRequest="sendFriendRequest"
         :makingRequest="makingRequest" />
     </div>
+    <!-- <div class="qr-modal-ios" v-if="showScanQRIOS">
+      <p v-on:click="stopScanIOS">STOP</p>
+    </div> -->
     <h3>{{$t('friends.heading')}} </h3>
     <hr class="divider">
     <h2 class="label" v-if="$store.state.friendRequests.length > 0">{{$t('friends.add-quickly')}}</h2>
@@ -57,7 +60,7 @@
     <hr class="divider">
     <h2 class="label" v-if="$store.state.friendRequests.length > 0">{{$t('friends.requests.incoming')}}</h2>
     <div>
-      <FriendRequests 
+      <FriendRequests
         :fetchFriendRequests="fetchFriendRequests"
         :friendRequests="$store.state.friendRequests"
         :action="chatFriend" />
@@ -97,8 +100,11 @@
       </div>
     </div>
   </div>
-  <div class="mobile-nav-holder">
-    <MobileNav 
+  <div v-if="showScanQRIOS" v-on:click="stopScanIOS" class="qr-modal-ios">
+    <button class="button is-primary">BACK</button>
+  </div>
+  <div class="mobile-nav-holder" v-if="showMobileNav">
+    <MobileNav
       :toggleSettings="toggleSettings" />
   </div>
 </div>
