@@ -20,6 +20,7 @@ import DwellerCachingHelper from '@/classes/DwellerCachingHelper.ts'
 import Friend from '@/components/friends/friend/Friend'
 // Utilities
 import { getAlphaSorted, getFilteredFriends } from '@/utils/FriendsUtils.ts'
+import { Plugins } from '@capacitor/core';
 
 export default {
   name: 'MobileFriends',
@@ -37,13 +38,15 @@ export default {
     return {
       showShareQR: false,
       showScanQR: false,
+      showScanQRIOS: false,
+      showMainContent: true,
+      showMobileNav: true,
       keyword: '',
       friends: Array.from(this.$store.state.friends),
       sortedFriends: false,
       error: false,
       success: false,
       friend: false,
-
       friendAddress: '',
       makingRequest: {},
       removingFriend: {},
@@ -61,12 +64,63 @@ export default {
     toggleShareQR () {
       this.showShareQR = !this.showShareQR
     },
-    toggleScanQR () {
-      this.showScanQR = !this.showScanQR
+    async toggleScanQR () {
+      let isNativeIOS = Capacitor.getPlatform() == 'ios'; // returns ios, web or android
+      isNativeIOS ? this.startScanIOS() : this.showScanQR = !this.showScanQR
+    },
+    async startScanIOS() {
+
+      console.log('Background Color')
+      this.changeBackgroundOpacity('body',0)
+      this.changeBackgroundOpacity('#wrapper',0)
+      this.changeBackgroundOpacity('#friends',0)
+
+      this.showScanQRIOS = !this.showScanQRIOS
+      this.showMainContent = !this.showMainContent
+      this.showMobileNav = !this.showMobileNav
+
+      await this.checkPermission()
+      const { BarcodeScanner } = Plugins;
+      BarcodeScanner.hideBackground();
+      const result = await BarcodeScanner.startScan();
+
+      if (result.hasContent) {
+        this.setFriend(result.content)
+        this.stopScanIOS()
+      }
+    },
+    stopScanIOS() {
+      this.changeBackgroundOpacity('body',1)
+      this.changeBackgroundOpacity('#wrapper',1)
+      this.changeBackgroundOpacity('#friends',1)
+
+      const { BarcodeScanner } = Plugins;
+      BarcodeScanner.showBackground();
+      BarcodeScanner.stopScan();
+
+      this.showScanQRIOS = !this.showScanQRIOS
+      this.showMainContent = !this.showMainContent
+      this.showMobileNav = !this.showMobileNav
+    },
+    changeBackgroundOpacity(selector, opacity) {
+      let el = document.querySelector(selector)
+      let bg = window.getComputedStyle(el).getPropertyValue('background-color');
+      let split = bg.split('(')[1].split(')')[0].split(',')
+      let newBG = `rgba(${split[0]},${split[1]},${split[2]},${opacity})`
+      el.style.setProperty('background', newBG, 'important');
     },
     setFriend (address) {
       this.friendAddress = address
       this.addFriendQR()
+    },
+    async checkPermission() {
+      const { BarcodeScanner } = Plugins;
+      // check or request permission
+      const status = await BarcodeScanner.checkPermission({ force: true });
+      if (status.granted) {
+        return true; // the user granted permission
+      }
+      return false;
     },
     // Imported from utils
     getAlphaSorted,

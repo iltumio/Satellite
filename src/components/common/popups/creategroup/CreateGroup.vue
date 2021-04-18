@@ -94,6 +94,7 @@ export default {
 <style>
 .modal {
   z-index: 101;
+  padding-top: env(safe-area-inset-top, 0);
 }
 .friend {
   margin-top: 0.5rem;
