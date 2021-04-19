@@ -237,6 +237,9 @@ export default {
 .nav-settings {
   display: none;
 }
+.modal-close {
+  margin-top: 1rem;
+}
 
 @media (max-width: 768px) {
   .settings-right {
