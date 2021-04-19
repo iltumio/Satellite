@@ -58,7 +58,9 @@ module.exports = {
       '0x5C08D263d20a55b56BB126A9b4bBF85660293B1a', // Genshin 1
       '0xEA299Eda01218487FD39C1ea933824F06DE95633', // Genshin 2
       '0xaE0fe6b8c466F4a6652E6a48EeD335A6029f60a3', // Star Wars
-      '0x91acdb98D38C5e2df744Ae91707C2F0E101861Ad' // Dina Birds
+      '0x91acdb98D38C5e2df744Ae91707C2F0E101861Ad', // Dina Birds
+      '0xa5a82812E039eb4dab507C95b06e62CAbE84Ef33' // LAM
+
     ]
   },
   debug: false,

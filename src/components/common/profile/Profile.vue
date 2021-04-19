@@ -14,7 +14,7 @@
             <div class="profile-photo">
                 <img src="https://avatarfiles.alphacoders.com/208/208557.png" alt="">
             </div>
-            <div class="quick-actions">
+            <div class="quick-actions" v-if="!loading && isFriend">
                 <button class="button is-primary is-outlined" v-on:click="chatFriend">
                     <i class="fas fa-comment-alt-dots"></i> &nbsp; Message
                 </button>
@@ -23,6 +23,21 @@
                 </button>
                 <button class="button is-primary is-outlined">
                     <i class="fas fa-share-square"></i> &nbsp; Share
+                </button>
+            </div>
+            <div class="quick-actions" v-else-if="!loading && !isFriend && !isSelf">
+                <button class="button is-primary is-outlined">
+                    <i class="fas fa-share-square"></i> &nbsp; Add Friend
+                </button>
+            </div>
+            <div class="quick-actions" v-else-if="!loading && isSelf">
+                <button class="button is-primary is-outlined">
+                    <i class="fas fa-share-square"></i> &nbsp; Share
+                </button>
+            </div>
+            <div class="quick-actions" v-else>
+                <button class="button is-primary is-outlined" disabled>
+                    <i class="fas fa-spinner-third fa-spin"></i> &nbsp; Loading
                 </button>
             </div>
             <div class="note-holder">
@@ -41,6 +56,13 @@
 <script>
 export default {
     name: 'Profile',
+    data() {
+        return {
+            loading: true,
+            isFriend: false,
+            isSelf: false
+        }
+    },
     methods: {
         /** @method
          * Update all store values so to chat with the given client
@@ -53,6 +75,16 @@ export default {
             this.$store.commit('changeRoute', 'main')
             this.$store.commit('viewProfile', false)
         },
+        checkFriend () {
+            const friendAddresses = this.$store.state.friends.map(fr => fr.address)
+            const isFriend = friendAddresses.includes(this.$store.state.viewingProfile)
+            this.isFriend = isFriend
+            this.isSelf = this.$store.state.viewingProfile === this.$store.state.activeAccount
+            this.loading = false
+        }
+    },
+    mounted() {
+        this.checkFriend()
     }
 }
 </script>
