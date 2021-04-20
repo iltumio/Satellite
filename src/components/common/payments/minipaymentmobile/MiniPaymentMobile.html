@@ -26,6 +26,7 @@
         </small>
         </p>
     </div>
-  <i class="fa fa-times close" v-on:click="toggle"></i>
+  <button class="modal-close is-large" aria-label="close" v-on:click="toggle"></button>
+
   <button class="button is-primary" v-on:click="sendTransaction">{{$t('payments.button')}} ${{numberWithCommas(+(Math.round((amount) + "e+2")  + "e-2"))}}</button>
 </section>

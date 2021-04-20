@@ -1,5 +1,6 @@
   <!--@contextmenu="openContext"-->
   <div id="wrapper">
+    <Profile v-if="$store.state.viewingProfile" />
     <CreateGroup
       v-if="$store.state.showCreateGroup" />
 

@@ -9,6 +9,7 @@
 .main-content {
   height: calc(100% - 6rem);
   overflow-y: scroll;
+  padding-top: env(safe-area-inset-top, 1rem);
 }
 .qr-code {
   border-radius: 50%;
@@ -19,8 +20,7 @@
 .letter {
   margin-top: 0.4rem;
   display: inline-block;
-  font-family: 'Space Mono', monospace;  
-
+  font-family: 'Space Mono', monospace;
 }
 h3 {
   font-family: 'Space Mono', monospace;
@@ -60,6 +60,7 @@ h3 {
 .modal-close {
   z-index: 0 !important;
   position: absolute;
+  top: env(safe-area-inset-top, 0);
 }
 .circle-icon {
   float: left;
@@ -68,6 +69,16 @@ h3 {
 .add-friend {
   margin-top: -2.7rem;
   float: right;
+}
+.qr-modal-ios {
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 6px;
+  z-index: 10;
 }
 @media (max-width: 768px) {
   .add-friend-input {

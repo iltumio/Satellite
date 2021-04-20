@@ -106,6 +106,9 @@
       async getDweller(address) {
         this.dweller = await this.dwellerCachingHelper.getDweller(address);
       },
+      stripHTML(message) {
+        return message.replace(/(<([^>]+)>)/gi, "")
+      },
       /** @method
        * Check a message for a valid YouTube URL
        * @name parseYoutubeLink
@@ -116,7 +119,7 @@
         if (typeof message !== 'string') return false;
         // eslint-disable-next-line
         const YTRegex = /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?/;
-        return message.match(YTRegex);
+        return decodeURI(message).match(YTRegex);
       },
       /** @method
        * Check a message for a valid Spotify URL
@@ -129,14 +132,14 @@
         // TODO: I suck at regex, this needs to be a lot more enclusive for songs, artists, etc
         // eslint-disable-next-line
         const SpotifyURL = /https:\/\/open.spotify.com\/playlist\/\S+/;
-        return message.match(SpotifyURL);
+        return decodeURI(message).match(SpotifyURL);
       },
       parseSpotifyTrack(message) {
         if (typeof message !== 'string') return false;
         // TODO: I suck at regex, this needs to be a lot more enclusive for songs, artists, etc
         // eslint-disable-next-line
         const SpotifyURL = /https:\/\/open.spotify.com\/track\/\S+/;
-        return message.match(SpotifyURL);
+        return decodeURI(message).match(SpotifyURL);
       },
       /** @method
        * Check a message for a valid Ethereum address
@@ -147,8 +150,10 @@
       parseEthAddress(message) {
         if (typeof message !== 'string') return false;
         // eslint-disable-next-line
-        const ETHRegex = /^0x[a-fA-F0-9]{40}$/;
-        return message.match(ETHRegex);
+        const ETHRegex = /^0x[a-fA-F0-9]{40}$/g;
+        let msg = decodeURI(message)
+        msg = this.stripHTML(msg).replace(/\W/g, '')
+        return msg.match(ETHRegex)
       },
       /** @method
        * Wrap links in <a> tags

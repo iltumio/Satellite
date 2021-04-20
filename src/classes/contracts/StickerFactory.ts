@@ -2,6 +2,8 @@ import { BigNumber, ethers } from 'ethers'
 import Ethereum from '../../classes/Ethereum'
 // @ts-ignore
 import * as StickerFactoryInterface from '@/contracts/build/contracts/StickerFactory.json'
+// @ts-ignore
+import config from '@/config/config.js'
 
 export default class StickerFactory {
   ethereum: any
@@ -48,7 +50,12 @@ export default class StickerFactory {
    * @returns an array of addresses related to available sets
    */
   async getAvailableSets () {
-    return this.contract.getAvailableSets()
+    let sets = await this.contract.getAvailableSets()
+    sets = sets.filter(set => {
+      console.log('set', set)
+      return config.stickers.validated.includes(set.stickerContract)
+    })
+    return sets
   }
 
   /** @function

@@ -21,6 +21,9 @@ export interface IWalletAsset {
 }
 
 export interface IState {
+  // Profile
+  viewingProfile: string | boolean;
+  // 
   command: string | boolean;
   args: Array<string> | boolean;
   pin: string | boolean;
@@ -223,7 +226,9 @@ export const defaultState: IState = {
   ownedStickers: {},
   showCreateGroup: false,
   // Groups 
-  group: false
+  group: false,
+  // Profile
+  viewingProfile: false,
 };
 
 const createState = (customState: any): IState =>
