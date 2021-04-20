@@ -1,6 +1,7 @@
 <div class="server-info"
     v-touch:swipe="swipeHandler"
   >
+  <i class="fa fa-times" v-on:click="$store.commit('toggleGroupInfo')"></i>
   <h3>@{{$store.state.group.name}}</h3>
   <p>{{$store.state.group.description}}</p>
   <hr class="divider">

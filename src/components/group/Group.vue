@@ -11,9 +11,8 @@
       <LoadingConvorsation />
       <Chatbar :handleNewMessage="() => {}" />
     </div>
-    <!-- <div class="right-bar"> -->
-    <!-- <div :class="`this.$store.state.showGroupInfo ? 'right-bar' : 'right-bar right-bar-close'`"> -->
-    <div :class="`${this.$store.state.showGroupInfo ? 'right-bar' : 'right-bar right-bar-close'}`">
+
+    <div :class="`${this.$store.state.showGroupInfo ? 'right-bar close-btn' : 'right-bar right-bar-close'}`">
       <Info />
     </div>
   </div>
@@ -52,18 +51,25 @@ export default {
     },
 
     swipeHandler (direction) {
-      if (this.isMobile()) {
+      if (this.isMobile()) {  
         if (direction === 'right') {
-          console.log("go back to the bar thingy");
-           this.$store.commit('setMobileSidebar', true);
-
+          //toggle for mobileSidebar
+          if (!localStorage.hasOwnProperty('groupInfoSwiped')) {
+            this.$store.commit('setMobileSidebar', true)
+          } else if (
+            localStorage.hasOwnProperty('groupInfoSwiped') &&
+            localStorage.getItem('groupInfoSwiped') === 'true'
+          ) {
+            //Logic to avoid users going from groupInfo all the way to MobileSidebar in one swipe
+            localStorage.setItem('groupInfoSwiped', false)
+          } else {
+            this.$store.commit('setMobileSidebar', true)
+          }
         }
         if (direction === 'left') {
-          // console.log("show group chat info");
-          // console.log(this.$store.state.showGroupInfo);
+          //toggle for groupInfo
+          localStorage.setItem('groupInfoSwiped', true)
           this.$store.commit('toggleGroupInfo');
-          // console.log(this.$store.state.showGroupInfo);
-
         }
       }
     }
@@ -95,25 +101,34 @@ export default {
   padding: 1rem;
 }
 
+// .close-btn {
+//     display: none;
+// }
+  
 @media (max-width: 768px) {
   .main {
-  width: 100%;
-  height: 100%;
-  float: left;
-  position: relative;
-  background: #101016 !important;
-}
+    width: 100%;
+    height: 100%;
+    float: left;
+    position: relative;
+    background: #101016 !important;
+  }
+  .close-btn {
+    display: block;
+    right: 1.5rem;
+    top: 4rem;
+  }
 
 .right-bar {
-  width: 100%;
-  height: 100%;
-  float: right;
-  padding: 1rem;
+    width: 100%;
+    height: 100%;
+    float: right;
+    padding: 1rem;
   }
 
 .right-bar-close {
   position: absolute;
-}
+  }
 
 }
 </style>
