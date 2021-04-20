@@ -16,7 +16,8 @@ module.exports = {
   },
   pinata: {
     // eslint-disable-next-line max-len
-    jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4NDZkOGUwNi1jZTYwLTQ4NzgtOWE1Ni1hNTMwODc2MTRkZDQiLCJlbWFpbCI6Im1hdHQud2lzbmlld3NraUBqYWNrZXRyaXZlci5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZmFhZTA3NDgxYmE1OGM0ZDc5YTgiLCJzY29wZWRLZXlTZWNyZXQiOiI0YmQzMmI0YmE5YTI2ZTZlYjJkYzRlOTFkYjFlZTZmNGQzZGJlNjlhY2UyNDkzMzYwOGY5OTcyMTQwNjU2YzJjIiwiaWF0IjoxNjE2ODIyMTE1fQ.Lb1Pbl7KLEkiY13Ioefv2AzrE1_CREZ2YPPz_MlboWI'
+    jwt:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4NDZkOGUwNi1jZTYwLTQ4NzgtOWE1Ni1hNTMwODc2MTRkZDQiLCJlbWFpbCI6Im1hdHQud2lzbmlld3NraUBqYWNrZXRyaXZlci5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZmFhZTA3NDgxYmE1OGM0ZDc5YTgiLCJzY29wZWRLZXlTZWNyZXQiOiI0YmQzMmI0YmE5YTI2ZTZlYjJkYzRlOTFkYjFlZTZmNGQzZGJlNjlhY2UyNDkzMzYwOGY5OTcyMTQwNjU2YzJjIiwiaWF0IjoxNjE2ODIyMTE1fQ.Lb1Pbl7KLEkiY13Ioefv2AzrE1_CREZ2YPPz_MlboWI'
   },
   sounds: {
     newMessage: 'QmfGYjbTXg66V8ZHzqQRVutUFmkbd5L3fV6DA72jTHDWAH',
@@ -50,9 +51,9 @@ module.exports = {
     mumbai: '0x7874124148DBAcC66647dc7545e15a684B0fE2d1'
   },
   stickers: {
-    mumbai: '0x383F4C3cFF28c6E07D289b795d19cDcC4D145731',
+    mumbai: '0x090533F85d85713d913fd2B0bbaD7B04F7c3BA1a',
     mumbaiInfo: {
-      deployBlock: 12349058
+      deployBlock: 12823378
     }
   },
   debug: false,
@@ -92,7 +93,10 @@ module.exports = {
     balance_polling_interval: 10000
   },
   toastNotifications: {
-    position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast'
+    position: 'top-center',
+    iconPack: 'fontawesome',
+    duration: 800,
+    className: 'vault-toast'
   },
   verified_addresses: [
     '0xEE81E0B011Cd2D36D03F3E1C0A4549f78a56cb5E',

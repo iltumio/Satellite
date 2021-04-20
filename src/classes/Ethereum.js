@@ -8,7 +8,7 @@ export default class Ethereum {
   constructor () {
     this.initialized = false
     this.utils = ethers.utils
-    this.readinessPromise = new Promise((resolve) => {
+    this.readinessPromise = new Promise(resolve => {
       this.loadingComplete = resolve
     })
   }
@@ -28,9 +28,9 @@ export default class Ethereum {
       this.provider = new ethers.providers.Web3Provider(window.ethereum)
 
       // If no accounts passed by the constructor, use web3 api to get them
-      this.signer = this.provider.getSigner(0);
+      this.signer = this.provider.getSigner(0)
       // this.accounts = await this.provider.listAccounts();
-      [this.activeAccount] = this.accounts
+      this.activeAccount = this.accounts[0]
 
       // Activate listeners
       this.onAccountChange = window.ethereum.on(
