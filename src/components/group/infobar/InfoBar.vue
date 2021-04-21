@@ -23,7 +23,7 @@ export default {
      * @name requestScreenShare
      */
     toggleGroupInfo () {
-      
+      this.$store.commit('toggleGroupInfo');
     }
   }
 }

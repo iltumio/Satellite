@@ -113,11 +113,11 @@ export default {
     position: relative;
     background: #101016 !important;
   }
-  .close-btn {
-    display: block;
-    right: 1.5rem;
-    top: 4rem;
-  }
+  // .close-btn {
+  //   display: block;
+  //   right: 1.5rem;
+  //   top: 4rem;
+  // }
 
 .right-bar {
     width: 100%;
