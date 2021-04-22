@@ -1,10 +1,7 @@
+
 #server-info {
   overflow-y: scroll;
   padding-top: 15%;
-
-  .close-btn {
-    display: none;
-  }
 
   h3 {
     font-weight: bold;
@@ -16,11 +13,12 @@
     text-transform: uppercase;
     font-weight: bold;
   }
-
-
+}
+.close-btn {
+  display: none;
 }
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
   #server-info{
     width: 100%;
     z-index: 20;
@@ -28,8 +26,5 @@
   }
   .close-btn {
     display: inline-block;
-    position: absolute;
-    right: 1.5rem;
-    top: 1rem;
   }
 }

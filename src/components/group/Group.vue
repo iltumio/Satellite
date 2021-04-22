@@ -12,7 +12,7 @@
       <Chatbar :handleNewMessage="() => {}" />
     </div>
 
-    <div :class="`${this.$store.state.showGroupInfo ? 'right-bar close-btn' : 'right-bar right-bar-close'}`">
+    <div :class="`${this.$store.state.showGroupInfo ? 'right-bar close-btn ' : 'right-bar right-bar-close'}`">
       <Info />
     </div>
   </div>
@@ -63,6 +63,11 @@ export default {
             //Logic to avoid users going from groupInfo all the way to MobileSidebar in one swipe
             localStorage.setItem('groupInfoSwiped', false)
           } else {
+          if (!localStorage.hasOwnProperty('userlastChat')) {
+            localStorage.setItem('userlastChat', "groupChat")
+          } 
+          localStorage.setItem('userlastChat', "groupChat")
+
             this.$store.commit('setMobileSidebar', true)
           }
         }
