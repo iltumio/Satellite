@@ -66,8 +66,7 @@ export default {
           if (!localStorage.hasOwnProperty('userlastChat')) {
             localStorage.setItem('userlastChat', "groupChat")
           } 
-          localStorage.setItem('userlastChat', "groupChat")
-
+            localStorage.setItem('userlastChat', "groupChat")
             this.$store.commit('setMobileSidebar', true)
           }
         }

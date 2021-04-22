@@ -52,19 +52,18 @@ export default {
     },
     setTabClass (route) {
       this.tabRoute = route
-      // console.log(this.tabRoute);
+      // changes localStorage to ensure on user swipe, to go to the chat in the category
       if(this.tabRoute === "chats"){
-                  if (!localStorage.hasOwnProperty('userlastChat')) {
-            localStorage.setItem('userlastChat', "friendChat")
-          } 
+        if (!localStorage.hasOwnProperty('userlastChat')) {
           localStorage.setItem('userlastChat', "friendChat")
-
+        } 
+        localStorage.setItem('userlastChat', "friendChat")
       }
       if(this.tabRoute === "groups"){
-                  if (!localStorage.hasOwnProperty('userlastChat')) {
-            localStorage.setItem('userlastChat', "groupChat")
-          } 
+        if (!localStorage.hasOwnProperty('userlastChat')) {
           localStorage.setItem('userlastChat', "groupChat")
+        } 
+        localStorage.setItem('userlastChat', "groupChat")
       }
     },
     onClickClose () {
