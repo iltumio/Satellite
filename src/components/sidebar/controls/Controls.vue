@@ -5,15 +5,6 @@ import Mousetrap from 'mousetrap'
 import CircleIcon from '@/components/common/CircleIcon'
 import config from '@/config/config'
 
-const muteAudio = new Audio(`${config.ipfs.browser}${config.sounds.mute}`)
-
-const unmuteAudio = new Audio(`${config.ipfs.browser}${config.sounds.unmute}`)
-
-const deafenAudio = new Audio(`${config.ipfs.browser}${config.sounds.deafen}`)
-const unDeafenAudio = new Audio(
-  `${config.ipfs.browser}${config.sounds.undeafen}`
-)
-
 export default {
   name: 'Controls',
   props: ['toggleSettings'],
@@ -65,8 +56,8 @@ export default {
      */
     toggleMute () {
       this.muted = !this.muted
-      if (this.muted) muteAudio.play()
-      if (!this.muted) unmuteAudio.play()
+      if (this.muted) this.$sound.sounds.mute.play()
+      if (!this.muted) this.$sound.sounds.unmute.play()
       this.$store.commit('muted', this.muted)
       this.$streamManager.toggleLocalStreams(this.muted)
     },
@@ -77,8 +68,8 @@ export default {
      */
     toggleDeafen () {
       this.deafened = !this.deafened
-      if (this.deafened) deafenAudio.play()
-      if (!this.deafened) unDeafenAudio.play()
+      if (this.deafened) this.$sound.sounds.deafen.play()
+      if (!this.deafened) this.$sound.sounds.undeafen.play()
       this.$store.commit('deafened', this.deafened)
       this.$streamManager.toggleLocalStreams(this.muted || this.deafened)
       this.$streamManager.toggleRemoteStreams(this.deafened)

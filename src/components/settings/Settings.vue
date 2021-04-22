@@ -200,6 +200,7 @@ export default {
   font-size: 20pt;
   padding-top: 0;
   padding-bottom: 2rem;
+  margin-top: 1rem;
 }
 .columns {
   height: 100%;

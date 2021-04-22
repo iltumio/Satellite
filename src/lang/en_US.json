@@ -125,7 +125,7 @@
   "voice_video": {
     "switch_video": "Switch to Video",
     "switch_voice": "Switch to Voice",
-    "disconnect": "Disconnect"
+    "disconnect": "End"
   },
   "main": {
     "heading": "Liftoff!",

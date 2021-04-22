@@ -7,13 +7,19 @@
             <!-- Profile Header BG -->
             <div class="profile-header-bg">
                 <div class="username-container">
-                    <h1>Sophie Du'Claire <i class="fas fa-badge-check verified-badge"></i></h1>
-                    <p>Vibin' in orbit, connected from above.</p>
+                    <h1 v-if="!loading">
+                        {{ account.name }} 
+                        <i 
+                            v-if="isVerified($store.state.viewingProfile)" 
+                            class="fas fa-badge-check verified-badge"></i>
+                    </h1>
+                    <p>{{ account.statusMsg }}</p>
                 </div>
             </div>
             <div class="profile-photo">
                 <img src="https://avatarfiles.alphacoders.com/208/208557.png" alt="">
             </div>
+            <!-- If we're viewing a friend -->
             <div class="quick-actions" v-if="!loading && isFriend">
                 <button class="button is-primary is-outlined" v-on:click="chatFriend">
                     <i class="fas fa-comment-alt-dots"></i> &nbsp; Message
@@ -25,16 +31,19 @@
                     <i class="fas fa-share-square"></i> &nbsp; Share
                 </button>
             </div>
+            <!-- If we're not friends with the person yet -->
             <div class="quick-actions" v-else-if="!loading && !isFriend && !isSelf">
                 <button class="button is-primary is-outlined">
-                    <i class="fas fa-share-square"></i> &nbsp; Add Friend
+                    <i class="fas fa-user-plus"></i> &nbsp; Add Friend
                 </button>
             </div>
+            <!-- We're viewing our own profile -->
             <div class="quick-actions" v-else-if="!loading && isSelf">
                 <button class="button is-primary is-outlined">
                     <i class="fas fa-share-square"></i> &nbsp; Share
                 </button>
             </div>
+            <!-- Still loading -->
             <div class="quick-actions" v-else>
                 <button class="button is-primary is-outlined" disabled>
                     <i class="fas fa-spinner-third fa-spin"></i> &nbsp; Loading
@@ -54,16 +63,42 @@
 </template>
 
 <script>
+import config from '@/config/config'
+import DwellerCachingHelper from '@/classes/DwellerCachingHelper'
+
 export default {
     name: 'Profile',
     data() {
         return {
             loading: true,
             isFriend: false,
-            isSelf: false
+            isSelf: false,
+            account: false,
+            cache: new DwellerCachingHelper(
+                this.$ethereum,
+                config.registryAddress,
+                config.cacher.dwellerLifespan
+            ),
         }
     },
     methods: {
+        /** @method
+         * Check if a given address is from a verified user
+         * @name isVerified
+         * @returns boolean if verified
+         */
+        isVerified (address) {
+            return config.verified_addresses.includes(address)
+        },
+        /** @method
+         * Check if the given address is an active account, if so set it
+         * @name isAccount
+         * @returns returns user or null
+         */
+        async isAccount() {
+            const user = await this.cache.getDweller(this.$store.state.viewingProfile)
+            return user
+        },
         /** @method
          * Update all store values so to chat with the given client
          * @name chatFriend
@@ -75,16 +110,27 @@ export default {
             this.$store.commit('changeRoute', 'main')
             this.$store.commit('viewProfile', false)
         },
+        /** @method
+         * Check if the set address is a friend or not
+         * also checks if it's ourself
+         * @name checkFriend
+         */
         checkFriend () {
             const friendAddresses = this.$store.state.friends.map(fr => fr.address)
             const isFriend = friendAddresses.includes(this.$store.state.viewingProfile)
             this.isFriend = isFriend
             this.isSelf = this.$store.state.viewingProfile === this.$store.state.activeAccount
-            this.loading = false
         }
     },
-    mounted() {
+    async mounted() {
         this.checkFriend()
+        const isAccount = await this.isAccount()
+        if (isAccount) {
+            this.account = isAccount
+        } else {
+            this.account = false
+        }
+        this.loading = false
     }
 }
 </script>
@@ -113,7 +159,7 @@ export default {
         .profile-header-bg {
             width: 100%;
             height: 15rem;
-            background-image: url(https://st2.depositphotos.com/3584689/10433/i/600/depositphotos_104333588-stock-photo-landscape-painting-of-sci-fi.jpg);
+            background-image: url(https://cdn.dribbble.com/users/3471203/screenshots/14311939/space_page-0001_4x.jpg);
             background-size: cover;
             background-position: center;
             box-shadow: inset 0px -40px 40px rgb(0 0 0 / 50%);

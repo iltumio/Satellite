@@ -13,6 +13,30 @@ export default class SoundManager {
   constructor () {
     this.sounds = {
       // TODO: Move sound files from mute / unmute / call ended, etc
+      mute: new Howl({
+        src: [`${config.ipfs.browser}${config.sounds.mute}`],
+        loop: false,
+        volume: 0.8,
+        html5: true
+      }),
+      unmute: new Howl({
+        src: [`${config.ipfs.browser}${config.sounds.unmute}`],
+        loop: false,
+        volume: 0.8,
+        html5: true
+      }),
+      deafen: new Howl({
+        src: [`${config.ipfs.browser}${config.sounds.deafen}`],
+        loop: false,
+        volume: 0.8,
+        html5: true
+      }),
+      undeafen: new Howl({
+        src: [`${config.ipfs.browser}${config.sounds.undeafen}`],
+        loop: false,
+        volume: 0.8,
+        html5: true
+      }),
       newMessage: new Howl({
         src: [`${config.ipfs.browser}${config.sounds.newMessage}`],
         loop: false,

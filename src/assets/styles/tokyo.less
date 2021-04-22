@@ -69,9 +69,10 @@
   #scrollBottom {
     background: @really-blue !important;
   }
-  .media-voice .media-participant {
-    background: @really-blue !important;
+  .voice-participant {
+    background: unset;
   }
+  
   ::selection {
     background: @primary-highlight; /* WebKit/Blink Browsers */
     color: #fff;
@@ -254,10 +255,10 @@
     background: #000 !important;
   }
   .media-container .media-controls i {
-    color: @basically-white !important;
+    color: @basically-white;
   }
   .media-content i {
-    color: @primary-highlight !important;
+    color: @primary-highlight;
   }
   .media {
     background: @dark-blue-gray !important;
@@ -636,15 +637,6 @@
   .name:hover{
      color: @basically-white !important;
   }
-  .red {
-    color: @red !important;
-  }
-  .green {
-    color: @green !important;
-  }
-  .yellow {
-    color: @yellow !important;
-  }
   .controls .user-active i {
     color: @green !important;
     -webkit-text-fill-color: @green !important;
@@ -722,7 +714,18 @@
   .sidebar-wrapper, .right-bar {
     background: @dark-blue-gray !important;
   }
+
+  .red {
+    color: @red !important;
+  }
+  .green {
+    color: @green !important;
+  }
+  .yellow {
+    color: @yellow !important;
+  }
   @media (max-width: 768px) {
+    
     .no-mobile {
       display: none;
     }
