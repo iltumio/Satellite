@@ -5,15 +5,6 @@ import CircleIcon from '@/components/common/CircleIcon'
 import config from '@/config/config'
 import MobileUtils from '@/utils/Mobile.ts'
 
-const muteAudio = new Audio(`${config.ipfs.browser}${config.sounds.mute}`)
-
-const unmuteAudio = new Audio(`${config.ipfs.browser}${config.sounds.unmute}`)
-
-const deafenAudio = new Audio(`${config.ipfs.browser}${config.sounds.deafen}`)
-const unDeafenAudio = new Audio(
-  `${config.ipfs.browser}${config.sounds.undeafen}`
-)
-
 export default {
   name: 'VoiceVideo',
   props: ['mediaOpen', 'voice', 'disconnect', 'switchTo'],
@@ -32,9 +23,10 @@ export default {
      * @name copied
      */
     toggleMute () {
+      console.log(this.$sound)
       const muted = this.$store.state.muted
-      if (!muted) muteAudio.play()
-      if (muted) unmuteAudio.play()
+      if (!muted) this.$sound.sounds.mute.play()
+      if (muted) this.$sound.sounds.unmute.play()
       this.$store.commit('muted', !muted)
       this.$streamManager.toggleLocalStreams(muted)
     },
@@ -45,8 +37,8 @@ export default {
      */
     toggleDeafen () {
       const deafened = !this.$store.state.deafened
-      if (deafened) deafenAudio.play()
-      if (!deafened) unDeafenAudio.play()
+      if (deafened) this.$sound.sounds.deafen.play()
+      if (!deafened) this.$sound.sounds.undeafen.play()
       this.$store.commit('deafened', deafened)
       this.$streamManager.toggleLocalStreams(this.$store.state.muted || deafened)
       this.$streamManager.toggleRemoteStreams(deafened)
