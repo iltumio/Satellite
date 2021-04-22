@@ -1,12 +1,12 @@
 <section :class="`media-container ${mediaOpen ? 'open' : 'closed'} ${(voice) ? 'media-voice' : 'media-video'}`">
   <div :class="`media-content ${mediaOpen ? 'media-open' : 'media-closed'}`">
     <div class="media-participants container">
-      <div class="media-participant">
+      <div :class="`media-participant ${voice ? 'voice-participant' : ''}`">
         <CircleIcon 
           :image="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
           :address="$store.state.activeChat" />
       </div>
-      <div class="media-participant">
+      <div :class="`media-participant ${voice ? 'voice-participant' : ''}`">
         <CircleIcon 
         :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
         :address="$store.state.activeAccount" />

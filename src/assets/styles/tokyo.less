@@ -69,9 +69,10 @@
   #scrollBottom {
     background: @really-blue !important;
   }
-  .media-voice .media-participant {
-    background: @really-blue !important;
+  .voice-participant {
+    background: unset;
   }
+  
   ::selection {
     background: @primary-highlight; /* WebKit/Blink Browsers */
     color: #fff;
@@ -723,6 +724,7 @@
     background: @dark-blue-gray !important;
   }
   @media (max-width: 768px) {
+    
     .no-mobile {
       display: none;
     }

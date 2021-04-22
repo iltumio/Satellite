@@ -271,6 +271,10 @@ export default {
   color: #fff !important;
   background: rgba(0, 0, 0, 0.75);
 }
+.modal-close {
+  margin-top: 1rem;
+}
+
 .half-button {
   width: calc(50% - 0.14rem);
   margin-bottom: 1rem;
