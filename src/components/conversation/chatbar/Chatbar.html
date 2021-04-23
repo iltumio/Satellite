@@ -29,11 +29,18 @@
           <p :class="`charlimit ${messageText.length > limit ? 'red' : ''}`"  v-else>
             {{$t('conversation.chatbar.characters_left',{characters: limit - messageText.length})}}
           </p>
-          <i class="fas fa-arrow-circle-right send" v-on:click="sendMessage"></i>
-          <i class="fas fa-icons stickers" v-on:click="openStickers"></i>
+          
+          <i 
+            v-if="isMobile()" 
+            :class="`fas fa-chevron-circle-right blue send-mobile ${(messageText.length > 0) ? '' : 'hidden'}`" 
+            v-on:click="sendMessage"></i>
+          <i v-else class="fas fa-arrow-circle-right send" v-on:click="sendMessage"></i>
+
+          <i :class="`fas fa-icons stickers ${(messageText.length > 0) ? 'hidden' : ''}`" v-on:click="openStickers"></i>
           <i class="far fa-smile-wink emoji" v-on:click="toggleEmoji"></i>
-          <i class="fas fa-dollar-sign sendEther" v-on:click="togglePayments"></i>
+          <i :class="`fas fa-dollar-sign sendEther ${(messageText.length > 0) ? 'hidden' : ''}`" v-on:click="togglePayments"></i>
           <i class="fas fa-file-upload upload" v-on:click="openFileUpload"></i>
+
           <!--<MiniPayment person="Sophie Chain" :toggle="togglePayments" v-if="payments" />-->
           <picker
             v-if="selectingEmoji"

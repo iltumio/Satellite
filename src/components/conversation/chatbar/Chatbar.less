@@ -45,21 +45,33 @@
     width: 100%;
     height: 100%;
 }
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
 .input-collection i {
     color: #666;
     cursor: pointer;
 }
-.send {
+.send, .send-mobile {
   position: absolute;
   right: 2.2rem;
   top: 1.85rem;
   font-size: 16pt;
+}
+
+.send-mobile {
+  right: 2rem;
+  top: 1.8rem;
+  font-size: 22pt;
+  transition: all 0.2s;
 }
 .stickers {
   position: absolute;
   right: 9.5rem;
   top: 1.85rem;
   font-size: 16pt;
+  transition: all 0.2s;
 }
 .upload {
     position: absolute;
@@ -86,9 +98,11 @@
     top: 1.85rem;
     font-size: 16pt;
     cursor: pointer;
+    transition: all 0.2s;
 }
 .sendEther i {
   font-size: 16pt;
+  
 }
 .sendEther .fa-plus {
   font-size: 9pt;
