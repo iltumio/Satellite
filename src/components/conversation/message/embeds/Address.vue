@@ -73,7 +73,6 @@ export default {
     const isAccount = await this.isAccount()
     if (isAccount) {
       this.account = isAccount
-      console.log('its an account')
     } else {
       this.account = false
     }

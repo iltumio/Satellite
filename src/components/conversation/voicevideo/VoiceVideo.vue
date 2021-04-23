@@ -23,12 +23,11 @@ export default {
      * @name copied
      */
     toggleMute () {
-      console.log(this.$sound)
       const muted = this.$store.state.muted
       if (!muted) this.$sound.sounds.mute.play()
       if (muted) this.$sound.sounds.unmute.play()
       this.$store.commit('muted', !muted)
-      this.$streamManager.toggleLocalStreams(muted)
+      this.$streamManager.toggleAllLocalStreams(muted, muted)
     },
     /** @method
      * Mute the active stream &
@@ -40,7 +39,10 @@ export default {
       if (deafened) this.$sound.sounds.deafen.play()
       if (!deafened) this.$sound.sounds.undeafen.play()
       this.$store.commit('deafened', deafened)
-      this.$streamManager.toggleLocalStreams(this.$store.state.muted || deafened)
+      this.$streamManager.toggleAllLocalStreams(
+        this.$store.state.muted || deafened,
+        this.$store.state.muted || deafened
+      )
       this.$streamManager.toggleRemoteStreams(deafened)
     }
   }

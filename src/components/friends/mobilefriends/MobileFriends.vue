@@ -70,7 +70,6 @@ export default {
     },
     async startScanIOS() {
 
-      console.log('Background Color')
       this.changeBackgroundOpacity('body',0)
       this.changeBackgroundOpacity('#wrapper',0)
       this.changeBackgroundOpacity('#friends',0)

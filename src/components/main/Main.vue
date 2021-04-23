@@ -15,15 +15,6 @@ import Crypto from '@/classes/crypto/Crypto.ts'
 import MobileUtils from '@/utils/Mobile.ts'
 import { isCallActive } from '@/utils/CallUtils.ts'
 
-import { Howl } from 'howler'
-
-const newMessage = new Howl({
-  src: [`${config.ipfs.browser}${config.sounds.newMessage}`],
-  loop: false,
-  volume: 0.8,
-  html5: true
-})
-
 export default {
   name: 'Main',
   components: {
