@@ -516,7 +516,7 @@
   },
   "wallet": {
     "total-balance": "Total Balance (USD)",
-    "early-access-warning": "Early access operates on a testnet.",
+    "early-access-warning": "Wallet Coming Soon",
     "early-access-warning-do-not-send-real-funds": "Do not send real funds to your address.",
     "token-balances": "Token Balances",
     "copy-account-id": "Copy Account ID",

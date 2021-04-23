@@ -181,7 +181,6 @@ button {
     display: block;
   }
   #unlock {
-    background-image: url(/static/img/mobile-background.png);
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;

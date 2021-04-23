@@ -12,20 +12,20 @@
 // Buttons
 @really-blue: #0984e3;
 // Lables & Accents
-@not-as-light-blue-gray: #b2bae1;
+@not-as-light-blue-gray: #c5ccf3;
 @not-as-light-blue-gray-alt: @not-as-light-blue-gray;
 // General Text Colors
 @light-blue-gray: #545974;
 // Hovered Text Colors
 @lighter-blue-gray: #939bbd;
 // Messages & Icons
-@nearly-white: #a0a8cc;
+@nearly-white: #c1c9eb;
 // Usernames
-@basically-white: #faf2f8;
+@basically-white: #ffffff;
 // Message Hovering
 @is-this-black: #000000;
 // Highlights
-@primary-highlight: #b2bae1;
+@primary-highlight: #dde1f7;
 // Errors
 @green: #00b894;
 @red: #df7070;
@@ -51,6 +51,12 @@
   }
   .mobile-nav ul {
     background: transparent !important;
+  }
+  .mobile-nav {
+    border-top: 1px solid @super-dark-boi !important;
+  }
+  .mobile-nav .active-item {
+    color: @really-blue !important;
   }
   .indicator {
     background-color: @really-blue !important;
@@ -363,13 +369,11 @@
     background-color: @is-this-black !important;
   }
   .divider {
-    border-bottom: 1px solid @super-dark-boi !important; 
+    border-bottom: 1px solid @super-dark-boi !important;
+    width: 100% !important; 
   }
   .divider .text {
     border-bottom: 1px solid @super-dark-boi !important;
-  }
-  .wrapper {
-    border-left: 1px solid @super-dark-boi !important; 
   }
   .input, input, textarea {
     background-color: @less-dark-blue-gray !important; 
