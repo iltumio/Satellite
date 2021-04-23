@@ -1,0 +1,787 @@
+// Servers & conversation & Inputs
+@less-dark-blue-gray: #000;
+// Infobar & Sidebar
+@dark-blue-gray: #000;
+@darker-blue-gray: #000;
+@lighter-dark-blue-gray: #1a1b27;
+// Borders
+@super-dark-boi: #131319;
+@outline-dark: #1b1b24;
+// Friends & Containers
+@ohh-so-dark: #0d0d13;
+// Buttons
+@really-blue: #0984e3;
+// Lables & Accents
+@not-as-light-blue-gray: #b2bae1;
+@not-as-light-blue-gray-alt: @not-as-light-blue-gray;
+// General Text Colors
+@light-blue-gray: #545974;
+// Hovered Text Colors
+@lighter-blue-gray: #939bbd;
+// Messages & Icons
+@nearly-white: #a0a8cc;
+// Usernames
+@basically-white: #faf2f8;
+// Message Hovering
+@is-this-black: #000000;
+// Highlights
+@primary-highlight: #b2bae1;
+// Errors
+@green: #00b894;
+@red: #df7070;
+@yellow: #fbc02d;
+
+.theme {
+  .phrase .mnemonic-word {
+    color: @basically-white;
+    background-color: @really-blue !important;
+  }
+  .wallet-creation-container {
+    background-color: @dark-blue-gray !important;
+  }
+  .button.is-success {
+    background-color: @green;
+    color: @basically-white !important;
+  }
+  a {
+    color: @yellow !important;
+  }
+  pre {
+    background: @is-this-black !important;
+  }
+  .mobile-nav ul {
+    background: transparent !important;
+  }
+  .indicator {
+    background-color: @really-blue !important;
+    color: @basically-white !important;
+  }
+  .circle-icon {
+    background: @less-dark-blue-gray !important;
+  }
+  .bordered-circle-icon {
+    background: unset;
+  }
+  .server-sidebar-channel.active {
+    background-color: @really-blue !important;
+    color: @basically-white !important;
+  }
+  .server-actions .circle-icon {
+    background-color: @really-blue !important;
+  }
+  #scrollBottom {
+    background: @really-blue !important;
+  }
+  .voice-participant {
+    background: unset;
+  }
+  
+  ::selection {
+    background: @primary-highlight; /* WebKit/Blink Browsers */
+    color: #fff;
+  }
+  ::-moz-selection {
+    background: #00d0a1; /* Gecko Browsers */
+    color: #fff;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  input:focus, input:focus{
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid @primary-highlight !important;
+    caret-color: @primary-highlight;
+  }
+  .yellow {
+    color: @yellow !important;
+  }
+  .online {
+    -webkit-text-fill-color: @light-blue-gray !important;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: @super-dark-boi;
+  }
+  .true {
+    -webkit-text-fill-color: @green !important;
+  }
+  .metamask {
+    color: @not-as-light-blue-gray !important;
+  }
+  #wrapper {
+    background: @dark-blue-gray;
+    color: @nearly-white !important;
+  }
+  .settings-left {
+    background: @dark-blue-gray !important;
+  }
+  .menu-label {
+    color: @light-blue-gray !important;
+    font-weight: bold;
+  }
+  .label {
+    padding: 0 !important;
+    color: @not-as-light-blue-gray !important;
+    font-weight: bold;
+    font-variant-caps: all-petite-caps;
+  }
+  .context .label {
+    color: @not-as-light-blue-gray !important;
+  }
+  .context ul li:hover {
+    color: @really-blue !important;
+  }
+  .usersubcontrols {
+    background: @dark-blue-gray !important;
+    color: @nearly-white!important;
+    border: none !important;
+  }
+  .friend {
+    background: @ohh-so-dark !important;
+  }
+  .friend .online {
+    -webkit-text-stroke-color: @ohh-so-dark;
+  }
+  #friends {
+    background: @less-dark-blue-gray !important;
+  }
+  #friends p {
+    color: @nearly-white !important;
+  }
+  #files {
+    background: @less-dark-blue-gray !important;
+  }
+  #files p {
+    color: @nearly-white !important;
+  }
+  #file:hover .nothovered {
+    display: block;
+    color: @nearly-white;
+  }
+  #action-selector {
+    background-color: @is-this-black !important;
+    border-radius: 1px solid @super-dark-boi !important;
+    color: @light-blue-gray !important;
+  }
+  .modal-close {
+    background: @is-this-black !important;
+  }
+  .friends:hover, .files:hover {
+    background: @ohh-so-dark !important;
+    color: @nearly-white !important;
+  }
+  .friends.active, .files.active {
+    background: @ohh-so-dark !important;
+    color: @nearly-white !important;
+  }
+  .menu-list a {
+    color: @nearly-white !important;
+  }
+  .close {
+    background-color:transparent !important;
+    color: @nearly-white !important;
+  }
+  .close:hover {
+    background-color: transparent !important;
+    color: @basically-white !important;
+  }
+  #file .close i:hover {
+    color: @ohh-so-dark !important;
+  }
+  #file .close {
+    background-color: @red !important;
+    color: @ohh-so-dark !important;
+  }
+  #file .close:hover {
+    background-color: @red !important;
+    color: @ohh-so-dark !important;
+  }
+  #file .close i:hover {
+    color: @ohh-so-dark !important;
+  }
+  .menu-list a:hover {
+    color: @basically-white !important;
+    background-color: #2e303d !important;
+  }
+  .menu-list .active {
+    color: @basically-white !important;
+    background-color: @really-blue !important;
+  }
+  .emoji-mart {
+    background: @ohh-so-dark !important;
+    border: none !important;
+  }
+  .emoji-mart-category-label span {
+    background-color: transparent !important;
+    color: @basically-white !important;
+  }
+  .emoji-mart-bar {
+    border-bottom: none !important;
+    background-color: @dark-blue-gray !important;
+  }
+  .emoji-mart-bar-preview {
+    border: none !important;
+  }
+  .modal-card-head {
+    background: @dark-blue-gray !important;
+    border-bottom: none;
+  }
+  .modal-card-title {
+    color: @basically-white;
+  }
+  .modal-card-body {
+    background: @less-dark-blue-gray !important;
+  }
+  .vicp-wrap {
+    background: @less-dark-blue-gray !important;
+    color: @not-as-light-blue-gray !important;
+  }
+  .vue-image-crop-upload .vicp-wrap .vicp-step2 .vicp-crop .vicp-crop-right .vicp-preview .vicp-preview-item img {
+    background-color: @is-this-black !important;
+  }
+  .vue-image-crop-upload .vicp-wrap .vicp-step2 .vicp-crop .vicp-crop-left .vicp-img-container {
+    background-color: @is-this-black !important;
+  }
+  .vue-image-crop-upload .vicp-wrap .vicp-step2 .vicp-crop .vicp-crop-left .vicp-img-container .vicp-img-shade {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+  .vicp-drop-area {
+    background: @is-this-black !important;
+  }
+  .vicp-hint {
+    color: @not-as-light-blue-gray !important;
+  }
+  .vicp-icon1-arrow {
+    color: @not-as-light-blue-gray !important;
+  }
+  .media-container {
+    background: #000 !important;
+  }
+  .media-container .media-controls i {
+    color: @basically-white;
+  }
+  .media-content i {
+    color: @primary-highlight;
+  }
+  .media {
+    background: @dark-blue-gray !important;
+    color: @nearly-white !important;
+    border: none !important;
+    border-left: 3px solid @primary-highlight !important;
+  }
+  .media strong {
+    color: @basically-white !important;
+  }
+  .servers {
+    background-color: @dark-blue-gray !important;
+    width: 4rem !important;
+    top: 0;
+    bottom: 0;
+    left: -4rem !important;
+  }
+  #user-info {
+    background: @dark-blue-gray !important;
+  }
+  #logo {
+    color: @basically-white !important;
+  }
+  #typing {
+    color: @nearly-white !important;
+  }
+  .address {
+    color: @lighter-blue-gray !important;
+  }
+  .footer {
+    background: @dark-blue-gray !important;
+    color: @light-blue-gray !important;
+    border-top: 1px solid @super-dark-boi !important; 
+  }
+  .controls, .user-status {
+    background: @darker-blue-gray !important;
+    border-top: 1px solid @super-dark-boi !important; 
+  }
+  .infobar {
+    background: @dark-blue-gray !important;
+    border-bottom: 1px solid @super-dark-boi !important; 
+    box-shadow: 0 2px 3px -2px rgba(0,0,0,.25);
+  }
+  .infobar .profile i {
+    color: rgb(133, 137, 165) !important;
+    font-size: 16pt;
+  }
+  a {
+    color: @primary-highlight;
+  }
+  .infobar .profile i:hover {
+    color: @primary-highlight !important;
+  }
+  .infobar .address {
+    color: #545870 !important;
+  }
+  #conversation {
+    background: @less-dark-blue-gray !important;
+  }
+  .server-wrapper {
+    background: @less-dark-blue-gray !important;
+  }
+  #context {
+    background: @dark-blue-gray !important;
+    border: 1px solid @super-dark-boi !important;
+    ul {
+      li:hover {
+        color: @basically-white !important;
+        background: @really-blue !important;
+      }
+    }
+  }
+  .c-message-content {
+    color: @lighter-blue-gray !important;
+  }
+
+  strong {
+    color: @basically-white !important;
+  }
+
+  .charlimit {
+    color: @nearly-white !important;
+  }
+  .input-collection-red {
+    border: 1px solid @red !important;
+  }
+  .c-message-actions {
+    background: @dark-blue-gray !important;
+    border: none !important;
+    color: #545870 !important;
+  }
+  .c-message-actions i:hover {
+    color: @light-blue-gray !important;
+  }
+  .timestamp {
+    color: @light-blue-gray !important;
+  }
+  .c-message-body:hover {
+    background-color: @is-this-black !important;
+  }
+  .divider {
+    border-bottom: 1px solid @super-dark-boi !important; 
+  }
+  .divider .text {
+    border-bottom: 1px solid @super-dark-boi !important;
+  }
+  .wrapper {
+    border-left: 1px solid @super-dark-boi !important; 
+  }
+  .input, input, textarea {
+    background-color: @less-dark-blue-gray !important; 
+    border: none !important; 
+    color: #ccc !important;
+  }
+  .messageuser {
+    background-color: transparent !important;
+  }
+  .button .is-dark {
+    background-color: @less-dark-blue-gray !important; 
+    color: #ccc !important;
+  }
+  hr {
+    border:none !important;
+    background: none !important;
+    border-bottom: 1px solid @less-dark-blue-gray !important;
+  }
+  .select {
+    margin-top: 0.5rem !important;
+  }
+  .spacer {
+    border-bottom: 1px solid @super-dark-boi !important;
+  }
+  .select select {
+    background: @less-dark-blue-gray !important;
+    border: 1px solid transparent !important;
+    color: @lighter-blue-gray !important;
+  }
+  .select::after {
+    border-color: @light-blue-gray !important;
+  }
+  .message {
+    border: none !important;
+    border-left-color: @not-as-light-blue-gray-alt !important;
+  }
+  .unreads {
+    background: @not-as-light-blue-gray-alt !important;
+  }
+  .message.is-dark .message-body {
+    border-left-color: @not-as-light-blue-gray-alt !important;
+  }
+  #file {
+    background-color: @ohh-so-dark !important;
+  }
+  #file i:hover {
+    color: @nearly-white;
+  }
+  .filename {
+    color: @nearly-white !important;
+  }
+  .message .message-body {
+    color: @lighter-blue-gray !important;
+    background-color: @dark-blue-gray !important;
+  }
+  .message .message-body h2 {
+    color: @nearly-white !important;
+    background-color: @dark-blue-gray !important;
+  }
+  .modal-card-body input {
+    background: @ohh-so-dark !important;
+  }
+  .message button {
+    background: @not-as-light-blue-gray-alt !important;
+    color: @nearly-white !important;
+  }
+  .vicp-operate a {
+    background: @really-blue !important;
+    color: @basically-white !important;
+    padding: 0 1rem !important;
+    text-decoration: none !important;
+  }
+  .message button:hover {
+    background: @not-as-light-blue-gray !important;
+    color: @nearly-white !important;
+  }
+  .input-collection {
+    background-color: @dark-blue-gray !important; 
+  }
+  .input-collection input {
+    background-color: @dark-blue-gray !important; 
+  }
+  .chat-group {
+    background-color: @less-dark-blue-gray !important; 
+  }
+  .settings-right {
+    background-color: @less-dark-blue-gray !important;
+  }
+  .bordered {
+    border-left: 1px solid @super-dark-boi !important; 
+    background: @less-dark-blue-gray !important;
+  }
+  .user-active {
+    color: @primary-highlight !important;
+    background-color: @ohh-so-dark !important;
+  }
+  .group-active {
+    color: @primary-highlight !important;
+    background-color: @ohh-so-dark !important;
+  }
+  .user:hover { 
+    background-color: @ohh-so-dark !important;
+  }
+  .group:hover { 
+    background-color: @ohh-so-dark !important;
+  }
+  .tabs ul {
+    border-bottom-color: @super-dark-boi !important;
+  }
+  .tabs ul li a {
+    border-bottom-color: @super-dark-boi !important;
+    color: @nearly-white !important;
+  }
+  .tabs li.is-active a {
+    border-bottom-color: @primary-highlight !important; 
+    color: @primary-highlight !important;
+  }
+  .chat-group i:hover {
+    color: @basically-white !important;
+  }
+  .chat-group i {
+    color: @nearly-white !important;
+  }
+  .infobar i {
+    color: @nearly-white;
+  }
+  .infobar i:hover {
+    color: @basically-white !important;
+  }
+  .emoji-mart-anchor svg {
+    fill: @nearly-white;
+  }
+  .emoji-mart-anchor svg:hover {
+    fill: @nearly-white;
+    cursor: pointer;
+  }
+  .controls i {
+    color: @nearly-white;
+  }
+  .controls i:hover {
+    color: @basically-white;
+  }
+  .is-dark {
+    background: @super-dark-boi !important;
+  }
+  .is-dark:hover {
+    background: @ohh-so-dark !important;
+  }
+  .make-payment {
+    background: @dark-blue-gray !important;
+    border: none !important;
+  }
+  .true i {
+    color: @primary-highlight !important;
+  }
+  .head strong {
+    color: @basically-white !important;
+  }
+  input {
+    color: @lighter-blue-gray !important; 
+    border: 1px solid transparent !important;
+  }
+  input:focus, input:focus{
+    border: 1px solid @primary-highlight !important;
+  }
+  select {
+    border: 1px solid transparent !important;
+  }
+  select:focus, select:focus{
+    border: 1px solid @primary-highlight !important;
+  }
+  .chat-group input:focus, input:focus{
+    border: 1px solid transparent !important;
+  }
+  .green {
+    color: @primary-highlight;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: @light-blue-gray !important;
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: @light-blue-gray !important;
+  }
+
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: @light-blue-gray !important;
+  }
+  .separator {
+    color: #47495f !important;
+  }
+  .separator::before, .separator::after {
+    border-bottom: 1px solid #292a36 !important;
+  }
+
+  button.is-danger {
+    background-color:@red !important;
+    color: @basically-white !important;
+  }
+
+  button.is-danger:hover {
+    background-color: @red !important;
+  }
+  button.is-primary {
+    background: @really-blue !important;
+    color: @basically-white !important;
+  }
+  button.is-primary:hover {
+    background: @really-blue !important;
+    color: @basically-white !important;
+  }
+  button.is-danger {
+    background: #e74c3c !important;
+    color: @basically-white !important;
+  }
+  button.is-danger:hover {
+    background: #c0392b !important;
+    color: @basically-white !important;
+  }
+  .is-primary {
+    background: @really-blue !important;
+    color: @basically-white !important;
+  }
+  .is-primary button:hover {
+    background: @really-blue !important;
+    color: @basically-white !important;
+  }
+
+  button.is-outlined {
+    background: transparent !important;
+    border: 1px solid @outline-dark;
+    color: @nearly-white !important;
+  }
+  button.is-outlined:hover {
+    background: @outline-dark !important;
+    border: 1px solid @outline-dark;
+  }
+  .button.is-primary.is-outlined[disabled] {
+    background: transparent !important;
+    border: 1px solid @outline-dark;
+    color: @nearly-white !important;
+  }
+
+  button.is-dark {
+    background: @less-dark-blue-gray !important;
+    color: @basically-white !important;
+  }
+  button.is-dark:hover {
+    background: @less-dark-blue-gray !important;
+    color: @basically-white !important;
+  }
+  button.is-success {
+    background: @green !important;
+    color: @super-dark-boi !important;
+  }
+  button.is-success:hover {
+    background: @green !important;
+    color: @super-dark-boi !important;
+  }
+  .head, .title {
+    color: @basically-white !important;
+  }
+  .username {
+    color: @basically-white !important;
+  }
+  .name:hover{
+     color: @basically-white !important;
+  }
+  .controls .user-active i {
+    color: @green !important;
+    -webkit-text-fill-color: @green !important;
+  }
+  .usersubcontrols .fa-user-friends {
+    color: #75b5aa !important;
+  }
+  .usersubcontrols .fa-folder {
+    color: #d28445 !important;
+  }
+  #file .fa-images {
+    color: #75b5aa !important;
+  }
+  #file .fa-file-audio {
+    color: #d28445 !important;
+  }
+  #file .fa-file-video {
+    color: #aa759f !important;
+  }
+  #file .fa-fa-markdown {
+    color: #c7a4c0 !important;
+  }
+  #file .fa-archive {
+    color: #ac4142 !important;
+  }
+  #file .fa-file-code, .fa-link i {
+    color: #90a959 !important;
+  }
+  #file .fa-file-code {
+    color: #d28445 !important;
+  }
+  #file .fa-file-archive {
+    color: #6a9fb5 !important;
+  }
+  #file .fa-js-square {
+    color: #f4bf75 !important;
+  }
+  #file .fa-java {
+    color: #6a9fb5 !important;
+  }
+  #file .fa-css3-alt {
+    color: #f4bf75 !important;
+  }
+  #file .fa-file {
+    color: #90a959 !important;
+  }
+  #file .fa-file-download {
+    color: #75bfdf !important;
+  }
+  .true {
+    .fa-spin {
+      color: @basically-white !important;
+    }
+  }
+  .switch-button {
+    --color: @really-blue !important;
+  }
+  #loading, #unlock {
+    background: @dark-blue-gray !important;
+  }
+  .special-thanks {
+    color: @yellow !important;
+  }
+  .switch-button-control .switch-button.enabled .sw-button {
+    background-color: @basically-white !important;
+  }
+  .nav-settings {
+    background: @less-dark-blue-gray !important;
+
+    .fa-bars {
+      color: @nearly-white;
+      font-size: 16pt;
+    }
+  }
+  .sidebar-wrapper, .right-bar {
+    background: @dark-blue-gray !important;
+  }
+
+  .red {
+    color: @red !important;
+  }
+  .green {
+    color: @green !important;
+  }
+  .yellow {
+    color: @yellow !important;
+  }
+  .disabled-icon, .disabled-icon:hover { 
+    color: @light-blue-gray !important;
+  } 
+  @media (max-width: 768px) {
+    
+    .no-mobile {
+      display: none;
+    }
+    .i:hover {
+      color: unset;
+    }
+    .add-friend-input {
+      background: #1a1b26 !important;
+    }
+    .unreads {
+      background: transparent !important;
+    }
+    .settings-right {
+      .spacer {
+        border-bottom: 1px solid @ohh-so-dark !important;
+        margin: 1rem -1rem !important;
+      }
+    }
+    .settings-right .message {
+      background-color: transparent !important;
+    }
+    .settings-right .message-body {
+      background: transparent !important;
+      border: none;
+      margin: 0 -1.5rem;
+
+      input {
+        background-color: #000 !important;
+      }
+      
+      h2 {
+        background-color: transparent !important;
+      }
+
+      .select {
+        width: 100%;
+
+        select {
+          width: 100%;
+          background: #000 !important;
+        }
+      }
+    }
+  }
+
+  code {
+    background-color: @less-dark-blue-gray;
+    color: @basically-white;
+    border-radius: 2px;
+    font-size: 0.875em;
+    font-weight: normal;
+    padding: 0.25em 0.5em 0.25em;
+  }
+}
