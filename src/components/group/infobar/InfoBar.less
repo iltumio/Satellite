@@ -42,6 +42,7 @@
     font-size: 15pt;
     /*box-shadow: 0 2px 3px -2px rgba(0,0,0,.25);*/
     z-index: 4;
+    width: calc(100% + 16rem);
 }
 .profile {
     float: left;
@@ -77,6 +78,11 @@
   margin-left: 0.25rem;
 }
 .name {
+  // position: absolute;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  //set max width 
   display: inline-block;
   margin: 0.2rem 0 0 0.5rem;
   float: left;

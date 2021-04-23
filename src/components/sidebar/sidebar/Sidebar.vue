@@ -101,9 +101,6 @@ export default {
           else{
             this.$store.commit('changeRoute', 'group')
           }
-         
-      
-
         }
       }
     }

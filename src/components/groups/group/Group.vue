@@ -21,9 +21,11 @@ export default {
   props: ['group', 'unread', 'active'],
   methods: {
     openGroup () {
+      //throw in a isMobile
       console.log('opening group', this.group)
       this.$store.commit('activeGroup', this.group)
       this.$store.commit('changeRoute', 'group')
+      this.$store.commit('setMobileSidebar', false)
     },
     isMobile: MobileUtils.isMobile
   },

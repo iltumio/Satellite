@@ -35,7 +35,10 @@ export default {
           this.$store.commit('toggleGroupInfo');
         }
       }
-    }
+    },
+    toggleGroupInfo () {
+      this.$store.commit('toggleGroupInfo');
+    },
   }
 }
 </script>
