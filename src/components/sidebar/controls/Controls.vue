@@ -18,7 +18,8 @@ export default {
       tooltip: 'Copy Account',
       config,
       inCall: 'offline',
-      usingMic: 'offline'
+      usingMic: 'offline',
+      usingCam: 'offline'
     }
   },
   methods: {
