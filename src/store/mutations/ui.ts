@@ -36,6 +36,7 @@ export default {
   },
   activeChat(state: IState, address: string) {
     state.activeChat = address;
+    state.group = false;
   },
   // Change the mian route of the application
   changeRoute(state: IState, route: string) {
