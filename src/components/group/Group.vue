@@ -70,8 +70,8 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
-
 }
+
 .bordered {
   border-left: 1px solid #e7ebee;
 }
@@ -85,7 +85,6 @@ export default {
 }
 .main-user-info-open {
   width: calc(100% - 16rem);
-
 }
 
 .main {
@@ -104,36 +103,37 @@ export default {
   float: right;
   padding: 1rem;
 }
-
-
-// .close-btn {
-//     display: none;
-// }
   
 @media (max-width: 768px) {
   .main {
-    width: 100%;
+    width: 100vw;
     height: 100%;
     float: left;
     position: relative;
     background: #101016 !important;
   }
-  // .close-btn {
-  //   display: block;
-  //   right: 1.5rem;
-  //   top: 4rem;
-  // }
 
-.right-bar {
+  .main-user-info {
     width: 100%;
     height: 100%;
-    float: right;
-    padding: 1rem;
+    float: left;
+    position: relative;
+    background: #101016 !important;
+}
+
+.main-user-info-open {
+  width: 100vw;
+}
+
+.right-bar {
+  width: 100vw;
+  height: 100%;
+  float: right;
+  padding: 1rem;
   }
 
 .right-bar-close {
   position: absolute;
   }
-
 }
 </style>
