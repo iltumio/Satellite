@@ -78,7 +78,7 @@
   margin-left: 0.25rem;
 }
 .name {
-  // position: absolute;
+  position: absolute;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -88,6 +88,7 @@
   float: left;
   font-size: 18px;
   font-family: 'Space Mono', monospace;
+  width: 200px;
 }
 
 .name:hover{
@@ -132,14 +133,40 @@ i:hover {
     font-size: 14pt;
   }
 
+  .fa-phone{
+    // right: 30px;
+    margin-right: 20px;
+    display: block !important;
+  }
+    .fa-video{
+    // right: 30px;
+    margin-right: 20px;
+    display: block !important;
+  }
+
   // .fa-address-card {
   //   display: none;
   // }
 }
 
-@media only screen and (max-width: 830px) { 
+@media only screen and (max-width: 985px) { 
   .fa-desktop {
     display: none;
+    width: 0px;
+  }
+}
+
+@media only screen and (max-width: 905px) { 
+  .fa-video {
+    display: none;
+    width: 0px;
+  }
+}
+
+@media only screen and (max-width: 840px) { 
+  .fa-phone {
+    display: none;
+    width: 0px;
   }
 }
 
@@ -155,7 +182,7 @@ i:hover {
   }
 
   .fa-bars.mobile {
-    display: inline;
+    display: inline ;
   } 
 
   .infobar {
