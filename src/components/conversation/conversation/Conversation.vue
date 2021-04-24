@@ -268,4 +268,9 @@ export default {
   border-bottom: 10px solid transparent;
   border-right: 10px solid #1a1b26;
 }
+@media (max-width: 768px) {
+  #conversation {
+    min-width: 100vw;
+  }
+}
 </style>
