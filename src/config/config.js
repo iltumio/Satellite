@@ -2,7 +2,7 @@ module.exports = {
   env: 'prod',
   textile: {
     localURI: 'http://localhost:6007',
-    key: 'bfeimum7iu45o2inmxcip64pdvu',
+    key: 'b3y2jgeqlvpqnxmwqsvvc4hc7ym',
     browser: 'https://hub.textile.io'
   },
   network: {
