@@ -28,17 +28,17 @@ export default {
       })(navigator.userAgent || navigator.vendor || window.opera)
       return check
     },
+    toggleGroupInfo () {
+      this.$store.commit('toggleGroupInfo');
 
+    },
     swipeHandler (direction) {
       if (this.isMobile()) {
          if (direction === 'right') {
           this.$store.commit('toggleGroupInfo');
         }
       }
-    },
-    toggleGroupInfo () {
-      this.$store.commit('toggleGroupInfo');
-    },
+    }
   }
 }
 </script>

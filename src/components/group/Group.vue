@@ -1,12 +1,12 @@
 <template>
   <div class="bordered group" v-touch:swipe="swipeHandler" v-touch-options="{swipeTolerance: 75}">
-    <div class="main">
+    <div :class="`${($store.state.showGroupInfo) ? 'main-user-info main-user-info-open' : 'main-user-info'}`">
       <InfoBar />
       <LoadingConvorsation />
       <Chatbar :handleNewMessage="() => {}" />
     </div>
 
-    <div :class="`${this.$store.state.showGroupInfo ? 'right-bar close-btn ' : 'right-bar right-bar-close'}`">
+    <div v-if="this.$store.state.showGroupInfo"  :class="`${this.$store.state.showGroupInfo ? 'right-bar close-btn ' : 'right-bar right-bar-close'}`">
       <Info />
     </div>
   </div>
@@ -74,6 +74,18 @@ export default {
 }
 .bordered {
   border-left: 1px solid #e7ebee;
+}
+
+.main-user-info {
+  width: 100%;
+  height: 100%;
+  float: left;
+  position: relative;
+  background: #101016 !important;
+}
+.main-user-info-open {
+  width: calc(100% - 16rem);
+
 }
 
 .main {
