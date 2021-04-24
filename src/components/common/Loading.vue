@@ -1,97 +1,99 @@
 <template>
-  <div id="loading">
-    <div
-      :class="
-        `loading-dispaly ${
-          $store.state.dwellerAddress ===
-          '0x0000000000000000000000000000000000000000'
-            ? 'showing-content'
-            : ''
-        }`
-      "
-    >
-      <p
-        id="logo"
-        :style="
-          `${
-            $store.state.dwellerAddress !==
+  <div class="loading-wrapper">
+    <Particles
+      id="tsparticles"
+      url="https://gist.githubusercontent.com/RetroPronghorn/188de96e4bb5f641f56805d65a2cac9e/raw/bba2267368ed833b7dd785b1be50218cd5ae854b/particles.json" />
+    <div id="loading">
+      <div
+        :class="
+          `loading-dispaly ${
+            $store.state.dwellerAddress ===
             '0x0000000000000000000000000000000000000000'
-              ? 'margin-top: 5rem'
+              ? 'showing-content'
               : ''
           }`
         "
       >
-        <Loader size="100" v-if="showLoader" />
-      </p>
-      <div class="red" v-if="$store.state.criticalError">
-        <i class="fas fa-skull"></i> {{ $t('loading.failure-to-load') }}:
-        {{ $store.state.criticalError }} <br /><br />
-        <button class="button is-danger is-small" v-on:click="reload">
-          {{ $t('loading.retry-button') }}
-        </button>
-      </div>
-      <div v-else-if="!$store.state.dwellerAddress">
-        <i class="fas fa-spinner-third fa-spin"></i>
-        {{ $t('loading.connecting_blockchain') }}
-      </div>
-      <div
-        v-else-if="
-          $store.state.dwellerAddress ==
-            '0x0000000000000000000000000000000000000000'
-        "
-        class="content"
-      >
-        <FundAccount
-          v-if="$store.state.balance && $store.state.balance.eq(0)"
-        />
-        <EmbededProfile
-          :customFinalAction="reload"
-          :mountAction="hideLoader"
-          v-else
-        />
-        <!-- <Profile :customFinalAction="reload" v-else /> -->
-      </div>
-      <div v-else-if="!$store.state.friendsLoaded">
-        <i class="fas fa-spinner-third fa-spin"></i>
-        {{ $t('loading.assembling') }}
-      </div>
-      <div v-else-if="$store.state.starting">
-        <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.generic') }}
-      </div>
-      <div
-        class="metamask"
-        v-if="
-          showWeb3 &&
-            $store.state.dwellerAddress !==
+        <p
+          id="logo"
+          :style="
+            `${
+              $store.state.dwellerAddress !==
               '0x0000000000000000000000000000000000000000'
-        "
-      >
-        <!-- <span
-          v-if="!$store.state.dwellerAddress"
-          v-html="
-            $t('loading.long_load', {
-              text: 'https://metamask.io/',
-              link: 'https://metamask.io/',
-              target: '_blank',
-            })
+                ? 'margin-top: 5rem'
+                : ''
+            }`
           "
-        /> -->
-        <span v-if="!$store.state.friendsLoaded">
-          {{ $t('loading.textile') }}
-        </span>
-        <!-- <span v-else-if="!$store.state.ICEConnected">
-          {{ $t('loading.other_tab') }}
-        </span> -->
-        <span v-else>
-          {{ $t('loading.something_wrong') }}
-          <a href="#" target="_blank" v-on:click="window.location.reload()">{{
-            $t('loading.retry')
-          }}</a>
-        </span>
+        >
+          <Loader size="100" v-if="showLoader" />
+        </p>
+        <div class="red" v-if="$store.state.criticalError">
+          <i class="fas fa-skull"></i> {{ $t('loading.failure-to-load') }}:
+          {{ $store.state.criticalError }} <br /><br />
+          <button class="button is-danger is-small" v-on:click="reload">
+            {{ $t('loading.retry-button') }}
+          </button>
+        </div>
+        <div v-else-if="!$store.state.dwellerAddress">
+          <i class="fas fa-spinner-third fa-spin"></i>
+          {{ $t('loading.connecting_blockchain') }}
+        </div>
+        <div
+          v-else-if="
+            $store.state.dwellerAddress ==
+              '0x0000000000000000000000000000000000000000'
+          "
+          class="content"
+        >
+          <FundAccount
+            v-if="$store.state.balance && $store.state.balance.eq(0)"
+          />
+          <EmbededProfile
+            :customFinalAction="reload"
+            :mountAction="hideLoader"
+            v-else
+          />
+          <!-- <Profile :customFinalAction="reload" v-else /> -->
+        </div>
+        <div v-else-if="!$store.state.friendsLoaded">
+          <i class="fas fa-spinner-third fa-spin"></i>
+          {{ $t('loading.assembling') }}
+        </div>
+        <div v-else-if="$store.state.starting">
+          <i class="fas fa-spinner-third fa-spin"></i> {{ $t('loading.generic') }}
+        </div>
+        <div
+          class="metamask"
+          v-if="
+            showWeb3 &&
+              $store.state.dwellerAddress !==
+                '0x0000000000000000000000000000000000000000'
+          "
+        >
+          <!-- <span
+            v-if="!$store.state.dwellerAddress"
+            v-html="
+              $t('loading.long_load', {
+                text: 'https://metamask.io/',
+                link: 'https://metamask.io/',
+                target: '_blank',
+              })
+            "
+          /> -->
+          <span v-if="!$store.state.friendsLoaded">
+            {{ $t('loading.textile') }}
+          </span>
+          <!-- <span v-else-if="!$store.state.ICEConnected">
+            {{ $t('loading.other_tab') }}
+          </span> -->
+          <span v-else>
+            {{ $t('loading.something_wrong') }}
+            <a href="#" target="_blank" v-on:click="window.location.reload()">{{
+              $t('loading.retry')
+            }}</a>
+          </span>
+        </div>
       </div>
-      <p class="special-thanks">
-        {{ $t('loading.alpha') }}
-      </p>
     </div>
   </div>
 </template>
@@ -136,6 +138,14 @@ export default {
   left: 1rem;
   right: 1rem;
   color: #00cec9;
+}
+#tsparticles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }
 .loading-image {
   height: 200px;

@@ -5,7 +5,7 @@
 @darker-blue-gray: #000;
 @lighter-dark-blue-gray: #1a1b27;
 // Borders
-@super-dark-boi: #131319;
+@super-dark-boi: #1d1d25;
 @outline-dark: #1b1b24;
 // Friends & Containers
 @ohh-so-dark: #0d0d13;
@@ -458,7 +458,14 @@
   }
   .chat-group {
     background-color: @less-dark-blue-gray !important; 
+    border-top: 1px solid @super-dark-boi !important;
   }
+  .sidebar-selector {
+    button {
+      border: 1px solid @super-dark-boi !important;
+    }
+  }
+
   .settings-right {
     background-color: @less-dark-blue-gray !important;
   }
@@ -529,6 +536,9 @@
   .true i {
     color: @primary-highlight !important;
   }
+  .bordered.main-section {
+    border: none !important;
+  }
   .head strong {
     color: @basically-white !important;
   }
@@ -544,6 +554,16 @@
   }
   select:focus, select:focus{
     border: 1px solid @primary-highlight !important;
+  }
+  .input, .select {
+    border: 1px solid @super-dark-boi !important;
+  }
+  .chat-group .input-collection {
+    border: 1px solid @super-dark-boi !important;
+    
+    .input {
+      border: none !important;
+    }
   }
   .chat-group input:focus, input:focus{
     border: 1px solid transparent !important;
@@ -701,7 +721,7 @@
     --color: @really-blue !important;
   }
   #loading, #unlock {
-    background: @dark-blue-gray !important;
+    background: transparent;
   }
   .special-thanks {
     color: @yellow !important;
@@ -736,6 +756,13 @@
   .blue {
     color: @really-blue !important;
   }
+  .asset-container {
+    margin: 0.5rem 1.5rem;
+    background: transparent !important;
+    padding: 6px 0.75rem;
+    border-radius: 5px;
+    border: 1px solid @super-dark-boi !important;
+  }
   @media (max-width: 768px) {
     
     .no-mobile {
@@ -743,9 +770,6 @@
     }
     .i:hover {
       color: unset;
-    }
-    .add-friend-input {
-      background: #1a1b26 !important;
     }
     .unreads {
       background: transparent !important;

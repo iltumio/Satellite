@@ -20,6 +20,7 @@ import Ethereum from './classes/Ethereum'
 import StreamManager from './classes/webrtc/StreamManager'
 import SoundManager from './classes/SoundManager'
 import { SignalingManager } from './classes/webrtc/SignalingManager'
+import Particles from 'particles.vue'
 
 Vue.config.productionTip = false
 
@@ -27,6 +28,7 @@ Vue.use(VueClipboard)
 Vue.use(vClickOutside)
 Vue.use(VueI18n)
 Vue.use(Vue2TouchEvents)
+Vue.use(Particles)
 
 const pluginOptions = {
   globalOptions: {

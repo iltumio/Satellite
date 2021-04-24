@@ -26,7 +26,7 @@
     </div>
   </div>
   <div v-if="$store.state.mainRoute !== 'server'">
-    <div class="tabs">
+    <div class="tabs  sidebar-selector">
       <div class="buttons has-addons">
         <button :class="`${getTabClass('chats')}`" v-on:click="setTabClass('chats')">
           <i class="fas fa-comment-alt-lines"></i> &nbsp; {{$t('sidebar.chats')}}
