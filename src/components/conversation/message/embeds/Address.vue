@@ -86,6 +86,7 @@ export default {
 #payment {
   margin-top: 0.5rem;
   max-width: 500px;
+  min-width: 65vw;
 }
 .media {
   background: #fff;
