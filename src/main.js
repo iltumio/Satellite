@@ -23,7 +23,6 @@ import { SignalingManager } from './classes/webrtc/SignalingManager'
 import Particles from 'particles.vue'
 import BodyScrollLockDirective from 'v-body-scroll-lock'
 
-
 Vue.config.productionTip = false
 
 Vue.use(VueClipboard)
