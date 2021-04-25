@@ -158,6 +158,9 @@ export default {
   margin-top: 0;
   padding-top: 20%;
 }
+.pin-text {
+  color: #b2bae1;
+}
 .label {
   padding: 0 !important;
   margin: 0 !important;

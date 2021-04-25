@@ -1,12 +1,11 @@
 <template>
   <div id="files" class="noselect">
+    <TopNav
+      :title="$t('files.heading')"
+      :backAction="close"
+      :toggleSettings="toggleSettings"
+    />
     <div class="files-mobile-wrapper">
-      <button
-        class="modal-close is-large"
-        aria-label="close"
-        v-on:click="close"
-      ></button>
-      <h3>{{ $t('files.heading') }}</h3>
       <FileUploadInline
         :relayResult="updateCache"
         :uploadDone="fetchRecentFiles"
@@ -95,6 +94,7 @@
 
 <script>
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav'
+import TopNav from '@/components/common/mobile/TopNav'
 import FileContext from '@/components/common/context/FileContext'
 import FileUploadInline from '@/components/common/fileuploadinline/FileUploadInline'
 import FlexFile from '../flexfile/FlexFile.vue'
@@ -108,7 +108,8 @@ export default {
     FlexFile,
     FileContext,
     MobileNav,
-    Meter
+    Meter,
+    TopNav
   },
   data () {
     return {

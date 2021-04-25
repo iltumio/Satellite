@@ -106,7 +106,8 @@
       <hr class="spacer">
       <p class="label">{{$t('settings.profile.account_address')}}</p>
       <p>{{$t('settings.profile.id_card')}}</p>
-      <input class="input" :value="$store.state.activeAccount" readonly />
+      <input class="input" :value="$store.state.activeAccount" readonly /><br>
+      <WalletAddressMini :small="true" :address="$store.state.activeAccount" />
       <br>
       <br>
       <hr class="spacer">

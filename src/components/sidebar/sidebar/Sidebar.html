@@ -1,4 +1,12 @@
 <section class="section main-section noselect" v-touch:swipe="swipeHandler"  v-touch-options="{swipeTolerance: 75}">
+  <div class="top-nav-wrap">
+    <TopNav
+        v-if="isMobile()"
+        title="Satellite.im"
+        :backAction="false"
+        :leftText="`v${version}`"
+      />
+  </div>
   <ServerList :toggleCreateServer="toggleCreateServer" :servers="servers" :loadingServers="loadingServers" />
   <h1 id="logo" v-if="!isMobile()">
     Satellite
@@ -7,9 +15,9 @@
       <i class="fa fa-bars"></i>
     </a>
   </h1>
-  <div class="control user-search">
+  <div class="control user-search" v-if="!isMobile()">
     <input :class="`input is-small hide-mobile ${requiresUpdate ? 'update-input' : ''}`" type="text" :placeholder="$t('sidebar.find')">
-    <UpdateCheck :update="() => requiresUpdate = true" />
+    <UpdateCheck v-if="!isMobile()" :update="() => requiresUpdate = true" />
   </div>
   
   <ServerSlider v-if="isMobile()" :toggleCreateServer="toggleCreateServer" :servers="servers" />

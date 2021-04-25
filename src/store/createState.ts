@@ -1,13 +1,15 @@
 import { BigNumber, utils } from 'ethers';
 import { LangCodes } from '../utils/i18n';
 import { AvailableProviders } from './mutations/web3';
+// @ts-ignore
+import MobileUtils from '@/utils/Mobile'
 
 interface ISettings {
   darkMode: boolean;
   language: LangCodes;
 }
 
-type ThemeName = 'tokyo';
+type ThemeName = 'tokyo' | 'oled';
 
 export interface IWalletAsset {
   symbol: string;
@@ -124,7 +126,7 @@ export const defaultState: IState = {
     language: 'en_US'
   },
   // Theme
-  theme: 'tokyo',
+  theme: MobileUtils.isMobile() ? 'oled' : 'tokyo',
   // Screen Share
   screenShareRequest: null,
   captureMouse: 'always',
