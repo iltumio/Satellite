@@ -8,6 +8,7 @@
       <i class="fas fa-chevron-down"></i>
     </div>
     <div
+      v-body-scroll-lock="isMobile()"
       id="conversation"
       :class="
         `${mediaOpen ? 'media-open' : 'media-closed'} ${

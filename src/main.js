@@ -21,11 +21,14 @@ import StreamManager from './classes/webrtc/StreamManager'
 import SoundManager from './classes/SoundManager'
 import { SignalingManager } from './classes/webrtc/SignalingManager'
 import Particles from 'particles.vue'
+import BodyScrollLockDirective from 'v-body-scroll-lock'
+
 
 Vue.config.productionTip = false
 
 Vue.use(VueClipboard)
 Vue.use(vClickOutside)
+Vue.use(BodyScrollLockDirective)
 Vue.use(VueI18n)
 Vue.use(Vue2TouchEvents)
 Vue.use(Particles)

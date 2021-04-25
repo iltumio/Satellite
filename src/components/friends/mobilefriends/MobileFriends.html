@@ -4,7 +4,7 @@
     :backAction="close"
     :toggleSettings="toggleSettings"
   />
-  <div class="main-content" v-if="showMainContent">
+  <div class="main-content" v-body-scroll-lock="true" v-if="showMainContent">
     <div class="qr-modal" v-if="showShareQR">
       <QRDisplay :data="$store.state.activeAccount" :close="toggleShareQR" />
     </div>

@@ -5,21 +5,22 @@
       :backAction="close"
       :toggleSettings="toggleSettings"
     />
-    <div class="files-mobile-wrapper">
+    <div class="files-mobile-wrapper" v-body-scroll-lock="true">
       <FileUploadInline
         :relayResult="updateCache"
         :uploadDone="fetchRecentFiles"
         :noAutoSelect="true"
       />
-      <hr class="divider">
-      <Meter 
-        :ticks="bytesPercentageUsed(fileSizeTotal) / 4" 
+      <hr class="divider" />
+      <Meter
+        :ticks="bytesPercentageUsed(fileSizeTotal) / 4"
         type="usage"
-        :height="1.5"/>
+        :height="1.5"
+      />
       <h2 class="label">
         {{ $t('files.usage') }} ({{ bytesToSize(fileSizeTotal) }} / 4GB)
       </h2>
-      <br>
+      <br />
       <h2 class="label">{{ $t('files.history') }}</h2>
       <div v-if="!loading" class="files-container">
         <ul>
