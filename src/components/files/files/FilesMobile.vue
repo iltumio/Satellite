@@ -238,7 +238,7 @@ export default {
   height: calc(100% - 7.2rem);
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-top: env(safe-area-inset-top, 0);
+  padding-top: 1rem;
 }
 .progress {
   border-radius: 0;

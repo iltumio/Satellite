@@ -83,7 +83,7 @@ export default {
 #mobile-top-nav {
   overflow: hidden;
   height: 50px;
-  margin: -1rem -1.5rem 1rem -1.5rem;
+  margin: -1rem -1.5rem 0 -1.5rem;
 }
 .update-column {
   font-size: 11pt;
