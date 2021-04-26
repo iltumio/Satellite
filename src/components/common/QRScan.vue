@@ -25,6 +25,7 @@
 import { QrcodeStream } from 'vue-qrcode-reader'
 
 import Friend from '@/components/friends/friend/Friend'
+import { Plugins } from '@capacitor/core';
 
 export default {
   name: 'QRScan',
@@ -32,6 +33,9 @@ export default {
   components: {
     QrcodeStream,
     Friend
+  },
+  mounted() {
+
   },
   methods: {
     onDecode (string) {

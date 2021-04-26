@@ -1,26 +1,26 @@
 <template>
   <div id="files" class="noselect">
-    <div class="files-mobile-wrapper">
-      <button
-        class="modal-close is-large"
-        aria-label="close"
-        v-on:click="close"
-      ></button>
-      <h3>{{ $t('files.heading') }}</h3>
+    <TopNav
+      :title="$t('files.heading')"
+      :backAction="close"
+      :toggleSettings="toggleSettings"
+    />
+    <div class="files-mobile-wrapper" v-body-scroll-lock="true">
       <FileUploadInline
         :relayResult="updateCache"
         :uploadDone="fetchRecentFiles"
         :noAutoSelect="true"
       />
-      <hr class="divider">
-      <Meter 
-        :ticks="bytesPercentageUsed(fileSizeTotal) / 4" 
+      <hr class="divider" />
+      <Meter
+        :ticks="bytesPercentageUsed(fileSizeTotal) / 4"
         type="usage"
-        :height="1.5"/>
+        :height="1.5"
+      />
       <h2 class="label">
         {{ $t('files.usage') }} ({{ bytesToSize(fileSizeTotal) }} / 4GB)
       </h2>
-      <br>
+      <br />
       <h2 class="label">{{ $t('files.history') }}</h2>
       <div v-if="!loading" class="files-container">
         <ul>
@@ -95,6 +95,7 @@
 
 <script>
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav'
+import TopNav from '@/components/common/mobile/TopNav'
 import FileContext from '@/components/common/context/FileContext'
 import FileUploadInline from '@/components/common/fileuploadinline/FileUploadInline'
 import FlexFile from '../flexfile/FlexFile.vue'
@@ -108,7 +109,8 @@ export default {
     FlexFile,
     FileContext,
     MobileNav,
-    Meter
+    Meter,
+    TopNav
   },
   data () {
     return {
@@ -237,6 +239,7 @@ export default {
   height: calc(100% - 7.2rem);
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-top: 1rem;
 }
 .progress {
   border-radius: 0;
@@ -270,6 +273,10 @@ export default {
   color: #fff !important;
   background: rgba(0, 0, 0, 0.75);
 }
+.modal-close {
+  margin-top: 1rem;
+}
+
 .half-button {
   width: calc(50% - 0.14rem);
   margin-bottom: 1rem;
@@ -339,6 +346,7 @@ h3 {
 .modal-close {
   z-index: 0 !important;
   position: absolute;
+  top: env(safe-area-inset-top, 0);
 }
 
 ul {

@@ -1,10 +1,14 @@
 <div
   :class="`c-message-body ${(dweller.address === $store.state.activeAccount) ? 'local' : 'remote'} `" 
   v-if="dweller">
-  <h4 class="c-message-user no-mobile">{{dweller.name}} <span class="timestamp">{{formattedDate(messages[messages.length - 1].at)}}</span></h4>
-  <CircleIcon
-    :image="dweller.photo"
-    :address="dweller.address" />
+  <h4 class="c-message-user no-mobile" v-on:click="$store.commit('viewProfile', dweller.address)" >
+    {{dweller.name}} <span class="timestamp">{{formattedDate(messages[messages.length - 1].at)}}</span>
+  </h4>
+  <div v-on:click="$store.commit('viewProfile', dweller.address)" >
+    <CircleIcon
+      :image="dweller.photo"
+      :address="dweller.address"/>
+  </div>
   <!--<div class="c-message-actions" v-if="isEditable">
     <i class="fas fa-pencil-alt"></i>
     <i class="fa fa-trash"></i>
@@ -35,7 +39,10 @@
             <p v-if="message.type == 'call-status'">
               <i class="fas fa-phone"></i> {{$t('conversation.message.message_body.call_started', {name: dweller.name})}}
             </p>
-            <p v-if="message.payload && message.payload.type == 'text'">
+            <div v-if="parseEthAddress(message.payload.data)">
+              <Address :address="parseEthAddress(message.payload.data)"/>
+            </div>
+            <p v-else-if="message.payload && message.payload.type == 'text'">
               <span v-html="wrapLinks(message.payload.data)" :class="message.pending ? 'pending' : ''"></span>
               <!-- <i class="sent-status far fa-check-circle" v-if="message.pending" />
               <i class="sent-status fas fa-check-circle" v-else /> -->
@@ -51,9 +58,6 @@
             </div>
             <div v-if="parseSpotifyTrack(message.payload.data)">
               <SpotifyTrack :link="parseSpotifyTrack(message.payload.data)"/>
-            </div>
-            <div v-if="parseEthAddress(message.payload.data)">
-              <Address :address="parseEthAddress(message.payload.data)"/>
             </div>
             <div v-if="message.payload.type === 'payment'">
               <Payment :message="message.payload" />

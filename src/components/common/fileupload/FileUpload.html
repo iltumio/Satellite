@@ -79,7 +79,7 @@
               v-on:click="sendFileMessage">
               {{ipfsHash ? $t('fileupload.button_done') : $t('fileupload.button_uploading')}}
             </button>
-            <i class="fa fa-times close" v-on:click="close"></i>
+            <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
         </div>
       </div>
     </section>

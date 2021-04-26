@@ -1,51 +1,56 @@
 <template>
-  <div id="unlock">
-    <PWAInstallPrompt />
-    <div class="columns main unlock">
-      <img id="logo" src="static/img/icons/logo-white.png" />
-      <div class="column is-one-fifth">
-        <i class="fas fa-key"></i>
-      </div>
-      <div class="column is-three-fifthths">
-        <h2 class="label" v-if="storedPinHash">
-          {{ $t('unlock.decrypt_account') }}
-        </h2>
-        <h2 class="label" v-else>{{ $t('unlock.create_encryption_pin') }}</h2>
-        <div class="field has-addons">
-          <div class="control" style="width: 100%;">
-            <input
-              type="password"
-              class="input is-small"
-              autofocus
-              v-model="pin"
-              v-on:keyup.enter="decideAction"
-              :placeholder="$t('unlock.pin_placeholder')"
-            />
-          </div>
-          <div class="control">
-            <a
-              :disabled="decrypting"
-              class="button is-primary is-small"
-              v-on:click="decideAction"
-            >
-              <i v-if="!decrypting" class="fas fa-unlock"></i>
-              <i v-else class="fa fa-spin fa-spinner-third"></i>
-            </a>
-          </div>
+  <div class="unlock-wrapper">
+    <Particles
+      id="tsparticles"
+      url="https://gist.githubusercontent.com/RetroPronghorn/188de96e4bb5f641f56805d65a2cac9e/raw/bba2267368ed833b7dd785b1be50218cd5ae854b/particles.json" />
+    <div id="unlock">
+      <PWAInstallPrompt />
+      <div class="columns main unlock">
+        <img id="logo" src="static/img/icons/logo-white.png" />
+        <div class="column is-one-fifth">
+          <i class="fas fa-key"></i>
         </div>
-        <!-- Disabled -->
-        <p class="label sub-label" v-if="false">
-          <input :readonly="decrypting" type="checkbox" v-model="storePin" />
-          {{ $t('unlock.stay_logged') }}
-        </p>
+        <div class="column is-three-fifthths">
+          <h2 class="label" v-if="storedPinHash">
+            {{ $t('unlock.decrypt_account') }}
+          </h2>
+          <h2 class="label" v-else>{{ $t('unlock.create_encryption_pin') }}</h2>
+          <div class="field has-addons">
+            <div class="control" style="width: 100%;">
+              <input
+                type="password"
+                class="input is-small"
+                autofocus
+                v-model="pin"
+                v-on:keyup.enter="decideAction"
+                :placeholder="$t('unlock.pin_placeholder')"
+              />
+            </div>
+            <div class="control">
+              <a
+                :disabled="decrypting"
+                class="button is-primary is-small"
+                v-on:click="decideAction"
+              >
+                <i v-if="!decrypting" class="fas fa-unlock"></i>
+                <i v-else class="fa fa-spin fa-spinner-third"></i>
+              </a>
+            </div>
+          </div>
+          <!-- Disabled -->
+          <p class="label sub-label" v-if="false">
+            <input :readonly="decrypting" type="checkbox" v-model="storePin" />
+            {{ $t('unlock.stay_logged') }}
+          </p>
+        </div>
+        <div class="column is-one-fifth"></div>
       </div>
-      <div class="column is-one-fifth"></div>
-    </div>
-    <div class="subtext label">
-      {{ $t('unlock.AES_encryption') }}
-    </div>
-    <div class="error label red" v-if="error">
-      {{ error }}
+      <div class="subtext label">
+        {{ $t('unlock.AES_encryption') }}
+      </div>
+      <div class="error label red" v-if="error">
+        {{ error }}
+      </div>
     </div>
   </div>
 </template>
@@ -133,7 +138,16 @@ export default {
   right: 0;
   left: 0;
   bottom: 0;
-  background: #1c1a24;
+  background: transparent;
+  z-index: 2;
+}
+#tsparticles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }
 .main {
   width: 500px;
@@ -143,6 +157,9 @@ export default {
   margin-bottom: 0;
   margin-top: 0;
   padding-top: 20%;
+}
+.pin-text {
+  color: #b2bae1;
 }
 .label {
   padding: 0 !important;
@@ -181,7 +198,6 @@ button {
     display: block;
   }
   #unlock {
-    background-image: url(/static/img/mobile-background.png);
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;

@@ -4,28 +4,22 @@
 import Mousetrap from 'mousetrap'
 import CircleIcon from '@/components/common/CircleIcon'
 import config from '@/config/config'
-
-const muteAudio = new Audio(`${config.ipfs.browser}${config.sounds.mute}`)
-
-const unmuteAudio = new Audio(`${config.ipfs.browser}${config.sounds.unmute}`)
-
-const deafenAudio = new Audio(`${config.ipfs.browser}${config.sounds.deafen}`)
-const unDeafenAudio = new Audio(
-  `${config.ipfs.browser}${config.sounds.undeafen}`
-)
+import StatusIndicator from '@/components/common/StatusIndicator'
 
 export default {
   name: 'Controls',
   props: ['toggleSettings'],
   components: {
-    CircleIcon
+    CircleIcon,
+    StatusIndicator
   },
   data () {
     return {
-      muted: false,
-      deafened: false,
       tooltip: 'Copy Account',
-      config
+      config,
+      inCall: 'offline',
+      usingMic: 'offline',
+      usingCam: 'offline'
     }
   },
   methods: {
@@ -64,11 +58,12 @@ export default {
      * @name copied
      */
     toggleMute () {
-      this.muted = !this.muted
-      if (this.muted) muteAudio.play()
-      if (!this.muted) unmuteAudio.play()
-      this.$store.commit('muted', this.muted)
-      this.$streamManager.toggleLocalStreams(this.muted)
+       // TODO: this is identical to the method in VoiceVideo break this out into a universal method
+      const muted = !this.$store.state.muted
+      if (muted) this.$sound.sounds.mute.play()
+      if (!muted) this.$sound.sounds.unmute.play()
+      this.$store.commit('muted', muted)
+      this.$streamManager.toggleAllLocalStreams(muted, muted)
     },
     /** @method
      * Mute the active stream &
@@ -76,17 +71,48 @@ export default {
      * @name toggleDeafen
      */
     toggleDeafen () {
-      this.deafened = !this.deafened
-      if (this.deafened) deafenAudio.play()
-      if (!this.deafened) unDeafenAudio.play()
-      this.$store.commit('deafened', this.deafened)
-      this.$streamManager.toggleLocalStreams(this.muted || this.deafened)
-      this.$streamManager.toggleRemoteStreams(this.deafened)
+      // TODO: this is identical to the method in VoiceVideo break this out into a universal method
+      const deafened = !this.$store.state.deafened
+      if (deafened) this.$sound.sounds.deafen.play()
+      if (!deafened) this.$sound.sounds.undeafen.play()
+      this.$store.commit('deafened', deafened)
+      this.$streamManager.toggleAllLocalStreams(
+        this.$store.state.muted || deafened,
+        this.$store.state.muted || deafened
+      )
+      this.$streamManager.toggleRemoteStreams(deafened)
     }
   },
   mounted () {
     Mousetrap.bind('option+m', this.toggleMute)
     Mousetrap.bind('option+d', this.toggleDeafen)
+
+    // @ts-ignore
+    const WebRTC = this.$WebRTC
+    WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        switch (event) {
+          case 'call-stream':
+            this.inCall = 'online'
+            this.usingMic = 'online'
+            break
+          case 'call-ended':
+            this.inCall = 'offline'
+            this.usingMic = 'offline'
+            break
+          case 'incoming-call':
+            this.inCall = 'pending'
+            break
+          case 'outgoing-call':
+            this.inCall = 'pending'
+            this.usingMic = 'online'
+            break
+          default:
+            break
+        }
+      },
+      ['call-stream', 'call-ended', 'incoming-call', 'outgoing-call']
+    )
   }
 }
 </script>

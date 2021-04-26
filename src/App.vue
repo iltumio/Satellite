@@ -93,6 +93,9 @@ export default {
 .tokyo {
   @import 'assets/styles/tokyo.less';
 }
+.oled {
+  @import 'assets/styles/oled.less';
+}
 .next {
   @import 'assets/styles/next.less';
 }

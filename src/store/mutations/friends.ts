@@ -2,6 +2,9 @@ import IFriend from '../../interfaces/IFriend';
 import { IState } from '../createState';
 
 export default {
+  viewProfile(state: IState, address: string | boolean) {
+    state.viewingProfile = address;
+  },
   // Add a new friend to the local cache
   addFriend(state: IState, friend: IFriend) {
     const { friends } = state;
