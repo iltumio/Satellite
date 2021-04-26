@@ -46,7 +46,7 @@
       <i class="fa fa-plus add-friend-chat" v-on:click="toggleQuickFriends"></i>
     </div>
     <QuickFriends v-if="showQuickFriends" :close="toggleQuickFriends" />
-    <div class="usercontainer">
+    <div class="usercontainer"  v-body-scroll-lock="isMobile()">
       <div v-if="tabRoute === 'chats'">
         <User v-if="$store.state.friendsLoaded && getFriend($store.state.friends, chat)"
           v-for="chat in $store.state.activeChats" :friend="getFriend($store.state.friends, chat)"

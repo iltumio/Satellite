@@ -3,6 +3,7 @@
 <script>
 import { ethers } from 'ethers'
 import Sticker from './Sticker'
+import MobileUtils from '@/utils/Mobile.ts'
 
 export default {
   name: 'Stickers',
@@ -11,6 +12,7 @@ export default {
     Sticker
   },
   methods: {
+    isMobie: MobileUtils.isMobile,
     handleClose() {
       this.$store.commit('toggleStickers')
     },

@@ -68,7 +68,7 @@
       </div>
     </div>
     <div class="my-stickers" v-if="route === 'buy-stickers'">
-      <div class="stickers-scroll-wrap">
+      <div class="stickers-scroll-wrap" v-body-scroll-lock="isMobile()">
         <div v-if="routeData.artist">
           <p class="artist">
             <span class="artist-name">{{routeData.artist.name}}</span><br />
