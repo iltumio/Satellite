@@ -485,6 +485,9 @@
   .user:hover { 
     background-color: @ohh-so-dark !important;
   }
+  .user .last-message {
+    color: @nearly-white !important;
+  }
   .group:hover { 
     background-color: @ohh-so-dark !important;
   }
@@ -783,7 +786,9 @@
     }
   }
   @media (max-width: 768px) {
-    
+    .user:hover { 
+      background-color: unset !important;
+    }
     .no-mobile {
       display: none;
     }

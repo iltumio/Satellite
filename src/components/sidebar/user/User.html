@@ -3,8 +3,20 @@
   <p class="unreads" v-if="unread">
     <i class="fas fa-circle" aria-hidden="true" v-if="isMobile()"></i>
   </p>
-  <p >{{friend.name}}</p>
-  <p class="address">{{friend.statusMsg}}</p>
+  <p >{{friend.name}} 
+    <span v-if="$store.state.lastMessages[friend.address]" class="last-message-at">
+      {{formattedDate($store.state.lastMessages[friend.address].at)}}
+    </span>
+  </p>
+  <p class="last-message" v-if="$store.state.lastMessages[friend.address]">
+    <span v-if="$store.state.lastMessages[friend.address].type === 'text'">
+      {{getLastMessage()}}
+    </span>
+    <span v-else>
+      {{friend.name}} sent an attachment...
+    </span>
+  </p>
+  <p class="address" v-else>{{friend.statusMsg}}</p>
   <p id="typing" :class="`online ${(friend.status === 'alive') ? 'true' : ''}`">
     <i v-if="typing && friend.status === 'alive'" class="fas fa-spinner-third fa-spin"></i>
     <i class="fa fa-circle"></i>

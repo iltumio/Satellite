@@ -91,6 +91,7 @@ export interface IState {
   userNotes: any;
   showUser: boolean;
   loadingMessages: boolean;
+  lastMessages: Object;
   // Direct Calling Media Streams
   pendingMediaStream?: any;
   activeMediaStreamPeer?: any;
@@ -211,6 +212,7 @@ export const defaultState: IState = {
   userNotes: {},
   showUser: false,
   loadingMessages: false,
+  lastMessages: {},
   // Direct Calling Media Streams
   pendingMediaStream: false,
   activeMediaStreamPeer: false,
