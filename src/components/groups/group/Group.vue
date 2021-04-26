@@ -23,6 +23,7 @@ export default {
     openGroup () {
       this.$store.commit('activeGroup', this.group)
       this.$store.commit('changeRoute', 'group')
+      this.$store.commit('setMobileSidebar', false)
     },
     isMobile: MobileUtils.isMobile
   },

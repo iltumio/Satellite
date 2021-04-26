@@ -55,6 +55,19 @@ export default {
     },
     setTabClass (route) {
       this.tabRoute = route
+      // changes localStorage to ensure on user swipe, to go to the chat in the category
+      if(this.tabRoute === "chats"){
+        if (!localStorage.hasOwnProperty('userlastChat')) {
+          localStorage.setItem('userlastChat', "friendChat")
+        } 
+        localStorage.setItem('userlastChat', "friendChat")
+      }
+      if(this.tabRoute === "groups"){
+        if (!localStorage.hasOwnProperty('userlastChat')) {
+          localStorage.setItem('userlastChat', "groupChat")
+        } 
+        localStorage.setItem('userlastChat', "groupChat")
+      }
     },
     onClickClose () {
       this.$nextTick(() => {
@@ -85,7 +98,12 @@ export default {
       if (this.isMobile()) {
         if (direction === 'left') {
           this.$store.commit('setMobileSidebar', false)
-          this.$store.commit('changeRoute', 'main')
+          if(localStorage.getItem('userlastChat')=== "friendChat"){
+            this.$store.commit('changeRoute', 'main')
+          }
+          else{
+            this.$store.commit('changeRoute', 'group')
+          }
         }
       }
     }

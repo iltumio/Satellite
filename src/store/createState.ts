@@ -105,6 +105,7 @@ export interface IState {
   channel?: any;
   // Groups
   group?: any;
+  showGroupInfo: boolean;
   // Stickers
   stickersOpen?: boolean;
   stickerPack: any;
@@ -231,6 +232,7 @@ export const defaultState: IState = {
   showCreateGroup: false,
   // Groups 
   group: false,
+  showGroupInfo: false,
   // Profile
   viewingProfile: false,
 };

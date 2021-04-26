@@ -3,6 +3,8 @@
 <script>
 import DwellerID from '@/components/common/dwellerid/DwellerID'
 import CircleIcon from '@/components/common/CircleIcon'
+import MobileUtils from '@/utils/Mobile.ts'
+
 
 export default {
   name: 'InfoBar',
@@ -23,8 +25,9 @@ export default {
      * @name requestScreenShare
      */
     toggleGroupInfo () {
-      
-    }
+      this.$store.commit('toggleGroupInfo');
+    },
+    isMobile: MobileUtils.isMobile,
   }
 }
 </script>

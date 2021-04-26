@@ -4,6 +4,8 @@
 import Actions from './actions/Actions'
 import Users from './users/Users'
 import Files from './files/Files'
+import MobileUtils from '@/utils/Mobile.ts'
+
 
 export default {
   name: 'Info',
@@ -11,6 +13,20 @@ export default {
     Actions,
     Users,
     Files
+  },
+    methods: {
+    isMobile: MobileUtils.isMobile,
+
+    toggleGroupInfo () {
+      this.$store.commit('toggleGroupInfo');
+    },
+    swipeHandler (direction) {
+      if (this.isMobile()) {
+         if (direction === 'right') {
+          this.$store.commit('toggleGroupInfo');
+        }
+      }
+    }
   }
 }
 </script>
