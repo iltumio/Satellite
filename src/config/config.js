@@ -103,6 +103,6 @@ module.exports = {
     position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast'
   },
   verified_addresses: [
-    '0x2c3a050a6634cBD10df8086688De37D084440B7c',
+    '0x2c3a050a6634cBD10df8086688De37D084440B7c'
   ] // TODO: move this to a contract
 }
