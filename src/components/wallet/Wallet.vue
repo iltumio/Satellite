@@ -2,6 +2,7 @@
 
 <script>
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav'
+import TopNav from '@/components/common/mobile/TopNav'
 import Asset from './Asset'
 import config from '@/config/config'
 import { ethers } from 'ethers'
@@ -14,7 +15,8 @@ export default {
   props: ['toggleSettings'],
   components: {
     MobileNav,
-    Asset
+    Asset,
+    TopNav
   },
   data () {
     return {
@@ -25,7 +27,6 @@ export default {
   },
   mounted () {
     this.setBalance()
-
     this.$store.dispatch('updateAllTokenBalances')
   },
   methods: {
@@ -50,6 +51,9 @@ export default {
           0
         )
         .toFixed(2)
+    },
+    goHome() {
+      this.$store.commit('setMobileSidebar', true)
     }
   }
 }

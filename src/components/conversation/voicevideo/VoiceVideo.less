@@ -1,5 +1,6 @@
 .media-container {
   position: absolute;
+  z-index: 2;
   top: 3rem;
   left: 0;
   right: 0;
@@ -12,14 +13,6 @@
 .media-controls {
   align-content: center;
   text-align: center;
-}
-.media-controls i {
-  padding-right: 0.5rem;
-}
-.circle-icon {
-  width: 85px;
-  height: 85px;
-  margin-top: calc(50% - 95px);
 }
 .open {
   height: 17rem;
@@ -40,37 +33,25 @@
 .media-voice .media-participants {
   height: 75%;
   align-content: center;
-  margin-left: calc(50% - 14.5rem);
-  padding-top: 1.5rem;
   padding-bottom: 1rem;
-}
-.media-voice .media-participant {
-  height: 100%;
-  width: 225px;
-  border-radius: 5px;
-  background: #00d0a1;
-  display: inline-block;
-  margin: 0 0.5rem;
-}
-.media-video .media-participants {
-  height: 80%;
-  align-content: center;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: calc(50% - 325px - 0.5rem);
+  display: flex;
+  justify-content: center;
 }
 .media-video .media-participant {
   height: 100%;
-  width: 325px;
   border-radius: 5px;
-  background: #00d0a1;
   display: inline-block;
-  margin: 0 0.5rem;
+  margin: 0 1rem;
 }
-.media-video .circle-icon {
+.voice-participant {
+  background: unset;
+  width: unset !important;
+  margin: 1rem;
+  padding-top: 1rem;
+}
+.circle-icon {
   width: 85px;
   height: 85px;
-  margin-top: calc(50% - 110px);
 }
 .media-open {
   visibility: visible;
@@ -82,11 +63,12 @@
     display: flex;
     width: 100%;
     margin: 0;
+    display: flex;
+    justify-content: center;
   }
 
   .media-participant {
     background-color: transparent !important;
-    margin: 0 !important;
     display: flex !important;
     align-items: center;
     justify-content: center;

@@ -125,7 +125,7 @@
   "voice_video": {
     "switch_video": "Switch to Video",
     "switch_voice": "Switch to Voice",
-    "disconnect": "Disconnect"
+    "disconnect": "End"
   },
   "main": {
     "heading": "Liftoff!",
@@ -139,7 +139,7 @@
     "just-tap": "Just tap",
     "add-to-homescreen": "then 'Add to homescreen'",
     "add-to-screen": "then 'Add to screen'",
-    "unsure-device-type": "We're unsure of you're devices type, search for 'How to install PWA apps on [your device]' for instructions if you're interested in downloading our app"
+    "unsure-device-type": "We're unsure of your device type, search for 'How to install PWA apps on [your device]' for instructions if you're interested in downloading our app"
   },
   "settings": {
     "logo": "Settings",
@@ -516,20 +516,21 @@
   },
   "wallet": {
     "total-balance": "Total Balance (USD)",
-    "early-access-warning": "Early access operates on a testnet.",
+    "early-access-warning": "Wallet Coming Soon",
     "early-access-warning-do-not-send-real-funds": "Do not send real funds to your address.",
     "token-balances": "Token Balances",
     "copy-account-id": "Copy Account ID",
     "scan": "SCAN"
   },
   "stickers": {
-    "my-stickers": "My Stickers",
-    "get-stickers": "Get Stickers",
-    "no-stickers": "You don't have any stickers yet.",
+    "my-stickers": "My Glyphs",
+    "get-stickers": "Get Glyphs",
+    "no-stickers": "You don't have any glyphs yet.",
     "get-some-stickers": "Get Some!",
     "buy-button-text": "Buy",
-    "buy-button-loading": "buying",
-    "verified-sticker": "Verified Sticker"
+    "buy-button-free": "Free",
+    "buy-button-loading": "Transmitting",
+    "verified-sticker": "Verified Glyph"
 
   },
   "security-mask": {

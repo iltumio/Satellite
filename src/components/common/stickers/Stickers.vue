@@ -3,6 +3,7 @@
 <script>
 import { ethers } from 'ethers'
 import Sticker from './Sticker'
+import MobileUtils from '@/utils/Mobile.ts'
 
 export default {
   name: 'Stickers',
@@ -11,6 +12,10 @@ export default {
     Sticker
   },
   methods: {
+    isMobile: MobileUtils.isMobile,
+    handleClose() {
+      this.$store.commit('toggleStickers')
+    },
     setDisplay (route, data) {
       this.route = route
       let newData = { ...data }
@@ -43,7 +48,7 @@ export default {
       routeData: false,
       availableStickers: Object.values(this.$store.state.availableStickers),
       ownedStickers: Object.values(this.$store.state.ownedStickers),
-      isPending: false
+      isPending: false,
     }
   },
   async mounted () {

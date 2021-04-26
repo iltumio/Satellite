@@ -100,8 +100,8 @@
       <Accounts v-if="route == 'accounts-devices'" :settings="settings" />
       <Network v-if="route == 'network'" :settings="settings" />
       <!-- TODO: make encryption -->
-      <!-- <Encryption 
-        v-if="route == 'encryption'" 
+      <!-- <Encryption
+        v-if="route == 'encryption'"
         :settings="settings"/> -->
       <Storage v-if="route == 'storage'" :settings="settings" />
       <Contracts v-if="route == 'contracts'" />
@@ -200,6 +200,7 @@ export default {
   font-size: 20pt;
   padding-top: 0;
   padding-bottom: 2rem;
+  margin-top: 1rem;
 }
 .columns {
   height: 100%;
@@ -237,6 +238,9 @@ export default {
 .nav-settings {
   display: none;
 }
+.modal-close {
+  margin-top: 1rem;
+}
 
 @media (max-width: 768px) {
   .settings-right {
@@ -254,6 +258,7 @@ export default {
     left: 0;
     transform: translate(-300px);
     transition: all 0.3s;
+    padding-top: env(safe-area-inset-top, 0);
   }
   .settings-left.show {
     transform: translate(0);
@@ -268,10 +273,14 @@ export default {
     justify-content: flex-start;
     align-items: center;
     background: #e7ebee;
+    padding-top: env(safe-area-inset-top, 0);
   }
-
   .nav-settings i {
     margin-left: 26px;
+  }
+
+  .modal-close {
+    top: env(safe-area-inset-top, 0);
   }
 }
 </style>

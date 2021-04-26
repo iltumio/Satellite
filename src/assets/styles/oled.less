@@ -1,31 +1,31 @@
 // Servers & conversation & Inputs
-@less-dark-blue-gray: #101016;
+@less-dark-blue-gray: #000;
 // Infobar & Sidebar
-@dark-blue-gray: #16161e;
-@darker-blue-gray: #16161e;
+@dark-blue-gray: #000;
+@darker-blue-gray: #000;
 @lighter-dark-blue-gray: #1a1b27;
 // Borders
-@super-dark-boi: #131319;
+@super-dark-boi: #1d1d25;
 @outline-dark: #1b1b24;
 // Friends & Containers
-@ohh-so-dark: #1a1b26;
+@ohh-so-dark: #0d0d13;
 // Buttons
 @really-blue: #0984e3;
 // Lables & Accents
-@not-as-light-blue-gray: #b2bae1;
+@not-as-light-blue-gray: #c5ccf3;
 @not-as-light-blue-gray-alt: @not-as-light-blue-gray;
 // General Text Colors
 @light-blue-gray: #545974;
 // Hovered Text Colors
 @lighter-blue-gray: #939bbd;
 // Messages & Icons
-@nearly-white: #a0a8cc;
+@nearly-white: #c1c9eb;
 // Usernames
-@basically-white: #faf2f8;
+@basically-white: #ffffff;
 // Message Hovering
-@is-this-black: #0c0c11;
+@is-this-black: #000000;
 // Highlights
-@primary-highlight: #b2bae1;
+@primary-highlight: #dde1f7;
 // Errors
 @green: #00b894;
 @red: #df7070;
@@ -48,6 +48,16 @@
   }
   pre {
     background: @is-this-black !important;
+  }
+  .mobile-nav ul {
+    background: transparent !important;
+  }
+  .mobile-nav {
+    border-top: 1px solid @super-dark-boi !important;
+    background-color: @darker-blue-gray !important;
+  }
+  .mobile-nav .active-item {
+    color: @really-blue !important;
   }
   .indicator {
     background-color: @really-blue !important;
@@ -202,7 +212,7 @@
   }
   .menu-list .active {
     color: @basically-white !important;
-    background-color: #444658 !important;
+    background-color: @really-blue !important;
   }
   .emoji-mart {
     background: @ohh-so-dark !important;
@@ -277,9 +287,6 @@
     left: -4rem !important;
   }
   #user-info {
-    background: @dark-blue-gray !important;
-  }
-  #server-info {
     background: @dark-blue-gray !important;
   }
   #logo {
@@ -363,13 +370,11 @@
     background-color: @is-this-black !important;
   }
   .divider {
-    border-bottom: 1px solid @super-dark-boi !important; 
+    border-bottom: 1px solid @super-dark-boi !important;
+    width: 100% !important; 
   }
   .divider .text {
     border-bottom: 1px solid @super-dark-boi !important;
-  }
-  .wrapper {
-    border-left: 1px solid @super-dark-boi !important; 
   }
   .input, input, textarea {
     background-color: @less-dark-blue-gray !important; 
@@ -454,7 +459,14 @@
   }
   .chat-group {
     background-color: @less-dark-blue-gray !important; 
+    border-top: 1px solid @super-dark-boi !important;
   }
+  .sidebar-selector {
+    button {
+      border: 1px solid @super-dark-boi !important;
+    }
+  }
+
   .settings-right {
     background-color: @less-dark-blue-gray !important;
   }
@@ -472,6 +484,9 @@
   }
   .user:hover { 
     background-color: @ohh-so-dark !important;
+  }
+  .user .last-message {
+    color: @nearly-white !important;
   }
   .group:hover { 
     background-color: @ohh-so-dark !important;
@@ -525,6 +540,9 @@
   .true i {
     color: @primary-highlight !important;
   }
+  .bordered.main-section {
+    border: none !important;
+  }
   .head strong {
     color: @basically-white !important;
   }
@@ -540,6 +558,16 @@
   }
   select:focus, select:focus{
     border: 1px solid @primary-highlight !important;
+  }
+  .input, .select {
+    border: 1px solid @super-dark-boi !important;
+  }
+  .chat-group .input-collection {
+    border: 1px solid @super-dark-boi !important;
+    
+    .input {
+      border: none !important;
+    }
   }
   .chat-group input:focus, input:focus{
     border: 1px solid transparent !important;
@@ -697,7 +725,7 @@
     --color: @really-blue !important;
   }
   #loading, #unlock {
-    background: @dark-blue-gray !important;
+    background: transparent;
   }
   .special-thanks {
     color: @yellow !important;
@@ -713,11 +741,9 @@
       font-size: 16pt;
     }
   }
-  .sidebar-wrapper {
+  .sidebar-wrapper, .right-bar {
     background: @dark-blue-gray !important;
   }
-  .right-bar{
-    background: @dark-blue-gray;
 
   .red {
     color: @red !important;
@@ -734,16 +760,40 @@
   .blue {
     color: @really-blue !important;
   }
+  .asset-container {
+    margin: 0.5rem 1.5rem;
+    background: transparent !important;
+    padding: 6px 0.75rem;
+    border-radius: 5px;
+    border: 1px solid @super-dark-boi !important;
+  }
+  #mobile-top-nav {
+    border-bottom: 1px solid @super-dark-boi !important;
+  }
+  .friendOptions {
+    background: @darker-blue-gray !important;
+    border-top: 1px solid @super-dark-boi !important;
+  }
+  #stickers {
+    background: @darker-blue-gray !important;
+    .sticker-nav {
+      background-color: @darker-blue-gray;
+      border-bottom: 1px solid @super-dark-boi !important;
+
+      .button {
+        border: 1px solid @super-dark-boi !important;
+      }
+    }
+  }
   @media (max-width: 768px) {
-    
+    .user:hover { 
+      background-color: unset !important;
+    }
     .no-mobile {
       display: none;
     }
     .i:hover {
       color: unset;
-    }
-    .add-friend-input {
-      background: #1a1b26 !important;
     }
     .unreads {
       background: transparent !important;

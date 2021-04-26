@@ -8,6 +8,7 @@
       <i class="fas fa-chevron-down"></i>
     </div>
     <div
+      v-body-scroll-lock="isMobile()"
       id="conversation"
       :class="
         `${mediaOpen ? 'media-open' : 'media-closed'} ${
@@ -267,5 +268,10 @@ export default {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-right: 10px solid #1a1b26;
+}
+@media (max-width: 768px) {
+  #conversation {
+    min-width: 100vw;
+  }
 }
 </style>

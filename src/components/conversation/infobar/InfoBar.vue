@@ -4,6 +4,8 @@
 import DwellerID from '@/components/common/dwellerid/DwellerID'
 import CircleIcon from '@/components/common/CircleIcon'
 
+import { toggleFingerprint, requestScreenShare } from './methods.ts'
+
 export default {
   name: 'InfoBar',
   props: ['toggleMedia', 'makeCall'],
@@ -17,22 +19,8 @@ export default {
     }
   },
   methods: {
-    /** @method
-     * Triggers a screenshare request event to the store
-     * subscribers will be notified to start a share
-     * @name requestScreenShare
-     */
-    requestScreenShare () {
-      this.$store.commit('screenShareRequest')
-    },
-    /** @method
-     * @depricated
-     * Toggles the ID card modal
-     * @name requestScreenShare
-     */
-    toggleFingerprint () {
-      this.$store.commit('toggleUserInfo')
-    }
+    toggleFingerprint,
+    requestScreenShare
   }
 }
 </script>

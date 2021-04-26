@@ -8,12 +8,14 @@
         <br />
         <div class="select">
           <select v-model="$store.state.theme">
+            <!--
             <option value="dark">Simply Dark</option>
             <option value="zenburn">Zenburn</option>
             <option value="light">Eye Strain</option>
-            <option value="ice">Ice Cold</option>
+            <option value="ice">Ice Cold</option>-->
             <option value="next">Next</option>
             <option value="tokyo">Tokyo Night</option>
+            <option value="oled" v-if="isMobile()">Oled</option>
           </select>
         </div>
       </div>
@@ -71,6 +73,7 @@
 
 <script>
 import { languages } from '@/config/config'
+import MobileUtils from '@/utils/Mobile.ts'
 // import { getLang } from '@/utils/i18n';
 
 export default {
@@ -83,6 +86,7 @@ export default {
     }
   },
   methods: {
+    isMobile: MobileUtils.isMobile,
     enableNotifications () {
       Notification.requestPermission().then(permission => {
         this.notificationsEnabled = permission === 'granted'

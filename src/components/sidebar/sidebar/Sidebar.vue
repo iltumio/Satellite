@@ -11,6 +11,8 @@ import MobileNav from '@/components/sidebar/mobilenav/MobileNav'
 import ServerSlider from '@/components/sidebar/serverslider/ServerSlider'
 import UpdateCheck from '@/components/common/UpdateCheck'
 import Groups from '@/components/sidebar/groups/Groups'
+import TopNav from '@/components/common/mobile/TopNav'
+
 
 import MobileUtils from '@/utils/Mobile.ts'
 
@@ -29,7 +31,8 @@ export default {
     MobileNav,
     ServerSlider,
     UpdateCheck,
-    Groups
+    Groups,
+    TopNav
   },
   data () {
     return {

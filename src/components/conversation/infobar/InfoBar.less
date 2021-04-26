@@ -42,6 +42,7 @@
     font-size: 15pt;
     /*box-shadow: 0 2px 3px -2px rgba(0,0,0,.25);*/
     z-index: 4;
+    margin-top: env(safe-area-inset-top, 0);
 }
 .profile {
     float: left;
@@ -58,7 +59,7 @@
 }
 .fa-bars:not(.mobile) {
   display: inline;
-} 
+}
 .fa-bars:hover {
   color: #e7ebee !important;
   cursor: pointer;
@@ -99,7 +100,7 @@ i:hover {
   color: #000;
 }
 
-@media only screen and (max-width: 768px) { 
+@media only screen and (max-width: 768px) {
   .searchuser {
     display: none;
   }
@@ -131,13 +132,13 @@ i:hover {
   // }
 }
 
-@media only screen and (max-width: 830px) { 
+@media only screen and (max-width: 830px) {
   .fa-desktop {
     display: none;
   }
 }
 
-@media only screen and (max-width: 600px) { 
+@media only screen and (max-width: 600px) {
   .fa-address-card {
     position: unset;
   }
@@ -150,7 +151,7 @@ i:hover {
 
   .fa-bars.mobile {
     display: inline;
-  } 
+  }
 
   .infobar {
     height: fit-content;

@@ -16,7 +16,7 @@
       </p>
     </div>
     <div class="modal-card-body">
-      <div class="friends-list">
+      <div class="friends-list" v-body-scroll-lock="true">
         <div
           v-if="!this.$store.state.friends.length"
           style="text-align: center"
@@ -192,12 +192,14 @@ button {
   width: 100%;
   padding: 0;
   margin: 0;
+  padding-top: env(safe-area-inset-top, 0);
 }
 .close {
   position: absolute;
   right: 0;
   top: 0;
   cursor: pointer;
+  padding-top: env(safe-area-inset-top, 0);
 }
 
 @media (max-width: 768px) {

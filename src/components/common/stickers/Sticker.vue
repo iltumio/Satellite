@@ -6,7 +6,7 @@
       <i class="fas fa-signature" v-if="signature"></i> &nbsp;
       {{ name }}
     </span>
-    <span class="sticker-name" v-else-if="price"
+   <span class="sticker-name" v-else-if="parseInt(price) > 0"
       >{{ $t('stickers.buy-button-text') }}: {{ price }} MATIC</span
     >
   </div>

@@ -36,6 +36,8 @@ import IPFS from 'ipfs-core'
 
 import MobileUtils from '@/utils/Mobile.ts'
 
+import Profile from '@/components/common/profile/Profile'
+
 export default {
   name: 'chat',
   components: {
@@ -60,7 +62,8 @@ export default {
     Context,
     Server,
     Group,
-    CreateGroup
+    CreateGroup,
+    Profile
   },
   data () {
     return {
