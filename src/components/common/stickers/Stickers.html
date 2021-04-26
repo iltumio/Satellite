@@ -18,7 +18,7 @@
       {{$t('stickers.get-stickers')}}
     </button>
   </div>
-  <div class="stickers-container">
+  <div class="stickers-container" v-body-scroll-lock="isMobile()">
     <div class="my-stickers has-details" v-if="route === 'my-stickers'">
       <div v-if="Object.keys(ownedStickers).length === 0" class="no-stickers">
         <p>
