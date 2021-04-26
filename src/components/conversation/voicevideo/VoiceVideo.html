@@ -3,14 +3,16 @@
 >
   <div :class="`media-content ${mediaOpen ? 'media-open' : 'media-closed'}`">
     <div class="media-participants container">
-      <div :class="`media-participant ${voice ? 'voice-participant' : ''}`">
+      <video v-if="localVideo" class="video-stream" :srcObject.prop="localStream" autoplay muted></video>
+      <div v-else :class="`media-participant ${voice ? 'voice-participant' : ''}`">
         <CircleIcon
           :image="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
           :address="$store.state.activeChat"
         />
       </div>
-      <div :class="`media-participant ${voice ? 'voice-participant' : ''}`">
-        <CircleIcon
+      <video v-if="remoteVideo" class="video-stream" :srcObject.prop="remoteStream" autoplay muted></video>
+      <div v-else :class="`media-participant ${voice ? 'voice-participant' : ''}`">
+        <CircleIcon 
           :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
           :address="$store.state.activeAccount"
         />
@@ -32,9 +34,9 @@
         <i :class="`fas fa-headphones-alt ${$store.state.deafened ? 'red' : ''}`"></i>
       </button>
       <button
-        v-if="voice"
+        v-if="!localVideo"
         class="button is-dark is-small"
-        v-on:click="switchTo(false)"
+        v-on:click="toggleLocalVideo"
       >
         <i class="fas fa-video-slash red"></i>
         <span v-if="!isMobile">
@@ -44,7 +46,7 @@
       <button
         v-else
         class="button is-dark is-small"
-        v-on:click="switchTo(true)"
+        v-on:click="toggleLocalVideo"
       >
         <i class="fas fa-video"></i>
         <span v-if="!isMobile">

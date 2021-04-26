@@ -63,7 +63,7 @@ export default {
       if (muted) this.$sound.sounds.mute.play()
       if (!muted) this.$sound.sounds.unmute.play()
       this.$store.commit('muted', muted)
-      this.$streamManager.toggleAllLocalStreams(muted, muted)
+      this.$streamManager.toggleLocalStreams(muted, this.$store.state.localVideo)
     },
     /** @method
      * Mute the active stream &
@@ -76,9 +76,9 @@ export default {
       if (deafened) this.$sound.sounds.deafen.play()
       if (!deafened) this.$sound.sounds.undeafen.play()
       this.$store.commit('deafened', deafened)
-      this.$streamManager.toggleAllLocalStreams(
+      this.$streamManager.toggleLocalStreams(
         this.$store.state.muted || deafened,
-        this.$store.state.muted || deafened
+        this.$streamManager.remoteStreams
       )
       this.$streamManager.toggleRemoteStreams(deafened)
     }
@@ -91,7 +91,7 @@ export default {
     const WebRTC = this.$WebRTC
     WebRTC.subscribe(
       (event, identifier, { type, data }) => {
-        console.log('event', event)
+        // console.log('event', event)
         switch (event) {
           case 'call-stream':
             this.inCall = 'online'

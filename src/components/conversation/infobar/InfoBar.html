@@ -21,10 +21,10 @@
         </div>
         <div class="column is-half">
             <div class="profile-actions">
-                <i v-if="$store.state.p2pOnline" class="fas fa-phone" v-on:click="makeCall"></i>
+                <i v-if="$store.state.p2pOnline" class="fas fa-phone" v-on:click="makeCall(false)"></i>
                 <i v-else class="fas fa-phone disabled-icon"></i>
 
-                <i v-if="$store.state.p2pOnline" class="fas fa-video"></i>
+                <i v-if="$store.state.p2pOnline" class="fas fa-video" v-on:click="makeCall(true)"></i>
                 <i v-else="$store.state.p2pOnline" class="fas fa-video disabled-icon"></i>
 
                 <i v-if="$store.state.p2pOnline" class="fas fa-desktop" v-on:click="requestScreenShare"></i>

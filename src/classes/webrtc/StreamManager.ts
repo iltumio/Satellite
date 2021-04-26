@@ -46,7 +46,7 @@ export default class StreamManager {
     this._remoteStreams[identifier] = stream
   }
 
-  public toggleAllLocalStreams (muted: boolean, video: boolean) {
+  public toggleLocalStreams (muted: boolean, video: boolean) {
     if (typeof muted === 'undefined') return
 
     Object.entries<MediaStream>(this._localStreams).forEach(
@@ -80,17 +80,19 @@ export default class StreamManager {
     })
   }
 
-  // public enableWebcam() {
-  //   // TODO: this should add the video track if one does not exist
-  // }
+  public enableWebcam() {
+    // TODO: this should add the video track if one does not exist
+  }
 
-  // public toggleWebcam(enabled: boolean) {
-  //   this._localStreams.forEach((stream: MediaStream) => {
-  //     stream.getVideoTracks().forEach(track => {
-  //       track.enabled = enabled;
-  //     });
-  //   });
-  // }
+  public toggleLocalVideo(enabled: boolean) {
+    Object.entries<MediaStream>(this._localStreams).forEach(
+      ([identifier, stream]) => {
+        stream.getVideoTracks().forEach(track => {
+          track.enabled = enabled
+        })
+      }
+    )
+  }
 
   private stopAllTracks (stream: MediaStream) {
     stream.getAudioTracks().forEach(track => {
