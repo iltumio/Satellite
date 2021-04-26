@@ -523,14 +523,14 @@
     "scan": "SCAN"
   },
   "stickers": {
-    "my-stickers": "My Stickers",
-    "get-stickers": "Get Stickers",
-    "no-stickers": "You don't have any stickers yet.",
+    "my-stickers": "My Glyphs",
+    "get-stickers": "Get Glyphs",
+    "no-stickers": "You don't have any glyphs yet.",
     "get-some-stickers": "Get Some!",
     "buy-button-text": "Buy",
     "buy-button-free": "Free",
     "buy-button-loading": "Transmitting",
-    "verified-sticker": "Verified Sticker"
+    "verified-sticker": "Verified Glyph"
 
   },
   "security-mask": {

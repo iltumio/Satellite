@@ -12,7 +12,7 @@ export default {
     Sticker
   },
   methods: {
-    isMobie: MobileUtils.isMobile,
+    isMobile: MobileUtils.isMobile,
     handleClose() {
       this.$store.commit('toggleStickers')
     },
