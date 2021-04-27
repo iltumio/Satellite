@@ -19,11 +19,12 @@
           </select>
         </div>
         <div v-if="$store.state.theme === 'oled'">
+          <br />
           <h2>{{ $t('settings.personalize.theme_accent_heading') }}</h2>
           <p>{{ $t('settings.personalize.theme_accent_subtext') }}</p>
           <br />
           <div class="select">
-            <select v-model="$store.state.themeAccent">
+            <select v-model="$store.state.accent">
               <option value="blue">Blue</option>
               <option value="yellow">Yellow</option>
               <option value="green">Green</option>
