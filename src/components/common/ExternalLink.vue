@@ -1,16 +1,22 @@
 <template>
   <div>
-    <a v-on:click="togglePopup"><b>{{text}}</b></a>
+    <a v-on:click="togglePopup"
+      ><b>{{ text }}</b></a
+    >
     <div :class="`modal ${active ? 'is-active' : ''}`">
       <div class="modal-background"></div>
       <div class="modal-card">
         <section class="modal-card-body">
-          <h2 class="label">{{$t('global.external_link_title')}}</h2>
-          <p>{{$t('global.external_link_text')}}</p>
-          <hr class="divider">
-          <button class="button is-success" v-on:click="openLink">{{$t('global.continue')}}</button>
+          <h2 class="label">{{ $t('global.external_link_title') }}</h2>
+          <p>{{ $t('global.external_link_text') }}</p>
+          <hr class="divider" />
+          <button class="button is-success" v-on:click="openLink">
+            {{ $t('global.continue') }}
+          </button>
           &nbsp;
-          <button class="button is-danger" v-on:click="togglePopup">{{$t('global.nevermind')}}</button>
+          <button class="button is-danger" v-on:click="togglePopup">
+            {{ $t('global.nevermind') }}
+          </button>
         </section>
       </div>
     </div>
@@ -21,25 +27,25 @@
 export default {
   name: 'ExternalLink',
   props: ['link', 'text'],
-  data() {
+  data () {
     return {
-      active: false,
-    };
+      active: false
+    }
   },
   methods: {
-    togglePopup() {
-      this.active = !this.active;
+    togglePopup () {
+      this.active = !this.active
     },
     /** @method
      * @name openLink
      * opens confirmation dialog to view external link
      */
-    openLink() {
-      this.togglePopup();
-      window.open(this.link, '_blank');
-    },
-  },
-};
+    openLink () {
+      this.togglePopup()
+      window.open(this.link, '_blank')
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -119,7 +125,8 @@ export default {
   font-size: 12pt;
   width: calc(100% - 8rem);
 }
-input:focus, input:focus{
+input:focus,
+input:focus {
   outline: none !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
@@ -141,7 +148,8 @@ input::placeholder {
   width: 85px;
   margin-bottom: 1rem;
 }
-.badges, .padded {
+.badges,
+.padded {
   padding: 0 0.5rem;
 }
 

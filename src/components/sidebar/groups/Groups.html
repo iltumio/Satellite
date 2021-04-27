@@ -1,0 +1,10 @@
+<div>
+    <GroupList />
+    <hr class="divider">
+    <button
+        class="is-primary is-small button create-group-button"
+        v-on:click="$store.commit('showCreateGroup', true)">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        &nbsp; Create Group
+    </button>
+</div>

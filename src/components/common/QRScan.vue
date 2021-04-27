@@ -1,39 +1,48 @@
 <template>
   <div>
-    <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      v-on:click="close"
+    ></button>
     <div class="modal-background"></div>
     <span class="qr-display">
-      <h4 class="label">{{$t('qr-scan.scan-qr-code')}}</h4>
+      <h4 class="label">{{ $t('qr-scan.scan-qr-code') }}</h4>
       <qrcode-stream @decode="onDecode"></qrcode-stream>
       <Friend
         v-if="friend"
         :friend="friend"
         :makingRequest="{
-          [friend.address]: true,
+          [friend.address]: true
         }"
-        :add="true" />
+        :add="true"
+      />
     </span>
   </div>
 </template>
 
 <script>
-import { QrcodeStream } from 'vue-qrcode-reader';
+import { QrcodeStream } from 'vue-qrcode-reader'
 
-import Friend from '@/components/friends/friend/Friend';
+import Friend from '@/components/friends/friend/Friend'
+import { Plugins } from '@capacitor/core';
 
 export default {
   name: 'QRScan',
   props: ['handler', 'close', 'friend', 'sendFriendRequest', 'makingRequest'],
   components: {
     QrcodeStream,
-    Friend,
+    Friend
+  },
+  mounted() {
+
   },
   methods: {
-    onDecode(string) {
-      this.handler(string);
-    },
+    onDecode (string) {
+      this.handler(string)
+    }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

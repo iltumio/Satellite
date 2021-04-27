@@ -19,13 +19,18 @@ import store from './store/index'
 import Ethereum from './classes/Ethereum'
 import StreamManager from './classes/webrtc/StreamManager'
 import SoundManager from './classes/SoundManager'
+import { SignalingManager } from './classes/webrtc/SignalingManager'
+import Particles from 'particles.vue'
+import BodyScrollLockDirective from 'v-body-scroll-lock'
 
 Vue.config.productionTip = false
 
 Vue.use(VueClipboard)
 Vue.use(vClickOutside)
+Vue.use(BodyScrollLockDirective)
 Vue.use(VueI18n)
 Vue.use(Vue2TouchEvents)
+Vue.use(Particles)
 
 const pluginOptions = {
   globalOptions: {
@@ -44,6 +49,7 @@ Vue.prototype.$WebRTC = new WebRTC()
 Vue.prototype.$pin = null
 Vue.prototype.$ethereum = new Ethereum()
 Vue.prototype.$sound = new SoundManager()
+Vue.prototype.$signalingManager = new SignalingManager()
 
 // Storage 2.0
 Vue.prototype.$RemoteStorage = new RemoteStorage()

@@ -18,7 +18,12 @@ export default {
   incomingCall(state: IState, identifier: string) {
     state.incomingCall = identifier;
   },
-  activeCall(state: IState, identifier: string) {
-    state.activeCall = identifier;
+  addActiveCall(state: IState, identifier: string) {
+    state.activeCalls = [...state.activeCalls, identifier];
   },
+  removeActiveCall(state: IState, identifier: string) {
+    state.activeCalls = state.activeCalls.filter(
+      activeCall => activeCall !== identifier
+    );
+  }
 };

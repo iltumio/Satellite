@@ -6,6 +6,9 @@
   border-radius: 4px;
   position: relative;
 }
+.top-nav-wrap {
+  padding-top: 1rem;
+}
 .friends:hover, .files:hover {
   background: #eee;
   cursor: pointer;
@@ -58,11 +61,12 @@
   bottom: 6.5rem;
   right: 1.5rem;
   left: 1.5rem;
-  top: 12rem;
+  top: 13rem;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+  padding-top: env(safe-area-inset-top, 0);
 }
 
 .server-container {
@@ -83,6 +87,7 @@
   padding-top: 0;
   height: calc(100% - 2rem);
   position: relative;
+  padding-top: env(safe-area-inset-top, 0);
 }
 .tabs li {
   margin-right: 1rem;
@@ -91,6 +96,7 @@
 .tabs {
   position: relative;
   margin-bottom: 1rem;
+  padding-top: 1rem;
 }
 .tabs li a{
   padding: 0.5rem 0.2rem;
@@ -132,7 +138,7 @@
   }
 
   .usercontainer {
-    top: 12rem !important;
+    top: 13rem !important;
   }
   .usersubcontrols {
     display: none;

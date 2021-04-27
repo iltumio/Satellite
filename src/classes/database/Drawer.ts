@@ -1,28 +1,27 @@
-import Database from "./Database";
-
+import Database from './Database'
 
 export default class Drawer {
-  name: string;
-  database: Database;
+  name: string
+  database: Database
   /** @constructor
    * Construct a Drawer
    * A bucket stores data in a key-value structure
    * @argument name the name of the bucket
    * @argument database main database reference
    */
-  constructor(name: string, database: Database) {
-    this.name = name;
-    this.database = database;
+  constructor (name: string, database: Database) {
+    this.name = name
+    this.database = database
   }
 
   /** @method
    * @name get
    * @returns The contents of the bucket
    */
-  async get(key: string, collection: string) {
+  async get (key: string, collection: string) {
     // Clone array to prevent mutation
-    const data = await this.database.interface._retriveKV(key, collection);
-    return [...data];
+    const data = await this.database.interface._retriveKV(key, collection)
+    return [...data]
   }
 
   /** @method
@@ -30,8 +29,8 @@ export default class Drawer {
    * Adds an item to the bucket
    * @argument value Data to add to the bucket storage
    */
-  async add(key: string, value: object, collection: string) {
-    await this.database.interface._storeKV(key, value, collection);
+  async add (key: string, value: object, collection: string) {
+    await this.database.interface._storeKV(key, value, collection)
   }
 
   /** @method

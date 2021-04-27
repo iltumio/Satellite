@@ -1,5 +1,9 @@
   <!--@contextmenu="openContext"-->
   <div id="wrapper">
+    <Profile v-if="$store.state.viewingProfile" />
+    <CreateGroup
+      v-if="$store.state.showCreateGroup" />
+
     <Context
       v-if="showContext"
       :x="contextCoordsX"
@@ -10,13 +14,6 @@
     <Database
       v-if="
         $store.state.p2pOnline ||
-          $store.state.dwellerAddress !==
-            '0x0000000000000000000000000000000000000000'
-      "
-    />
-    <Voice
-      v-if="
-        $store.state.p2pOnline &&
           $store.state.dwellerAddress !==
             '0x0000000000000000000000000000000000000000'
       "
@@ -40,7 +37,6 @@
     <Loading
       v-else-if="
         !$store.state.friendsLoaded ||
-          !$store.state.p2pOnline ||
           $store.state.dwellerAddress ===
             '0x0000000000000000000000000000000000000000' ||
           !$store.state.dwellerAddress ||
@@ -73,13 +69,14 @@
           <Sidebar
             :toggleSettings="toggleSettings"
             :toggleCreateServer="toggleCreateServer"
-            :servers="servers"
+            :servers="$store.state.servers"
             :loadingServers="loadingServers"
           />
         </div>
         <div class="column chat-wrapper">
           <Main :class="$store.state.mainRoute == 'main' ? 'show' : 'hidden'" v-if="$store.state.web3connected"/>
           <Server v-if="$store.state.mainRoute == 'server'" />
+          <Group v-if="$store.state.mainRoute == 'group'" />
           <Wallet 
             :toggleSettings="toggleSettings"
             v-if="$store.state.mainRoute === 'wallet'" />

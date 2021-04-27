@@ -6,6 +6,7 @@
 @lighter-dark-blue-gray: #1a1b27;
 // Borders
 @super-dark-boi: #131319;
+@outline-dark: #1b1b24;
 // Friends & Containers
 @ohh-so-dark: #1a1b26;
 // Buttons
@@ -68,9 +69,10 @@
   #scrollBottom {
     background: @really-blue !important;
   }
-  .media-voice .media-participant {
-    background: @really-blue !important;
+  .voice-participant {
+    background: unset;
   }
+  
   ::selection {
     background: @primary-highlight; /* WebKit/Blink Browsers */
     color: #fff;
@@ -159,7 +161,7 @@
     color: @light-blue-gray !important;
   }
   .modal-close {
-    background: transparent !important;
+    background: @is-this-black !important;
   }
   .friends:hover, .files:hover {
     background: @ohh-so-dark !important;
@@ -253,10 +255,10 @@
     background: #000 !important;
   }
   .media-container .media-controls i {
-    color: @basically-white !important;
+    color: @basically-white;
   }
   .media-content i {
-    color: @primary-highlight !important;
+    color: @primary-highlight;
   }
   .media {
     background: @dark-blue-gray !important;
@@ -275,6 +277,9 @@
     left: -4rem !important;
   }
   #user-info {
+    background: @dark-blue-gray !important;
+  }
+  #server-info {
     background: @dark-blue-gray !important;
   }
   #logo {
@@ -313,7 +318,6 @@
   .infobar .address {
     color: #545870 !important;
   }
-
   #conversation {
     background: @less-dark-blue-gray !important;
   }
@@ -333,6 +337,11 @@
   .c-message-content {
     color: @lighter-blue-gray !important;
   }
+
+  strong {
+    color: @basically-white !important;
+  }
+
   .charlimit {
     color: @nearly-white !important;
   }
@@ -366,6 +375,9 @@
     background-color: @less-dark-blue-gray !important; 
     border: none !important; 
     color: #ccc !important;
+  }
+  .messageuser {
+    background-color: transparent !important;
   }
   .button .is-dark {
     background-color: @less-dark-blue-gray !important; 
@@ -454,7 +466,14 @@
     color: @primary-highlight !important;
     background-color: @ohh-so-dark !important;
   }
+  .group-active {
+    color: @primary-highlight !important;
+    background-color: @ohh-so-dark !important;
+  }
   .user:hover { 
+    background-color: @ohh-so-dark !important;
+  }
+  .group:hover { 
     background-color: @ohh-so-dark !important;
   }
   .tabs ul {
@@ -469,10 +488,10 @@
     color: @primary-highlight !important;
   }
   .chat-group i:hover {
-    color: @basically-white !important;
+    color: @basically-white;
   }
   .chat-group i {
-    color: @nearly-white !important;
+    color: @nearly-white;
   }
   .infobar i {
     color: @nearly-white;
@@ -580,6 +599,21 @@
     color: @basically-white !important;
   }
 
+  button.is-outlined {
+    background: transparent !important;
+    border: 1px solid @outline-dark;
+    color: @nearly-white !important;
+  }
+  button.is-outlined:hover {
+    background: @outline-dark !important;
+    border: 1px solid @outline-dark;
+  }
+  .button.is-primary.is-outlined[disabled] {
+    background: transparent !important;
+    border: 1px solid @outline-dark;
+    color: @nearly-white !important;
+  }
+
   button.is-dark {
     background: @less-dark-blue-gray !important;
     color: @basically-white !important;
@@ -602,14 +636,8 @@
   .username {
     color: @basically-white !important;
   }
-  .red {
-    color: @red !important;
-  }
-  .green {
-    color: @green !important;
-  }
-  .yellow {
-    color: @yellow !important;
+  .name:hover{
+     color: @basically-white !important;
   }
   .controls .user-active i {
     color: @green !important;
@@ -685,10 +713,32 @@
       font-size: 16pt;
     }
   }
-  .sidebar-wrapper, .right-bar {
+  .sidebar-wrapper {
     background: @dark-blue-gray !important;
   }
+  .right-bar{
+    background: @dark-blue-gray;
+  }
+  .red {
+    color: @red !important;
+  }
+  .green {
+    color: @green !important;
+  }
+  .yellow {
+    color: @yellow !important;
+  }
+  .disabled-icon, .disabled-icon:hover { 
+    color: @light-blue-gray !important;
+  } 
+  .blue {
+    color: @really-blue !important;
+  }
   @media (max-width: 768px) {
+    
+    .no-mobile {
+      display: none;
+    }
     .i:hover {
       color: unset;
     }
@@ -698,5 +748,45 @@
     .unreads {
       background: transparent !important;
     }
+    .settings-right {
+      .spacer {
+        border-bottom: 1px solid @ohh-so-dark !important;
+        margin: 1rem -1rem !important;
+      }
+    }
+    .settings-right .message {
+      background-color: transparent !important;
+    }
+    .settings-right .message-body {
+      background: transparent !important;
+      border: none;
+      margin: 0 -1.5rem;
+
+      input {
+        background-color: #000 !important;
+      }
+      
+      h2 {
+        background-color: transparent !important;
+      }
+
+      .select {
+        width: 100%;
+
+        select {
+          width: 100%;
+          background: #000 !important;
+        }
+      }
+    }
+  }
+
+  code {
+    background-color: @less-dark-blue-gray;
+    color: @basically-white;
+    border-radius: 2px;
+    font-size: 0.875em;
+    font-weight: normal;
+    padding: 0.25em 0.5em 0.25em;
   }
 }

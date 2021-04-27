@@ -8,7 +8,7 @@
 <script>
 import debounce from 'debounce';
 
-import data from '@/components/main/conversation/chatbar/emojidata.json';
+import data from '@/components/conversation/chatbar/emojidata.json';
 import { Picker, EmojiIndex } from 'emoji-mart-vue-fast';
 import 'emoji-mart-vue-fast/css/emoji-mart.css';
 import FileUpload from '@/components/common/fileupload/FileUpload';
@@ -81,7 +81,7 @@ export default {
           return;
         }
         this.$store.commit('chatWith', this.$store.state.activeChat);
-        this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat);
+        // this.$WebRTC.connectIfNotConnected(this.$store.state.activeChat);
         this.handleNewMessage(this.messageText, 'text');
         this.messageText = '';
         this.stopTyping();

@@ -1,6 +1,14 @@
 <div id="wallet">
+  <div class="nav-wrap">
+    <TopNav
+      title="Wallet"
+      :backAction="goHome"
+      :toggleSettings="toggleSettings"
+    />
+  </div>
+  
   <div class="wallet-header">
-    <h1 class="wallet-balance">${{balanceUsd}}</h1>
+    <h1 class="wallet-balance">${{calcTotal($store.state.assets)}}</h1>
     <p class="wallet-balance-subhead">{{$t('wallet.total-balance')}}</p>
   </div>
 
@@ -12,11 +20,15 @@
 
   <div class="wallet-separator">{{$t('wallet.token-balances')}}</div>
 
-  <div class="asset-container" v-for="asset in assets">
+  <div class="asset-container" v-for="asset in $store.state.assets">
     <Asset
       :name="asset.name"
       :icon="asset.icon"
-      :symbol="asset.symbol" />
+      :symbol="asset.symbol" 
+      :balance="formatEther(asset.balance)"
+      :usd="asset.priceUsd"
+      :changePercent24Hr="asset.changePercent24Hr"
+    />
   </div>
 
 

@@ -41,15 +41,15 @@
     <div class="message-body">
       <h2>{{$t('friends.your_address_desc')}}</h2>
       <div class="input-container">
-        <WalletAddressMini :address="$store.state.activeAccount"/>  
+        <WalletAddressMini :address="$store.state.activeAccount"/>
       </div>
-    </div> 
+    </div>
   </article>
   <h2 class="label">{{$t('friends.requests.incoming')}}</h2>
   <article class="message is-dark">
     <div class="message-body">
       <div>
-        <FriendRequests 
+        <FriendRequests
           :fetchFriendRequests="fetchFriendRequests"
           :friendRequests="$store.state.friendRequests"
           :action="chatFriend" />
@@ -89,11 +89,13 @@
         <p>{{$t('friends.no_friends')}}</p>
       </div>
       <Friend
-        v-for="fr in getFilteredFriends(keyword)"
+        v-for="fr in getFilteredFriends($store.state.friends, keyword)"
         :key="fr.address"
         :friend="fr"
         :action="chatFriend"
-        text="Chat" />
+        text="Chat"
+        :removeFriend="removeFriend"
+        :removingFriend="removingFriend"/>
       <div style="clear:both"></div>
     </div>
   </article>

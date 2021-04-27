@@ -36,6 +36,7 @@ export default {
   },
   activeChat(state: IState, address: string) {
     state.activeChat = address;
+    state.group = false;
   },
   // Change the mian route of the application
   changeRoute(state: IState, route: string) {
@@ -51,5 +52,11 @@ export default {
   },
   toggleUserInfo(state: IState) {
     state.showUser = !state.showUser;
+  },
+  showCreateGroup(state: IState, shown: boolean) {
+    state.showCreateGroup = shown;
+  },
+  toggleGroupInfo(state: IState) {
+    state.showGroupInfo = !state.showGroupInfo;
   },
 };

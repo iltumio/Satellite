@@ -1,18 +1,22 @@
 <template>
   <div class="fullscreen-pane">
     <section class="provider-selection-container">
-      <h1 class="head">{{$t('web3.provider_selection.heading')}}</h1>
+      <h1 class="head">{{ $t('web3.provider_selection.heading') }}</h1>
       <b>
-        {{$t('web3.provider_selection.subtext')}}
+        {{ $t('web3.provider_selection.subtext') }}
       </b>
       <br /><br />
       <div class="provider-selection">
-        <div class="provider-element" v-for="(provider) in $store.state.availableProviders"  v-bind:key="provider.type" v-on:click.stop="setSelectedProvider(provider)">
-          <img :src="provider.logo"/>
-          <span>{{provider.name}}</span>
-          </div>
+        <div
+          class="provider-element"
+          v-for="provider in $store.state.availableProviders"
+          v-bind:key="provider.type"
+          v-on:click.stop="setSelectedProvider(provider)"
+        >
+          <img :src="provider.logo" />
+          <span>{{ provider.name }}</span>
+        </div>
       </div>
-
     </section>
   </div>
 </template>
@@ -20,33 +24,32 @@
 <script>
 export default {
   name: 'ProviderSelection',
-  data() {
+  data () {
     return {
       connected: false,
       selectedProvider: null,
-      ethereum: null,
-    };
+      ethereum: null
+    }
   },
   props: ['onProviderSelected'],
   methods: {
     // Record the choosen provider in Vuex
-    async setSelectedProvider(provider) {
-      if(typeof this.onProviderSelected === 'function'){
+    async setSelectedProvider (provider) {
+      if (typeof this.onProviderSelected === 'function') {
         this.onProviderSelected(provider)
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     let providers = this.$store.state.availableProviders
     if (providers.length === 1 && providers[0].type == 'satellite') {
       this.setSelectedProvider(providers[0])
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="less">
-
 .provider-selection-container {
   text-align: center;
   width: 50%;
@@ -98,7 +101,6 @@ export default {
     background: transparent;
   }
   .fullscreen-pane {
-    background-image: url(/static/img/mobile-background.png);
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;
@@ -109,6 +111,4 @@ export default {
     right: 0;
   }
 }
-
-
 </style>

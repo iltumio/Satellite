@@ -1,0 +1,39 @@
+<section class="infobar noselect">
+    <DwellerID :active="idActive" :toggle="toggleFingerprint" :address="$store.state.activeChat"
+        :key="$store.state.activeChat" />
+    <div class="columns">
+        <div class="column is-half">
+            <div class="profile">
+                
+                <i class="fas fa-chevron-left mobile" v-on:click="$store.commit('toggleMobileSidebar')"></i>
+            </div>
+            <div class="profile-details" v-on:click="toggleFingerprint" v-if="$store.state.friends.find(f => f.address === $store.state.activeChat)">
+                <p>
+                    <CircleIcon
+                        :diameter="20"
+                        :image="$store.state.friends.find(f => f.address === $store.state.activeChat).photo"
+                        :address="$store.state.friends.find(f => f.address === $store.state.activeChat).address" />
+                    <span class="name">
+                        {{$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].name}}
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="column is-half">
+            <div class="profile-actions">
+                <i v-if="$store.state.p2pOnline" class="fas fa-phone" v-on:click="makeCall"></i>
+                <i v-else class="fas fa-phone disabled-icon"></i>
+
+                <i v-if="$store.state.p2pOnline" class="fas fa-video"></i>
+                <i v-else="$store.state.p2pOnline" class="fas fa-video disabled-icon"></i>
+
+                <i v-if="$store.state.p2pOnline" class="fas fa-desktop" v-on:click="requestScreenShare"></i>
+                <i v-else class="fas fa-desktop disabled-icon"></i>
+
+                <input class="input is-small searchuser" type="text"
+                    :placeholder="$t('conversation.infobar.search_placeholder')">
+                <i class="fas fa-info-circle" v-on:click="toggleFingerprint"></i>
+            </div>
+        </div>
+    </div>
+</section>

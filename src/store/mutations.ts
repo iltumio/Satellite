@@ -6,8 +6,11 @@ import messaging from './mutations/messaging';
 import peer from './mutations/peer';
 import account from './mutations/account';
 import server from './mutations/server';
+import group from './mutations/group';
 import web3 from './mutations/web3';
 import stickers from './mutations/stickersMutations';
+import wallet from "./mutations/wallet";
+import commands from "./mutations/commands";
 
 export default {
   ...friends,
@@ -18,8 +21,11 @@ export default {
   ...peer,
   ...account,
   ...server,
+  ...group,
   ...web3,
   ...stickers,
+  ...wallet,
+  ...commands,
   screenShareRequest(state: any) {
     // eslint-disable-next-line
     state.screenShareRequest = Date.now();
@@ -46,7 +52,7 @@ export default {
     state.criticalError = false;
     state.ICEConnected = false;
     state.dwellerAddress = false;
-    state.activeCall = null;
+    state.activeCalls = [];
     state.incomingCall = null;
   },
   setLanguage(state, lang) {
