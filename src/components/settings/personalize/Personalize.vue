@@ -18,6 +18,20 @@
             <option value="oled" v-if="isMobile()">Oled</option>
           </select>
         </div>
+        <div v-if="$store.state.theme === 'oled'">
+          <h2>{{ $t('settings.personalize.theme_accent_heading') }}</h2>
+          <p>{{ $t('settings.personalize.theme_accent_subtext') }}</p>
+          <br />
+          <div class="select">
+            <select v-model="$store.state.themeAccent">
+              <option value="blue">Blue</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="pink">Pink</option>
+              <option value="black">Black</option>
+            </select>
+          </div>
+        </div>
       </div>
     </article>
     <h3 class="label no-mobile">
