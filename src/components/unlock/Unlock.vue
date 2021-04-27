@@ -38,9 +38,9 @@
             </div>
           </div>
           <!-- Disabled -->
-          <p class="label sub-label" v-if="false">
-            <input :readonly="decrypting" type="checkbox" v-model="storePin" />
-            {{ $t('unlock.stay_logged') }}
+          <p class="label sub-label">
+            <ToggleSwitch v-model="storePin" />
+            <span class="store-pin-text">{{ $t('unlock.stay_logged') }}</span>
           </p>
         </div>
         <div class="column is-one-fifth"></div>
@@ -70,7 +70,7 @@ export default {
     return {
       pin: '',
       error: false,
-      storePin: false,
+      storePin: localStorage.getItem('v74.pin') || false,
       storedPinHash: localStorage.getItem('v74.pinhash') || false,
       storedPin: localStorage.getItem('v74.pin') || false,
       decrypting: false
@@ -116,13 +116,10 @@ export default {
     }
   },
   mounted () {
-    /* Disabled
     if (localStorage.getItem('v74.pin')) {
-      window.v74pin = localStorage.getItem('v74.pin');
-      this.decrypting = true;
-      this.decrypted(localStorage.getItem('v74.pin'));
+      this.pin = localStorage.getItem('v74.pin')
+      this.testPin()
     }
-    */
   }
 }
 </script>
@@ -157,6 +154,12 @@ export default {
   margin-bottom: 0;
   margin-top: 0;
   padding-top: 20%;
+}
+.switch-button-control {
+  float: left;
+}
+.store-pin-text {
+  float: left;
 }
 .pin-text {
   color: #b2bae1;

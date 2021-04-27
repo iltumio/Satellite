@@ -468,7 +468,7 @@
     "decrypt_account": "Decrypt Account",
     "create_encryption_pin": "Create Encryption Pin",
     "create_encryption_pin_subtext": "This is like your password, chose something safe.",
-    "stay_logged": "Stay logged in?",
+    "stay_logged": "Store Pin? (Less Secure)",
     "AES_encryption": "Pin stored with AES encryption using Web Crypto.",
     "pin_placeholder": "alphanumeric pin..."
   },
