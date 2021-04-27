@@ -1,559 +1,561 @@
 {
-  "global": {
-    "address": "Address",
-    "view_full_size": "view full size",
-    "external_link_title": "External link",
-    "external_link_text": "You are about to leave our app to view a link, do you want to continue?",
-    "continue": "Continue",
-    "nevermind": "Nevermind",
-    "view_all_achievements": "view all achievements",
-    "not_yet_implemented": "Not yet implemented",
-    "view_on_etherscan": "View on blockchain explorer",
-    "accept": "Accept",
-    "deny": "Deny",
-    "default": "Default"
-  },
-  "dates": {
-    "month_names": {
-      "0": "January",
-      "1": "February",
-      "2": "March",
-      "3": "April",
-      "4": "May",
-      "5": "June",
-      "6": "July",
-      "7": "August",
-      "8": "September",
-      "9": "October",
-      "10": "November",
-      "11": "December"
-    }
-  },
-  "dwellerid": {
-    "badges": "Badges",
-    "status": "Status",
-    "actions": "Actions",
-    "send_message": "Send message",
-    "account_age": "Account Age",
-    "address": "Dweller ID Address",
-    "view_contract": "View Dweller ID Contract",
-    "view_address": "Copy Dweller Address"
-  },
-  "file": {
-    "removed": "File Removed",
-    "unpinned": "File un-pinned, removing soon.",
-    "file": "file",
-    "files": "Files"
-
-  },
-  "fileupload": {
-    "heading": "Upload File",
-    "description": "Files are uploaded to the InterPlanetary File System.",
-    "select": "Select File",
-    "chosefile": "Upload a File",
-    "file": "File",
-    "link": "IPFS Link",
-    "uploading": "Uploading to IPFS...",
-    "waiting": "Authenticating...",
-    "send": "Send File",
-    "button_uploading": "Uploading...",
-    "button_done": "Send",
-    "button_upload_another": "Upload Another File",
-    "aiscan": "Our AI is validating your image..."
-  },
-  "loading": {
-    "connecting_blockchain": "Connecting to the blockchain...",
-    "assembling": "Assembling the hive...",
-    "authenticating": "Authenticating with Textile.io",
-    "connecting_broker": "Connecting to 0.satellite.im...",
-    "long_load": "This is taking a bit, do you have <a href=\"{link}\" target=\"{target}\">{text}</a> installed?",
-    "other_tab": "Still loading? Satellite may already be open in another tab.",
-    "something_wrong": "Something may have gone wrong,",
-    "buckets": "Loading buckets...",
-    "retry": "retry?",
-    "generic": "Almost ready...",
-    "textile": "Waiting for Textile.io...",
-    "alpha": "This is an alpha product, Please use Goerli Testnet!",
-    "failure-to-load": "Failure to load",
-    "retry-button": "Retry?"
-  },
-  "files": {
-    "heading": "Files",
-    "subtext": "Browse files you've shared with other users, and upload new files to IPFS.",
-    "upload": "Upload Files",
-    "your_files": "Your Files",
-    "your_files_subtext": "Below is a list of all of the files you've uploaded.",
-    "loading": "Loading files...",
-    "history": "File History",
-    "usage": "Usage",
-    "copy-link": "Copy Link",
-    "open-file": "Open File",
-    "remove-file": "Remove File",
-    "removing-file": "Removing File"
-  },
-  "friends": {
-    "heading": "Friends",
-    "subtext": "Get connected with other people on the Satellite platform.",
-    "find_someone": "Find Someone",
-    "add_a_friend": "Add a Friend",
-    "enter_address": "Enter a friends Ethereum address below to find them...",
-    "add_friend": "Add Friend",
-    "found_someone": "We Found Someone",
-    "chat": "Get Chatting",
-    "your_friends": "Your Friends",
-    "start_chat": "Start a chat with your friends below, be kind, or don't. We don't judge.",
-    "no_friends": "Oops, you don't have any friends yet. We'll be your friend, but you can also add more above.",
-    "search_placeholder": "Find Friend...",
-    "search": "Search",
-    "your_address": "Your Address",
-    "your_address_desc": "Share this address so your friends can add you.",
-    "add-quickly": "Add Quickly",
-    "share": "SHARE",
-    "scan": "SCAN",
-    "enter-friends-address": "Enter your friends address",
-    "requests": {
-      "heading": "Friend Requests",
-      "incoming": "Incoming Requests",
-      "outgoing": "Outgoing Requests",
-      "loading": "Loading Requests...",
-      "no-outgoing": "No outgoing requests",
-      "no-incoming": "No incoming requests",
-      "updating": "Updating request...",
-      "sending": "Sending request..."
-    }
-  },
-  "voice_video": {
-    "switch_video": "Switch to Video",
-    "switch_voice": "Switch to Voice",
-    "disconnect": "End"
-  },
-  "main": {
-    "heading": "Liftoff!",
-    "subtext_one": "You're in orbit and ready to go.",
-    "subtext_two": "Add some friends and get chatting, sharing and streaming!",
-    "button": "Add Friends"
-  },
-  "PWA": {
-    "prompt_title": "Install Satellite",
-    "prompt_desc": "Quickly install our app on your phone for a seamless experience, it's really easy!",
-    "just-tap": "Just tap",
-    "add-to-homescreen": "then 'Add to homescreen'",
-    "add-to-screen": "then 'Add to screen'",
-    "unsure-device-type": "We're unsure of your device type, search for 'How to install PWA apps on [your device]' for instructions if you're interested in downloading our app"
-  },
-  "settings": {
-    "logo": "Settings",
-    "h_general": "General",
-    "h_personalize": "Personalize",
-    "h_profile": "Profile",
-    "h_audiovideo": "Audio & Video",
-    "h_keybinds": "Keybinds",
-    "h_accounts": "Accounts & Devices",
-    "h_networks": "Networks & Security",
-    "h_encryption": "Encryption",
-    "h_storage": "Storage",
-    "h_network": "Network",
-    "h_transactions": "Transactions",
-    "h_payments": "Payments",
-    "h_transfers": "Transfers",
-    "h_balance": "Balance",
-    "h_information": "Information",
-    "h_contracts": "Contracts",
-    "accounts": {
-      "label": "Accounts",
-      "heading": "Active Account",
-      "subtext": "Select with Ethereum account you'd prefer to default transactions from.",
-      "balance": "Balance",
-      "gas_price": "Gas Price",
-      "gas_price_desc": "Higher gas prices will transact faster.",
-      "devices": "Devices",
-      "connected_devices": "Connected Devices",
-      "none": "No external wallets connected."
-    },
-    "audio_video": {
-      "label": "Audio",
-      "input_heading": "Audio Input Device",
-      "input_subtext": "Select which input device you'd like people to hear your silky smooth voice from.",
-      "input_default_text": "Default Microphone",
-      "audio_output": "Audio Output Device",
-      "audio_output_subtext": "Select the device that you'd like to deliver sound to your ear holes with.",
-      "audio_output_default": "Default Audio Output",
-      "audio_bitrate": "Audio Bitrate",
-      "audio_bitrate_subtext": "Higher bitrates will transmit better quality audio, lowering the bitrate can help with slower connection speeds.",
-      "sample_size": "Sample Size",
-      "sample_size_subtext": "A higher sample size will give you a broader dynamic range of audio. Higher samples will require better connection speeds.",
-      "echo_cancellation": "Echo Cancellation",
-      "echo_cancellation_subtext": "Enable to help cancel out some slight echo & feedback from your mic.",
-      "noise_supression": "Noise Suppression",
-      "noise_supression_subtext": "Enable to help hide background noise in your environment.",
-      "opus": "Satellite uses the Opus Codec, and open source audio codec.",
-      "video": "Video",
-      "video_heading": "Video Input Device",
-      "video_subtext": "Select which video device you'd like to share your beautiful smile from.",
-      "video_default_text": "Default Webcam",
-      "screen-share": "Screen Share",
-      "capture-mouse": "Capture Mouse",
-      "capture-mouse-info": "Would you like to share your mouse in screen shares?",
-      "capture-mouse-always": "Always Capture",
-      "capture-mouse-movement": "On Movement",
-      "capture-mouse-never": "Never Show Mouse"
-    },
-    "keybinds": {
-      "label": "Keybinds",
-      "heading": "Default Keybinds",
-      "subtext": "Below are a list of the current keybinds, right now they are not configurable.",
-      "toggle_mute": "Toggle Mute",
-      "toggle_deafen": "Toggle Deafen",
-      "toggle_settings": "Open Settings",
-      "call": "Call Active Window"
-    },
-    "network": {
-      "label": "Network",
-      "heading": "Web3 Provider",
-      "subtext": "A Web3 provider is simply the way you chose to interact with the blockchain. For most people <b>Default</b> is fine."
-    },
-    "personalize": {
-      "appearance": "Appearance",
-      "theme_heading": "Theme",
-      "theme_subtext": "Change up the theme and stay easy on the eyes with Satellite.",
-      "permissions": "Permissions",
-      "notifications_heading": "Notifications",
-      "notifications_subtext": "Click to enable notifications with Satellite for a better experience.",
-      "enable_notifications": "Enable notifications",
-      "notifications_enabled": "Notifications Enabled!",
-      "language": "Language",
-      "language_heading": "Language",
-      "language_subtext": "Choose your preferred language from the list below."
-    },
-    "storage": {
-      "database_label": "Database",
-      "database_heading": "Enable Database",
-      "threadDB": "Satellite utilizes Texile's ThreadDB, a decentralized database, to store your data.",
-      "threadDB_learn_more": "You can learn more about them here:",
-      "threadDB_enable": "Enable <b>ThreadDB</b>, a decentralized database used to receive offline messaging and unlock additional features.<br>Your data is stored on a distributed network and none of that data passes through us.",
-      "threadDB_data_id": "Your Data ID",
-      "threadDB_data_id_text": "Your data ID references all the data stored in the app. Save this somewhere save to transfer your data to another browser.",
-      "storage_label": "Storage",
-      "lfs_heading": "Large File Storage",
-      "lfs_subtext": "Click to enable large file storage, this will allow you to upload very large files and keep more message history cached.",
-      "lfs_request": "Request Storage Permissions",
-      "export_ls_heading": "Export Local Storage",
-      "export_ls_subtext": "Export your Local Storage to move to another browser.",
-      "export_ls_button": "Export Storage",
-      "data_heading": "Clear Data",
-      "data_subtext": "Quickly clean up locally stored data, please be aware doing so will clear your stored files, message history, and more.",
-      "data_subtext_two": "Only do this if you know the repercussions.",
-      "clear_data": "Clear Local Data"
-    },
-    "profile": {
-      "label": "Profile",
-      "heading": "Identification",
-      "subtext": "Go ahead and choose a profile picture. Also let us know what we should call you.",
-      "profile_pic": "Profile Picture (Optional)",
-      "upload_profile_pic": "Upload Profile Picture",
-      "uploading_ipfs": "Uploading to IPFS...",
-      "status": "Choose a custom status",
-      "username": "Username",
-      "create_account": "Create Account",
-      "creating_transaction": "Creating Transaction",
-      "step1": "Awaiting transaction approval.",
-      "sending_transaction": "Sending Transaction",
-      "step2": "Please wait while your transaction is sent...",
-      "confirming_transaction": "Confirming Transaction",
-      "step3": "Don't Leave! we're waiting for a confirmation...",
-      "last_step": "Last Steps!",
-      "step4": "We're just taking care of some last minute things...",
-      "edit_account": "Edit Account",
-      "edit_account_subtext": "Browse your account info, and make changes.",
-      "your_account": "Your Account",
-      "your_account_subtext": "Browse your account info, and make changes.",
-      "display_name": "Display Name",
-      "account_address": "Account Address",
-      "id_card": "This is like your ID card, share this with friends so they can add you.",
-      "dweller_address": "Dweller Address",
-      "transfer_data": "Transfer Data",
-      "dweller_owner_address": "Dweller Owner Address",
-      "name": "Name",
-      "photo_hash": "Photo Hash",
-      "your_badges": "Your Badges",
-      "disclaimer": "Your profile is stored on an Ethereum Smart Contract. A decentralized transfer protocol free from fraudulent manipulation.",
-      "edit_profile": "Edit Profile",
-      "change_photo": "Change Photo",
-      "remove_photo": "Remove Photo",
-      "change_username": "Change Username",
-      "copy_address": "Copy Address",
-      "confirm_transaction": "Please confirm transaction...",
-      "recovery_phrase_title": "Recovery Phrase",
-      "recovery_phrase_desc": "Please store this phrase somewhere safe. The order of the words is critical. Satellite can not help you recover your account if you lose this.",
-      "show-phrase": "Show Me the Phrase"
-    },
-    "contracts": {
-      "audit_disclaimer": "These are Alpha contracts and have not been audited yet <br /> It's worth noting these contracts are built to be functional proof of concepts, not performant, and will be re-written pre beta.",
-      "label": "Contracts",
-      "heading": "Browse Contracts",
-      "registry": "Registry",
-      "dweller": "Dweller",
-      "server": "Server",
-      "friends": "Friends"
-    },
-    "encryption": {
-      "label": "Encryption &amp; Keys",
-      "heading": "Public / Private Keys",
-      "subtext": "Messages are encrypted with a public and private key. You can reveal your keys below. <b>DO NOT</b> share your private key with others.",
-      "public_key": "Public Key",
-      "private_key": "Private Key",
-      "hover_to_reveal": "hover to reveal",
-      "regenerate_keys": "Regenerate Keys"
-    }
-  },
-  "payments": {
-    "send": "Send {amount} {symbol} ${dollar_equivalent}",
-    "balance": "Balance",
-    "button": "Send",
-    "prices_disclaimer": " - Prices from CoinCap.io",
-    "pay-label": "Pay"
-  },
-  "sidebar": {
-    "find": "Search Satellite.im...",
-    "friends": "Friends",
-    "files": "Files",
-    "chats": "Chats",
-    "groups": "Groups",
-    "add_friends": "Hey! Add some more friends to chat",
-    "button": "Add Friends",
-    "controls": {
-      "connected_to": "Connected to {network}",
-      "peer_broker_offline": "Peer Broker Offline",
-      "media_stream_active": "Media stream active, click to view",
-      "media_stream_inactive": "No active media stream",
-      "status": "Super awesome status..."
-    },
-    "quickfriends": {
-      "chat_with_friends": "Chat With Friends",
-      "no_friends_yet": "You haven't added any friends yet.",
-      "add_some_friends": "Add some friends to chat.",
-      "no_results": "No results found.",
-      "search_placeholder": "Find Friend..."
-    }
-  },
-  "footer": {
-    "p2p": "P2P",
-    "network": "Network",
-    "block_number": "Block Number",
-    "account": "Account",
-    "connecting": "Connecting"
-  },
-  "languages": {
-    "de": "German",
-    "it": "Italian",
-    "en_US": "English (USA)",
-    "en_UK": "English (UK)",
-    "fr": "French",
-    "ru": "Russian",
-    "hy": "Armenian",
-    "hi": "Hindi"
-  },
-  "alpha_release": {
-    "warning": "Heads up, this is an alpha release. <strong>Messages are not yet encrypted</strong>. This is not a finished product and serval exploits may exist. Features are rapidly being added and changed. For this reason please only use this on a <strong>Testnet</strong> until the beta."
-  },
-  "message_context": {
-    "actions": "MESSAGE ACTIONS",
-    "copy": "Copy Text",
-    "edit": "Edit Message",
-    "speak": "Speak Message",
-    "copy_id": "Copy ID"
-  },
-  "file_context": {
-    "actions": "FILE ACTIONS",
-    "open": "Open File",
-    "copy_link": "Copy Link",
-    "copy_id": "Copy ID"
-  },
-  "context": {
-    "actions": "ACTIONS",
-    "reload": "Reload",
-    "devtools": "Open Devtools"
-  },
-  "conversation": {
-    "encrypted": "Messages are secured by end to end encryption.",
-    "chatbar": {
-      "typing": "is typing",
-      "characters_left": "{characters} Characters Left",
-      "pick_emoji": "Pick your emoji...",
-      "securely_message": "Message {name}...",
-      "not-implemented": "NOT IMPLEMENTED"
-    },
-    "conversation": {
-      "invite_offline": "Invite {name} to message offline.",
-      "must_be_online": "{name} must be online.",
-      "invite": "Invite {name}",
-      "no_conversation_heading": "It's awfully quiet",
-      "no_conversation_subtext": "Say something and get the conversation started.",
-      "loading_convorstaion": "Loading Messages",
-      "fetching_messages": "We're fetching from IPFS..."
-    },
-    "infobar": {
-      "search_placeholder": "Search in conversation..."
-    },
-    "message": {
-      "address": {
-        "external_link_text": "Click to view on Etherscan.io"
-      },
-      "audio": {
-        "not_supported": "Your browser does not support the <code>audio</code> element."
-      },
-      "call": {
-        "started": "Call Started",
-        "incoming": "Call incoming, get ready!"
-      },
-      "offline_chat": {
-        "heading": "Enable Offline Messaging",
-        "text": "Message {name} while they are offline",
-        "enable": "Enable Offline Messaging",
-        "enabled": "Offline Messaging Enabled"
-      },
-      "video": {
-        "not_supported": "Your browser does not support the <code>video</code> element."
-      },
-      "message_body": {
-        "call_started": "{name} started a call...",
-        "lost_keys": "Keys changed or are missing, unable to decrypt",
-        "not_encrypted": "Not Encrypted"
-      }
-    },
-    "userinfo": {
-      "heading": "User Details",
-      "badges": "Badges",
-      "notes": "Notes",
-      "notes_placeholder": "enter some notes..."
-    },
-    "voicevideo": {
-      "switch_to_video": "Switch to Video",
-      "switch_to_voice": "Switch to Voice",
-      "disconnect": "Disconnect"
-    }
-  },
-  "popups": {
-    "calling": {
-      "is_calling_you": "is calling you..."
-    },
-    "error": {
-      "title": "That's a bug.",
-      "text": "You encountered a bug, if you'd like to report it all the info you need is below.",
-      "user_agent": "User Agent",
-      "source": "Source",
-      "line": "Line number",
-      "confirm": "Alright"
-    }
-  },
-  "servers": {
-    "server-conversation": "Server Conversation",
-    "server-quick-actions": "Quick Actions",
-    "server": "Server",
-    "users": "Users",
-    "create": {
-      "heading": "Create a Server",
-      "photo_text": "Give your server a face. Chose a memorable photo to show it's members.",
-      "photo_button": "Set Photo",
-      "server_name": "Enter Server Name",
-      "server_name_placeholder": "Server Name...",
-      "create_server": "Create Server",
-      "confirm_transaction": "We're setting up your new server, please confirm any transactions.",
-      "waiting_server_confirmation": "We're waiting for your server to confirm...",
-      "writing_additional_details": "Writing additional server details...",
-      "done": "Wrapping things up..."
-    }
-  },
-  "unlock": {
-    "decrypt_account": "Decrypt Account",
-    "create_encryption_pin": "Create Encryption Pin",
-    "create_encryption_pin_subtext": "This is like your password, chose something safe.",
-    "stay_logged": "Store Pin? (Less Secure)",
-    "AES_encryption": "Pin stored with AES encryption using Web Crypto.",
-    "pin_placeholder": "alphanumeric pin..."
-  },
-  "web3": {
-    "connecting": "Connecting to network...",
-    "provider_suggestion": "If you do not have a Ethereum provider installed, please consider installing MetaMask.",
-    "provider_selection": {
-      "heading": "Pick Your Poison",
-      "subtext": "Choose the provider you want to use. Choosing Satellite.im will create a new wallet, just for you."
-    },
-    "wallet_creation": {
-      "step": {
-        "initial": {
-          "heading": "Account creation",
-          "subtext": "We're going to create a blockchain wallet for you. This wallet is your account, so be sure to back it up!",
-          "primary_cta": "Next",
-          "secondary_cta": "Import"
-        },
-        "generate": {
-          "heading": "Account creation",
-          "subtext": "We're going to create a blockchain wallet for you. This wallet is your account, so be sure to back it up!",
-          "primary_cta": "Next",
-          "secondary_cta": "Back"
-        },
-        "showseed": {
-          "heading": "Recovery phrase",
-          "subtext": "Please store these words somewhere safe so you can recover your account in the future.",
-          "primary_cta": "I Saved Them",
-          "secondary_cta": "Back"
-        },
-        "seedcheck": {
-          "heading": "Phrase check",
-          "subtext": "Write the missing words in the right position before to continue",
-          "primary_cta": "Next",
-          "secondary_cta": "Back"
-        },
-        "import": {
-          "heading": "Recover from mnemonic",
-          "subtext": "We're going to recover your wallet. Paste your mnemonic phrase and click on the recover button!",
-          "primary_cta": "Recover",
-          "secondary_cta": "Back"
-        }
-      }
-    }
-  },
-  "wallet": {
-    "total-balance": "Total Balance (USD)",
-    "early-access-warning": "Wallet Coming Soon",
-    "early-access-warning-do-not-send-real-funds": "Do not send real funds to your address.",
-    "token-balances": "Token Balances",
-    "copy-account-id": "Copy Account ID",
-    "scan": "SCAN"
-  },
-  "stickers": {
-    "my-stickers": "My Glyphs",
-    "get-stickers": "Get Glyphs",
-    "no-stickers": "You don't have any glyphs yet.",
-    "get-some-stickers": "Get Some!",
-    "buy-button-text": "Buy",
-    "buy-button-free": "Free",
-    "buy-button-loading": "Transmitting",
-    "verified-sticker": "Verified Glyph"
-
-  },
-  "security-mask": {
-    "content-redacted": "CONTENT REDACTED",
-    "content-hidden-message": "Content hidden for security."
-  },
-  "qr-scan": {
-    "scan-qr-code": "Scan A QR Code",
-    "adding-friend-label": "Your Friend Scans Me"
-  },
-  "fund-account": {
-    "heading": "Funding Your Account",
-    "fund-account-message": " This one's on the house. We're funding your account with tokens to get you started.",
-    "account-funded-message": "Your account is funded, just a minute and we can continue."
-  },
-  "update-check": {
-    "update": "Update"
-  },
-  "mobile-nav": {
-    "home": "Home",
-    "friends": "Friends",
-    "files": "Files",
-    "wallet": "Wallet",
-    "settings": "Settings"
-  }
+	"PWA": {
+		"add-to-homescreen": "then 'Add to homescreen'",
+		"add-to-screen": "then 'Add to screen'",
+		"just-tap": "Just tap",
+		"just_tap": "",
+		"prompt_desc": "Quickly install our app on your phone for a seamless experience, it's really easy!",
+		"prompt_title": "Install Satellite",
+		"promt_desc": "",
+		"unsure-device-type": "We're unsure of your device type, search for 'How to install PWA apps on [your device]' for instructions if you're interested in downloading our app"
+	},
+	"alpha_release": {
+		"warning": "Heads up, this is an alpha release. <strong>Messages are not yet encrypted</strong>. This is not a finished product and serval exploits may exist. Features are rapidly being added and changed. For this reason please only use this on a <strong>Testnet</strong> until the beta."
+	},
+	"context": {
+		"actions": "ACTIONS",
+		"devtools": "Open Devtools",
+		"reload": "Reload"
+	},
+	"conversation": {
+		"chatbar": {
+			"characters_left": "{characters} Characters Left",
+			"not-implemented": "NOT IMPLEMENTED",
+			"pick_emoji": "Pick your emoji...",
+			"securely_message": "Message {name}...",
+			"typing": "is typing"
+		},
+		"conversation": {
+			"fetching_messages": "We're fetching from IPFS...",
+			"invite": "Invite {name}",
+			"invite_offline": "Invite {name} to message offline.",
+			"loading_convorstaion": "Loading Messages",
+			"must_be_online": "{name} must be online.",
+			"no_conversation_heading": "It's awfully quiet",
+			"no_conversation_subtext": "Say something and get the conversation started."
+		},
+		"encrypted": "Messages are secured by end to end encryption.",
+		"infobar": {
+			"search_placeholder": "Search in conversation..."
+		},
+		"message": {
+			"address": {
+				"external_link_text": "Click to view on Etherscan.io"
+			},
+			"audio": {
+				"not_supported": "Your browser does not support the <code>audio</code> element."
+			},
+			"call": {
+				"incoming": "Call incoming, get ready!",
+				"started": "Call Started"
+			},
+			"message_body": {
+				"call_started": "{name} started a call...",
+				"lost_keys": "Keys changed or are missing, unable to decrypt",
+				"not_encrypted": "Not Encrypted"
+			},
+			"offline_chat": {
+				"enable": "Enable Offline Messaging",
+				"enabled": "Offline Messaging Enabled",
+				"heading": "Enable Offline Messaging",
+				"text": "Message {name} while they are offline"
+			},
+			"video": {
+				"not_supported": "Your browser does not support the <code>video</code> element."
+			}
+		},
+		"userinfo": {
+			"badges": "Badges",
+			"heading": "User Details",
+			"notes": "Notes",
+			"notes_placeholder": "enter some notes..."
+		},
+		"voicevideo": {
+			"disconnect": "Disconnect",
+			"switch_to_video": "Switch to Video",
+			"switch_to_voice": "Switch to Voice"
+		}
+	},
+	"dates": {
+		"month_names": [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December"
+		]
+	},
+	"dwellerid": {
+		"account_age": "Account Age",
+		"actions": "Actions",
+		"address": "Dweller ID Address",
+		"badges": "Badges",
+		"send_message": "Send message",
+		"status": "Status",
+		"view_address": "Copy Dweller Address",
+		"view_contract": "View Dweller ID Contract"
+	},
+	"file": {
+		"file": "file",
+		"files": "Files",
+		"removed": "File Removed",
+		"unpinned": "File un-pinned, removing soon."
+	},
+	"file_context": {
+		"actions": "FILE ACTIONS",
+		"copy_id": "Copy ID",
+		"copy_link": "Copy Link",
+		"open": "Open File"
+	},
+	"files": {
+		"copy-link": "Copy Link",
+		"heading": "Files",
+		"history": "File History",
+		"loading": "Loading files...",
+		"open-file": "Open File",
+		"remove-file": "Remove File",
+		"removing-file": "Removing File",
+		"subtext": "Browse files you've shared with other users, and upload new files to IPFS.",
+		"upload": "Upload Files",
+		"usage": "Usage",
+		"your_files": "Your Files",
+		"your_files_subtext": "Below is a list of all of the files you've uploaded."
+	},
+	"fileupload": {
+		"aiscan": "Our AI is validating your image...",
+		"button_done": "Send",
+		"button_upload_another": "Upload Another File",
+		"button_uploading": "Uploading...",
+		"chosefile": "Upload a File",
+		"description": "Files are uploaded to the InterPlanetary File System.",
+		"file": "File",
+		"heading": "Upload File",
+		"link": "IPFS Link",
+		"select": "Select File",
+		"send": "Send File",
+		"uploading": "Uploading to IPFS...",
+		"waiting": "Authenticating..."
+	},
+	"footer": {
+		"account": "Account",
+		"block_number": "Block Number",
+		"connecting": "Connecting",
+		"network": "Network",
+		"p2p": "P2P"
+	},
+	"friends": {
+		"add-quickly": "Add Quickly",
+		"add_a_friend": "Add a Friend",
+		"add_friend": "Add Friend",
+		"chat": "Get Chatting",
+		"enter-friends-address": "Enter your friends address",
+		"enter_address": "Enter a friends Ethereum address below to find them...",
+		"find_someone": "Find Someone",
+		"found_someone": "We Found Someone",
+		"heading": "Friends",
+		"no_friends": "Oops, you don't have any friends yet. We'll be your friend, but you can also add more above.",
+		"requests": {
+			"heading": "Friend Requests",
+			"incoming": "Incoming Requests",
+			"loading": "Loading Requests...",
+			"no-incoming": "No incoming requests",
+			"no-outgoing": "No outgoing requests",
+			"outgoing": "Outgoing Requests",
+			"sending": "Sending request...",
+			"updating": "Updating request..."
+		},
+		"scan": "SCAN",
+		"search": "Search",
+		"search_placeholder": "Find Friend...",
+		"share": "SHARE",
+		"start_chat": "Start a chat with your friends below, be kind, or don't. We don't judge.",
+		"subtext": "Get connected with other people on the Satellite platform.",
+		"your_address": "Your Address",
+		"your_address_desc": "Share this address so your friends can add you.",
+		"your_friends": "Your Friends"
+	},
+	"fund-account": {
+		"account-funded-message": "Your account is funded, just a minute and we can continue.",
+		"fund-account-message": " This one's on the house. We're funding your account with tokens to get you started.",
+		"heading": "Funding Your Account"
+	},
+	"global": {
+		"accept": "Accept",
+		"address": "Address",
+		"continue": "Continue",
+		"default": "Default",
+		"deny": "Deny",
+		"external_link_text": "You are about to leave our app to view a link, do you want to continue?",
+		"external_link_title": "External link",
+		"nevermind": "Nevermind",
+		"not_yet_implemented": "Not yet implemented",
+		"view_all_achievements": "view all achievements",
+		"view_full_size": "view full size",
+		"view_on_etherscan": "View on blockchain explorer"
+	},
+	"languages": {
+		"de": "German",
+		"en_UK": "English (UK)",
+		"en_US": "English (USA)",
+		"fr": "French",
+		"hi": "Hindi",
+		"hy": "Armenian",
+		"it": "Italian",
+		"ru": "Russian"
+	},
+	"loading": {
+		"alpha": "This is an alpha product, Please use Goerli Testnet!",
+		"assembling": "Assembling the hive...",
+		"authenticating": "Authenticating with Textile.io",
+		"buckets": "Loading buckets...",
+		"connecting_blockchain": "Connecting to the blockchain...",
+		"connecting_broker": "Connecting to 0.satellite.im...",
+		"failure-to-load": "Failure to load",
+		"generic": "Almost ready...",
+		"long_load": "This is taking a bit, do you have <a href=\"{link}\" target=\"{target}\">{text}</a> installed?",
+		"other_tab": "Still loading? Satellite may already be open in another tab.",
+		"retry": "retry?",
+		"retry-button": "Retry?",
+		"something_wrong": "Something may have gone wrong,",
+		"textile": "Waiting for Textile.io..."
+	},
+	"main": {
+		"button": "Add Friends",
+		"heading": "Liftoff!",
+		"subtext_one": "You're in orbit and ready to go.",
+		"subtext_two": "Add some friends and get chatting, sharing and streaming!"
+	},
+	"message_context": {
+		"actions": "MESSAGE ACTIONS",
+		"copy": "Copy Text",
+		"copy_id": "Copy ID",
+		"edit": "Edit Message",
+		"speak": "Speak Message"
+	},
+	"mobile-nav": {
+		"files": "Files",
+		"friends": "Friends",
+		"home": "Home",
+		"settings": "Settings",
+		"wallet": "Wallet"
+	},
+	"payments": {
+		"balance": "Balance",
+		"button": "Send",
+		"pay-label": "Pay",
+		"prices_disclaimer": " - Prices from CoinCap.io",
+		"send": "Send {amount} {symbol} ${dollar_equivalent}"
+	},
+	"popups": {
+		"calling": {
+			"is_calling_you": "is calling you..."
+		},
+		"error": {
+			"confirm": "Alright",
+			"line": "Line number",
+			"source": "Source",
+			"text": "You encountered a bug, if you'd like to report it all the info you need is below.",
+			"title": "That's a bug.",
+			"user_agent": "User Agent"
+		}
+	},
+	"qr-scan": {
+		"adding-friend-label": "Your Friend Scans Me",
+		"scan-qr-code": "Scan A QR Code"
+	},
+	"security-mask": {
+		"content-hidden-message": "Content hidden for security.",
+		"content-redacted": "CONTENT REDACTED"
+	},
+	"servers": {
+		"create": {
+			"confirm_transaction": "We're setting up your new server, please confirm any transactions.",
+			"create_server": "Create Server",
+			"done": "Wrapping things up...",
+			"heading": "Create a Server",
+			"photo_button": "Set Photo",
+			"photo_text": "Give your server a face. Chose a memorable photo to show it's members.",
+			"server_name": "Enter Server Name",
+			"server_name_placeholder": "Server Name...",
+			"waiting_server_confirmation": "We're waiting for your server to confirm...",
+			"writing_additional_details": "Writing additional server details..."
+		},
+		"server": "Server",
+		"server-conversation": "Server Conversation",
+		"server-quick-actions": "Quick Actions",
+		"users": "Users"
+	},
+	"settings": {
+		"accounts": {
+			"balance": "Balance",
+			"connected_devices": "Connected Devices",
+			"devices": "Devices",
+			"gas_price": "Gas Price",
+			"gas_price_desc": "Higher gas prices will transact faster.",
+			"heading": "Active Account",
+			"label": "Accounts",
+			"none": "No external wallets connected.",
+			"subtext": "Select with Ethereum account you'd prefer to default transactions from."
+		},
+		"audio_video": {
+			"audio_bitrate": "Audio Bitrate",
+			"audio_bitrate_subtext": "Higher bitrates will transmit better quality audio, lowering the bitrate can help with slower connection speeds.",
+			"audio_output": "Audio Output Device",
+			"audio_output_default": "Default Audio Output",
+			"audio_output_subtext": "Select the device that you'd like to deliver sound to your ear holes with.",
+			"capture-mouse": "Capture Mouse",
+			"capture-mouse-always": "Always Capture",
+			"capture-mouse-info": "Would you like to share your mouse in screen shares?",
+			"capture-mouse-movement": "On Movement",
+			"capture-mouse-never": "Never Show Mouse",
+			"echo_cancellation": "Echo Cancellation",
+			"echo_cancellation_subtext": "Enable to help cancel out some slight echo & feedback from your mic.",
+			"input_default_text": "Default Microphone",
+			"input_heading": "Audio Input Device",
+			"input_subtext": "Select which input device you'd like people to hear your silky smooth voice from.",
+			"label": "Audio",
+			"noise_suppresion": "",
+			"noise_suppresion_subtext": "",
+			"noise_supression": "Noise Suppression",
+			"noise_supression_subtext": "Enable to help hide background noise in your environment.",
+			"opus": "Satellite uses the Opus Codec, and open source audio codec.",
+			"sample_size": "Sample Size",
+			"sample_size_subtext": "A higher sample size will give you a broader dynamic range of audio. Higher samples will require better connection speeds.",
+			"screen-share": "Screen Share",
+			"video": "Video",
+			"video_default_text": "Default Webcam",
+			"video_heading": "Video Input Device",
+			"video_subtext": "Select which video device you'd like to share your beautiful smile from."
+		},
+		"contracts": {
+			"audit_disclaimer": "These are Alpha contracts and have not been audited yet <br /> It's worth noting these contracts are built to be functional proof of concepts, not performant, and will be re-written pre beta.",
+			"dweller": "Dweller",
+			"friends": "Friends",
+			"heading": "Browse Contracts",
+			"label": "Contracts",
+			"registry": "Registry",
+			"server": "Server"
+		},
+		"encryption": {
+			"heading": "Public / Private Keys",
+			"hover_to_reveal": "hover to reveal",
+			"label": "Encryption &amp; Keys",
+			"private_key": "Private Key",
+			"public_key": "Public Key",
+			"regenerate_keys": "Regenerate Keys",
+			"subtext": "Messages are encrypted with a public and private key. You can reveal your keys below. <b>DO NOT</b> share your private key with others."
+		},
+		"h_accounts": "Accounts & Devices",
+		"h_audiovideo": "Audio & Video",
+		"h_balance": "Balance",
+		"h_contracts": "Contracts",
+		"h_encryption": "Encryption",
+		"h_general": "General",
+		"h_information": "Information",
+		"h_keybinds": "Keybinds",
+		"h_network": "Network",
+		"h_networks": "Networks & Security",
+		"h_payments": "Payments",
+		"h_personalize": "Personalize",
+		"h_profile": "Profile",
+		"h_storage": "Storage",
+		"h_transactions": "Transactions",
+		"h_transfers": "Transfers",
+		"keybinds": {
+			"call": "Call Active Window",
+			"heading": "Default Keybinds",
+			"label": "Keybinds",
+			"subtext": "Below are a list of the current keybinds, right now they are not configurable.",
+			"toggle_deafen": "Toggle Deafen",
+			"toggle_mute": "Toggle Mute",
+			"toggle_settings": "Open Settings"
+		},
+		"logo": "Settings",
+		"network": {
+			"heading": "Web3 Provider",
+			"label": "Network",
+			"subtext": "A Web3 provider is simply the way you chose to interact with the blockchain. For most people <b>Default</b> is fine."
+		},
+		"personalize": {
+			"appearance": "Appearance",
+			"enable_notifications": "Enable notifications",
+			"language": "Language",
+			"language_heading": "Language",
+			"language_subtext": "Choose your preferred language from the list below.",
+			"notifications_enabled": "Notifications Enabled!",
+			"notifications_heading": "Notifications",
+			"notifications_subtext": "Click to enable notifications with Satellite for a better experience.",
+			"permissions": "Permissions",
+			"theme_heading": "Theme",
+			"theme_subtext": "Change up the theme and stay easy on the eyes with Satellite."
+		},
+		"profile": {
+			"account_address": "Account Address",
+			"change_photo": "Change Photo",
+			"change_username": "Change Username",
+			"confirm_transaction": "Please confirm transaction...",
+			"confirming_transaction": "Confirming Transaction",
+			"copy_address": "Copy Address",
+			"create_account": "Create Account",
+			"creating_transaction": "Creating Transaction",
+			"disclaimer": "Your profile is stored on an Ethereum Smart Contract. A decentralized transfer protocol free from fraudulent manipulation.",
+			"display_name": "Display Name",
+			"dweller_address": "Dweller Address",
+			"dweller_owner_address": "Dweller Owner Address",
+			"edit_account": "Edit Account",
+			"edit_account_subtext": "Browse your account info, and make changes.",
+			"edit_profile": "Edit Profile",
+			"heading": "Identification",
+			"id_card": "This is like your ID card, share this with friends so they can add you.",
+			"label": "Profile",
+			"last_step": "Last Steps!",
+			"name": "Name",
+			"photo_hash": "Photo Hash",
+			"profile_pic": "Profile Picture (Optional)",
+			"recovery_phrase_desc": "Please store this phrase somewhere safe. The order of the words is critical. Satellite can not help you recover your account if you lose this.",
+			"recovery_phrase_title": "Recovery Phrase",
+			"remove_photo": "Remove Photo",
+			"sending_transaction": "Sending Transaction",
+			"show-phrase": "Show Me the Phrase",
+			"status": "Choose a custom status",
+			"step1": "Awaiting transaction approval.",
+			"step2": "Please wait while your transaction is sent...",
+			"step3": "Don't Leave! we're waiting for a confirmation...",
+			"step4": "We're just taking care of some last minute things...",
+			"subtext": "Go ahead and choose a profile picture. Also let us know what we should call you.",
+			"transfer_data": "Transfer Data",
+			"upload_profile_pic": "Upload Profile Picture",
+			"uploading_ipfs": "Uploading to IPFS...",
+			"username": "Username",
+			"your_account": "Your Account",
+			"your_account_subtext": "Browse your account info, and make changes.",
+			"your_badges": "Your Badges"
+		},
+		"storage": {
+			"clear_data": "Clear Local Data",
+			"data_heading": "Clear Data",
+			"data_subtext": "Quickly clean up locally stored data, please be aware doing so will clear your stored files, message history, and more.",
+			"data_subtext_two": "Only do this if you know the repercussions.",
+			"database_heading": "Enable Database",
+			"database_label": "Database",
+			"export_ls_button": "Export Storage",
+			"export_ls_heading": "Export Local Storage",
+			"export_ls_subtext": "Export your Local Storage to move to another browser.",
+			"lfs_heading": "Large File Storage",
+			"lfs_request": "Request Storage Permissions",
+			"lfs_subtext": "Click to enable large file storage, this will allow you to upload very large files and keep more message history cached.",
+			"storage_label": "Storage",
+			"threadDB": "Satellite utilizes Texile's ThreadDB, a decentralized database, to store your data.",
+			"threadDB_data_id": "Your Data ID",
+			"threadDB_data_id_text": "Your data ID references all the data stored in the app. Save this somewhere save to transfer your data to another browser.",
+			"threadDB_enable": "Enable <b>ThreadDB</b>, a decentralized database used to receive offline messaging and unlock additional features.<br>Your data is stored on a distributed network and none of that data passes through us.",
+			"threadDB_learn_more": "You can learn more about them here:"
+		}
+	},
+	"sidebar": {
+		"add_friends": "Hey! Add some more friends to chat",
+		"button": "Add Friends",
+		"chats": "Chats",
+		"controls": {
+			"connected_to": "Connected to {network}",
+			"media_stream_active": "Media stream active, click to view",
+			"media_stream_inactive": "No active media stream",
+			"peer_broker_offline": "Peer Broker Offline",
+			"status": "Super awesome status..."
+		},
+		"files": "Files",
+		"find": "Search Satellite.im...",
+		"friends": "Friends",
+		"groups": "Groups",
+		"quickfriends": {
+			"add_some_friends": "Add some friends to chat.",
+			"chat_with_friends": "Chat With Friends",
+			"no_friends_yet": "You haven't added any friends yet.",
+			"no_results": "No results found.",
+			"search_placeholder": "Find Friend..."
+		}
+	},
+	"stickers": {
+		"buy-button-free": "Free",
+		"buy-button-loading": "Transmitting",
+		"buy-button-text": "Buy",
+		"get-some-stickers": "Get Some!",
+		"get-stickers": "Get Glyphs",
+		"my-stickers": "My Glyphs",
+		"no-stickers": "You don't have any glyphs yet.",
+		"verified-sticker": "Verified Glyph"
+	},
+	"unlock": {
+		"AES_encryption": "Pin stored with AES encryption using Web Crypto.",
+		"create_encryption_pin": "Create Encryption Pin",
+		"create_encryption_pin_subtext": "This is like your password, chose something safe.",
+		"decrypt_account": "Decrypt Account",
+		"pin_placeholder": "alphanumeric pin...",
+		"stay_logged": "Store Pin? (Less Secure)"
+	},
+	"update-check": {
+		"update": "Update"
+	},
+	"voice_video": {
+		"disconnect": "End",
+		"switch_video": "Switch to Video",
+		"switch_voice": "Switch to Voice"
+	},
+	"wallet": {
+		"copy-account-id": "Copy Account ID",
+		"early-access-warning": "Wallet Coming Soon",
+		"early-access-warning-do-not-send-real-funds": "Do not send real funds to your address.",
+		"scan": "SCAN",
+		"token-balances": "Token Balances",
+		"total-balance": "Total Balance (USD)"
+	},
+	"web3": {
+		"connecting": "Connecting to network...",
+		"provider_selection": {
+			"heading": "Pick Your Poison",
+			"subtext": "Choose the provider you want to use. Choosing Satellite.im will create a new wallet, just for you."
+		},
+		"provider_suggestion": "If you do not have a Ethereum provider installed, please consider installing MetaMask.",
+		"wallet_creation": {
+			"step": {
+				"generate": {
+					"heading": "Account creation",
+					"primary_cta": "Next",
+					"secondary_cta": "Back",
+					"subtext": "We're going to create a blockchain wallet for you. This wallet is your account, so be sure to back it up!"
+				},
+				"import": {
+					"heading": "Recover from mnemonic",
+					"primary_cta": "Recover",
+					"secondary_cta": "Back",
+					"subtext": "We're going to recover your wallet. Paste your mnemonic phrase and click on the recover button!"
+				},
+				"initial": {
+					"heading": "Account creation",
+					"primary_cta": "Next",
+					"secondary_cta": "Import",
+					"subtext": "We're going to create a blockchain wallet for you. This wallet is your account, so be sure to back it up!"
+				},
+				"seedcheck": {
+					"heading": "Phrase check",
+					"primary_cta": "Next",
+					"secondary_cta": "Back",
+					"subtext": "Write the missing words in the right position before to continue"
+				},
+				"showseed": {
+					"heading": "Recovery phrase",
+					"primary_cta": "I Saved Them",
+					"secondary_cta": "Back",
+					"subtext": "Please store these words somewhere safe so you can recover your account in the future."
+				}
+			}
+		}
+	}
 }

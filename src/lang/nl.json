@@ -1,209 +1,561 @@
 {
-    "global": {
-        "address": "Adres",
-        "view_full_size": "In volledige grote bekijken",
-        "external_link_title": "Externe link",
-        "external_link_text": "U staat op het punt de app te verlaten, wilt u doorgaan?",
-        "continue": "Doorgaan",
-        "nevermind": "Laat maar zitten",
-        "view_all_achievements": "Alle prestaties bekijken",
-        "not_yet_implemented": "Nog niet geïmplementeerd",
-        "view_on_etherscan": "Bekijk op blockchain-verkenner",
-        "accept": "Accepteren",
-        "deny": "Weigeren",
-        "default": "Standaard"
-    },
-    "dates": {
-        "month_names": {
-            "0": "Januari",
-            "1": "February",
-            "2": "Maart",
-            "3": "April",
-            "4": "Mei",
-            "5": "Juni",
-            "6": "Juli",
-            "7": "Augustus",
-            "8": "September",
-            "9": "Oktober",
-            "10": "November",
-            "11": "December"
-        }
-    },
-    "dwellerid": {
-        "badges": "Kentekens",
-        "status": "Status",
-        "actions": "Acties",
-        "send_message": "Stuur bericht",
-        "account_age": "Account leeftijd",
-        "address": "Dweller ID Adres",
-        "view_contract": "Dweller ID Contract bekijken",
-        "view_address": "Dweller Adres kopiëren"
-    },
-    "file": {
-        "removed": "Bestand weggehaald",
-        "unpinned": "Bestand losgemaakt, bestand word binnekort weggehaald.",
-        "file": "Bestand",
-        "files": "Bestanden"
-    },
-    "fileupload": {
-        "heading": "Bestand uploaden",
-        "description": "Bestanden worden geupload naar het InterPlanetary bestandssyteem.",
-        "select": "Kies een bestand",
-        "chosefile": "Upload een bestand",
-        "file": "Bestand",
-        "link": "IPFS Link",
-        "uploading": "Aan het uploaden naar IPFS...",
-        "waiting": "Authenticeren...",
-        "send": "Bestand versturen",
-        "button_uploading": "Aan het uploaden...",
-        "button_done": "Verstuur",
-        "button_upload_another": "Nog een bestand uploaden",
-        "aiscan": "Onze AI is uw afbeelding aan het scannen"
-    },
-    "loading": {
-        "connecting_blockchain": "Met de blockhain aan het verbinden...",
-        "assembling": "De bijenkorf in elkaar aan het zetten...",
-        "authenticating": "Aan het authenticeren bij Textile.io",
-        "connecting_broker": "Aan het verbinden met 0.satellite.im...",
-        "long_load": "Dit duurt bovengemiddeld lang, heeft u <a href=\"{link}\" target=\"{target}\">{text}</a> geinstalleerd?",
-        "other_tab": "Nogsteeds aan het laden? Sattelite is misschien open in een ander tabblad.",
-        "something_wrong": "Er is mogelijk iets mis gegaan,",
-        "buckets": "Buckets laden...",
-        "retry": "Opnieuw proberen?",
-        "generic": "Bijna klaar...",
-        "textile": "Aan het wachten op Textile.io...",
-        "alpha": "Dit product is in alpha, gebruik alstublieft Goerli Testnet!",
-        "failure-to-load": "Laden gefaald",
-        "retry-button": "Opnieuw proberen?"
-    },
-    "files": {
-        "heading": "Bestanden",
-        "subtext": "Blader door bestanden die u heeft gedeeld met andere gebruikers en upload nieuwe bestanden naar IPFS.",
-        "upload": "Upload bestanden",
-        "your_files": "Uw bestanden",
-        "your_files_subtext": "Onderstaand is een lijst van alle bestanden die u heeft geupload.",
-        "loading": "Bestanden aan het laden...",
-        "history": "Bestandsgeschiedenis",
-        "usage": "Gebruik",
-        "copy-link": "Link kopiëren",
-        "open-file": "Bestand openen",
-        "remove-file": "Bestand weghalen",
-        "removing-file": "Bestand word weggehaald"
-    },
-    "friends": {
-        "heading": "Vrienden",
-        "subtext": "Zoek connectie met andere mensen op het Sattelite platform.",
-        "find_someone": "Iemand zoeken",
-        "add_a_friend": "Een vriend toevoegen",
-        "enter_address": "Voer een vriend zijn Ethereum adres hieronder in om hem/haar te vinden...",
-        "add_friend": "Voeg vriend toe",
-        "found_someone": "We hebben iemand gevonden",
-        "chat": "Ga chatten",
-        "your_friends": "Uw vrienden",
-        "start_chat": "Begin een gesprek met uw vrienden hieronder, wees lief, of niet. Wij oordelen niet.",
-        "no_friends": "Oeps, u heeft nog geen vrienden. Wij zullen uw vriend zijn, maar u kunt ook hierboven meer vrienden toevoegen.",
-        "search_placeholder": "Vind vriend...",
-        "search": "Zoek",
-        "your_address": "Uw adres",
-        "your_address_desc": "Deel dit adres zodat uw vrienden u toe kunnen voegen.",
-        "add-quickly": "Voeg snel toe",
-        "share": "DEEL",
-        "scan": "SCAN",
-        "enter-friends-address": "Voer het adres van uw vriend in",
-        "requests": {
-            "heading": "Vriendschapsverzoeken",
-            "incoming": "Inkomend verzoek",
-            "outgoing": "Uitgaand verzoek",
-            "loading": "Verzoeken aan het laden...",
-            "no-outgoing": "Geen uitgaande verzoeken",
-            "no-incoming": "Geen inkomende verzoeken",
-            "updating": "Verzoeken aan het verversen...",
-            "sending": "Verzoek aan het sturen..."
-        }
-    },
-    "voice_video": {
-        "switch_video": "Wisselen naar video",
-        "switch_voice": "Wisselen naar audio",
-        "disconnect": "Verbinding verbreken"
-    },
-    "main": {
-        "heading": "Opstijgen!",
-        "subtext_one": "U bent in baan en klaar om te vertrekken.",
-        "subtext_two": "Voeg wat vrienden toe en begin te praten, delen en streamen",
-        "button": "Voeg vrienden toe"
-    },
-    "PWA": {
-        "prompt_title": "Installeer Satellite",
-        "promt_desc": "Installeer snel onze app op uw telefoon voor een vloeiende ervaring, het is echt heel makkelijk!",
-        "just_tap": "Gewoon klikken",
-        "add-to-homescreen": "Dan 'Voeg toe aan startscherm'",
-        "add-to-screen": "Dan 'voeg toe aan scherm'",
-        "unsure-device-type": "We zijn niet zeker van welk apparaat u gebruikt, zoek op 'Hoe voeg ik een website toe aan mijn startscherm op een [apparaat]' voor instructies als u bent geintresseerd in het installeren van onze app"
-    },
-    "settings": {
-        "logo": "Instellingen",
-        "h_general": "Algemeen",
-        "h_personalize": "Personalisatie",
-        "h_profile": "Profiel",
-        "h_audiovideo": "Beeld & geluid",
-        "h_keybinds": "Sneltoetsen",
-        "h_accounts": "Accounts & apparaten",
-        "h_networks": "Netwerken & veiligheid",
-        "h_encryption": "Encryptie",
-        "h_storage": "Opslag",
-        "h_network": "Netwerk",
-        "h_transactions": "Transacties",
-        "h_payments": "Betalingen",
-        "h_transfers": "Overdrachten",
-        "h_balance": "Balans",
-        "h_information": "Informatie",
-        "h_contracts": "Contracten",
-        "accounts": {
-            "label": "Accounts",
-            "heading": "Huidig account",
-            "subtext": "Selecteer het Ethereum account waar u standaard transacties op wilt maken.",
-            "balance": "Balans",
-            "gas_price": "Gasprijs",
-            "gas_price_desc": "Hogere gasprijzen worden sneller afgehandeld",
-            "devices": "Apparaten",
-            "connected_devices": "Verbonden apparaten",
-            "none": "Geen externe portemonnees verbonden"
-        },
-        "audio_video": {
-            "label": "Geluid",
-            "input_heading": "Selecteer welk invoerapparaat u wilt dat mensen uw zijdezacht stem van horen.",
-            "input_default_text": "Standaard microfoon",
-            "audio_output": "Geluidsuitvoer apparaat",
-            "audio_output_subtext": "Selecteer het apparaat dat u wilt dat geluid aan uw oren levert.",
-            "audio_output_default": "Standaard geluidsuitvoer",
-            "audio_bitrate": "Geluids bitrate",
-            "audio_bitrate_subtext": "Met een hogere bitrate is de audio die u verstuurt van een hogere kwaliteit, het verlagen van de bitrate kan helpen op langzame internetverbindingen.",
-            "sample_size": "Sample size",
-            "sample_size_subtext": "Een hogere sample size geeft u een beter geluidsspectrum. Hogere sample sizes vereisen een betere internetverbinding.",
-            "echo_cancellation": "Echo annulering",
-            "echo_cancellation_subtext": "Dit helpt om echo weg te halen",
-            "noise_suppresion": "Geluidsonderdrukking",
-            "noise_suppresion_subtext": "Dit helpt om achtergrondgeluid uit uw omgeving weg te filteren.",
-            "opus": "Sattelite gebruikt de Opus codec, een open-source geluidscodec.",
-            "video": "Beeld",
-            "video_heading": "Selecteer beeldinvoer apparaat",
-            "video_subtext": "Kies welk apparaat u uw fraaie lach van wilt delen.",
-            "video_default_text": "Standaard webcam",
-            "screen-share": "Scherm delen",
-            "capture-mouse": "Muis opnemen",
-            "capture-mouse-info": "Wilt u uw muis delen in schermdeelsessies?",
-            "capture-mouse-always": "Altijd opnemen",
-            "capture-mouse-movement": "Openemen bij beweging",
-            "capture-mouse-never": "Muis nooit opnemen"
-        },
-        "keybinds": {
-            "label": "Sneltoetsen",
-            "heading": "Standaard sneltoetsen",
-            "subtext": "Onderstaand is een lijst van de huidige sneltoetsen, momenteel zijn deze niet aanpasbaar",
-            "toggle_mute": "Dempen schakelen",
-            "toggle_deafen": "Doof schakelen",
-            "toggle_settings": "Instellingen openen",
-            "call": "Huidige window bellen"
-        }
-    }
+	"PWA": {
+		"add-to-homescreen": "Dan 'Voeg toe aan startscherm'",
+		"add-to-screen": "Dan 'voeg toe aan scherm'",
+		"just-tap": "Gewoon klikken",
+		"just_tap": "",
+		"prompt_desc": "Installeer onze app snel op uw telefoon voor de beste ervaring, het is heel eenvoudig!",
+		"prompt_title": "Installeer Satellite",
+		"promt_desc": "",
+		"unsure-device-type": "We zijn niet zeker van welk apparaat u gebruikt, zoek op 'Hoe voeg ik een website toe aan mijn startscherm op een [apparaat]' voor instructies als u bent geintresseerd in het installeren van onze app"
+	},
+	"alpha_release": {
+		"warning": "Pas op, deze versie is in alpha. <strong>Berichten zijn nog niet versleuteld</strong>. Dit product is nog niet af en er kunnen bugs zijn. Functies worden nog op volle vaart toegevoegd en veranderd, gebruik deze software daarom alleen op een <strong>Testnet</strong> tot de beta is afgelopen."
+	},
+	"context": {
+		"actions": "Acties",
+		"devtools": "Open ontwikelaarsgereedschappen",
+		"reload": "Opnieuw laden"
+	},
+	"conversation": {
+		"chatbar": {
+			"characters_left": "{characters} Tekens over",
+			"not-implemented": "Nog niet geïmplementeerd",
+			"pick_emoji": "Kies een emoji...",
+			"securely_message": "Bericht {name}...",
+			"typing": "is aan het typen"
+		},
+		"conversation": {
+			"fetching_messages": "We halen de data op van IPFS...",
+			"invite": "Nodig {name}uit",
+			"invite_offline": "Nodig {name} uit om offline berichten te sturen.",
+			"loading_convorstaion": "Berichten aan het laden",
+			"must_be_online": "{name} moet online zijn.",
+			"no_conversation_heading": "Het is erg stil",
+			"no_conversation_subtext": "Zeg iets om het gesprek te beginnen."
+		},
+		"encrypted": "Berichten worden versleuteld met eind-naar-eind codering.",
+		"infobar": {
+			"search_placeholder": "Zoeken in gesprek..."
+		},
+		"message": {
+			"address": {
+				"external_link_text": "Klik om te bekijken op Etherscan.io"
+			},
+			"audio": {
+				"not_supported": "Uw browser ondersteunt het <code>audio</code> element niet"
+			},
+			"call": {
+				"incoming": "U word gebeld, maak je klaar!",
+				"started": "Oproep gestart"
+			},
+			"message_body": {
+				"call_started": "{name} heeft een oproep gestart...",
+				"lost_keys": "Sleutels zijn gewijzigd of ontbreken, ontsleutelen gefaald",
+				"not_encrypted": "Niet versleuteld"
+			},
+			"offline_chat": {
+				"enable": "Schakel offline chatten in",
+				"enabled": "Offline chatten ingeschakeld",
+				"heading": "Schakel offline chatten in",
+				"text": "Stuur een bericht naar {name} terwijl ze offline zijn"
+			},
+			"video": {
+				"not_supported": "Uw browser ondersteunt het <code>video</code> element niet"
+			}
+		},
+		"userinfo": {
+			"badges": "Kentekens",
+			"heading": "Gebruikersdetails",
+			"notes": "Aantekeningen",
+			"notes_placeholder": "voer enkele notities in..."
+		},
+		"voicevideo": {
+			"disconnect": "Verbinding verbreken",
+			"switch_to_video": "Wisselen naar video",
+			"switch_to_voice": "Wisselen naar spraak"
+		}
+	},
+	"dates": {
+		"month_names": [
+			"Januari",
+			"February",
+			"Maart",
+			"April",
+			"Mei",
+			"Juni",
+			"Juli",
+			"Augustus",
+			"September",
+			"Oktober",
+			"November",
+			"December"
+		]
+	},
+	"dwellerid": {
+		"account_age": "Account leeftijd",
+		"actions": "Acties",
+		"address": "Dweller ID Adres",
+		"badges": "Kentekens",
+		"send_message": "Stuur bericht",
+		"status": "Status",
+		"view_address": "Dweller Adres kopiëren",
+		"view_contract": "Dweller ID Contract bekijken"
+	},
+	"file": {
+		"file": "Bestand",
+		"files": "Bestanden",
+		"removed": "Bestand weggehaald",
+		"unpinned": "Bestand losgemaakt, bestand word binnekort weggehaald."
+	},
+	"file_context": {
+		"actions": "Bestand acties",
+		"copy_id": "Kopieer ID",
+		"copy_link": "Kopieer link",
+		"open": "Open bestand"
+	},
+	"files": {
+		"copy-link": "Link kopiëren",
+		"heading": "Bestanden",
+		"history": "Bestandsgeschiedenis",
+		"loading": "Bestanden aan het laden...",
+		"open-file": "Bestand openen",
+		"remove-file": "Bestand weghalen",
+		"removing-file": "Bestand word weggehaald",
+		"subtext": "Blader door bestanden die u heeft gedeeld met andere gebruikers en upload nieuwe bestanden naar IPFS.",
+		"upload": "Upload bestanden",
+		"usage": "Gebruik",
+		"your_files": "Uw bestanden",
+		"your_files_subtext": "Onderstaand is een lijst van alle bestanden die u heeft geupload."
+	},
+	"fileupload": {
+		"aiscan": "Onze AI is uw afbeelding aan het scannen",
+		"button_done": "Verstuur",
+		"button_upload_another": "Nog een bestand uploaden",
+		"button_uploading": "Aan het uploaden...",
+		"chosefile": "Upload een bestand",
+		"description": "Bestanden worden geupload naar het InterPlanetary bestandssyteem.",
+		"file": "Bestand",
+		"heading": "Bestand uploaden",
+		"link": "IPFS Link",
+		"select": "Kies een bestand",
+		"send": "Bestand versturen",
+		"uploading": "Aan het uploaden naar IPFS...",
+		"waiting": "Authenticeren..."
+	},
+	"footer": {
+		"account": "Account",
+		"block_number": "Blockchain nummer",
+		"connecting": "Aan het verbinden",
+		"network": "Netwerk",
+		"p2p": "P2P"
+	},
+	"friends": {
+		"add-quickly": "Voeg snel toe",
+		"add_a_friend": "Een vriend toevoegen",
+		"add_friend": "Voeg vriend toe",
+		"chat": "Ga chatten",
+		"enter-friends-address": "Voer het adres van uw vriend in",
+		"enter_address": "Voer een vriend zijn Ethereum adres hieronder in om hem/haar te vinden...",
+		"find_someone": "Iemand zoeken",
+		"found_someone": "We hebben iemand gevonden",
+		"heading": "Vrienden",
+		"no_friends": "Oeps, u heeft nog geen vrienden. Wij zullen uw vriend zijn, maar u kunt ook hierboven meer vrienden toevoegen.",
+		"requests": {
+			"heading": "Vriendschapsverzoeken",
+			"incoming": "Inkomend verzoek",
+			"loading": "Verzoeken aan het laden...",
+			"no-incoming": "Geen inkomende verzoeken",
+			"no-outgoing": "Geen uitgaande verzoeken",
+			"outgoing": "Uitgaand verzoek",
+			"sending": "Verzoek aan het sturen...",
+			"updating": "Verzoeken aan het verversen..."
+		},
+		"scan": "SCAN",
+		"search": "Zoek",
+		"search_placeholder": "Vind vriend...",
+		"share": "DEEL",
+		"start_chat": "Begin een gesprek met uw vrienden hieronder, wees lief, of niet. Wij oordelen niet.",
+		"subtext": "Zoek connectie met andere mensen op het Sattelite platform.",
+		"your_address": "Uw adres",
+		"your_address_desc": "Deel dit adres zodat uw vrienden u toe kunnen voegen.",
+		"your_friends": "Uw vrienden"
+	},
+	"fund-account": {
+		"account-funded-message": "Uw account is gefinancierd, u kunt spoeding vedergaan.",
+		"fund-account-message": " Deze is van het huis. We financieren uw account met tokens om u op weg te helpen.",
+		"heading": "Uw account aan het financieren"
+	},
+	"global": {
+		"accept": "Accepteren",
+		"address": "Adres",
+		"continue": "Doorgaan",
+		"default": "Standaard",
+		"deny": "Weigeren",
+		"external_link_text": "U staat op het punt de app te verlaten, wilt u doorgaan?",
+		"external_link_title": "Externe link",
+		"nevermind": "Laat maar zitten",
+		"not_yet_implemented": "Nog niet geïmplementeerd",
+		"view_all_achievements": "Alle prestaties bekijken",
+		"view_full_size": "In volledige grote bekijken",
+		"view_on_etherscan": "Bekijk op blockchain-verkenner"
+	},
+	"languages": {
+		"de": "",
+		"en_UK": "Engels (VK)",
+		"en_US": "Engels (VS)",
+		"fr": "Frans",
+		"hi": "Hindi",
+		"hy": "Armeens",
+		"it": "Italiaans",
+		"ru": "Russisch"
+	},
+	"loading": {
+		"alpha": "Dit product is in alpha, gebruik alstublieft Goerli Testnet!",
+		"assembling": "De bijenkorf in elkaar aan het zetten...",
+		"authenticating": "Aan het authenticeren bij Textile.io",
+		"buckets": "Buckets laden...",
+		"connecting_blockchain": "Met de blockhain aan het verbinden...",
+		"connecting_broker": "Aan het verbinden met 0.satellite.im...",
+		"failure-to-load": "Laden gefaald",
+		"generic": "Bijna klaar...",
+		"long_load": "Dit duurt bovengemiddeld lang, heeft u <a href=\"{link}\" target=\"{target}\">{text}</a> geinstalleerd?",
+		"other_tab": "Nogsteeds aan het laden? Sattelite is misschien open in een ander tabblad.",
+		"retry": "Opnieuw proberen?",
+		"retry-button": "Opnieuw proberen?",
+		"something_wrong": "Er is mogelijk iets mis gegaan,",
+		"textile": "Aan het wachten op Textile.io..."
+	},
+	"main": {
+		"button": "Voeg vrienden toe",
+		"heading": "Opstijgen!",
+		"subtext_one": "U bent in baan en klaar om te vertrekken.",
+		"subtext_two": "Voeg wat vrienden toe en begin te praten, delen en streamen"
+	},
+	"message_context": {
+		"actions": "Bericht acties",
+		"copy": "Kopieer tekst",
+		"copy_id": "Kopieer ID",
+		"edit": "Bewerk bericht",
+		"speak": "Spreek bericht uit"
+	},
+	"mobile-nav": {
+		"files": "Bestanden",
+		"friends": "Vrienden",
+		"home": "Homepagina",
+		"settings": "Instellingen",
+		"wallet": "Portemonnee"
+	},
+	"payments": {
+		"balance": "Saldo",
+		"button": "Verstuur",
+		"pay-label": "Betaal",
+		"prices_disclaimer": "- Prijzen van CoinCap.io",
+		"send": "Verzend {amount} {symbol} ${dollar_equivalent}"
+	},
+	"popups": {
+		"calling": {
+			"is_calling_you": "is u aan het bellen..."
+		},
+		"error": {
+			"confirm": "Ok",
+			"line": "Regelnummer",
+			"source": "Bron",
+			"text": "U bent een bug tegengekomen, als u deze wil melden staat alle informatie die u mee moet geven hieronder.",
+			"title": "Dat is een bug.",
+			"user_agent": "User Agent"
+		}
+	},
+	"qr-scan": {
+		"adding-friend-label": "Uw vrienden scannen mij",
+		"scan-qr-code": "Scan een QR-code"
+	},
+	"security-mask": {
+		"content-hidden-message": "Inhoud verborgen voor uw veiligheid.",
+		"content-redacted": "Inhoud geredigeerd"
+	},
+	"servers": {
+		"create": {
+			"confirm_transaction": "We zijn uw nieuwe server aan het opzetten, bevestig alstublieft eventuele transacties.",
+			"create_server": "Maak een server aan",
+			"done": "Dingen aan het afronden...",
+			"heading": "Maak een server aan",
+			"photo_button": "Kies een foto",
+			"photo_text": "Geef uw server een gezicht, kies een makkelijk te onthouden foto om aan de leden te laten zien.",
+			"server_name": "Voer de servernaam in",
+			"server_name_placeholder": "Server naam...",
+			"waiting_server_confirmation": "We wachten op de server om te bevestigen...",
+			"writing_additional_details": "Aanvullende servergegevens aan het schrijven..."
+		},
+		"server": "Server",
+		"server-conversation": "Servergesprek",
+		"server-quick-actions": "Snelle acties",
+		"users": "Gebruikers"
+	},
+	"settings": {
+		"accounts": {
+			"balance": "Balans",
+			"connected_devices": "Verbonden apparaten",
+			"devices": "Apparaten",
+			"gas_price": "Gasprijs",
+			"gas_price_desc": "Hogere gasprijzen worden sneller afgehandeld",
+			"heading": "Huidig account",
+			"label": "Accounts",
+			"none": "Geen externe portemonnees verbonden",
+			"subtext": "Selecteer het Ethereum account waar u standaard transacties op wilt maken."
+		},
+		"audio_video": {
+			"audio_bitrate": "Geluids bitrate",
+			"audio_bitrate_subtext": "Met een hogere bitrate is de audio die u verstuurt van een hogere kwaliteit, het verlagen van de bitrate kan helpen op langzame internetverbindingen.",
+			"audio_output": "Geluidsuitvoer apparaat",
+			"audio_output_default": "Standaard geluidsuitvoer",
+			"audio_output_subtext": "Selecteer het apparaat dat u wilt dat geluid aan uw oren levert.",
+			"capture-mouse": "Muis opnemen",
+			"capture-mouse-always": "Altijd opnemen",
+			"capture-mouse-info": "Wilt u uw muis delen in schermdeelsessies?",
+			"capture-mouse-movement": "Openemen bij beweging",
+			"capture-mouse-never": "Muis nooit opnemen",
+			"echo_cancellation": "Echo annulering",
+			"echo_cancellation_subtext": "Dit helpt om echo weg te halen",
+			"input_default_text": "Standaard microfoon",
+			"input_heading": "Audio-invoerapparaat",
+			"input_subtext": "Selecteer welk invoerapparaat u wilt dat mensen uw zijdezacht stem van horen.",
+			"label": "Geluid",
+			"noise_suppresion": "",
+			"noise_suppresion_subtext": "",
+			"noise_supression": "Geluidsonderdrukking",
+			"noise_supression_subtext": "Dit helpt om achtergrondgeluid uit uw omgeving weg te filteren.",
+			"opus": "Sattelite gebruikt de Opus codec, een open-source geluidscodec.",
+			"sample_size": "Sample size",
+			"sample_size_subtext": "Een hogere sample size geeft u een beter geluidsspectrum. Hogere sample sizes vereisen een betere internetverbinding.",
+			"screen-share": "Scherm delen",
+			"video": "Beeld",
+			"video_default_text": "Standaard webcam",
+			"video_heading": "Selecteer beeldinvoer apparaat",
+			"video_subtext": "Kies welk apparaat u uw fraaie lach van wilt delen."
+		},
+		"contracts": {
+			"audit_disclaimer": "Dit zijn alfacontracten en zijn nog niet gecontrolleerd <br /> Het is vermeldenswaardig dat deze contracten gemaakt zijn als functioneel bewijs van concept, niet om gebruikt te worden, ze zullen worden herschreven in de pre-beta.",
+			"dweller": "Dweller",
+			"friends": "Vrienden",
+			"heading": "Bladeren door de contracten",
+			"label": "Contracten",
+			"registry": "Register",
+			"server": "Server"
+		},
+		"encryption": {
+			"heading": "Openbare / privésleutels",
+			"hover_to_reveal": "hover om te onthullen",
+			"label": "Versleuteling &amp; Sleutels ",
+			"private_key": "privesleutel",
+			"public_key": "Publieke sleutel",
+			"regenerate_keys": "Regenereer sleutels",
+			"subtext": "Berichten worden versleuteld met een openbare en privésleutel. U kunt uw sleutels hieronder onthullen. Deel uw privésleutel <b>NIET</b> met anderen."
+		},
+		"h_accounts": "Accounts & apparaten",
+		"h_audiovideo": "Beeld & geluid",
+		"h_balance": "Balans",
+		"h_contracts": "Contracten",
+		"h_encryption": "Encryptie",
+		"h_general": "Algemeen",
+		"h_information": "Informatie",
+		"h_keybinds": "Sneltoetsen",
+		"h_network": "Netwerk",
+		"h_networks": "Netwerken & veiligheid",
+		"h_payments": "Betalingen",
+		"h_personalize": "Personalisatie",
+		"h_profile": "Profiel",
+		"h_storage": "Opslag",
+		"h_transactions": "Transacties",
+		"h_transfers": "Overdrachten",
+		"keybinds": {
+			"call": "Huidige window bellen",
+			"heading": "Standaard sneltoetsen",
+			"label": "Sneltoetsen",
+			"subtext": "Onderstaand is een lijst van de huidige sneltoetsen, momenteel zijn deze niet aanpasbaar",
+			"toggle_deafen": "Doof schakelen",
+			"toggle_mute": "Dempen schakelen",
+			"toggle_settings": "Instellingen openen"
+		},
+		"logo": "Instellingen",
+		"network": {
+			"heading": "Web3 aanbieder",
+			"label": "Netwerk",
+			"subtext": "Een Web3 aanbieder is een makkelijke manier om contact te leggen met de blockchain. Voor de meeste mensen word <b>Default</b> aanbevolen."
+		},
+		"personalize": {
+			"appearance": "Uiterlijk",
+			"enable_notifications": "Notificaties aanzetten",
+			"language": "Taal",
+			"language_heading": "Taal",
+			"language_subtext": "Kies uw voorkeurstaal uit de onderstaande lijst.",
+			"notifications_enabled": "Meldingen ingeschakeld!",
+			"notifications_heading": "Meldingen",
+			"notifications_subtext": "Klik om meldingen met Satellite in te schakelen voor een betere ervaring.",
+			"permissions": "Machtigingen",
+			"theme_heading": "Thema",
+			"theme_subtext": "Verander het thema en laat uw ogen tot rust komen."
+		},
+		"profile": {
+			"account_address": "Accountadres",
+			"change_photo": "Verander foto",
+			"change_username": "Gebruikersnaam wijzigen",
+			"confirm_transaction": "Bevestig alstublieft de transactie...",
+			"confirming_transaction": "Transactie aan hetbevestigen",
+			"copy_address": "Adres kopiëren",
+			"create_account": "Maak een account aan",
+			"creating_transaction": "Transactie aan het creëren",
+			"disclaimer": "Uw profiel wordt opgeslagen op een Ethereum Smart Contract. Een gedecentraliseerd overdrachtsprotocol zonder frauduleuze manipulatie.",
+			"display_name": "Weergavenaam",
+			"dweller_address": "Dweller adres",
+			"dweller_owner_address": "Dweller eigenaarsadres",
+			"edit_account": "Bewerk account",
+			"edit_account_subtext": "Blader door uw accountgegevens en breng wijzigingen aan.",
+			"edit_profile": "Bewerk profiel",
+			"heading": "Identificatie",
+			"id_card": "Dit is net als je ID-kaart, deel deze met vrienden zodat ze je kunnen toevoegen.",
+			"label": "Profiel",
+			"last_step": "Laatste stappen!",
+			"name": "Naam",
+			"photo_hash": "Foto-hash",
+			"profile_pic": "Profielfoto (optioneel)",
+			"recovery_phrase_desc": "Bewaar deze zin op een veilige plaats. De volgorde van de woorden is cruciaal. Satellite kan u niet helpen uw account te herstellen als u deze zinenn kwijtraakt.",
+			"recovery_phrase_title": "Herstelzin",
+			"remove_photo": "Verwijder foto",
+			"sending_transaction": "Transactie aan het verzenden",
+			"show-phrase": "Laat me de zin zien",
+			"status": "Kies een aangepaste status",
+			"step1": "In afwachting van goedkeuring van de transactie.",
+			"step2": "Een ogenblik geduld, uw transactie word verzonden...",
+			"step3": "Ga niet weg! we wachten op een bevestiging...",
+			"step4": "We regelen alleen nog wat last-minute dingen...",
+			"subtext": "Ga je gang en kies een profielfoto. Laat ons ook weten hoe we u moeten noemen.",
+			"transfer_data": "Gegevensoverdracht",
+			"upload_profile_pic": "Upload profielfoto",
+			"uploading_ipfs": "Aan het uploaden naar IPFS...",
+			"username": "Gebruikersnaam",
+			"your_account": "Uw account",
+			"your_account_subtext": "Blader door uw accountgegevens en breng wijzigingen aan.",
+			"your_badges": "Uw kentekens"
+		},
+		"storage": {
+			"clear_data": "Wis lokale gegevens",
+			"data_heading": "Wis gegevens",
+			"data_subtext": "Ruim lokaal opgeslagen gegevens snel op, houd er rekening mee dat u hiermee uw opgeslagen bestanden, berichtgeschiedenis en meer wist.",
+			"data_subtext_two": "Doe dit alleen als u de gevolgen kent.",
+			"database_heading": "Database inschakelen",
+			"database_label": "Database",
+			"export_ls_button": "Opslag exporteren",
+			"export_ls_heading": "Exporteer lokale opslag",
+			"export_ls_subtext": "Exporteer uw lokale opslag om deze naar een andere browser te verplaatsen.",
+			"lfs_heading": "Grote bestandsopslag",
+			"lfs_request": "Verzoek opslagmachtigingen",
+			"lfs_subtext": "Klik om grote bestandsopslag in te schakelen, hierdoor kunt u zeer grote bestanden uploaden en meer berichtengeschiedenis in het cachegeheugen bewaren.",
+			"storage_label": "Opslagruimte",
+			"threadDB": "Satellite maakt gebruik van Texile's ThreadDB, een gedecentraliseerde database, om uw gegevens op te slaan.",
+			"threadDB_data_id": "Uw gegevens-ID",
+			"threadDB_data_id_text": "Uw data-ID verwijst naar alle gegevens die in de app zijn opgeslagen. Bewaar dit ergens op een veilige plaats om uw gegevens naar een andere browser over te brengen.",
+			"threadDB_enable": "Zet <b>ThreadDB</b> aan, een gedecentraliseerde database die gebruikt word voor het offline besturen van berichten en meer. <br>Uw data word opgeslagen over een verspreid netwerk en geen enkel deel van uw data gaat eerst langs ons.",
+			"threadDB_learn_more": "U kunt hier meer over hen te weten komen:"
+		}
+	},
+	"sidebar": {
+		"add_friends": "Hallo! Voeg nog wat vrienden toe aan de chat",
+		"button": "Vrienden toevoegen",
+		"chats": "Chats",
+		"controls": {
+			"connected_to": "Verbonden met {network}",
+			"media_stream_active": "Mediastream actief, klik om te bekijken",
+			"media_stream_inactive": "Geen actieve mediastream",
+			"peer_broker_offline": "Peer Broker offline",
+			"status": "Super geweldige status..."
+		},
+		"files": "Bestanden",
+		"find": "Zoeken binnen Satellite.im...",
+		"friends": "Vrienden",
+		"groups": "Groepen",
+		"quickfriends": {
+			"add_some_friends": "Voeg wat vrienden toe om mee te chatten.",
+			"chat_with_friends": "Chat met vrienden",
+			"no_friends_yet": "Je hebt nog geen vrienden toegevoegd.",
+			"no_results": "Geen resultaten gevonden.",
+			"search_placeholder": "Vind een vriend..."
+		}
+	},
+	"stickers": {
+		"buy-button-free": "Gratis",
+		"buy-button-loading": "Aan het verzenden",
+		"buy-button-text": "Kopen",
+		"get-some-stickers": "Krijg er een paar!",
+		"get-stickers": "Krijg stickers",
+		"my-stickers": "Mijn stickers",
+		"no-stickers": "Je hebt nog geen stickers.",
+		"verified-sticker": "Geverifieerde sticker"
+	},
+	"unlock": {
+		"AES_encryption": "Pin opgeslagen met AES-codering met behulp van Web Crypto.",
+		"create_encryption_pin": "Maak een coderingspin",
+		"create_encryption_pin_subtext": "Dit is net als uw wachtwoord, kies iets veiligs.",
+		"decrypt_account": "Account decoderen",
+		"pin_placeholder": "Alfanumerieke pin...",
+		"stay_logged": "Pin opslaan? (Minder veilig)"
+	},
+	"update-check": {
+		"update": "Updaten"
+	},
+	"voice_video": {
+		"disconnect": "Verbinding verbreken",
+		"switch_video": "Wisselen naar video",
+		"switch_voice": "Wisselen naar audio"
+	},
+	"wallet": {
+		"copy-account-id": "Kopieer account-ID",
+		"early-access-warning": "Portemonnee komt binnenkort",
+		"early-access-warning-do-not-send-real-funds": "Stuur geen echt geld naar uw adres.",
+		"scan": "Scannen",
+		"token-balances": "Tokensaldi",
+		"total-balance": "Totaal saldo (USD)"
+	},
+	"web3": {
+		"connecting": "Verbinding maken met netwerk...",
+		"provider_selection": {
+			"heading": "Kies je gif",
+			"subtext": "Kies de provider die u wilt gebruiken. Als u Satellite.im kiest, wordt er een nieuwe portemonnee gemaakt, speciaal voor u."
+		},
+		"provider_suggestion": "Als je geen Ethereum-provider hebt geïnstalleerd, overweeg dan om MetaMask te installeren.",
+		"wallet_creation": {
+			"step": {
+				"generate": {
+					"heading": "Account aan het aanmaken",
+					"primary_cta": "Volgende",
+					"secondary_cta": "Terug",
+					"subtext": "We gaan een blockchain-portemonnee voor je maken. Deze portemonnee is uw account, dus zorg ervoor dat u er een back-up van maakt!"
+				},
+				"import": {
+					"heading": "Herstel van geheugensteuntje",
+					"primary_cta": "Herstellen",
+					"secondary_cta": "Terug",
+					"subtext": "We gaan uw portemonnee herstellen. Plak je geheugensteuntje en klik op de herstelknop!"
+				},
+				"initial": {
+					"heading": "Account aan het aanmaken",
+					"primary_cta": "Volgende",
+					"secondary_cta": "Importeren",
+					"subtext": "We gaan een blockchain-portemonnee voor je maken. Deze portemonnee is uw account, dus zorg ervoor dat u er een back-up van maakt!"
+				},
+				"seedcheck": {
+					"heading": "Controlezin",
+					"primary_cta": "Volgende",
+					"secondary_cta": "Terug",
+					"subtext": "Schrijf de ontbrekende woorden op de juiste positie voordat u verder gaat"
+				},
+				"showseed": {
+					"heading": "Herstelzin",
+					"primary_cta": "Ik heb ze opgeslagen",
+					"secondary_cta": "Terug",
+					"subtext": "Bewaar deze woorden op een veilige plek, zodat u uw account in de toekomst kunt herstellen."
+				}
+			}
+		}
+	}
 }
