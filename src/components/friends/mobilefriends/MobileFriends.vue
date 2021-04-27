@@ -6,6 +6,7 @@
 -->
 <script>
 import MobileNav from '@/components/sidebar/mobilenav/MobileNav'
+import TopNav from '@/components/common/mobile/TopNav'
 
 import WalletAddressMini from '@/components/common/wallet/WalletAddressMini'
 import QRDisplay from '@/components/common/QRDisplay'
@@ -32,7 +33,8 @@ export default {
     WalletAddressMini,
     QRDisplay,
     QRScan,
-    MobileNav
+    MobileNav,
+    TopNav
   },
   data () {
     return {
@@ -70,7 +72,6 @@ export default {
     },
     async startScanIOS() {
 
-      console.log('Background Color')
       this.changeBackgroundOpacity('body',0)
       this.changeBackgroundOpacity('#wrapper',0)
       this.changeBackgroundOpacity('#friends',0)

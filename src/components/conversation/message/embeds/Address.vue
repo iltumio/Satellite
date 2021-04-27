@@ -73,7 +73,6 @@ export default {
     const isAccount = await this.isAccount()
     if (isAccount) {
       this.account = isAccount
-      console.log('its an account')
     } else {
       this.account = false
     }
@@ -87,6 +86,7 @@ export default {
 #payment {
   margin-top: 0.5rem;
   max-width: 500px;
+  min-width: 65vw;
 }
 .media {
   background: #fff;

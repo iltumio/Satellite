@@ -1,13 +1,15 @@
 import { BigNumber, utils } from 'ethers';
 import { LangCodes } from '../utils/i18n';
 import { AvailableProviders } from './mutations/web3';
+// @ts-ignore
+import MobileUtils from '@/utils/Mobile'
 
 interface ISettings {
   darkMode: boolean;
   language: LangCodes;
 }
 
-type ThemeName = 'tokyo';
+type ThemeName = 'tokyo' | 'oled';
 
 export interface IWalletAsset {
   symbol: string;
@@ -89,6 +91,7 @@ export interface IState {
   userNotes: any;
   showUser: boolean;
   loadingMessages: boolean;
+  lastMessages: Object;
   // Direct Calling Media Streams
   pendingMediaStream?: any;
   activeMediaStreamPeer?: any;
@@ -102,6 +105,7 @@ export interface IState {
   channel?: any;
   // Groups
   group?: any;
+  showGroupInfo: boolean;
   // Stickers
   stickersOpen?: boolean;
   stickerPack: any;
@@ -124,7 +128,7 @@ export const defaultState: IState = {
     language: 'en_US'
   },
   // Theme
-  theme: 'tokyo',
+  theme: MobileUtils.isMobile() ? 'oled' : 'tokyo',
   // Screen Share
   screenShareRequest: null,
   captureMouse: 'always',
@@ -209,6 +213,7 @@ export const defaultState: IState = {
   userNotes: {},
   showUser: false,
   loadingMessages: false,
+  lastMessages: {},
   // Direct Calling Media Streams
   pendingMediaStream: false,
   activeMediaStreamPeer: false,
@@ -227,6 +232,7 @@ export const defaultState: IState = {
   showCreateGroup: false,
   // Groups 
   group: false,
+  showGroupInfo: false,
   // Profile
   viewingProfile: false,
 };

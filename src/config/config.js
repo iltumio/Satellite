@@ -2,7 +2,7 @@ module.exports = {
   env: 'prod',
   textile: {
     localURI: 'http://localhost:6007',
-    key: 'bfeimum7iu45o2inmxcip64pdvu',
+    key: 'b3y2jgeqlvpqnxmwqsvvc4hc7ym',
     browser: 'https://hub.textile.io'
   },
   network: {
@@ -106,7 +106,6 @@ module.exports = {
     className: 'vault-toast'
   },
   verified_addresses: [
-    '0xEE81E0B011Cd2D36D03F3E1C0A4549f78a56cb5E',
-    '0x4C5F7aFc2e263ef5eDe2849263399BF6FC4B6354'
+    '0x2c3a050a6634cBD10df8086688De37D084440B7c'
   ] // TODO: move this to a contract
 };

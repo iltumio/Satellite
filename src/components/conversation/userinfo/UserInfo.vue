@@ -192,6 +192,7 @@ export default {
   #user-info {
     width: 100%;
     z-index: 20;
+    bottom: 0;
   }
   .close-btn {
     display: inline-block;

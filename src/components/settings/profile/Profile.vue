@@ -15,6 +15,7 @@ import ActionSelector from './editprofile/ActionSeletor'
 import ChangePhoto from './editprofile/ChangePhoto'
 import ChangeUsername from './editprofile/ChangeUsername'
 import FilePinner from '@/classes/FilePinner.ts'
+import WalletAddressMini from '@/components/common/wallet/WalletAddressMini'
 
 export default {
   name: 'Profile',
@@ -26,7 +27,8 @@ export default {
     ChangeUsername,
     CircleIcon,
     PhotoCropper,
-    Badge
+    Badge,
+    WalletAddressMini
   },
   data () {
     return {

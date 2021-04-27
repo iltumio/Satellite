@@ -1,4 +1,6 @@
-<section class="infobar noselect">
+<!-- <section class="infobar noselect"> -->
+<section :class="`${($store.state.showGroupInfo) ? 'infobar infobar-group-open noselect ' :  'infobar noselect'}`">
+
     <div class="columns">
         <div class="column is-half">
             <div class="profile">

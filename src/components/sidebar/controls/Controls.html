@@ -2,30 +2,23 @@
   <div class="user-status">
     <div class="left-side">
       <p>
-        <span v-if="$store.state.p2pOnline">
-          <span class="green">
-            <i class="fas fa-signal green"></i>
-            {{$t('sidebar.controls.connected_to', {network: getNetwork()})}}
-          </span>
-        </span>
-        <span v-else>
-          <span class="red">
-            <i class="fas fa-signal red"></i>
-            {{$t('sidebar.controls.peer_broker_offline')}}
-          </span>
-        </span>
-        <br>
-        <div v-if="$store.state.activeMediaStreamPeer">
-          <span class="label yellow" v-on:click="jumpTo">{{$t('sidebar.controls.media_stream_active')}}</span>
-        </div>
-        <div v-else>
-          <span class="label">{{$t('sidebar.controls.media_stream_inactive')}}</span>
-        </div>
+        <StatusIndicator 
+          :status="$store.state.p2pOnline ? 'online' : 'offline'"  
+          text="P2P"/>
+        <StatusIndicator 
+          :status="inCall"  
+          text="Call"/>
+        <StatusIndicator 
+          :status="usingMic"  
+          text="Mic"/>
+        <StatusIndicator 
+          :status="usingCam"  
+          text="Cam"/>
       </p>
     </div>
     <div class="right-side">
-      <i :class="`fas fa-microphone ${muted ? 'red' : ''}`" v-on:click="toggleMute" ></i>
-      <i :class="`fas fa-headphones-alt ${deafened ? 'red' : ''}`" v-on:click="toggleDeafen"></i>
+      <i :class="`fas fa-microphone ${$store.state.muted ? 'red' : ''}`" v-on:click="toggleMute" ></i>
+      <i :class="`fas fa-headphones-alt ${$store.state.deafened ? 'red' : ''}`" v-on:click="toggleDeafen"></i>
     </div>
   </div>
   <div class="profile">

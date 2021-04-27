@@ -1,56 +1,100 @@
-<div id="stickers" class="animate__animated animate__slideInUp animate__faster">
+<div
+  id="stickers"
+  class="animate__animated animate__slideInUp animate__faster"
+>
+    <!--v-click-outside="handleClose"-->
+
   <div class="sticker-nav">
-    <button :class="`button ${(route === 'my-stickers') ? 'is-primary' : 'is-black'} is-small`" v-on:click="setDisplay('my-stickers')">{{$t('stickers.my-stickers')}}</button>
-    <button :class="`button ${(route === 'get-stickers') ? 'is-primary' : 'is-black'} is-small`"  v-on:click="setDisplay('get-stickers')">{{$t('stickers.get-stickers')}}</button>
+    <button
+      :class="`button ${(route === 'my-stickers') ? 'is-primary' : 'is-black'} is-small`"
+      v-on:click="setDisplay('my-stickers')"
+    >
+      {{$t('stickers.my-stickers')}}
+    </button>
+    <button
+      :class="`button ${(route === 'get-stickers') ? 'is-primary' : 'is-black'} is-small`"
+      v-on:click="setDisplay('get-stickers')"
+    >
+      {{$t('stickers.get-stickers')}}
+    </button>
   </div>
-  <div class="stickers-container">
+  <div class="stickers-container" v-body-scroll-lock="isMobile()">
     <div class="my-stickers has-details" v-if="route === 'my-stickers'">
       <div v-if="Object.keys(ownedStickers).length === 0" class="no-stickers">
         <p>
           {{$t('stickers.no-stickers')}}
-          <br>
-          <button class="button is-primary is-small" v-on:click="setDisplay('get-stickers')">{{$t('stickers.get-some-stickers')}}</button>
+          <br />
+          <button
+            class="button is-primary is-small"
+            v-on:click="setDisplay('get-stickers')"
+          >
+            {{$t('stickers.get-some-stickers')}}
+          </button>
         </p>
       </div>
-      <div v-for="sticker in ownedStickers" class="sticker-container" v-on:click="setDisplay('show-stickers', sticker)">
-        <Sticker :sticker="sticker.preview_hash" :name="sticker.name" :folder="true" />
+      <div
+        v-for="sticker in ownedStickers"
+        class="sticker-container"
+        v-on:click="setDisplay('show-stickers', sticker)"
+      >
+        <Sticker
+          :sticker="sticker.preview_hash"
+          :name="sticker.name"
+          :folder="true"
+        />
       </div>
     </div>
     <div class="my-stickers" v-if="route === 'show-stickers'">
-      <div v-for="sticker in routeData.stickers" class="sticker-container" v-on:click="sendSticker(sticker)">
+      <div
+        v-for="sticker in routeData.stickers"
+        class="sticker-container"
+        v-on:click="sendSticker(sticker)"
+      >
         <Sticker :sticker="sticker" />
       </div>
     </div>
 
     <div class="my-stickers has-details" v-if="route === 'get-stickers'">
-      <div v-for="sticker in availableStickers" class="sticker-container" v-on:click="setDisplay('buy-stickers', sticker)">
-        <Sticker :sticker="sticker.preview_hash" :signature="sticker.artist" :name="sticker.name" />
+      <div
+        v-for="sticker in availableStickers"
+        class="sticker-container"
+        v-on:click="setDisplay('buy-stickers', sticker)"
+      >
+        <Sticker
+          :sticker="sticker.preview_hash"
+          :signature="sticker.artist"
+          :name="sticker.name"
+        />
       </div>
     </div>
     <div class="my-stickers" v-if="route === 'buy-stickers'">
-      <div class="stickers-scroll-wrap">
+      <div class="stickers-scroll-wrap" v-body-scroll-lock="isMobile()">
         <div v-if="routeData.artist">
           <p class="artist">
-            <span class="artist-name">{{routeData.artist.name}}</span><br>
+            <span class="artist-name">{{routeData.artist.name}}</span><br />
             <span class="artist-desc">{{routeData.artist.description}}</span>
           </p>
         </div>
         <div v-for="sticker in routeData.stickers" class="sticker-container">
-            <Sticker :sticker="sticker" />
+          <Sticker :sticker="sticker" />
         </div>
         <div v-if="routeData.artist">
-          <img :src="`http://ipfs.io/ipfs/${routeData.artist.signature}`" alt="" class="artist-signature">
+          <img
+            :src="`http://ipfs.io/ipfs/${routeData.artist.signature}`"
+            alt=""
+            class="artist-signature"
+          />
         </div>
       </div>
       <div class="buy-container">
-        <button 
+        <button
           class="button is-success is-small buy-button"
           v-on:click="buySticker(routeData)"
           :disabled="routeData.pending"
           v-if="!isPending"
-          >
+        >
           <span v-if="routeData.price > 0">
-            <i class="fas fa-dollar-sign"></i> &nbsp; 
+            <i class="fas fa-dollar-sign"></i> &nbsp;
             {{$t('stickers.buy-button-text')}}: {{routeData.price}} MATIC
           </span>
           <span v-else>

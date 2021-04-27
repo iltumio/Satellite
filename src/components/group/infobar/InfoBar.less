@@ -42,7 +42,13 @@
     font-size: 15pt;
     /*box-shadow: 0 2px 3px -2px rgba(0,0,0,.25);*/
     z-index: 4;
+    width: calc(100%);
 }
+
+.infobar-group-open {
+    width: calc(100% + 16rem) !important;
+}
+
 .profile {
     float: left;
     height: 100%;
@@ -77,11 +83,17 @@
   margin-left: 0.25rem;
 }
 .name {
+  position: absolute;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  //set max width 
   display: inline-block;
   margin: 0.2rem 0 0 0.5rem;
   float: left;
   font-size: 18px;
   font-family: 'Space Mono', monospace;
+  width: 200px;
 }
 
 .name:hover{
@@ -126,14 +138,42 @@ i:hover {
     font-size: 14pt;
   }
 
+  .fa-phone{
+    margin-right: 20px;
+    display: block !important;
+  }
+  .fa-video{
+    margin-right: 20px;
+    display: block !important;
+  }
+
+  .infobar-group-open {
+    width: 100%  !important;
+}
+
   // .fa-address-card {
   //   display: none;
   // }
 }
 
-@media only screen and (max-width: 830px) { 
+@media only screen and (max-width: 985px) { 
   .fa-desktop {
     display: none;
+    width: 0px;
+  }
+}
+
+@media only screen and (max-width: 905px) { 
+  .fa-video {
+    display: none;
+    width: 0px;
+  }
+}
+
+@media only screen and (max-width: 840px) { 
+  .fa-phone {
+    display: none;
+    width: 0px;
   }
 }
 
@@ -149,7 +189,7 @@ i:hover {
   }
 
   .fa-bars.mobile {
-    display: inline;
+    display: inline ;
   } 
 
   .infobar {

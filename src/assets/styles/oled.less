@@ -1,34 +1,106 @@
 // Servers & conversation & Inputs
-@less-dark-blue-gray: #23252f;
+@less-dark-blue-gray: #000;
 // Infobar & Sidebar
-@dark-blue-gray: #282a36;
-@darker-blue-gray: #282a36;
+@dark-blue-gray: #000;
+@darker-blue-gray: #000;
+@lighter-dark-blue-gray: #1a1b27;
 // Borders
-@super-dark-boi: transparent;
+@super-dark-boi: #1d1d25;
+@outline-dark: #1b1b24;
 // Friends & Containers
-@ohh-so-dark: #1f222b;
+@ohh-so-dark: #0d0d13;
 // Buttons
-@really-blue: #7293d0;
+@really-blue: #0984e3;
 // Lables & Accents
-@not-as-light-blue-gray: #7293d0;
+@not-as-light-blue-gray: #c5ccf3;
 @not-as-light-blue-gray-alt: @not-as-light-blue-gray;
 // General Text Colors
-@light-blue-gray: #8183ad;
+@light-blue-gray: #545974;
 // Hovered Text Colors
-@lighter-blue-gray: #afb2e2;
+@lighter-blue-gray: #939bbd;
 // Messages & Icons
-@nearly-white: #c9cbf3;
+@nearly-white: #c1c9eb;
 // Usernames
-@basically-white: #f0f1fc;
+@basically-white: #ffffff;
 // Message Hovering
-@is-this-black: #2b2f3b;
+@is-this-black: #000000;
 // Highlights
-@minty-green: #7293d0;
+@primary-highlight: #dde1f7;
 // Errors
-@red: #ee5253;
-@yellow: #f1c40f;
+@green: #00b894;
+@red: #df7070;
+@yellow: #fbc02d;
 
 .theme {
+  .phrase .mnemonic-word {
+    color: @basically-white;
+    background-color: @really-blue !important;
+  }
+  .wallet-creation-container {
+    background-color: @dark-blue-gray !important;
+  }
+  .button.is-success {
+    background-color: @green;
+    color: @basically-white !important;
+  }
+  a {
+    color: @yellow !important;
+  }
+  pre {
+    background: @is-this-black !important;
+  }
+  .mobile-nav ul {
+    background: transparent !important;
+  }
+  .mobile-nav {
+    border-top: 1px solid @super-dark-boi !important;
+    background-color: @darker-blue-gray !important;
+  }
+  .mobile-nav .active-item {
+    color: @really-blue !important;
+  }
+  .indicator {
+    background-color: @really-blue !important;
+    color: @basically-white !important;
+  }
+  .circle-icon {
+    background: @less-dark-blue-gray !important;
+  }
+  .bordered-circle-icon {
+    background: unset;
+  }
+  .server-sidebar-channel.active {
+    background-color: @really-blue !important;
+    color: @basically-white !important;
+  }
+  .server-actions .circle-icon {
+    background-color: @really-blue !important;
+  }
+  #scrollBottom {
+    background: @really-blue !important;
+  }
+  .voice-participant {
+    background: unset;
+  }
+  
+  ::selection {
+    background: @primary-highlight; /* WebKit/Blink Browsers */
+    color: #fff;
+  }
+  ::-moz-selection {
+    background: #00d0a1; /* Gecko Browsers */
+    color: #fff;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  input:focus, input:focus{
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid @primary-highlight !important;
+    caret-color: @primary-highlight;
+  }
   .yellow {
     color: @yellow !important;
   }
@@ -38,7 +110,7 @@
     -webkit-text-stroke-color: @super-dark-boi;
   }
   .true {
-    -webkit-text-fill-color: @minty-green !important;
+    -webkit-text-fill-color: @green !important;
   }
   .metamask {
     color: @not-as-light-blue-gray !important;
@@ -55,7 +127,7 @@
     font-weight: bold;
   }
   .label {
-    padding: 0;
+    padding: 0 !important;
     color: @not-as-light-blue-gray !important;
     font-weight: bold;
     font-variant-caps: all-petite-caps;
@@ -64,15 +136,12 @@
     color: @not-as-light-blue-gray !important;
   }
   .context ul li:hover {
-    color: @lighter-blue-gray !important;
+    color: @really-blue !important;
   }
   .usersubcontrols {
     background: @dark-blue-gray !important;
     color: @nearly-white!important;
     border: none !important;
-  }
-  .usersubcontrols i {
-    color: @nearly-white !important;
   }
   .friend {
     background: @ohh-so-dark !important;
@@ -102,7 +171,7 @@
     color: @light-blue-gray !important;
   }
   .modal-close {
-    background: transparent !important;
+    background: @is-this-black !important;
   }
   .friends:hover, .files:hover {
     background: @ohh-so-dark !important;
@@ -143,7 +212,7 @@
   }
   .menu-list .active {
     color: @basically-white !important;
-    background-color: #444658 !important;
+    background-color: @really-blue !important;
   }
   .emoji-mart {
     background: @ohh-so-dark !important;
@@ -196,26 +265,29 @@
     background: #000 !important;
   }
   .media-container .media-controls i {
-    color: @basically-white !important;
+    color: @basically-white;
   }
   .media-content i {
-    color: @minty-green !important;
+    color: @primary-highlight;
   }
   .media {
-    background: #1d1e27 !important;
+    background: @dark-blue-gray !important;
     color: @nearly-white !important;
     border: none !important;
-    border-left: 3px solid @minty-green !important;
+    border-left: 3px solid @primary-highlight !important;
   }
   .media strong {
     color: @basically-white !important;
   }
   .servers {
-    background-color: @less-dark-blue-gray !important;
+    background-color: @dark-blue-gray !important;
     width: 4rem !important;
     top: 0;
     bottom: 0;
     left: -4rem !important;
+  }
+  #user-info {
+    background: @dark-blue-gray !important;
   }
   #logo {
     color: @basically-white !important;
@@ -231,7 +303,7 @@
     color: @light-blue-gray !important;
     border-top: 1px solid @super-dark-boi !important; 
   }
-  .controls {
+  .controls, .user-status {
     background: @darker-blue-gray !important;
     border-top: 1px solid @super-dark-boi !important; 
   }
@@ -245,31 +317,43 @@
     font-size: 16pt;
   }
   a {
-    color: @minty-green;
+    color: @primary-highlight;
   }
   .infobar .profile i:hover {
-    color: @minty-green !important;
+    color: @primary-highlight !important;
   }
   .infobar .address {
     color: #545870 !important;
   }
-
   #conversation {
     background: @less-dark-blue-gray !important;
+  }
+  .server-wrapper {
+    background: @less-dark-blue-gray !important;
+  }
+  #context {
+    background: @dark-blue-gray !important;
+    border: 1px solid @super-dark-boi !important;
+    ul {
+      li:hover {
+        color: @basically-white !important;
+        background: @really-blue !important;
+      }
+    }
   }
   .c-message-content {
     color: @lighter-blue-gray !important;
   }
 
   strong {
-    color: @lighter-blue-gray !important;
+    color: @basically-white !important;
   }
 
   .charlimit {
     color: @nearly-white !important;
   }
   .input-collection-red {
-    border: 1px solid@red !important;
+    border: 1px solid @red !important;
   }
   .c-message-actions {
     background: @dark-blue-gray !important;
@@ -286,14 +370,22 @@
     background-color: @is-this-black !important;
   }
   .divider {
-    border-bottom: 1px solid @super-dark-boi !important; 
+    border-bottom: 1px solid @super-dark-boi !important;
+    width: 100% !important; 
   }
-  .wrapper {
-    border-left: 1px solid @super-dark-boi !important; 
+  .divider .text {
+    border-bottom: 1px solid @super-dark-boi !important;
   }
-  input {
+  .input, input, textarea {
     background-color: @less-dark-blue-gray !important; 
     border: none !important; 
+    color: #ccc !important;
+  }
+  .messageuser {
+    background-color: transparent !important;
+  }
+  .button .is-dark {
+    background-color: @less-dark-blue-gray !important; 
     color: #ccc !important;
   }
   hr {
@@ -326,7 +418,7 @@
     border-left-color: @not-as-light-blue-gray-alt !important;
   }
   #file {
-    background-color: #292a36 !important;
+    background-color: @ohh-so-dark !important;
   }
   #file i:hover {
     color: @nearly-white;
@@ -339,7 +431,6 @@
     background-color: @dark-blue-gray !important;
   }
   .message .message-body h2 {
-    font-weight: bold;
     color: @nearly-white !important;
     background-color: @dark-blue-gray !important;
   }
@@ -351,8 +442,8 @@
     color: @nearly-white !important;
   }
   .vicp-operate a {
-    background: @not-as-light-blue-gray-alt !important;
-    color: @nearly-white !important;
+    background: @really-blue !important;
+    color: @basically-white !important;
     padding: 0 1rem !important;
     text-decoration: none !important;
   }
@@ -368,7 +459,14 @@
   }
   .chat-group {
     background-color: @less-dark-blue-gray !important; 
+    border-top: 1px solid @super-dark-boi !important;
   }
+  .sidebar-selector {
+    button {
+      border: 1px solid @super-dark-boi !important;
+    }
+  }
+
   .settings-right {
     background-color: @less-dark-blue-gray !important;
   }
@@ -377,10 +475,20 @@
     background: @less-dark-blue-gray !important;
   }
   .user-active {
-    color: @minty-green !important;
+    color: @primary-highlight !important;
+    background-color: @ohh-so-dark !important;
+  }
+  .group-active {
+    color: @primary-highlight !important;
     background-color: @ohh-so-dark !important;
   }
   .user:hover { 
+    background-color: @ohh-so-dark !important;
+  }
+  .user .last-message {
+    color: @nearly-white !important;
+  }
+  .group:hover { 
     background-color: @ohh-so-dark !important;
   }
   .tabs ul {
@@ -391,14 +499,14 @@
     color: @nearly-white !important;
   }
   .tabs li.is-active a {
-    border-bottom-color: @minty-green !important; 
-    color: @minty-green !important;
+    border-bottom-color: @primary-highlight !important; 
+    color: @primary-highlight !important;
   }
   .chat-group i:hover {
-    color: @basically-white !important;
+    color: @basically-white;
   }
   .chat-group i {
-    color: @nearly-white !important;
+    color: @nearly-white;
   }
   .infobar i {
     color: @nearly-white;
@@ -429,11 +537,17 @@
     background: @dark-blue-gray !important;
     border: none !important;
   }
-  .true i {
-    color: @minty-green !important;
+  #server-info {
+    background: @dark-blue-gray !important;
   }
-  .controls .online i {
-    color: @minty-green !important;
+  .main-user-info {
+    background: @darker-blue-gray !important;
+  }
+  .true i {
+    color: @primary-highlight !important;
+  }
+  .bordered.main-section {
+    border: none !important;
   }
   .head strong {
     color: @basically-white !important;
@@ -443,19 +557,29 @@
     border: 1px solid transparent !important;
   }
   input:focus, input:focus{
-    border: 1px solid @minty-green !important;
+    border: 1px solid @primary-highlight !important;
   }
   select {
     border: 1px solid transparent !important;
   }
   select:focus, select:focus{
-    border: 1px solid @minty-green !important;
+    border: 1px solid @primary-highlight !important;
+  }
+  .input, .select {
+    border: 1px solid @super-dark-boi !important;
+  }
+  .chat-group .input-collection {
+    border: 1px solid @super-dark-boi !important;
+    
+    .input {
+      border: none !important;
+    }
   }
   .chat-group input:focus, input:focus{
     border: 1px solid transparent !important;
   }
   .green {
-    color: @minty-green;
+    color: @primary-highlight;
   }
   ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: @light-blue-gray !important;
@@ -484,13 +608,20 @@
   button.is-danger:hover {
     background-color: @red !important;
   }
-
   button.is-primary {
     background: @really-blue !important;
     color: @basically-white !important;
   }
   button.is-primary:hover {
     background: @really-blue !important;
+    color: @basically-white !important;
+  }
+  button.is-danger {
+    background: #e74c3c !important;
+    color: @basically-white !important;
+  }
+  button.is-danger:hover {
+    background: #c0392b !important;
     color: @basically-white !important;
   }
   .is-primary {
@@ -502,16 +633,39 @@
     color: @basically-white !important;
   }
 
+  button.is-outlined {
+    background: transparent !important;
+    border: 1px solid @outline-dark;
+    color: @nearly-white !important;
+  }
+  button.is-outlined:hover {
+    background: @outline-dark !important;
+    border: 1px solid @outline-dark;
+  }
+  .button.is-primary.is-outlined[disabled] {
+    background: transparent !important;
+    border: 1px solid @outline-dark;
+    color: @nearly-white !important;
+  }
+
   button.is-dark {
-    background: @really-blue !important;
+    background: @less-dark-blue-gray !important;
     color: @basically-white !important;
   }
   button.is-dark:hover {
-    background: @really-blue !important;
+    background: @less-dark-blue-gray !important;
     color: @basically-white !important;
   }
-  .head {
-    color: @nearly-white !important;
+  button.is-success {
+    background: @green !important;
+    color: @super-dark-boi !important;
+  }
+  button.is-success:hover {
+    background: @green !important;
+    color: @super-dark-boi !important;
+  }
+  .head, .title {
+    color: @basically-white !important;
   }
   .username {
     color: @basically-white !important;
@@ -519,22 +673,176 @@
   .name:hover{
      color: @basically-white !important;
   }
-  .red {
-    color: @red !important;
+  .controls .user-active i {
+    color: @green !important;
+    -webkit-text-fill-color: @green !important;
   }
-  #scrollBottom {
-    background: @minty-green !important;
+  .usersubcontrols .fa-user-friends {
+    color: #75b5aa !important;
+  }
+  .usersubcontrols .fa-folder {
+    color: #d28445 !important;
+  }
+  #file .fa-images {
+    color: #75b5aa !important;
+  }
+  #file .fa-file-audio {
+    color: #d28445 !important;
+  }
+  #file .fa-file-video {
+    color: #aa759f !important;
+  }
+  #file .fa-fa-markdown {
+    color: #c7a4c0 !important;
+  }
+  #file .fa-archive {
+    color: #ac4142 !important;
+  }
+  #file .fa-file-code, .fa-link i {
+    color: #90a959 !important;
+  }
+  #file .fa-file-code {
+    color: #d28445 !important;
+  }
+  #file .fa-file-archive {
+    color: #6a9fb5 !important;
+  }
+  #file .fa-js-square {
+    color: #f4bf75 !important;
+  }
+  #file .fa-java {
+    color: #6a9fb5 !important;
+  }
+  #file .fa-css3-alt {
+    color: #f4bf75 !important;
+  }
+  #file .fa-file {
+    color: #90a959 !important;
+  }
+  #file .fa-file-download {
+    color: #75bfdf !important;
+  }
+  .true {
+    .fa-spin {
+      color: @basically-white !important;
+    }
+  }
+  .switch-button {
+    --color: @really-blue !important;
+  }
+  #loading, #unlock {
+    background: transparent;
+  }
+  .special-thanks {
+    color: @yellow !important;
+  }
+  .switch-button-control .switch-button.enabled .sw-button {
+    background-color: @basically-white !important;
   }
   .nav-settings {
     background: @less-dark-blue-gray !important;
+
+    .fa-bars {
+      color: @nearly-white;
+      font-size: 16pt;
+    }
   }
-  #user-info {
-    background: @less-dark-blue-gray !important;
-  }
-  #server-info {
+  .sidebar-wrapper, .right-bar {
     background: @dark-blue-gray !important;
   }
-  .sidebar-wrapper {
-    background: @dark-blue-gray !important;
+
+  .red {
+    color: @red !important;
+  }
+  .green {
+    color: @green !important;
+  }
+  .yellow {
+    color: @yellow !important;
+  }
+  .disabled-icon, .disabled-icon:hover { 
+    color: @light-blue-gray !important;
+  } 
+  .blue {
+    color: @really-blue !important;
+  }
+  .asset-container {
+    margin: 0.5rem 1.5rem;
+    background: transparent !important;
+    padding: 6px 0.75rem;
+    border-radius: 5px;
+    border: 1px solid @super-dark-boi !important;
+  }
+  #mobile-top-nav {
+    border-bottom: 1px solid @super-dark-boi !important;
+  }
+  .friendOptions {
+    background: @darker-blue-gray !important;
+    border-top: 1px solid @super-dark-boi !important;
+  }
+  #stickers {
+    background: @darker-blue-gray !important;
+    .sticker-nav {
+      background-color: @darker-blue-gray;
+      border-bottom: 1px solid @super-dark-boi !important;
+
+      .button {
+        border: 1px solid @super-dark-boi !important;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    .user:hover { 
+      background-color: unset !important;
+    }
+    .no-mobile {
+      display: none;
+    }
+    .i:hover {
+      color: unset;
+    }
+    .unreads {
+      background: transparent !important;
+    }
+    .settings-right {
+      .spacer {
+        border-bottom: 1px solid @ohh-so-dark !important;
+        margin: 1rem -1rem !important;
+      }
+    }
+    .settings-right .message {
+      background-color: transparent !important;
+    }
+    .settings-right .message-body {
+      background: transparent !important;
+      border: none;
+      margin: 0 -1.5rem;
+
+      input {
+        background-color: #000 !important;
+      }
+      
+      h2 {
+        background-color: transparent !important;
+      }
+
+      .select {
+        width: 100%;
+
+        select {
+          width: 100%;
+          background: #000 !important;
+        }
+      }
+    }
+  }
+
+  code {
+    background-color: @less-dark-blue-gray;
+    color: @basically-white;
+    border-radius: 2px;
+    font-size: 0.875em;
+    font-weight: normal;
+    padding: 0.25em 0.5em 0.25em;
   }
 }
