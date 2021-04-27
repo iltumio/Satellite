@@ -216,6 +216,8 @@
       "appearance": "Appearance",
       "theme_heading": "Theme",
       "theme_subtext": "Change up the theme and stay easy on the eyes with Satellite.",
+      "theme_accent_heading": "Accent Color",
+      "theme_accent_subtext": "Make it personal and chose your favorite color.",
       "permissions": "Permissions",
       "notifications_heading": "Notifications",
       "notifications_subtext": "Click to enable notifications with Satellite for a better experience.",
@@ -468,7 +470,7 @@
     "decrypt_account": "Decrypt Account",
     "create_encryption_pin": "Create Encryption Pin",
     "create_encryption_pin_subtext": "This is like your password, chose something safe.",
-    "stay_logged": "Stay logged in?",
+    "stay_logged": "Store Pin? (Less Secure)",
     "AES_encryption": "Pin stored with AES encryption using Web Crypto.",
     "pin_placeholder": "alphanumeric pin..."
   },
@@ -516,21 +518,21 @@
   },
   "wallet": {
     "total-balance": "Total Balance (USD)",
-    "early-access-warning": "Early access operates on a testnet.",
+    "early-access-warning": "Wallet Coming Soon",
     "early-access-warning-do-not-send-real-funds": "Do not send real funds to your address.",
     "token-balances": "Token Balances",
     "copy-account-id": "Copy Account ID",
     "scan": "SCAN"
   },
   "stickers": {
-    "my-stickers": "My Stickers",
-    "get-stickers": "Get Stickers",
-    "no-stickers": "You don't have any stickers yet.",
+    "my-stickers": "My Glyphs",
+    "get-stickers": "Get Glyphs",
+    "no-stickers": "You don't have any glyphs yet.",
     "get-some-stickers": "Get Some!",
     "buy-button-text": "Buy",
     "buy-button-free": "Free",
     "buy-button-loading": "Transmitting",
-    "verified-sticker": "Verified Sticker"
+    "verified-sticker": "Verified Glyph"
 
   },
   "security-mask": {

@@ -16,7 +16,7 @@
       </p>
     </div>
     <div class="modal-card-body">
-      <div class="friends-list">
+      <div class="friends-list" v-body-scroll-lock="true">
         <div
           v-if="!this.$store.state.friends.length"
           style="text-align: center"

@@ -1,12 +1,72 @@
-.server-info {
-  h3 {
-    font-weight: bold;
-    font-size: 12pt;
+#server-info {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  padding: 0.5rem 1rem 1rem 1rem;
+  width: 16rem;
+  position: absolute;
+  bottom: 2rem;
+  top: 3rem;
+  right: 0;
+
+  .heading {
+    width: 100%;
+    line-height: 110%;
+    .username {
+      font-size: 8pt;
+    }
+    .label {
+      padding: 0 !important;
+    }
   }
-  h5 {
-    opacity: 0.75;
+  .user-details {
+    margin-top: 1rem;
+    text-align: center;
+    .circle-icon {
+      width: 75px;
+      height: 75px;
+      border-radius: 5px;
+    }
+    .username {
+      margin-top: 1rem;
+      font-size: 15pt;
+    }
+    .address {
+      font-size: 10pt !important;
+    }
+  }
+  .buttons {
+    margin-top: 2rem;
+    button {
+      width: 100%;
+    }
+    .column {
+      text-align: center;
+    }
+  }
+
+  textarea {
     font-size: 10pt;
-    text-transform: uppercase;
-    font-weight: bold;
+  }
+}
+
+.close-btn {
+    display: none;
+  }
+.badge-container i {
+  font-size: 18pt !important;
+}
+
+@media (max-width: 768px) {
+  #server-info {
+    width: 100%;
+    z-index: 20;
+    bottom: 0;
+    background: #101016 !important;
+  }
+  .close-btn {
+    display: inline-block;
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
   }
 }

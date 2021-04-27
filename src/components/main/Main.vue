@@ -146,6 +146,10 @@ export default {
             //Logic to avoid users going from userInfo all the way to MobileSidebar in one swipe
             localStorage.setItem('userSwiped', false)
           } else {
+          if (!localStorage.hasOwnProperty('userlastChat')) {
+            localStorage.setItem('userlastChat', "friendChat")
+          } 
+            localStorage.setItem('userlastChat', "friendChat")
             this.$store.commit('setMobileSidebar', true)
           }
         }

@@ -52,7 +52,6 @@ export default class StickerFactory {
   async getAvailableSets () {
     let sets = await this.contract.getAvailableSets()
     sets = sets.filter(set => {
-      console.log('set', set)
       return config.stickers.validated.includes(set.stickerContract)
     })
     return sets

@@ -1,32 +1,47 @@
 <section class="mobile-nav">
   <div>
     <ul>
-      <li v-on:click="openSidebar">
-          <i class="fas fa-home"></i>
-          <br>
-          <span class="nav-subtitle">{{$t('mobile-nav.home')}}</span>
+      <li
+        v-on:click="openSidebar"
+        :class="`${$store.state.sidebarMobileOpen ? 'active-item' : ''}`"
+      >
+        <i class="fas fa-home"></i>
+        <br />
+        <span class="nav-subtitle">{{$t('mobile-nav.home')}}</span>
       </li>
-      <li v-on:click="setMainRoute('friends')">
+      <li
+        v-on:click="setMainRoute('friends')"
+        :class="`${$store.state.mainRoute === 'friends' && !$store.state.sidebarMobileOpen ? 'active-item' : ''}`"
+      >
         <span v-if="$store.state.friendRequests.length > 0" class="indicator">
           {{$store.state.friendRequests.length}}
         </span>
         <i class="fas fa-user-friends"></i>
-        <br>
+        <br />
         <span class="nav-subtitle">{{$t('mobile-nav.friends')}}</span>
       </li>
-      <li v-on:click="setMainRoute('files')">
+      <li
+        v-on:click="setMainRoute('files')"
+        :class="`${$store.state.mainRoute === 'files' && !$store.state.sidebarMobileOpen ? 'active-item' : ''}`"
+      >
         <i class="fas fa-folder"></i>
-        <br>
+        <br />
         <span class="nav-subtitle">{{$t('mobile-nav.files')}}</span>
       </li>
-      <li v-on:click="setMainRoute('wallet')">
+      <li
+        v-on:click="setMainRoute('wallet')"
+        :class="`${$store.state.mainRoute === 'wallet' && !$store.state.sidebarMobileOpen ? 'active-item' : ''}`"
+      >
         <i class="fas fa-wallet"></i>
-        <br>
+        <br />
         <span class="nav-subtitle">{{$t('mobile-nav.wallet')}}</span>
       </li>
-      <li v-on:click="toggleSettings">
+      <li
+        v-on:click="toggleSettings"
+        :class="`${$store.state.mainRoute === 'settings' && !$store.state.sidebarMobileOpen ? 'active-item' : ''}`"
+      >
         <i class="fas fa-cogs"></i>
-        <br>
+        <br />
         <span class="nav-subtitle">{{$t('mobile-nav.settings')}}</span>
       </li>
     </ul>

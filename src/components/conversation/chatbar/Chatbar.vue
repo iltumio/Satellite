@@ -119,7 +119,7 @@ export default {
         }
         this.$store.commit('chatWith', this.$store.state.activeChat)
         // Taking the this.messageText to render to Markdown if needed
-        let currentMessage = md.render(this.messageText)
+        let currentMessage = md.renderInline(this.messageText)
         this.handleNewMessage(currentMessage, 'text')
         this.messageText = ''
         this.stopTyping()

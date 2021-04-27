@@ -14,7 +14,7 @@ export default {
     // Subscribe to thread events.
     await database.messageManager.subscribe(
       threadID,
-      async update => {
+      async update => {        
         if (update.instance.sender !== state.activeChat) {
           // Add an unread message indicator and if the user isn't in our sidebar,
           // add a new chat group for them.
@@ -27,6 +27,10 @@ export default {
             update.instance,
             friend.pubkey
           );
+          state.lastMessages[update.instance.sender] = {
+            ...decrypted.payload,
+            at: Date.now()
+          }
           if (
             update.instance.sender === state.activeChat ||
             update.instance.sender === state.activeAccount

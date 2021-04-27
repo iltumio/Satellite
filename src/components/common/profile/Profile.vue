@@ -159,7 +159,7 @@ export default {
         .profile-header-bg {
             width: 100%;
             height: 15rem;
-            background-image: url(https://cdn.dribbble.com/users/3471203/screenshots/14311939/space_page-0001_4x.jpg);
+            background-image: url(https://gateway.pinata.cloud/ipfs/QmTu69jtH6J9QUJ7B7tedpVChhwt3Yv3FGCCS9DMSns4R6);
             background-size: cover;
             background-position: center;
             box-shadow: inset 0px -40px 40px rgb(0 0 0 / 50%);

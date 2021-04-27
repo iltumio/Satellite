@@ -3,35 +3,38 @@
 // Infobar & Sidebar
 @dark-blue-gray: #000;
 @darker-blue-gray: #000;
-@lighter-dark-blue-gray: #1a1b27;
+@lighter-dark-blue-gray: #1a1b26;
 // Borders
-@super-dark-boi: #131319;
+@super-dark-boi: #14141a;
 @outline-dark: #1b1b24;
 // Friends & Containers
 @ohh-so-dark: #0d0d13;
 // Buttons
 @really-blue: #0984e3;
 // Lables & Accents
-@not-as-light-blue-gray: #b2bae1;
+@not-as-light-blue-gray: #c5ccf3;
 @not-as-light-blue-gray-alt: @not-as-light-blue-gray;
 // General Text Colors
 @light-blue-gray: #545974;
 // Hovered Text Colors
 @lighter-blue-gray: #939bbd;
 // Messages & Icons
-@nearly-white: #a0a8cc;
+@nearly-white: #c1c9eb;
 // Usernames
-@basically-white: #faf2f8;
+@basically-white: #ffffff;
 // Message Hovering
 @is-this-black: #000000;
 // Highlights
-@primary-highlight: #b2bae1;
+@primary-highlight: #fff;
 // Errors
 @green: #00b894;
 @red: #df7070;
 @yellow: #fbc02d;
 
 .theme {
+  .c-message-body .remote .msg-wrapper {
+    background-color: @lighter-dark-blue-gray !important;
+  }
   .phrase .mnemonic-word {
     color: @basically-white;
     background-color: @really-blue !important;
@@ -51,6 +54,13 @@
   }
   .mobile-nav ul {
     background: transparent !important;
+  }
+  .mobile-nav {
+    border-top: 1px solid @super-dark-boi !important;
+    background-color: @darker-blue-gray !important;
+  }
+  .mobile-nav .active-item {
+    color: @really-blue !important;
   }
   .indicator {
     background-color: @really-blue !important;
@@ -137,10 +147,10 @@
     border: none !important;
   }
   .friend {
-    background: @ohh-so-dark !important;
+    background: @lighter-dark-blue-gray !important;
   }
   .friend .online {
-    -webkit-text-stroke-color: @ohh-so-dark;
+    -webkit-text-stroke-color: @lighter-dark-blue-gray;
   }
   #friends {
     background: @less-dark-blue-gray !important;
@@ -363,25 +373,23 @@
     background-color: @is-this-black !important;
   }
   .divider {
-    border-bottom: 1px solid @super-dark-boi !important; 
+    border-bottom: 1px solid @super-dark-boi !important;
+    width: 100% !important; 
   }
   .divider .text {
     border-bottom: 1px solid @super-dark-boi !important;
   }
-  .wrapper {
-    border-left: 1px solid @super-dark-boi !important; 
-  }
   .input, input, textarea {
-    background-color: @less-dark-blue-gray !important; 
+    background-color: @lighter-dark-blue-gray !important; 
     border: none !important; 
-    color: #ccc !important;
+    color: #fff !important;
   }
   .messageuser {
     background-color: transparent !important;
   }
   .button .is-dark {
     background-color: @less-dark-blue-gray !important; 
-    color: #ccc !important;
+    color: #fff !important;
   }
   hr {
     border:none !important;
@@ -395,7 +403,7 @@
     border-bottom: 1px solid @super-dark-boi !important;
   }
   .select select {
-    background: @less-dark-blue-gray !important;
+    background: @lighter-dark-blue-gray !important;
     border: 1px solid transparent !important;
     color: @lighter-blue-gray !important;
   }
@@ -447,14 +455,22 @@
     color: @nearly-white !important;
   }
   .input-collection {
-    background-color: @dark-blue-gray !important; 
+    background-color: @lighter-dark-blue-gray !important; 
   }
   .input-collection input {
-    background-color: @dark-blue-gray !important; 
+    background-color: @lighter-dark-blue-gray !important; 
+    color: #fff;
   }
   .chat-group {
     background-color: @less-dark-blue-gray !important; 
+    border-top: 1px solid @super-dark-boi !important;
   }
+  .sidebar-selector {
+    button {
+      border: 1px solid @super-dark-boi !important;
+    }
+  }
+
   .settings-right {
     background-color: @less-dark-blue-gray !important;
   }
@@ -464,7 +480,7 @@
   }
   .user-active {
     color: @primary-highlight !important;
-    background-color: @ohh-so-dark !important;
+    background-color: @lighter-dark-blue-gray !important;
   }
   .group-active {
     color: @primary-highlight !important;
@@ -472,6 +488,9 @@
   }
   .user:hover { 
     background-color: @ohh-so-dark !important;
+  }
+  .user .last-message {
+    color: @nearly-white !important;
   }
   .group:hover { 
     background-color: @ohh-so-dark !important;
@@ -522,8 +541,17 @@
     background: @dark-blue-gray !important;
     border: none !important;
   }
+  #server-info {
+    background: @dark-blue-gray !important;
+  }
+  .main-user-info {
+    background: @darker-blue-gray !important;
+  }
   .true i {
     color: @primary-highlight !important;
+  }
+  .bordered.main-section {
+    border: none !important;
   }
   .head strong {
     color: @basically-white !important;
@@ -540,6 +568,16 @@
   }
   select:focus, select:focus{
     border: 1px solid @primary-highlight !important;
+  }
+  .input, .select {
+    border: 1px solid @super-dark-boi !important;
+  }
+  .chat-group .input-collection {
+    border: 1px solid @super-dark-boi !important;
+    
+    .input {
+      border: none !important;
+    }
   }
   .chat-group input:focus, input:focus{
     border: 1px solid transparent !important;
@@ -697,7 +735,7 @@
     --color: @really-blue !important;
   }
   #loading, #unlock {
-    background: @dark-blue-gray !important;
+    background: transparent;
   }
   .special-thanks {
     color: @yellow !important;
@@ -732,16 +770,40 @@
   .blue {
     color: @really-blue !important;
   }
+  .asset-container {
+    margin: 0.5rem 1.5rem;
+    background: transparent !important;
+    padding: 6px 0.75rem;
+    border-radius: 5px;
+    border: 1px solid @super-dark-boi !important;
+  }
+  #mobile-top-nav {
+    border-bottom: 1px solid @super-dark-boi !important;
+  }
+  .friendOptions {
+    background: @darker-blue-gray !important;
+    border-top: 1px solid @super-dark-boi !important;
+  }
+  #stickers {
+    background: @darker-blue-gray !important;
+    .sticker-nav {
+      background-color: @darker-blue-gray;
+      border-bottom: 1px solid @super-dark-boi !important;
+
+      .button {
+        border: 1px solid @super-dark-boi !important;
+      }
+    }
+  }
   @media (max-width: 768px) {
-    
+    .user:hover { 
+      background-color: unset !important;
+    }
     .no-mobile {
       display: none;
     }
     .i:hover {
       color: unset;
-    }
-    .add-friend-input {
-      background: #1a1b26 !important;
     }
     .unreads {
       background: transparent !important;

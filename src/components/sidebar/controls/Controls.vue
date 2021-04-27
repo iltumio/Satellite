@@ -91,7 +91,6 @@ export default {
     const WebRTC = this.$WebRTC
     WebRTC.subscribe(
       (event, identifier, { type, data }) => {
-        // console.log('event', event)
         switch (event) {
           case 'call-stream':
             this.inCall = 'online'
