@@ -70,7 +70,7 @@ export default {
     return {
       pin: '',
       error: false,
-      storePin: localStorage.getItem('v74.pin') || false,
+      storePin: localStorage.getItem('v74.pin') ? true : false,
       storedPinHash: localStorage.getItem('v74.pinhash') || false,
       storedPin: localStorage.getItem('v74.pin') || false,
       decrypting: false
