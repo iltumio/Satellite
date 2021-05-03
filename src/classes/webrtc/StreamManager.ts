@@ -31,18 +31,18 @@ export default class StreamManager {
   }
 
   public addLocalStream (identifier: string, stream: MediaStream) {
-    if (this._localStreams[identifier]) {
-      console.warn('Local stream already exist')
-      return
-    }
+    // if (this._localStreams[identifier]) {
+    //   console.warn('Local stream already exist')
+    //   return
+    // }
     this._localStreams[identifier] = stream
   }
 
   public addRemoteStream (identifier: string, stream: MediaStream) {
-    if (this._remoteStreams[identifier]) {
-      console.warn('Local stream already exist')
-      return
-    }
+    // if (this._remoteStreams[identifier]) {
+    //   console.warn('Remote stream already exist')
+    //   return
+    // }
     this._remoteStreams[identifier] = stream
   }
 
@@ -80,19 +80,19 @@ export default class StreamManager {
     })
   }
 
-  public enableWebcam() {
-    // TODO: this should add the video track if one does not exist
-  }
 
   public toggleLocalVideo(enabled: boolean) {
     Object.entries<MediaStream>(this._localStreams).forEach(
-      ([identifier, stream]) => {
-        stream.getVideoTracks().forEach(track => {
-          track.enabled = enabled
-        })
+      async ([identifier, stream]) => {
+        let videoTracks = stream.getVideoTracks()
+        console.log('Video Tracks: ' + videoTracks.length)
+        // if (!enabled && videoTracks.length > 0) {
+          // videoTracks.forEach(track => { track.stop() })
+        // }
       }
     )
   }
+  
 
   private stopAllTracks (stream: MediaStream) {
     stream.getAudioTracks().forEach(track => {
@@ -115,8 +115,9 @@ export default class StreamManager {
     const audioTypeId = `_${streamType}Audio`
 
     const stream: MediaStream | undefined = this[streamTypeId][identifier]
+
     if (!stream) {
-      console.warn('Stream not found')
+      console.warn('playStream: Stream not found')
       return
     }
 
@@ -138,8 +139,9 @@ export default class StreamManager {
     const audioTypeId = `_${streamType}Audio`
 
     const stream: MediaStream | undefined = this[streamTypeId][identifier]
+    
     if (!stream) {
-      console.warn('Stream not found')
+      console.warn('stopStream: Stream not found')
       return
     }
 

@@ -27,8 +27,8 @@
                 <i v-if="$store.state.p2pOnline" class="fas fa-video" v-on:click="makeCall(true)"></i>
                 <i v-else="$store.state.p2pOnline" class="fas fa-video disabled-icon"></i>
 
-                <i v-if="$store.state.p2pOnline" class="fas fa-desktop" v-on:click="requestScreenShare"></i>
-                <i v-else class="fas fa-desktop disabled-icon"></i>
+                <!-- <i v-if="$store.state.p2pOnline" class="fas fa-desktop" v-on:click="makeCall(false, true)"></i>
+                <i v-else class="fas fa-desktop disabled-icon"></i> -->
 
                 <input class="input is-small searchuser" type="text"
                     :placeholder="$t('conversation.infobar.search_placeholder')">

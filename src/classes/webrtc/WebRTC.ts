@@ -380,6 +380,18 @@ export default class WebRTC {
     })
   }
 
+  public async updateStream (address: string, stream: MediaStream) {
+    console.log('WebRTC Updating Stream')
+    const identifier = this.buildIdentifier(address)
+    const peer = this.connectedPeers[identifier]
+    peer.addMedia(stream)
+
+    // this.emit('call-stream', identifier, {
+    //   type: 'call-stream',
+    //   data: {}
+    // })
+  }
+
   /**
    * @function answerCall
    * @description Allow users to answer a call

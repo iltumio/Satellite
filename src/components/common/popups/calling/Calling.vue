@@ -29,13 +29,13 @@ export default {
           sampleSize: this.$store.state.audioSamples,
           volume: 1.0,
           deviceId: 'default'
-        },
-       video: {
-          facingMode: { ideal: "user" }
         }
       }
 
       this.$store.commit('localVideo', video)
+       if (this.$store.state.localVideo) { 
+        constraints.video = { facingMode: { ideal: "user" } } 
+      }
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints)
       // this.$streamManager.addLocalStream(stream);

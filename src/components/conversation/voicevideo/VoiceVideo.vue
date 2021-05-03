@@ -14,25 +14,28 @@ export default {
   data () {
     return {
       config,
-      localVideo: this.$store.state.localVideo,
+      localVideo: true, // this.$store.state.localVideo
+      screenSharing: false,
       remoteVideo: true,
       localStream: null,
-      remoteStream: null
+      remoteStream: null,
     }
   },
   mounted () {
     this.updateStreams()
     this.$streamManager.toggleLocalVideo(this.localVideo)
+    
 
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      console.log('Web RTC event: ', event)
-      this.updateStreams()
+      // console.log('Web RTC event: ', event)
+      // this.updateStreams()
     }, ['call-stream', 'call-ended', 'incoming-call', 'outgoing-call'])
 
-    this.$WebRTC.subscribe(() => {
-      console.log('REMOTE EVENT')
-      
-    }, ['stream-change'])
+    this.$WebRTC.subscribe((event, identifier, { type, data }) => {
+      console.log('EVENT: call-stream')
+      console.log(data)
+      this.remoteStream = data[0]
+    }, ['call-stream'])
 
     this.$WebRTC.subscribe(() => {
       this.$store.commit('incomingCall', false)
@@ -71,30 +74,96 @@ export default {
      * Toggle personal video stream
      * @name toggleLocalVideo
      */
-    toggleLocalVideo () {
-      this.$WebRTC.streamChange()
+    async toggleLocalVideo () {
+      this.$streamManager.killStreamsByType('local')
+
       const localVideo = !this.$store.state.localVideo
       this.localVideo = localVideo
       if (!localVideo) this.$sound.sounds.mute.play()
       if (localVideo) this.$sound.sounds.unmute.play()
       this.$store.commit('localVideo', localVideo)
-      this.$streamManager.toggleLocalVideo(localVideo)
+
+      const constraints = {
+        audio: {
+          autoGainControl: false,
+          channelCount: 2,
+          echoCancellation: this.$store.state.echoCancellation,
+          latency: 0,
+          noiseSuppression: this.$store.state.noiseSuppression,
+          sampleRate: this.$store.state.audioQuality * 1000,
+          sampleSize: this.$store.state.audioSamples,
+          volume: 1.0,
+          deviceId: 'default'
+        }
+      }
+      if (this.$store.state.localVideo) { 
+        constraints.video = { facingMode: { ideal: "user" } } 
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints)
+      this.localStream = stream;
+      // this.$streamManager.addLocalStream(stream)
+      this.updateStream(stream)
+    },
+    async toggleScreenSharing () {
+      this.screenSharing = !this.screenSharing
+      let displayMediaOptions = {
+        video: { cursor: "always" },
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 44100
+        }
+      }
+      const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+      this.localStream = stream;
+      // this.$streamManager.addLocalStream(stream)
+      this.updateStream(stream)
+    },
+    /** @method
+     * Updates streams accross the Peer connection
+     * @name updateStreams
+     */
+    async updateStream (stream) {
+      this.$store.dispatch('updateStream', {
+        friendAddress: this.$store.state.activeChat,
+        stream
+      })
+      // this.updateStreams()
     },
     /** @method
      * Update local and remote streams in data
-     * @name toggleLocalVideo
+     * @name updateStreams
      */
     updateStreams () {
       for (let key in this.$streamManager.localStreams) {
         let stream = this.$streamManager.localStreams[key]
         this.localStream = stream
+      }
+      for (let key in this.$streamManager.remoteStreams) {
+        let stream = this.$streamManager.remoteStreams[key]
+        this.remoteStream = stream
+      }
+    },
+    /** @method
+     * Kills all streams throigh stream manager
+     * @name updateStreams
+     */
+    killAllStreams () {
+      this.$streamManager.killAllStreams()
+    },
+    checkStreams () {
+      console.log('---------- checking ----------')
+      for (let key in this.$streamManager.localStreams) {
+        let stream = this.$streamManager.localStreams[key]
+        this.localStream = stream
+        for (let track of stream.getTracks()) { console.log('local: ', track.kind, track.enabled) }
         // console.log(stream)
       }
       for (let key in this.$streamManager.remoteStreams) {
         let stream = this.$streamManager.remoteStreams[key]
         this.remoteStream = stream
-        // console.log(stream)
-        // for (let track of stream.getTracks()) { console.log(track) }
+        for (let track of stream.getTracks()) { console.log('remote: ', track.kind, track.enabled) }
       }
     }
   }

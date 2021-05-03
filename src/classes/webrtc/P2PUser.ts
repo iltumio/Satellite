@@ -279,4 +279,17 @@ export default class P2PUser {
     this.activeCall?.destroy()
     this.instance?.destroy()
   }
+
+  public addMedia (stream) {
+    console.log('Adding Media')
+    this.instance.addStream(stream)
+    // this.instance.send(JSON.stringify({ type: 'call-stream' }))
+    // this.emitCallEvent('call-stream', stream)
+    // Store the active stream to destroy it after hangup
+    // this.activeStream = stream
+    // @ts-ignore
+    // this.activeCall.stream = stream
+    // this.emitCallEvent('call-stream', stream)
+    // this.instance.send(JSON.stringify({ type: 'call-answered' }))
+  }
 }
