@@ -32,7 +32,7 @@
 @yellow: #fbc02d;
 
 .theme {
-  .c-message-body .remote .msg-wrapper {
+  .c-message-body .remote .c-message {
     background-color: @lighter-dark-blue-gray !important;
   }
   .phrase .mnemonic-word {
@@ -47,7 +47,8 @@
     color: @basically-white !important;
   }
   a {
-    color: @yellow !important;
+    color: @primary-highlight !important;
+    text-decoration: underline;
   }
   pre {
     background: @is-this-black !important;
@@ -546,6 +547,7 @@
   }
   .main-user-info {
     background: @darker-blue-gray !important;
+    border-left: 1px solid @super-dark-boi !important;
   }
   .true i {
     color: @primary-highlight !important;
@@ -796,6 +798,10 @@
     }
   }
   @media (max-width: 768px) {
+    .media {
+      background: transparent !important;
+      border: none !important;
+    }
     .user:hover { 
       background-color: unset !important;
     }

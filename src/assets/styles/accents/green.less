@@ -1,5 +1,8 @@
 
 @accent-color: #00b894;
+@green: #00b894;
+@red: #df7070;
+@yellow: #fbc02d;
 
 .theme {
   .phrase .mnemonic-word {
@@ -59,6 +62,15 @@
   .blue {
     color: @accent-color !important;
   }
+  .red {
+    color: @red !important;
+  }
+  .green {
+    color: @green !important;
+  }
+  .yellow {
+    color: @yellow !important;
+  }
   @media (max-width: 768px) { 
     .menu-list .active {
       background-color: @accent-color !important;
@@ -70,7 +82,7 @@
       color: @accent-color !important;
     }
     .local {
-      .msg-wrapper {
+      .c-message {
         background: @accent-color !important;
       }
       .arrow-left {

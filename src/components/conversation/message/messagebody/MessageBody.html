@@ -22,8 +22,9 @@
         :y="contextCoordsY"
         :close="hideContext" />
       <div class="msg-wrapper">
-        <div class="arrow-left"></div>
-        
+        <p class="message-user">
+          {{ dweller.name }}
+        </p>
         <div class="c-message" v-for="message in messages" @contextmenu="handleContext" :data-id="message.id || message._id">
 <pre v-if="debug()">
 {{ message }}

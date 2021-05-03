@@ -44,7 +44,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
 .not-loaded {
   width: 300px;
   height: 150px;
@@ -63,17 +63,18 @@ img {
   display: none;
 }
 .loaded {
-  display: inline-block;
+  display: block;
 }
 img {
   border-radius: 4px;
 }
-
-@media (max-width: 768px) {
-  .img img {
-    max-width: unset;
-    min-width: unset;
-    max-width: 100%;
+@media (max-width: 768px) { 
+  .img {
+    margin: 0;
+    img {
+      max-width: 100%;
+      border-radius: 0;
+    }
   }
 }
 </style>

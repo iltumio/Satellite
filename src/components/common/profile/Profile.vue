@@ -21,31 +21,31 @@
             </div>
             <!-- If we're viewing a friend -->
             <div class="quick-actions" v-if="!loading && isFriend">
-                <button class="button is-primary is-outlined" v-on:click="chatFriend">
+                <button class="button is-primary" v-on:click="chatFriend">
                     <i class="fas fa-comment-alt-dots"></i> &nbsp; Message
                 </button>
-                <button class="button is-primary is-outlined">
+                <button class="button is-primary">
                     <i class="fas fa-phone"></i> &nbsp; Call
                 </button>
-                <button class="button is-primary is-outlined">
+                <button class="button is-primary">
                     <i class="fas fa-share-square"></i> &nbsp; Share
                 </button>
             </div>
             <!-- If we're not friends with the person yet -->
             <div class="quick-actions" v-else-if="!loading && !isFriend && !isSelf">
-                <button class="button is-primary is-outlined">
+                <button class="button is-primary">
                     <i class="fas fa-user-plus"></i> &nbsp; Add Friend
                 </button>
             </div>
             <!-- We're viewing our own profile -->
             <div class="quick-actions" v-else-if="!loading && isSelf">
-                <button class="button is-primary is-outlined">
+                <button class="button is-primary">
                     <i class="fas fa-share-square"></i> &nbsp; Share
                 </button>
             </div>
             <!-- Still loading -->
             <div class="quick-actions" v-else>
-                <button class="button is-primary is-outlined" disabled>
+                <button class="button is-primary" disabled>
                     <i class="fas fa-spinner-third fa-spin"></i> &nbsp; Loading
                 </button>
             </div>
