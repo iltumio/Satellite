@@ -85,6 +85,7 @@ export default {
       ['disconnect']
     );
   },
+
   async signal({ commit, dispatch, state }, { signal, identifier }) {
     // @ts-ignore
     const { signalingManager } = this.$app.$database;
@@ -101,6 +102,7 @@ export default {
       }
     }
   },
+
   async subscribeToFriendsSignals({ dispatch }, { friends }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
@@ -113,6 +115,7 @@ export default {
       }
     });
   },
+
   async checkLastSignal({}, { friend }) {
     // @ts-ignore
     const { signalingManager } = this.$app.$database;
@@ -136,6 +139,7 @@ export default {
       await WebRTC.forwardSignal(sender, data);
     }
   },
+
   async subscribeToFriendSignal({ dispatch }, { friend }) {
     // @ts-ignore
     const { signalingManager } = this.$app.$database;
@@ -168,12 +172,14 @@ export default {
 
     return;
   },
+
   async initiateConnection({}, { friend }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
 
     await WebRTC.initiateConnection(friend.address, true);
   },
+
   async call({ commit, dispatch }, { friendAddress, stream }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
@@ -193,16 +199,14 @@ export default {
     commit('addActiveCall', friendAddress);
     dispatch('sendMessage', { data: Date.now(), type: 'call' });
   },
-  async updateStream({ commit, dispatch }, { friendAddress, stream }) {
-    // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
-    // @ts-ignore
-    const streamManager = this.$app.$streamManager;
-    
-    await WebRTC.updateStream(friendAddress, stream);
 
-    streamManager.addLocalStream(friendAddress, stream);
-  },
+  // async updateTracks({ commit, dispatch }, { friendAddress, stream, video, localTrack, newTrack }) {
+  //   console.log('P2P: Updating Tracks')
+  //   // @ts-ignore
+  //   const WebRTC = this.$app.$WebRTC;
+  //   await WebRTC.updateTracks(friendAddress, stream, video, localTrack, newTrack);
+  // },
+
   async answerCall({ commit, dispatch }, { friend, stream }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
@@ -225,6 +229,7 @@ export default {
     commit('addActiveCall', friend.address);
     dispatch('setActiveChat', { friendAddress: friend.address });
   },
+
   async hangupCall({ commit, dispatch }, { friendAddress }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;

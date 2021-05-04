@@ -14,32 +14,38 @@ export default {
   data () {
     return {
       config,
-      localVideo: true, // this.$store.state.localVideo
-      screenSharing: false,
-      remoteVideo: true,
       localStream: null,
       remoteStream: null,
+      localVideo: this.$store.state.localVideo,
+      remoteVideo: this.$store.state.remoteVideo,
+      screenSharing: false,
     }
   },
   mounted () {
+    console.log('VoiceVideo.vue : mounted()')
     this.updateStreams()
-    this.$streamManager.toggleLocalVideo(this.localVideo)
     
-
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      // console.log('Web RTC event: ', event)
-      // this.updateStreams()
+      console.log('Event: ', event)
+      this.updateStreams()
     }, ['call-stream', 'call-ended', 'incoming-call', 'outgoing-call'])
 
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      console.log('EVENT: call-stream')
-      console.log(data)
-      this.remoteStream = data[0]
+      console.log('Event: ', event)
+      this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
+      // this.remoteStream = data[0]
     }, ['call-stream'])
+
+    this.$WebRTC.subscribe((event, identifier, { type, data }) => {
+      console.log('Event: ', event)
+      this.remoteVideo = data
+    }, ['stream-update'])
 
     this.$WebRTC.subscribe(() => {
       this.$store.commit('incomingCall', false)
     }, ['call-ended'])
+
+    this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
   },
   methods: {
     isMobile: MobileUtils.isMobile,
@@ -54,6 +60,7 @@ export default {
       this.$store.commit('muted', !muted)
       this.$streamManager.toggleLocalStreams(muted, this.localVideo)
     },
+
     /** @method
      * Mute the active stream &
      * mute remote audio
@@ -70,41 +77,24 @@ export default {
       )
       this.$streamManager.toggleRemoteStreams(deafened, this.remoteVideo)
     },
+
     /** @method
      * Toggle personal video stream
      * @name toggleLocalVideo
      */
     async toggleLocalVideo () {
-      this.$streamManager.killStreamsByType('local')
+      console.log('VoiceVideo.vue : toggleLocalVideo()')
 
       const localVideo = !this.$store.state.localVideo
       this.localVideo = localVideo
-      if (!localVideo) this.$sound.sounds.mute.play()
-      if (localVideo) this.$sound.sounds.unmute.play()
       this.$store.commit('localVideo', localVideo)
+      
+      localVideo ? this.$sound.sounds.unmute.play() : this.$sound.sounds.mute.play()
 
-      const constraints = {
-        audio: {
-          autoGainControl: false,
-          channelCount: 2,
-          echoCancellation: this.$store.state.echoCancellation,
-          latency: 0,
-          noiseSuppression: this.$store.state.noiseSuppression,
-          sampleRate: this.$store.state.audioQuality * 1000,
-          sampleSize: this.$store.state.audioSamples,
-          volume: 1.0,
-          deviceId: 'default'
-        }
-      }
-      if (this.$store.state.localVideo) { 
-        constraints.video = { facingMode: { ideal: "user" } } 
-      }
-
-      const stream = await navigator.mediaDevices.getUserMedia(constraints)
-      this.localStream = stream;
-      // this.$streamManager.addLocalStream(stream)
-      this.updateStream(stream)
+      this.$streamManager.toggleLocalVideo(localVideo)
+      this.$WebRTC.streamUpdate(this.$store.state.activeChat, localVideo)
     },
+
     async toggleScreenSharing () {
       this.screenSharing = !this.screenSharing
       let displayMediaOptions = {
@@ -117,25 +107,16 @@ export default {
       }
       const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
       this.localStream = stream;
-      // this.$streamManager.addLocalStream(stream)
-      this.updateStream(stream)
+      this.$streamManager.addLocalStream(stream)
+      this.$WebRTC.addStream(stream)
     },
-    /** @method
-     * Updates streams accross the Peer connection
-     * @name updateStreams
-     */
-    async updateStream (stream) {
-      this.$store.dispatch('updateStream', {
-        friendAddress: this.$store.state.activeChat,
-        stream
-      })
-      // this.updateStreams()
-    },
+
     /** @method
      * Update local and remote streams in data
      * @name updateStreams
      */
     updateStreams () {
+      console.log('VoiceVideo.vue : updateStreams()')
       for (let key in this.$streamManager.localStreams) {
         let stream = this.$streamManager.localStreams[key]
         this.localStream = stream
@@ -145,6 +126,7 @@ export default {
         this.remoteStream = stream
       }
     },
+
     /** @method
      * Kills all streams throigh stream manager
      * @name updateStreams
@@ -152,20 +134,7 @@ export default {
     killAllStreams () {
       this.$streamManager.killAllStreams()
     },
-    checkStreams () {
-      console.log('---------- checking ----------')
-      for (let key in this.$streamManager.localStreams) {
-        let stream = this.$streamManager.localStreams[key]
-        this.localStream = stream
-        for (let track of stream.getTracks()) { console.log('local: ', track.kind, track.enabled) }
-        // console.log(stream)
-      }
-      for (let key in this.$streamManager.remoteStreams) {
-        let stream = this.$streamManager.remoteStreams[key]
-        this.remoteStream = stream
-        for (let track of stream.getTracks()) { console.log('remote: ', track.kind, track.enabled) }
-      }
-    }
+
   }
 }
 </script>

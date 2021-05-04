@@ -3,16 +3,16 @@
 >
   <div :class="`media-content ${mediaOpen ? 'media-open' : 'media-closed'}`">
     <div class="media-participants container">
-      <video v-if="true" class="video-stream" :srcObject.prop="localStream" autoplay muted></video>
+      <video v-if="localVideo" class="video-stream" :srcObject.prop="localStream" autoplay muted></video>
       <div v-else :class="`media-participant ${voice ? 'voice-participant' : ''}`">
-        <CircleIcon
+        <CircleIcon 
           :image="$store.state.friends.filter(f => f.address === $store.state.activeChat)[0].photo"
           :address="$store.state.activeChat"
         />
       </div>
-      <video v-if="true" class="video-stream" :srcObject.prop="remoteStream" autoplay muted></video>
+      <video v-if="remoteVideo" class="video-stream" :srcObject.prop="remoteStream" autoplay muted></video>
       <div v-else :class="`media-participant ${voice ? 'voice-participant' : ''}`">
-        <CircleIcon 
+        <CircleIcon
           :image="`${config.ipfs.browser}${$store.state.profilePictureHash}`"
           :address="$store.state.activeAccount"
         />
@@ -60,10 +60,6 @@
       <span class="spacer"></span>
       <button class="button is-danger is-small" v-on:click="disconnect(); killAllStreams();">
         <i class="fas fa-phone-slash"></i> &nbsp; {{$t('conversation.voicevideo.disconnect')}}
-      </button>
-      <!-- CHECKER -->
-      <button class="button is-small" v-on:click="checkStreams">
-        <i class="fas"></i> &nbsp; CHECK
       </button>
     </div>
   </div>

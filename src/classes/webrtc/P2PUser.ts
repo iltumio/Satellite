@@ -256,6 +256,36 @@ export default class P2PUser {
       this.instance.send(JSON.stringify({ type: 'call-answered' }))
   }
 
+  public addStream(stream) {
+    console.log('P2PUser.ts : AddStream()')
+    // @ts-ignore
+    this.activeCall.addStream(stream)
+  }
+
+  public removeStream(stream) {
+    console.log('P2PUser.ts : RemoveStream()')
+    // @ts-ignore
+    this.instance.removeStream(stream)
+  }
+
+  public addTrack(track, stream) {
+    console.log('P2PUser.ts : AddTrack()')
+    this.instance.addTrack(track, stream)
+    // this.instance.send(JSON.stringify({ type: 'call-stream', data: { hi: 'stream' } }))
+  }
+
+  public removeTrack(track, stream) {
+    console.log('P2PUser.ts : RemoveTrack()')
+    // @ts-ignore
+    this.activeCall.removeTrack(track, stream)
+  }
+
+  public replaceTrack(oldTrack, newTrack, stream) {
+    console.log('P2PUser.ts : ReplaceTrack()')
+    this.instance.replaceTrack(oldTrack, newTrack, stream)
+  }
+
+
   public hangupCall (sendToRemote?: boolean) {
     if (this.activeCall) {
       this.activeCall?.destroy()
@@ -278,18 +308,5 @@ export default class P2PUser {
   public destroy () {
     this.activeCall?.destroy()
     this.instance?.destroy()
-  }
-
-  public addMedia (stream) {
-    console.log('Adding Media')
-    this.instance.addStream(stream)
-    // this.instance.send(JSON.stringify({ type: 'call-stream' }))
-    // this.emitCallEvent('call-stream', stream)
-    // Store the active stream to destroy it after hangup
-    // this.activeStream = stream
-    // @ts-ignore
-    // this.activeCall.stream = stream
-    // this.emitCallEvent('call-stream', stream)
-    // this.instance.send(JSON.stringify({ type: 'call-answered' }))
   }
 }

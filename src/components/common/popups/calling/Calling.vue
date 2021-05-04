@@ -33,9 +33,9 @@ export default {
       }
 
       this.$store.commit('localVideo', video)
-       if (this.$store.state.localVideo) { 
+      //  if (this.$store.state.localVideo) { 
         constraints.video = { facingMode: { ideal: "user" } } 
-      }
+      // }
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints)
       // this.$streamManager.addLocalStream(stream);

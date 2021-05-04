@@ -31,18 +31,18 @@ export default class StreamManager {
   }
 
   public addLocalStream (identifier: string, stream: MediaStream) {
-    // if (this._localStreams[identifier]) {
-    //   console.warn('Local stream already exist')
-    //   return
-    // }
+    if (this._localStreams[identifier]) {
+      console.warn('Local stream already exist')
+      // return
+    }
     this._localStreams[identifier] = stream
   }
 
   public addRemoteStream (identifier: string, stream: MediaStream) {
-    // if (this._remoteStreams[identifier]) {
-    //   console.warn('Remote stream already exist')
-    //   return
-    // }
+    if (this._remoteStreams[identifier]) {
+      console.warn('Remote stream already exist')
+      // return
+    }
     this._remoteStreams[identifier] = stream
   }
 
@@ -81,18 +81,21 @@ export default class StreamManager {
   }
 
 
-  public toggleLocalVideo(enabled: boolean) {
+  public toggleLocalVideo(enable: boolean) {
+    console.log('StreamManager: toggleLocalVideo()')
     Object.entries<MediaStream>(this._localStreams).forEach(
       async ([identifier, stream]) => {
         let videoTracks = stream.getVideoTracks()
-        console.log('Video Tracks: ' + videoTracks.length)
-        // if (!enabled && videoTracks.length > 0) {
-          // videoTracks.forEach(track => { track.stop() })
+        videoTracks.forEach(track => { track.enabled = enable })
+        // if (enable) {
+        //   stream.addTrack(track)
+        // } else {
+        //   let videoTracks = stream.getVideoTracks()
+        //   videoTracks.forEach(track => { track.stop() })
         // }
       }
     )
   }
-  
 
   private stopAllTracks (stream: MediaStream) {
     stream.getAudioTracks().forEach(track => {
@@ -139,7 +142,7 @@ export default class StreamManager {
     const audioTypeId = `_${streamType}Audio`
 
     const stream: MediaStream | undefined = this[streamTypeId][identifier]
-    
+
     if (!stream) {
       console.warn('stopStream: Stream not found')
       return
