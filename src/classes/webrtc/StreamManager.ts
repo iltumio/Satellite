@@ -33,7 +33,7 @@ export default class StreamManager {
   public addLocalStream (identifier: string, stream: MediaStream) {
     if (this._localStreams[identifier]) {
       console.warn('Local stream already exist')
-      // return
+      return
     }
     this._localStreams[identifier] = stream
   }
@@ -41,7 +41,7 @@ export default class StreamManager {
   public addRemoteStream (identifier: string, stream: MediaStream) {
     if (this._remoteStreams[identifier]) {
       console.warn('Remote stream already exist')
-      // return
+      return
     }
     this._remoteStreams[identifier] = stream
   }

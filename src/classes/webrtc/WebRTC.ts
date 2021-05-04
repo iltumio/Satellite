@@ -385,6 +385,7 @@ export default class WebRTC {
     const identifier = this.buildIdentifier(address)
     const peer = this.connectedPeers[identifier]
     peer.addStream(stream)
+    // peer.send(JSON.stringify({ type: 'stream-change', data: {} }))
   }
 
   public async removeStream (address: string, stream: MediaStream) {

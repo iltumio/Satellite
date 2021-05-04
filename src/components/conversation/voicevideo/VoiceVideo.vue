@@ -19,6 +19,7 @@ export default {
       localVideo: this.$store.state.localVideo,
       remoteVideo: this.$store.state.remoteVideo,
       screenSharing: false,
+      activeCall: false
     }
   },
   mounted () {
@@ -33,7 +34,10 @@ export default {
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
       console.log('Event: ', event)
       this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
-      // this.remoteStream = data[0]
+      console.log('** CALL STREAM')
+      console.log(data)
+      this.remoteStream = data[0]
+      this.activeCall = true
     }, ['call-stream'])
 
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
@@ -45,6 +49,20 @@ export default {
       this.$store.commit('incomingCall', false)
     }, ['call-ended'])
 
+    this.$WebRTC.subscribe((event, identifier, { type, data }) => {
+      if (this.activeCall) {
+        console.log('----- STREAM CHANGE -----')
+        // console.log(data)
+        // let friend = this.$store.state.friends.find(
+        //   f => f.address === this.$store.state.incomingCall
+        // )
+        this.$store.commit('incomingCall', false);
+
+        // this.$WebRTC.answerCall(friend.address, this.localStream);
+        // this.$store.dispatch('answerCall', { friend, stream: this.localStream })
+      }
+    }, ['incoming-call'])
+    
     this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
   },
   methods: {
@@ -96,6 +114,7 @@ export default {
     },
 
     async toggleScreenSharing () {
+      console.log('VoiceVideo.vue : toggleScreenSharing()')
       this.screenSharing = !this.screenSharing
       let displayMediaOptions = {
         video: { cursor: "always" },
@@ -106,9 +125,15 @@ export default {
         }
       }
       const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-      this.localStream = stream;
-      this.$streamManager.addLocalStream(stream)
-      this.$WebRTC.addStream(stream)
+      // console.log(stream)
+      // let newTrack = stream.getVideoTracks()[0]
+      // let localTrack = this.localStream.getVideoTracks()[0]
+      // this.$WebRTC.removeStream(this.$store.state.activeChat, this.localStream)
+      // this.$WebRTC.addStream(this.$store.state.activeChat, stream)
+      // this.$WebRTC.replaceTrack(this.$store.state.activeChat, localTrack, newTrack, stream)
+      // this.localStream = stream;
+      // this.$streamManager.addLocalStream(stream)
+      // this.$WebRTC.addStream(stream)
     },
 
     /** @method

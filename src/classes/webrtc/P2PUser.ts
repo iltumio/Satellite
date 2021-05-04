@@ -259,19 +259,30 @@ export default class P2PUser {
   public addStream(stream) {
     console.log('P2PUser.ts : AddStream()')
     // @ts-ignore
+    console.log(this.activeCall.streams)
+    // @ts-ignore
     this.activeCall.addStream(stream)
+    // @ts-ignore
+    console.log(this.activeCall.streams)
+    // @ts-ignore
+    // this.instance.send(JSON.stringify({ type: 'stream-change', data: {} }))
   }
 
   public removeStream(stream) {
     console.log('P2PUser.ts : RemoveStream()')
     // @ts-ignore
-    this.instance.removeStream(stream)
+    console.log(this.activeCall.streams)
+    // @ts-ignore
+    this.activeCall.removeStream(stream)
+    // @ts-ignore
+    console.log(this.activeCall.streams)
   }
 
   public addTrack(track, stream) {
     console.log('P2PUser.ts : AddTrack()')
-    this.instance.addTrack(track, stream)
-    // this.instance.send(JSON.stringify({ type: 'call-stream', data: { hi: 'stream' } }))
+    // @ts-ignore
+    this.activeCall.addTrack(track, stream)
+    // this.instance.send(JSON.stringify({ type: 'stream-change', data: {} }))
   }
 
   public removeTrack(track, stream) {
@@ -282,7 +293,9 @@ export default class P2PUser {
 
   public replaceTrack(oldTrack, newTrack, stream) {
     console.log('P2PUser.ts : ReplaceTrack()')
-    this.instance.replaceTrack(oldTrack, newTrack, stream)
+    // @ts-ignore
+    this.activeCall.replaceTrack(oldTrack, newTrack, stream)
+    this.instance.send(JSON.stringify({ type: 'stream-change', data: {} }))
   }
 
 
