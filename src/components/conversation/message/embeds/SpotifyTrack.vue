@@ -29,7 +29,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
   .media {
     background: #fff;
     border-radius: 6px;
@@ -39,5 +39,15 @@ export default {
   }
   img {
     border-radius: 4px;
+  }
+  @media (max-width: 768px) {
+    .media {
+      padding: 0;
+      border-radius: 0;
+
+      .content {
+        margin-bottom: -0.5rem;
+      }
+    }
   }
 </style>

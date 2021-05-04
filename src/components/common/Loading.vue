@@ -1,8 +1,5 @@
 <template>
   <div class="loading-wrapper">
-    <Particles
-      id="tsparticles"
-      url="https://gist.githubusercontent.com/RetroPronghorn/188de96e4bb5f641f56805d65a2cac9e/raw/bba2267368ed833b7dd785b1be50218cd5ae854b/particles.json" />
     <div id="loading">
       <div
         :class="

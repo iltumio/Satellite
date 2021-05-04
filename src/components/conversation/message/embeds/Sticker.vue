@@ -69,6 +69,9 @@ export default {
   }
 
   @media (max-width: 768px) {
+    #sticker {
+      text-align: center;
+    }
     .verified {
       width: 100%;
       text-align: center;
