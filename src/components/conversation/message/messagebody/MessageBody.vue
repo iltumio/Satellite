@@ -6,7 +6,6 @@
   // Embeds
   import Link from '@/components/conversation/message/embeds/Link';
   import Sticker from '@/components/conversation/message/embeds/Sticker';
-  import OfflineChat from '@/components/conversation/message/embeds/OfflineChat';
   import YouTube from '@/components/conversation/message/embeds/YouTube';
   import Spotify from '@/components/conversation/message/embeds/Spotify';
   import SpotifyTrack from '@/components/conversation/message/embeds/SpotifyTrack';
@@ -39,7 +38,6 @@
       Spotify,
       SpotifyTrack,
       // Internal
-      OfflineChat,
       Payment,
       Call,
       ImageViewer,

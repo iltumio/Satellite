@@ -37,6 +37,7 @@ export interface IState {
   settings: ISettings;
   // Theme
   theme: ThemeName;
+  accent: string;
   // Screen Share
   screenShareRequest: null;
   captureMouse: 'always';
@@ -129,6 +130,7 @@ export const defaultState: IState = {
   },
   // Theme
   theme: MobileUtils.isMobile() ? 'oled' : 'tokyo',
+  accent: 'blue',
   // Screen Share
   screenShareRequest: null,
   captureMouse: 'always',

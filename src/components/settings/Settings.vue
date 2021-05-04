@@ -84,7 +84,7 @@
         </ul>
       </aside>
     </div>
-    <div class="column settings-right">
+    <div class="column settings-right" v-body-scroll-lock="isMobile()">
       <Personalize
         v-if="route == 'personalize'"
         :settings="settings"

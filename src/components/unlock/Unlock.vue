@@ -1,8 +1,5 @@
 <template>
   <div class="unlock-wrapper">
-    <Particles
-      id="tsparticles"
-      url="https://gist.githubusercontent.com/RetroPronghorn/188de96e4bb5f641f56805d65a2cac9e/raw/bba2267368ed833b7dd785b1be50218cd5ae854b/particles.json" />
     <div id="unlock">
       <PWAInstallPrompt />
       <div class="columns main unlock">
@@ -38,9 +35,9 @@
             </div>
           </div>
           <!-- Disabled -->
-          <p class="label sub-label" v-if="false">
-            <input :readonly="decrypting" type="checkbox" v-model="storePin" />
-            {{ $t('unlock.stay_logged') }}
+          <p class="label sub-label">
+            <ToggleSwitch v-model="storePin" />
+            <span class="store-pin-text">{{ $t('unlock.stay_logged') }}</span>
           </p>
         </div>
         <div class="column is-one-fifth"></div>
@@ -70,7 +67,7 @@ export default {
     return {
       pin: '',
       error: false,
-      storePin: false,
+      storePin: localStorage.getItem('v74.pin') ? true : false,
       storedPinHash: localStorage.getItem('v74.pinhash') || false,
       storedPin: localStorage.getItem('v74.pin') || false,
       decrypting: false
@@ -116,13 +113,10 @@ export default {
     }
   },
   mounted () {
-    /* Disabled
     if (localStorage.getItem('v74.pin')) {
-      window.v74pin = localStorage.getItem('v74.pin');
-      this.decrypting = true;
-      this.decrypted(localStorage.getItem('v74.pin'));
+      this.pin = localStorage.getItem('v74.pin')
+      this.testPin()
     }
-    */
   }
 }
 </script>
@@ -157,6 +151,12 @@ export default {
   margin-bottom: 0;
   margin-top: 0;
   padding-top: 20%;
+}
+.switch-button-control {
+  float: left;
+}
+.store-pin-text {
+  float: left;
 }
 .pin-text {
   color: #b2bae1;
