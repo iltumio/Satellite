@@ -137,4 +137,14 @@ img {
 .text, .status{
   padding-left: 2rem;
 }
+
+@media (max-width: 768px) { 
+  .media-content {
+    background: #000;
+    /* color: #000; */
+    border-radius: 5px;
+    padding: 0 0.5rem;
+    margin: 0 0 0.5rem 0;
+  }
+}
 </style>

@@ -3,10 +3,7 @@
     <article class="media">
       <div class="media-content">
         <div class="content">
-          <p>
-            <br>
-            <iframe width="373" height="210" :src="`https://www.youtube.com/embed/${link[5]}`" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </p>
+          <iframe width="373" height="210" :src="`https://www.youtube.com/embed/${link[5]}`" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
     </article>
@@ -34,5 +31,10 @@ export default {
   }
   img {
     border-radius: 4px;
+  }
+  @media (max-width: 768px) {
+    .media {
+      padding: 0;
+    }
   }
 </style>
