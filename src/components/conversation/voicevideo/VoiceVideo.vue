@@ -25,6 +25,8 @@ export default {
   mounted () {
     console.log('VoiceVideo.vue : mounted()')
     this.updateStreams()
+    this.$streamManager.toggleLocalStreams(this.$store.state.muted, this.localVideo)
+    this.$streamManager.toggleRemoteStreams(this.$store.state.deafened, this.remoteVideo)
     
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
       console.log('Event: ', event)
