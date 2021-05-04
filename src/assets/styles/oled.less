@@ -3,9 +3,9 @@
 // Infobar & Sidebar
 @dark-blue-gray: #000;
 @darker-blue-gray: #000;
-@lighter-dark-blue-gray: #1a1b27;
+@lighter-dark-blue-gray: #1a1b26;
 // Borders
-@super-dark-boi: #1d1d25;
+@super-dark-boi: #14141a;
 @outline-dark: #1b1b24;
 // Friends & Containers
 @ohh-so-dark: #0d0d13;
@@ -25,13 +25,16 @@
 // Message Hovering
 @is-this-black: #000000;
 // Highlights
-@primary-highlight: #dde1f7;
+@primary-highlight: #fff;
 // Errors
 @green: #00b894;
 @red: #df7070;
 @yellow: #fbc02d;
 
 .theme {
+  .c-message-body .remote .c-message {
+    background-color: @lighter-dark-blue-gray !important;
+  }
   .phrase .mnemonic-word {
     color: @basically-white;
     background-color: @really-blue !important;
@@ -44,7 +47,8 @@
     color: @basically-white !important;
   }
   a {
-    color: @yellow !important;
+    color: @primary-highlight !important;
+    text-decoration: underline;
   }
   pre {
     background: @is-this-black !important;
@@ -144,10 +148,10 @@
     border: none !important;
   }
   .friend {
-    background: @ohh-so-dark !important;
+    background: @lighter-dark-blue-gray !important;
   }
   .friend .online {
-    -webkit-text-stroke-color: @ohh-so-dark;
+    -webkit-text-stroke-color: @lighter-dark-blue-gray;
   }
   #friends {
     background: @less-dark-blue-gray !important;
@@ -377,16 +381,16 @@
     border-bottom: 1px solid @super-dark-boi !important;
   }
   .input, input, textarea {
-    background-color: @less-dark-blue-gray !important; 
+    background-color: @lighter-dark-blue-gray !important; 
     border: none !important; 
-    color: #ccc !important;
+    color: #fff !important;
   }
   .messageuser {
     background-color: transparent !important;
   }
   .button .is-dark {
     background-color: @less-dark-blue-gray !important; 
-    color: #ccc !important;
+    color: #fff !important;
   }
   hr {
     border:none !important;
@@ -400,7 +404,7 @@
     border-bottom: 1px solid @super-dark-boi !important;
   }
   .select select {
-    background: @less-dark-blue-gray !important;
+    background: @lighter-dark-blue-gray !important;
     border: 1px solid transparent !important;
     color: @lighter-blue-gray !important;
   }
@@ -452,10 +456,11 @@
     color: @nearly-white !important;
   }
   .input-collection {
-    background-color: @dark-blue-gray !important; 
+    background-color: @lighter-dark-blue-gray !important; 
   }
   .input-collection input {
-    background-color: @dark-blue-gray !important; 
+    background-color: @lighter-dark-blue-gray !important; 
+    color: #fff;
   }
   .chat-group {
     background-color: @less-dark-blue-gray !important; 
@@ -476,7 +481,7 @@
   }
   .user-active {
     color: @primary-highlight !important;
-    background-color: @ohh-so-dark !important;
+    background-color: @lighter-dark-blue-gray !important;
   }
   .group-active {
     color: @primary-highlight !important;
@@ -536,6 +541,13 @@
   .make-payment {
     background: @dark-blue-gray !important;
     border: none !important;
+  }
+  #server-info {
+    background: @dark-blue-gray !important;
+  }
+  .main-user-info {
+    background: @darker-blue-gray !important;
+    border-left: 1px solid @super-dark-boi !important;
   }
   .true i {
     color: @primary-highlight !important;
@@ -786,6 +798,10 @@
     }
   }
   @media (max-width: 768px) {
+    .media {
+      background: transparent !important;
+      border: none !important;
+    }
     .user:hover { 
       background-color: unset !important;
     }

@@ -9,31 +9,31 @@
   clear: both;
 }
 .c-message-body:hover {
-background-color: #f0f4f7;
+  background-color: #f0f4f7;
 }
 .c-message .media {
   margin: 0.5rem 0;
 }
 .c-message-actions {
-position: absolute;
-background: #e7ebee;
-padding: 0.1rem 0.5rem 0.1rem 1rem;
-top: 0.5rem;
-right: 2rem;
-display: none;
-color: #666;
-border-radius: 5px;
-border: 1px solid #e6ebee;
+  position: absolute;
+  background: #e7ebee;
+  padding: 0.1rem 0.5rem 0.1rem 1rem;
+  top: 0.5rem;
+  right: 2rem;
+  display: none;
+  color: #666;
+  border-radius: 5px;
+  border: 1px solid #e6ebee;
 }
 .c-message-actions i {
-margin-right: 0.5rem;
-cursor: pointer;
+  margin-right: 0.5rem;
+  cursor: pointer;
 }
 .c-message-actions i:hover {
-color: #000;
+  color: #000;
 }
 .c-message-body:hover .c-message-actions {
-display: block;
+  display: block;
 }
 .c-message-user {
   position: absolute;
@@ -87,8 +87,14 @@ strong {
     }
   }
 }
-
+.message-user {
+  display: none;
+}
 @media (max-width: 768px) { 
+  .message-user {
+    display: block;
+    font-size: 10pt;
+  }
   .c-message-body {
     width: unset;
     max-width: 100%;
@@ -103,25 +109,19 @@ strong {
   .mobile {
     display: inline-block;
   }
-  .msg-wrapper {
+  .c-message {
     background: #262b49;
-    padding: 0.75rem 1rem 0.75rem 1rem;
     border-radius: 5px;
     position: relative;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    p {
+      padding: 0.35rem 1rem 0.35rem 1rem;
+    }
   }
   .c-message-timestamp {
     text-align: right;
     width: 100%;
-  }
-  .arrow-left {
-    width: 0; 
-    height: 0; 
-    position: absolute;
-    left: -9px;
-    top: 10px;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent; 
-    border-right:10px solid #262b49; 
   }
   .c-message-content {
     padding-top: 0;
@@ -134,23 +134,10 @@ strong {
       padding-left: 1rem !important;
       padding-right: 3.8rem !important;
     }
-    .msg-wrapper {
+    .c-message {
       color: #e6ebee;
       background: #0984e3;
-    }
-    .arrow-left {
-      width: 0; 
-      height: 0; 
-      position: absolute;
-      left: -9px;
-      top: 10px;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent; 
-      border-right:10px solid #0984e3; 
-      transform: rotate(180deg);
-      position: absolute;
-      right: -9px;
-      left: unset;
+      border-radius: 10px 0 10px 10px;
     }
     .circle-icon {
       right: calc(-100% + 3.8rem) !important;
@@ -158,20 +145,18 @@ strong {
     .timestamp {
       text-align: left;
     }
+    .message-user {
+      font-size: 10pt;
+      text-align: right;
+    }
   }
   .remote {
-    .msg-wrapper {
+    .c-message {
       background: #1a1b26;
+      border-radius: 0 10px 10px 10px;
     }
-    .arrow-left {
-      width: 0; 
-      height: 0; 
-      position: absolute;
-      left: -9px;
-      top: 10px;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent; 
-      border-right:10px solid #1a1b26; 
+    .c-message:nth-child(first) {
+      border-radius: 0 10px 10px 10px;
     }
   }
 }

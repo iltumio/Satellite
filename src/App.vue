@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="this.$store.state.theme">
+  <div id="app" :class="`${this.$store.state.theme} ${this.$store.state.accent}`">
     <main id="main" class="theme" v-if="decrypted">
       <transition appear mode="out-in" name="slide-fade">
         <router-view></router-view>
@@ -101,6 +101,22 @@ export default {
 }
 .zenburn {
   @import 'assets/styles/zenburn.less';
+}
+// Accents
+.blue {
+  @import 'assets/styles/accents/blue.less';
+}
+.pink {
+  @import 'assets/styles/accents/pink.less';
+}
+.green {
+  @import 'assets/styles/accents/green.less';
+}
+.yellow {
+  @import 'assets/styles/accents/yellow.less';
+}
+.black {
+  @import 'assets/styles/accents/black.less';
 }
 .notification {
   z-index: 10;

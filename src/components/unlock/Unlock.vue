@@ -1,5 +1,61 @@
+<<<<<<< HEAD
 <template src="./Unlock.html"></template>
 
+=======
+<template>
+  <div class="unlock-wrapper">
+    <div id="unlock">
+      <PWAInstallPrompt />
+      <div class="columns main unlock">
+        <img id="logo" src="static/img/icons/logo-white.png" />
+        <div class="column is-one-fifth">
+          <i class="fas fa-key"></i>
+        </div>
+        <div class="column is-three-fifthths">
+          <h2 class="label" v-if="storedPinHash">
+            {{ $t('unlock.decrypt_account') }}
+          </h2>
+          <h2 class="label" v-else>{{ $t('unlock.create_encryption_pin') }}</h2>
+          <div class="field has-addons">
+            <div class="control" style="width: 100%;">
+              <input
+                type="password"
+                class="input is-small"
+                autofocus
+                v-model="pin"
+                v-on:keyup.enter="decideAction"
+                :placeholder="$t('unlock.pin_placeholder')"
+              />
+            </div>
+            <div class="control">
+              <a
+                :disabled="decrypting"
+                class="button is-primary is-small"
+                v-on:click="decideAction"
+              >
+                <i v-if="!decrypting" class="fas fa-unlock"></i>
+                <i v-else class="fa fa-spin fa-spinner-third"></i>
+              </a>
+            </div>
+          </div>
+          <!-- Disabled -->
+          <p class="label sub-label">
+            <ToggleSwitch v-model="storePin" />
+            <span class="store-pin-text">{{ $t('unlock.stay_logged') }}</span>
+          </p>
+        </div>
+        <div class="column is-one-fifth"></div>
+      </div>
+      <div class="subtext label">
+        {{ $t('unlock.AES_encryption') }}
+      </div>
+      <div class="error label red" v-if="error">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+</template>
+>>>>>>> 978076802bcf277c3d5d6ab8bbc2151ba33e6d6b
 <script>
 import ToggleSwitch from '@/components/common/ToggleSwitch'
 import PWAInstallPrompt from '@/components/common/mobile/PWAInstallPrompt'
@@ -16,7 +72,7 @@ export default {
     return {
       pin: '',
       error: false,
-      storePin: false,
+      storePin: localStorage.getItem('v74.pin') ? true : false,
       storedPinHash: localStorage.getItem('v74.pinhash') || false,
       storedPin: localStorage.getItem('v74.pin') || false,
       decrypting: false
@@ -62,16 +118,103 @@ export default {
     }
   },
   mounted () {
-    /* Disabled
     if (localStorage.getItem('v74.pin')) {
-      window.v74pin = localStorage.getItem('v74.pin');
-      this.decrypting = true;
-      this.decrypted(localStorage.getItem('v74.pin'));
+      this.pin = localStorage.getItem('v74.pin')
+      this.testPin()
     }
-    */
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<<<<<<< HEAD
 <style scoped lang="less" src="./Unlock.less"></style>
+=======
+<style scoped>
+#logo {
+  display: none;
+}
+#unlock {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 2;
+}
+#tsparticles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.main {
+  width: 500px;
+  /* margin: 33.33% calc(33.33% - 40px); */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 20%;
+}
+.switch-button-control {
+  float: left;
+}
+.store-pin-text {
+  float: left;
+}
+.pin-text {
+  color: #b2bae1;
+}
+.label {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.sub-label {
+  opacity: 0.75;
+}
+.subtext,
+.error {
+  text-align: center;
+  opacity: 0.2;
+}
+
+.error {
+  opacity: 1;
+}
+.fa-key {
+  font-size: 20pt;
+  margin-top: 1.6rem;
+  width: 15px;
+  height: 15px;
+  float: right;
+  color: #b2bae1 !important;
+}
+button {
+  margin-top: 1.5rem;
+}
+@media (max-width: 768px) {
+  #logo {
+    position: absolute;
+    top: 4rem;
+    left: calc(50% - 50px);
+    width: 100px;
+    height: 100px;
+    display: block;
+  }
+  #unlock {
+    background-position: bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+</style>
+>>>>>>> 978076802bcf277c3d5d6ab8bbc2151ba33e6d6b

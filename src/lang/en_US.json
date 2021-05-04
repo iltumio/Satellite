@@ -216,6 +216,8 @@
       "appearance": "Appearance",
       "theme_heading": "Theme",
       "theme_subtext": "Change up the theme and stay easy on the eyes with Satellite.",
+      "theme_accent_heading": "Accent Color",
+      "theme_accent_subtext": "Make it personal and chose your favorite color.",
       "permissions": "Permissions",
       "notifications_heading": "Notifications",
       "notifications_subtext": "Click to enable notifications with Satellite for a better experience.",
@@ -468,7 +470,7 @@
     "decrypt_account": "Decrypt Account",
     "create_encryption_pin": "Create Encryption Pin",
     "create_encryption_pin_subtext": "This is like your password, chose something safe.",
-    "stay_logged": "Stay logged in?",
+    "stay_logged": "Store Pin? (Less Secure)",
     "AES_encryption": "Pin stored with AES encryption using Web Crypto.",
     "pin_placeholder": "alphanumeric pin..."
   },
