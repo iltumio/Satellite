@@ -160,7 +160,10 @@ export default {
 
       this.makingRequest = { ...this.makingRequest, [address]: true }
 
-      await this.$store.dispatch('sendFriendRequest', { address })
+      await this.$store.dispatch('sendFriendRequest', {
+        address,
+        guestPublicKey: this.friend.pubkey
+      })
 
       this.makingRequest = { ...this.makingRequest, [address]: false }
 

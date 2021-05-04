@@ -8,6 +8,7 @@ import Database from '@/classes/database/Database'
 import Threads from '@/classes/database/textile/Threads'
 import RemoteStorage from '@/classes/storage/RemoteStorage'
 import WebRTC from '@/classes/webrtc/WebRTC'
+import Crypto from '@/classes/crypto/Crypto'
 import VueI18n from 'vue-i18n'
 import VueCurrencyInput from 'vue-currency-input'
 import Vue2TouchEvents from 'vue2-touch-events'
@@ -43,6 +44,7 @@ Vue.use(Toasted, config.toastNotifications)
 
 sync(store, router)
 
+Vue.prototype.$crypto = new Crypto()
 Vue.prototype.$database = new Database('SatelliteData')
 Vue.prototype.$Threads = new Threads()
 Vue.prototype.$WebRTC = new WebRTC()

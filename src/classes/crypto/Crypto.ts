@@ -1,12 +1,34 @@
-interface JsonKeyPair {
-  public: JsonWebKey
-  private: JsonWebKey
-}
+import { Wallet } from '@ethersproject/wallet'
+import { SigningKey } from 'ethers/lib/utils'
 
 const ivLen = 16 // the IV is always 16 bytes
 
 export default class Crypto {
+  signingKey?: SigningKey
   aesKeys: { [key: string]: CryptoKey } = {}
+
+  /**
+   * @method init
+   * @description Initializes the object using a specific private key
+   */
+  async init (wallet: Wallet) {
+    this.signingKey = new SigningKey(wallet.privateKey)
+  }
+
+  /**
+   * @method computeSharedSecret
+   * @description Computes the ECDH shared secret between the current signing
+   * key and the given recipient public key
+   * @param guestPublicKey public key of the recipient
+   * @returns shared secret string
+   */
+  computeSharedSecret (guestPublicKey: string) {
+    if (!this.isInitialized()) return null
+
+    return this.signingKey?.computeSharedSecret(
+      `0x04${guestPublicKey.slice(2)}`
+    )
+  }
 
   /**
    *
@@ -34,18 +56,33 @@ export default class Crypto {
    * @description Generates the AES key from the shared secret and caches it if
    * it's not present
    * @param recipientAddress Recipient address
-   * @param sharedSecret Previously computed ECDH shared secret
+   * @param guestPublicKey public key of the recipient
    * @returns AES key
    */
   async initializeRecipient (
     recipientAddress: string,
-    sharedSecret: string
+    guestPublicKey: string
   ): Promise<CryptoKey> {
+    // Check if the instance has been initialized
+    if (!this.isInitialized())
+      throw new Error('Crypto Instance not initialized')
+
+    // Check if the aes key for the given recipient is in cache
     if (this.aesKeys[recipientAddress]) {
       return this.aesKeys[recipientAddress]
     }
 
-    return await this.aesKeyFromSharedSecret(sharedSecret)
+    // Compute the shared secret
+    const sharedSecret = this.computeSharedSecret(guestPublicKey)
+
+    // Check if the shared secret has been properly generated
+    if (!sharedSecret) throw new Error('Impossible to generate shared secret')
+
+    const aesKey = await this.aesKeyFromSharedSecret(sharedSecret)
+
+    this.aesKeys[recipientAddress] = aesKey
+
+    return aesKey
   }
 
   /**
@@ -138,5 +175,58 @@ export default class Crypto {
     )
 
     return new TextDecoder().decode(decryptedData)
+  }
+
+  /**
+   * @method encryptFor
+   * @description Encrypts a string with the ECDH shared secret for a specific address
+   * @param recipientAddress Address of the recipient
+   * @param data string to be encrypted
+   * @returns the encrypted data
+   */
+  async encryptFor (recipientAddress: string, data: string) {
+    // Check if the instance has been initialized
+    if (!this.isInitialized())
+      throw new Error('Crypto Instance not initialized')
+
+    const aesKey = this.aesKeys[recipientAddress]
+
+    if (!aesKey)
+      throw new Error(
+        'Encryption engine for this recipient has not yet been initialized'
+      )
+
+    return this.encrypt(data, aesKey)
+  }
+
+  /**
+   * @method decryptFor
+   * @description Decrypts a string with the ECDH shared secret from a specific address
+   * @param senderAddress Address of the sender
+   * @param data string to be encrypted
+   * @returns the decrypted data
+   */
+  async decryptFor (senderAddress: string, data: string) {
+    // Check if the instance has been initialized
+    if (!this.isInitialized())
+      throw new Error('Crypto Instance not initialized')
+
+    const aesKey = this.aesKeys[senderAddress]
+
+    if (!aesKey)
+      throw new Error(
+        'Encryption engine for this sender has not yet been initialized'
+      )
+
+    return this.decrypt(data, aesKey)
+  }
+
+  /**
+   * @function isInitialized
+   * @description Checks if the current instance is initialized
+   * @returns a boolean value wether the instance has been initialized or not
+   */
+  isInitialized () {
+    return Boolean(this.signingKey)
   }
 }
