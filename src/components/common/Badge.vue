@@ -1,26 +1,4 @@
-<template>
-  <span class="badge-container">
-    <span class="has-tooltip-arrow" data-tooltip="Developer">
-      <i v-if="isRank('developers')" class="fas fa-hat-wizard"></i>
-    </span>
-    <span class="has-tooltip-arrow" data-tooltip="Supporter">
-      <i v-if="isRank('supporters')" class="fas fa-heart"></i>
-    </span>
-    <span class="has-tooltip-arrow" data-tooltip="Alpha">
-      <i v-if="isRank('alpha')" class="fas fa-ghost"></i>
-    </span>
-    <span class="has-tooltip-arrow" data-tooltip="Contributor">
-      <i v-if="isRank('contributors')" class="fas fa-code"></i>
-    </span>
-    <span
-      v-if="showNoBadges"
-      class="has-tooltip-arrow"
-      data-tooltip="No Badges"
-    >
-      <i v-if="hasNoRank()" class="fas fa-ban"></i>
-    </span>
-  </span>
-</template>
+<template src="./Badge.html"></template>
 
 <script>
 export default {
@@ -99,23 +77,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-span[data-tooltip] {
-  border-bottom: none;
-}
-.fas {
-  font-size: 8pt;
-}
-.fa-heart {
-  color: #ff7675 !important;
-}
-.fa-hat-wizard {
-  color: #a29bfe !important;
-}
-.fa-ghost {
-  color: #f368e0 !important;
-}
-.fa-code {
-  color: #feca57 !important;
-}
+<style scoped lang="less" src="./Badge.less">
 </style>

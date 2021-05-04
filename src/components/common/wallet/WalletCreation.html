@@ -1,0 +1,175 @@
+<div class="fullscreen-pane">
+    <section class="wallet-creation-container" v-if="step === 'initial'">
+      <div class="main-area">
+        <h1 class="head">
+          {{ $t(`web3.wallet_creation.step.${step}.heading`) }}
+        </h1>
+
+        <img src="/static/img/big_img/account.png" alt="" class="account-img" />
+
+        <b>
+          {{ $t(`web3.wallet_creation.step.${step}.subtext`) }}
+        </b>
+      </div>
+
+      <div class="buttons-container">
+        <button
+          class="button is-primary centered create-wallet-btn"
+          v-on:click="goToStep('import')"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
+        </button>
+        <button
+          class="button is-primary centered create-wallet-btn"
+          v-on:click="createWallet()"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
+        </button>
+      </div>
+    </section>
+
+    <section class="wallet-creation-container" v-if="step === 'import'">
+      <div class="main-area">
+        <h1 class="head">
+          {{ $t(`web3.wallet_creation.step.${step}.heading`) }}
+        </h1>
+
+        <!-- <img src="/static/img/big_img/account.png" alt="" class="account-img" /> -->
+
+        <b>
+          {{ $t(`web3.wallet_creation.step.${step}.subtext`) }}
+        </b>
+
+        <div class="recovery-phrase-container">
+          <div class="qr-modal" v-if="showScanQR">
+            <QRScan :close="toggleScanQR" :handler="onQRScan" />
+          </div>
+
+          <textarea class="textarea" v-model="recoveryPhrase"></textarea>
+          <button
+            class="is-button button is-primary is-small"
+            v-on:click="toggleScanQR"
+          >
+            <i class="fas fa-qrcode"></i> &nbsp; {{ $t('wallet.scan') }}
+          </button>
+        </div>
+      </div>
+
+      <div class="buttons-container">
+        <button
+          class="button is-primary centered create-wallet-btn"
+          v-on:click="goToStep('initial')"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
+        </button>
+        <button
+          class="button is-primary centered create-wallet-btn"
+          v-on:click="recover()"
+          :disabled="recoveryPhrase.split(' ').length !== 12"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
+        </button>
+      </div>
+    </section>
+
+    <section class="wallet-creation-container" v-if="step === 'generate'">
+      <div class="main-area">
+        <h1 class="head">
+          {{ $t(`web3.wallet_creation.step.${step}.heading`) }}
+        </h1>
+
+        <img src="/static/img/big_img/account.png" alt="" class="account-img" />
+
+        <b>
+          {{ $t(`web3.wallet_creation.step.${step}.subtext`) }}
+        </b>
+      </div>
+
+      <div class="buttons-container">
+        <button
+          class="button is-primary centered create-wallet-btn"
+          v-on:click="goToStep('initial')"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
+        </button>
+        <button
+          class="button is-primary centered create-wallet-btn"
+          v-on:click="createWallet()"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
+        </button>
+      </div>
+    </section>
+    <section class="wallet-creation-container" v-if="step === 'showseed'">
+      <div class="main-area">
+        <h1 class="head">
+          {{ $t(`web3.wallet_creation.step.${step}.heading`) }}
+        </h1>
+        <b>
+          {{ $t(`web3.wallet_creation.step.${step}.subtext`) }}
+        </b>
+
+        <div class="mnemonic-container">
+          <span
+            v-for="(word, index) in this.splittedMnemonic"
+            v-bind:key="index"
+            class="mnemonic-word"
+          >
+            <span class="number">{{ `${index + 1}.` }}</span
+            >{{ word }}
+          </span>
+        </div>
+      </div>
+
+      <div class="buttons-container">
+        <!-- Switch v-on:click to goToStep('seedcheck') to re-enable seed check -->
+        <button class="button is-primary big-btn" v-on:click="walletCreated()">
+          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
+        </button>
+      </div>
+    </section>
+    <section class="wallet-creation-container" v-if="step === 'seedcheck'">
+      <div class="main-area">
+        <h1 class="head">
+          {{ $t(`web3.wallet_creation.step.${step}.heading`) }}
+        </h1>
+        <b>
+          {{ $t(`web3.wallet_creation.step.${step}.subtext`) }}
+        </b>
+
+        <div class="mnemonic-container">
+          <div
+            v-for="(word, index) in this.splittedMnemonic"
+            v-bind:key="index"
+            class="mnemonic-word"
+          >
+            <span v-if="wordsToCheck.indexOf(index) === -1">
+              <span class="number">{{ `${index + 1}.` }}</span
+              >{{ word }}
+            </span>
+            <span v-else>
+              <span class="number">{{ `${index + 1}.` }}</span>
+              <input v-model="input[index]" />
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons-container">
+        <button
+          class="button is-primary big-btn-higher"
+          v-on:click="goToStep('showseed')"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.secondary_cta`) }}
+        </button>
+
+        <button
+          :disabled="!checkWords()"
+          class="button is-primary big-btn"
+          v-on:click="walletCreated()"
+        >
+          {{ $t(`web3.wallet_creation.step.${step}.primary_cta`) }}
+        </button>
+      </div>
+    </section>
+  </div>

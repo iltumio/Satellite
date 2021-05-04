@@ -1,0 +1,50 @@
+<div>
+    <Stickers
+      v-if="$store.state.stickersOpen || $store.state.stickerPack"
+      :sendMessage="sendMessage"
+    />
+    <div id="scrollBottom" v-if="showScrollToBottom" v-on:click="scrollToEnd">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+    <div
+      v-body-scroll-lock="isMobile()"
+      id="conversation"
+      :class="
+        `${mediaOpen ? 'media-open' : 'media-closed'} ${
+          voice ? 'media-voice' : ''
+        }`
+      "
+      ref="chat"
+      :key="`${$store.state.activeChat}`"
+      v-on:scroll="onScroll"
+    >
+      <div class="yellow encrypted">
+        <i class="fas fa-key-skeleton"></i> &nbsp;
+        {{ $t('conversation.encrypted') }}
+      </div>
+      <div
+        v-for="messageGroup in grouper($store.state.messages)"
+        v-bind:key="messageGroup[0].id"
+      >
+        <Divider
+          :text="messageGroup[0].date"
+          v-if="messageGroup[0].type == 'day-break'"
+        />
+        <MessageBody
+          v-else
+          :messages="messageGroup"
+          :scrollToEnd="scrollToEndConditionally"
+        />
+      </div>
+      <div style="clear: both"></div>
+      <div
+        id="typing"
+        class="msg-wrapper"
+        v-if="$store.state.typingUsers[$store.state.activeChat] && isMobile()"
+        key="$store.state.typingUsers[$store.state.activeChat]"
+      >
+        <div class="arrow-left"></div>
+        <i class="fas fa-ellipsis-h"></i>
+      </div>
+    </div>
+  </div>
