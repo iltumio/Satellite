@@ -1,8 +1,5 @@
 import P2PUser, { CallEvent } from './P2PUser'
-
-export const isInitiator = (data: any) => {
-  return data && data.reduce((acc, next) => acc || next.type === 'offer', false)
-}
+import config from '../../config/config'
 
 interface Subscriber {
   method: CallableFunction
@@ -33,6 +30,7 @@ export default class WebRTC {
   protected _peersData: { [key: string]: any }
   protected _peers: { [key: string]: any }
   protected _isHandshaking: boolean
+  protected _announceURLs: Array<string> = config.peer.announceURLs
 
   /** @constructor
    * Construct a new Peer 2 Peer handler
@@ -77,6 +75,15 @@ export default class WebRTC {
     return this._subscribers
   }
 
+  /**
+   * @method setAnnounceURLs
+   * @description Allow to specify different WebTorrent announce URLs for the signaling
+   * @param announceURLs list of announce urls
+   */
+  setAnnounceURLs (announceURLs: Array<string>) {
+    this._announceURLs = announceURLs
+  }
+
   /** @method
    * Check if a peer by ID is online
    * @name isConnected
@@ -103,24 +110,18 @@ export default class WebRTC {
   /**
    * @function addPeer
    * @param address Ethereum address of the recipient
-   * @param options Connection options
+   * @param secret The secret that will be used as peer identifier
    * @returns a P2PUser instance
    */
-  addPeer (address: string, options: any): P2PUser {
+  addPeer (address: string, secret: string): P2PUser {
     const identifier = this.buildIdentifier(address)
 
     const listeners = {
       onConnect: () => {
         this.onConnect(identifier)
       },
-      onSignal: (data: any) => {
-        this.emit('signal', identifier, {
-          type: 'peer-signal',
-          data
-        })
-      },
       onError: error => {
-        console.error(`Failed to connect ${identifier}`, error)
+        // console.error(`Failed to connect ${identifier}`, error)
       },
       onData: data => {
         this.onPeerData(identifier, data)
@@ -133,7 +134,7 @@ export default class WebRTC {
       }
     }
 
-    const peer = new P2PUser(identifier, options, listeners)
+    const peer = new P2PUser(identifier, secret, this._announceURLs, listeners)
 
     peer.subscribeToCallEvents((event: CallEvent, ...args: any) => {
       this.emit(event, identifier, {
@@ -163,68 +164,22 @@ export default class WebRTC {
    * @description Initiates a peer and tries to connect
    * @param address Ethereum address to connect
    * @param initiator Boolean value if the peer must be an initiator or not
+   * @param secret The shared secret used for the connection with a specific peer
    */
-  initiateConnection (address: string) {
+  initiateConnection (address: string, secret: string) {
     if (this.isPeerConnected(address)) {
       console.warn(`Already connected to ${address}`)
       return
     }
 
-    this.addPeer(address, { initiator: true, trickle: false })
-  }
-
-  /**
-   * @function connect
-   * @description Initiates a peer and tries to connect
-   * @param address Ethereum address to connect
-   * @param initiator Boolean value if the peer must be an initiator or not
-   */
-  connectToRemote (address: string, signal: any) {
-    if (this.isPeerConnected(address)) {
-      console.warn(`Already connected to ${address}`)
-      return
-    }
-
-    const identifier = this.buildIdentifier(address)
-
-    if (this._peers[identifier]) {
-      this._peers[identifier].destroy()
-      this._peers[identifier] = null
-    }
-
-    const peer = this.addPeer(address, { initiator: false, trickle: false })
-    peer?.forwardSignal(signal)
-  }
-
-  /**
-   * @function forwardSignal
-   * @description Forwards signaling data to a given peer
-   * @param address Ethereum address
-   * @param signal Signaling data to forward
-   */
-  forwardSignal (address: string, signal: any) {
-    const identifier = this.buildIdentifier(address)
-
-    if (this.isPeerConnected(address)) {
-      const peer = this.connectedPeers[identifier]
-      peer?.forwardSignal(signal)
-      return
-    }
-
-    let peer: P2PUser | null = null
-    if (this._peers[identifier]) {
-      peer = this._peers[identifier]
-    } else {
-      peer = this.addPeer(address, { initiator: false, trickle: false })
-    }
-
-    peer?.forwardSignal(signal)
+    this.addPeer(address, secret)
   }
 
   /**
    * @funciton onPeerData
    * @description Callback fired whenever a peer receives data
    * @param identifier Identifier of the peer that sent data
+   * @param data Data that has been received from peer
    */
   onPeerData (identifier: string, data: any) {
     this.publish(data.type, identifier, {
@@ -418,6 +373,11 @@ export default class WebRTC {
     peer.hangupCall(true)
   }
 
+  /**
+   * @method getActiveCalls
+   * @description Returns a list of active calls
+   * @returns a list of active calls
+   */
   public getActiveCalls () {
     return Object.entries(this.connectedPeers).filter(
       entry => entry[1].activeCall

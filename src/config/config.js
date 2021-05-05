@@ -97,7 +97,12 @@ module.exports = {
     check_heartbeat: 500,
     timeout: 500,
     reconnect: 3000,
-    ping_interval: 5000
+    ping_interval: 5000,
+    announceURLs: [
+      'wss://tracker.openwebtorrent.com',
+      'wss://tracker.sloppyta.co:443/announce',
+      'wss://tracker.novage.com.ua:443/announce'
+    ]
   },
   web3: {
     balance_polling_interval: 10000

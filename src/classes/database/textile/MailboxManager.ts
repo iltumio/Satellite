@@ -1,4 +1,4 @@
-import { PublicKey, PrivateKey, Identity } from '@textile/hub'
+import { PublicKey, PrivateKey, Identity, MailboxEvent } from '@textile/hub'
 import {
   InboxListOptions,
   SentboxListOptions,
@@ -19,12 +19,21 @@ interface DecryptedInbox {
   readAt?: number
 }
 
+type MailboxCallback = (
+  reply?: MailboxEvent | undefined,
+  err?: Error | undefined
+) => void
+
+type MailboxSubscriptionType = 'inbox' | 'sentbox'
+
 export class MailboxManager {
   threadID: any
   collectionSchema: { data: string; _id: string }
   prefix: string
   textile: Extras
   mailboxID: string
+  inboxListener?: MailboxCallback
+  sentboxListener?: MailboxCallback
 
   constructor (prefix: string, textile: Extras) {
     this.prefix = prefix
@@ -62,6 +71,22 @@ export class MailboxManager {
     )
   }
 
+  listenToInboxMessages (cb: (message?: DecryptedInbox) => void) {
+    this.inboxListener = (reply, err) => {
+      if (reply?.message) {
+        this.messageDecoder(reply?.message).then(decrypted => {
+          cb(decrypted)
+        })
+      }
+
+      if (reply === undefined && err === undefined) {
+        this.inboxListener = undefined
+        return
+      }
+    }
+    this.textile.users.watchInbox(this.mailboxID, this.inboxListener)
+  }
+
   async sendMessage (to: string, message: string) {
     const recipient: PublicKey = PublicKey.fromString(to)
 
@@ -75,7 +100,6 @@ export class MailboxManager {
   }
 
   messageDecoder = async (message: UserMessage): Promise<DecryptedInbox> => {
-    console.log('decode')
     const identity: Identity = this.textile.identity
     const privKey = PrivateKey.fromString(identity.toString())
     const bytes = await privKey.decrypt(message.body)
@@ -94,5 +118,17 @@ export class MailboxManager {
 
   _key (name: string) {
     return `${this.prefix}${name}`
+  }
+
+  isSubscribed (type: MailboxSubscriptionType): boolean {
+    if (type === 'inbox') {
+      return Boolean(this.inboxListener)
+    }
+
+    if (type === 'sentbox') {
+      return Boolean(this.sentboxListener)
+    }
+
+    return false
   }
 }

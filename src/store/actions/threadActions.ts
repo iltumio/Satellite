@@ -96,7 +96,7 @@ export default {
     )
     commit('updateMessages', decrypted)
   },
-  async sendMessage ({ state, commit }, { type, data }) {
+  async sendMessageOld ({ state, commit }, { type, data }) {
     // @ts-ignore
     const database = this.$app.$database
     // @ts-ignore

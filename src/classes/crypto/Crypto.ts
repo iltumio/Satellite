@@ -1,11 +1,12 @@
 import { Wallet } from '@ethersproject/wallet'
-import { SigningKey } from 'ethers/lib/utils'
+import { SigningKey, solidityKeccak256 } from 'ethers/lib/utils'
 
 const ivLen = 16 // the IV is always 16 bytes
 
 export default class Crypto {
   signingKey?: SigningKey
   aesKeys: { [key: string]: CryptoKey } = {}
+  hashedSecrets: { [key: string]: string } = {}
 
   /**
    * @method init
@@ -74,6 +75,9 @@ export default class Crypto {
 
     // Compute the shared secret
     const sharedSecret = this.computeSharedSecret(guestPublicKey)
+    const hashedSecret = solidityKeccak256(['string'], [sharedSecret])
+
+    this.hashedSecrets[recipientAddress] = hashedSecret
 
     // Check if the shared secret has been properly generated
     if (!sharedSecret) throw new Error('Impossible to generate shared secret')
@@ -228,5 +232,16 @@ export default class Crypto {
    */
   isInitialized () {
     return Boolean(this.signingKey)
+  }
+
+  /**
+   * @method getSecret
+   * @description returns the hashed ECDH secret for the given
+   * recipient address
+   * @param address address of the recipient
+   * @returns the hashed secret
+   */
+  getSecret (address: string) {
+    return this.hashedSecrets[address]
   }
 }

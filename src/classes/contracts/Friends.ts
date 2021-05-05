@@ -50,10 +50,10 @@ export default class Friends {
    * @argument account request array to parse to request object
    * @returns friend request object
    */
-  async parseFriend (fr: any) {
+  async parseFriend (friend: any) {
     return {
-      id: fr.address,
-      pubkey: fr.pubkey
+      id: friend.address,
+      encryptedKey: friend.encryptedKey
     }
   }
 

@@ -27,14 +27,13 @@ export default {
 
       // Join data from cachingHelper and friends contract
       const getData = async (friend): Promise<IFriend> => {
-        const parsed = await friendsContract.parseFriend(friend)
         const dwellerCache = await dwellerCachingHelper.getDweller(
           friend.dweller
         )
 
         return {
           ...dwellerCache,
-          pubkey: parsed.pubkey
+          encryptedKey: friend.encryptedKey
         }
       }
 
@@ -47,10 +46,13 @@ export default {
     }
 
     // Dispatch a databaseAction to subscribe to friends threads
-    dispatch('subscribeToAllThreads', { friends: updatedFriends })
+    // dispatch('subscribeToAllThreads', { friends: updatedFriends })
+
+    // dispatch('subscribeToMailbox', { friend: updatedFriends[0] })
+    dispatch('fetchMailbox')
 
     // Dispatch a p2pAction to subscribe for signals
-    dispatch('subscribeToFriendsSignals', { friends: updatedFriends })
+    dispatch('tryConnectToFriends', { friends: updatedFriends })
 
     // TODO: eventually limit UI updates if friends didn't change
     //   !state.friendsLoaded ||

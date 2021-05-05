@@ -35,20 +35,7 @@ export default {
 
       commit('ICEConnected', true)
 
-      setTimeout(async () => {
-        // const identity = await database.identityManager?.identity
-
-        // console.log('id', identity.public.toString())
-
-        // await database.mailboxManager?.sendMessage(
-        //   'bbaareiavmjsv5rxnjtyxbuhnlrtltu2jqmejlzagwvtfzhbfibhszr6syq',
-        //   JSON.stringify({ message: 'Ciao', type: 'msg' })
-        // )
-
-        const msg = await database.mailboxManager?.listInboxMessages({})
-
-        console.log('msg', msg)
-      }, 3000)
+      dispatch('subscribeToMailbox')
     }
   },
   async setActiveChat ({ commit, state, dispatch }, { friendAddress }) {
