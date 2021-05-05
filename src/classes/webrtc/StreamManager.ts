@@ -82,17 +82,10 @@ export default class StreamManager {
 
 
   public toggleLocalVideo(enable: boolean) {
-    console.log('StreamManager: toggleLocalVideo()')
     Object.entries<MediaStream>(this._localStreams).forEach(
       async ([identifier, stream]) => {
         let videoTracks = stream.getVideoTracks()
         videoTracks.forEach(track => { track.enabled = enable })
-        // if (enable) {
-        //   stream.addTrack(track)
-        // } else {
-        //   let videoTracks = stream.getVideoTracks()
-        //   videoTracks.forEach(track => { track.stop() })
-        // }
       }
     )
   }

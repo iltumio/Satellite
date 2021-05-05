@@ -23,27 +23,21 @@ export default {
     }
   },
   mounted () {
-    console.log('VoiceVideo.vue : mounted()')
     this.updateStreams()
     this.$streamManager.toggleLocalStreams(this.$store.state.muted, this.localVideo)
     this.$streamManager.toggleRemoteStreams(this.$store.state.deafened, this.remoteVideo)
     
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      console.log('Event: ', event)
       this.updateStreams()
     }, ['call-stream', 'call-ended', 'incoming-call', 'outgoing-call'])
 
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      console.log('Event: ', event)
       this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
-      console.log('** CALL STREAM')
-      console.log(data)
       this.remoteStream = data[0]
       this.activeCall = true
     }, ['call-stream'])
 
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      console.log('Event: ', event)
       this.remoteVideo = data
     }, ['stream-update'])
 
@@ -53,13 +47,10 @@ export default {
 
     this.$WebRTC.subscribe((event, identifier, { type, data }) => {
       if (this.activeCall) {
-        console.log('----- STREAM CHANGE -----')
-        // console.log(data)
         // let friend = this.$store.state.friends.find(
         //   f => f.address === this.$store.state.incomingCall
         // )
         this.$store.commit('incomingCall', false);
-
         // this.$WebRTC.answerCall(friend.address, this.localStream);
         // this.$store.dispatch('answerCall', { friend, stream: this.localStream })
       }
@@ -103,8 +94,6 @@ export default {
      * @name toggleLocalVideo
      */
     async toggleLocalVideo () {
-      console.log('VoiceVideo.vue : toggleLocalVideo()')
-
       const localVideo = !this.$store.state.localVideo
       this.localVideo = localVideo
       this.$store.commit('localVideo', localVideo)
@@ -116,7 +105,6 @@ export default {
     },
 
     async toggleScreenSharing () {
-      console.log('VoiceVideo.vue : toggleScreenSharing()')
       this.screenSharing = !this.screenSharing
       let displayMediaOptions = {
         video: { cursor: "always" },
@@ -127,7 +115,6 @@ export default {
         }
       }
       const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-      // console.log(stream)
       // let newTrack = stream.getVideoTracks()[0]
       // let localTrack = this.localStream.getVideoTracks()[0]
       // this.$WebRTC.removeStream(this.$store.state.activeChat, this.localStream)
@@ -143,7 +130,6 @@ export default {
      * @name updateStreams
      */
     updateStreams () {
-      console.log('VoiceVideo.vue : updateStreams()')
       for (let key in this.$streamManager.localStreams) {
         let stream = this.$streamManager.localStreams[key]
         this.localStream = stream

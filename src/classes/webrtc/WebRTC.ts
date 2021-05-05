@@ -381,43 +381,36 @@ export default class WebRTC {
   }
 
   public async addStream (address: string, stream: MediaStream) {
-    console.log('WebRTC.ts : AddStream()')
     const identifier = this.buildIdentifier(address)
     const peer = this.connectedPeers[identifier]
     peer.addStream(stream)
-    // peer.send(JSON.stringify({ type: 'stream-change', data: {} }))
   }
 
   public async removeStream (address: string, stream: MediaStream) {
-    console.log('WebRTC.ts : RemoveStream()')
     const identifier = this.buildIdentifier(address)
     const peer = this.connectedPeers[identifier]
     peer.removeStream(stream)
   }
 
   public async addTrack (address: string, stream: MediaStream, track) {
-    console.log('WebRTC.ts : AddTrack()')
     const identifier = this.buildIdentifier(address)
     const peer = this.connectedPeers[identifier]
     peer.addTrack(track, stream)
   }
 
   public async removeTrack (address: string, stream: MediaStream, track) {
-    console.log('WebRTC.ts : RemoveTrack()')
     const identifier = this.buildIdentifier(address)
     const peer = this.connectedPeers[identifier]
     peer.removeTrack(track, stream)
   }
 
   public async replaceTrack (address: string, stream: MediaStream, oldTrack, newTrack) {
-    console.log('WebRTC.ts : ReplaceTrack()')
     const identifier = this.buildIdentifier(address)
     const peer = this.connectedPeers[identifier]
     peer.replaceTrack(oldTrack, newTrack, stream)
   }
 
   public streamUpdate(address, videoEnabled) {
-    console.log('WebRTC.ts : streamUpdate()')
     const identifier = this.buildIdentifier(address)
     const peer = this.connectedPeers[identifier]
     peer.send(JSON.stringify({ type: 'stream-update', data: videoEnabled }))

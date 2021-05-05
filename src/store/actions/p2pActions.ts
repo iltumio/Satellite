@@ -200,13 +200,6 @@ export default {
     dispatch('sendMessage', { data: Date.now(), type: 'call' });
   },
 
-  // async updateTracks({ commit, dispatch }, { friendAddress, stream, video, localTrack, newTrack }) {
-  //   console.log('P2P: Updating Tracks')
-  //   // @ts-ignore
-  //   const WebRTC = this.$app.$WebRTC;
-  //   await WebRTC.updateTracks(friendAddress, stream, video, localTrack, newTrack);
-  // },
-
   async answerCall({ commit, dispatch }, { friend, stream }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC;
