@@ -186,6 +186,8 @@ export default {
       }
     }
     checkThread()
+    //scrolls chat to the bottom upon opening chat
+    this.scrollToEnd()
   }
 }
 </script>
