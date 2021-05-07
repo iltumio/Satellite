@@ -380,6 +380,42 @@ export default class WebRTC {
     })
   }
 
+  public async addStream (address: string, stream: MediaStream) {
+    const identifier = this.buildIdentifier(address)
+    const peer = this.connectedPeers[identifier]
+    peer.addStream(stream)
+  }
+
+  public async removeStream (address: string, stream: MediaStream) {
+    const identifier = this.buildIdentifier(address)
+    const peer = this.connectedPeers[identifier]
+    peer.removeStream(stream)
+  }
+
+  public async addTrack (address: string, stream: MediaStream, track) {
+    const identifier = this.buildIdentifier(address)
+    const peer = this.connectedPeers[identifier]
+    peer.addTrack(track, stream)
+  }
+
+  public async removeTrack (address: string, stream: MediaStream, track) {
+    const identifier = this.buildIdentifier(address)
+    const peer = this.connectedPeers[identifier]
+    peer.removeTrack(track, stream)
+  }
+
+  public async replaceTrack (address: string, stream: MediaStream, oldTrack, newTrack) {
+    const identifier = this.buildIdentifier(address)
+    const peer = this.connectedPeers[identifier]
+    peer.replaceTrack(oldTrack, newTrack, stream)
+  }
+
+  public streamUpdate(address, videoEnabled) {
+    const identifier = this.buildIdentifier(address)
+    const peer = this.connectedPeers[identifier]
+    peer.send(JSON.stringify({ type: 'stream-update', data: videoEnabled }))
+  }
+
   /**
    * @function answerCall
    * @description Allow users to answer a call
@@ -392,9 +428,7 @@ export default class WebRTC {
       console.warn('[Method: answerCall] Peer not connected')
       return
     }
-
     const peer = this.connectedPeers[identifier]
-
     // Answer the call and send the information to the peer
     peer.answerCall(stream, true)
   }
