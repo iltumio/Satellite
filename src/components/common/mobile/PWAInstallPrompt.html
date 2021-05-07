@@ -1,0 +1,52 @@
+<div class="pwa-install-prompt" v-if="showPWA">
+    <img
+      class="pwa-exit-btn"
+      v-on:click="dontShowPrompt"
+      src="static/img/icons/exit-btn.png"
+    />
+    <div class="pwa-install-prompt-body">
+      <div class="pwa-img-wrapper">
+        <img class="pwa-img" src="static/img/icons/apple-touch-icon.png" />
+      </div>
+      <div class="pwa-header-text">{{ $t('PWA.prompt_title') }}</div>
+      <p class="pwa-body-text">{{ $t('PWA.prompt_desc') }}</p>
+      <!-- Android -->
+      <div class="pwa-footer" v-if="mobileType() == '/Android/i'">
+        {{ $t('PWA.just-tap') }}
+        <img
+          src="static/img/icons/android-pwa-icon.jpg"
+          class="pwa-homescreen-icon"
+        />
+        {{ $t('PWA.add-to-homescreen') }}
+      </div>
+      <!-- IOS -->
+      <div
+        class="pwa-footer"
+        v-if="
+          mobileType() == '/iPhone/i' ||
+            mobileType() == '/iPad/i' ||
+            mobileType() == '/iPod/i'
+        "
+      >
+        {{ $t('PWA.just-tap') }}
+        <img
+          src="static/img/icons/apple-share-icon.png"
+          class="pwa-homescreen-icon"
+        />
+        {{ $t('PWA.add-to-homescreen') }}
+      </div>
+      <!-- Windows Phone -->
+      <div class="pwa-footer" v-if="mobileType() == '/Windows Phone/i'">
+        {{ $t('PWA.just-tap') }}
+        <img
+          src="static/img/icons/microsoft-edge-share-icon.png"
+          class="pwa-homescreen-icon"
+        />
+        {{ $t('PWA.add-to-screen') }}
+      </div>
+      <!-- Unknown Device -->
+      <div class="pwa-footer" v-if="mobileType() == undefined">
+        {{ $t('PWA.unsure-device-type') }}
+      </div>
+    </div>
+  </div>

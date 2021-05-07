@@ -1,16 +1,4 @@
-<template>
-  <div class="bordered group" v-touch:swipe="swipeHandler" v-touch-options="{swipeTolerance: 75}">
-    <div :class="`${($store.state.showGroupInfo) ? 'main-user-info main-user-info-open' : 'main-user-info'}`">
-      <InfoBar />
-      <LoadingConvorsation />
-      <Chatbar :handleNewMessage="() => {}" />
-    </div>
-
-    <div v-if="this.$store.state.showGroupInfo"  :class="`${this.$store.state.showGroupInfo ? 'right-bar close-btn ' : 'right-bar right-bar-close'}`">
-      <Info />
-    </div>
-  </div>
-</template>
+<template src="./Group.html"></template>
 
 <script>
 import InfoBar from './infobar/InfoBar'
@@ -63,77 +51,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-.group {
-  padding-top: 0;
-  background: #f8f9fb;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-}
-
-.bordered {
-  border-left: 1px solid #e7ebee;
-}
-
-.main-user-info {
-  width: 100%;
-  height: 100%;
-  float: left;
-  position: relative;
-  background: #101016 !important;
-}
-.main-user-info-open {
-  width: calc(100% - 16rem);
-}
-
-.main {
-  width: calc(100% - 16rem);
-  height: 100%;
-  float: left;
-  position: relative;
-  background: #101016 !important;
-}
-.divider {
-  width: 100%;
-}
-.right-bar {
-  width: 16rem;
-  height: 100%;
-  float: right;
-  padding: 1rem;
-}
-  
-@media (max-width: 768px) {
-  .main {
-    width: 100vw;
-    height: 100%;
-    float: left;
-    position: relative;
-    background: #101016 !important;
-  }
-
-  .main-user-info {
-    width: 100%;
-    height: 100%;
-    float: left;
-    position: relative;
-    background: #101016 !important;
-}
-
-.main-user-info-open {
-  width: 100vw;
-}
-
-.right-bar {
-  width: 100vw;
-  height: 100%;
-  float: right;
-  padding: 1rem;
-  }
-
-.right-bar-close {
-  position: absolute;
-  }
-}
-</style>
+<style scoped lang="less" src="./Group.less"></style>

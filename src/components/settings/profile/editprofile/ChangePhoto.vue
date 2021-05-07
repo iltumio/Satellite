@@ -1,22 +1,4 @@
-<template>
-  <div>
-    <PhotoCropper
-      field="img"
-      langType="en"
-      @crop-success="cropSuccess"
-      v-model="showCropper"
-      :value="showCropper"/>
-    <p class="label">{{$t('settings.profile.change_photo')}}</p>
-    <button v-if="!ipfsHash" class="button is-primary is-small" v-on:click="toggleCropper">{{$t('settings.profile.upload_profile_pic')}}</button>
-    <p v-if="ipfsHash">
-      <i class="fa fa-spinner-third fa-spin"></i> {{$t('settings.profile.confirm_transaction')}}
-    </p>
-    <div style="clear: both;"></div>
-    <br>
-
-    <p v-if="error" class="red">{{error}}</p>
-  </div>
-</template>
+<template src="./ChangePhoto.html"></template>
 
 <script>
 import PhotoCropper from 'vue-image-crop-upload';
@@ -112,8 +94,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-  .change-photo {
-    float: right;
-  }
-</style>
+<style scoped lang="less" src="./ChangePhoto.less"></style>

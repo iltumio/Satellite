@@ -1,0 +1,61 @@
+<div class="modal is-active">
+    <button class="modal-close is-large" aria-label="close" v-on:click="$store.commit('viewProfile', false)"></button>
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <section class="modal-card-body">
+            <!-- Profile Header BG -->
+            <div class="profile-header-bg">
+                <div class="username-container">
+                    <h1 v-if="!loading">
+                        {{ account.name }} 
+                        <i 
+                            v-if="isVerified($store.state.viewingProfile)" 
+                            class="fas fa-badge-check verified-badge"></i>
+                    </h1>
+                    <p>{{ account.statusMsg }}</p>
+                </div>
+            </div>
+            <div class="profile-photo">
+                <img src="https://avatarfiles.alphacoders.com/208/208557.png" alt="">
+            </div>
+            <!-- If we're viewing a friend -->
+            <div class="quick-actions" v-if="!loading && isFriend">
+                <button class="button is-primary is-outlined" v-on:click="chatFriend">
+                    <i class="fas fa-comment-alt-dots"></i> &nbsp; Message
+                </button>
+                <button class="button is-primary is-outlined">
+                    <i class="fas fa-phone"></i> &nbsp; Call
+                </button>
+                <button class="button is-primary is-outlined">
+                    <i class="fas fa-share-square"></i> &nbsp; Share
+                </button>
+            </div>
+            <!-- If we're not friends with the person yet -->
+            <div class="quick-actions" v-else-if="!loading && !isFriend && !isSelf">
+                <button class="button is-primary is-outlined">
+                    <i class="fas fa-user-plus"></i> &nbsp; Add Friend
+                </button>
+            </div>
+            <!-- We're viewing our own profile -->
+            <div class="quick-actions" v-else-if="!loading && isSelf">
+                <button class="button is-primary is-outlined">
+                    <i class="fas fa-share-square"></i> &nbsp; Share
+                </button>
+            </div>
+            <!-- Still loading -->
+            <div class="quick-actions" v-else>
+                <button class="button is-primary is-outlined" disabled>
+                    <i class="fas fa-spinner-third fa-spin"></i> &nbsp; Loading
+                </button>
+            </div>
+            <div class="note-holder">
+                <span class="label">{{ $t('conversation.userinfo.notes') }}</span>
+                <textarea
+                    class="textarea"
+                    :placeholder="$t('conversation.userinfo.notes_placeholder')"
+                    v-model="$store.state.userNotes[$store.state.viewingProfile]"
+                ></textarea>
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div
+    id="user-info"
+    v-touch:swipe="swipeHandler"
+    v-touch-options="{
+      touchHoldTolerance: 50,
+      swipeTolerance: 80
+    }"
+    class="animate__animated animate__slideInRight animate__faster"
+  >
+    <i
+      class="fa fa-times close-btn"
+      v-on:click="$store.commit('toggleUserInfo')"
+    ></i>
+    <div class="heading">
+      <span class="label">{{ $t('conversation.userinfo.heading') }}</span>
+      <span class="username">{{
+        $store.state.friends.filter(
+          f => f.address === $store.state.activeChat
+        )[0].name
+      }}</span>
+    </div>
+    <hr class="divider" />
+    <div class="user-details">
+      <CircleIcon
+        :image="
+          $store.state.friends.filter(
+            f => f.address === $store.state.activeChat
+          )[0].photo
+        "
+        :address="$store.state.activeChat"
+      />
+      <p class="username">
+        {{
+          $store.state.friends.filter(
+            f => f.address === $store.state.activeChat
+          )[0].name
+        }}
+      </p>
+      <p class="address">{{ $store.state.activeChat.substr(0, 12) }}...</p>
+      <hr class="divider" />
+      <span class="label">{{ $t('conversation.userinfo.badges') }}</span>
+      <Badge :address="$store.state.activeChat" showNoBadges="true" />
+      <hr class="divider" />
+    </div>
+    <div class="columns buttons">
+      <div class="column is-one-third">
+        <button
+          class="button is-small is-primary"
+          v-on:click="messageUser($store.state.activeChat)"
+        >
+          <i class="fas fa-comment-alt"></i>
+        </button>
+      </div>
+      <div class="column is-one-third">
+        <button
+          class="button is-small is-primary"
+          v-on:click="makeCall($store.state.activeChat)"
+        >
+          <i class="fas fa-phone-volume"></i>
+        </button>
+      </div>
+      <div class="column is-one-third">
+        <button
+          class="button is-small is-primary"
+          v-on:click="etherscan($store.state.activeChat)"
+        >
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="notes">
+      <span class="label">{{ $t('conversation.userinfo.notes') }}</span>
+      <textarea
+        class="textarea"
+        :placeholder="$t('conversation.userinfo.notes_placeholder')"
+        v-model="$store.state.userNotes[$store.state.activeChat]"
+      ></textarea>
+    </div>
+  </div>

@@ -1,0 +1,35 @@
+<div class="circle-icon" v-on:click="actionHandler">
+    <i
+      class="fas fa-badge-check verified-badge"
+      v-if="verified || isVerified(address)"
+    ></i>
+    <div
+      :class="
+        `${
+          bordered ? 'bordered-circle-icon' : 'non-bordered-circle-icon'
+        } wrapper`
+      "
+    >
+      <span v-if="icon">
+        <i :class="`${icon} icon`"></i>
+      </span>
+      <div
+        v-if="image && image.trim() !== 'https://ipfs.io/ipfs/'"
+        :class="`${bordered ? 'bordered' : 'cropped'}`"
+      >
+        <jazzicon
+          class="jazzicon"
+          :address="address"
+          :diameter="diameter || 45"
+        />
+        <img :src="image" :key="image" />
+      </div>
+      <div v-else-if="address" :class="`${bordered ? 'bordered' : 'cropped'}`">
+        <jazzicon
+          class="jazzicon"
+          :address="address"
+          :diameter="diameter || 45"
+        />
+      </div>
+    </div>
+  </div>

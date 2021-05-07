@@ -1,0 +1,92 @@
+<div id="files" class="noselect">
+    <TopNav
+      :title="$t('files.heading')"
+      :backAction="close"
+      :toggleSettings="toggleSettings"
+    />
+    <div class="files-mobile-wrapper" v-body-scroll-lock="true">
+      <FileUploadInline
+        :relayResult="updateCache"
+        :uploadDone="fetchRecentFiles"
+        :noAutoSelect="true"
+      />
+      <hr class="divider" />
+      <Meter
+        :ticks="bytesPercentageUsed(fileSizeTotal) / 4"
+        type="usage"
+        :height="1.5"
+      />
+      <h2 class="label">
+        {{ $t('files.usage') }} ({{ bytesToSize(fileSizeTotal) }} / 4GB)
+      </h2>
+      <br />
+      <h2 class="label">{{ $t('files.history') }}</h2>
+      <div v-if="!loading" class="files-container">
+        <ul>
+          <li
+            v-for="(file, index) in $store.state.files"
+            v-bind:key="file.path"
+            v-on:click="manageFile(file)"
+          >
+            <FlexFile :file="file" updateParent="updateParent" :index="index" />
+          </li>
+        </ul>
+        <!--
+        <div v-for="(file, index) in $store.state.files" v-bind:key="file.path">
+          <p @contextmenu="fileContext">
+            <FlexFile :file="file" :updateParent="updateParent" :index="index" />
+          </p>
+        </div>
+        -->
+      </div>
+      <div v-else>
+        <div class="bar-small"></div>
+        <div class="bar-large"></div>
+      </div>
+      <br />
+      <div style="clear:both"></div>
+
+      <br />
+      <div class="mask" v-if="managedFile" v-on:click="managedFile = false">
+        <img :src="managedFile.remote" alt="" class="f-preview" />
+        <br />
+        <span class="name">
+          <span class="fname">{{ managedFile.file.name }}</span>
+          <span class="heading"
+            >{{ bytesToSize(managedFile.file.size) }}
+            {{ managedFile.file.type }}</span
+          >
+        </span>
+      </div>
+      <div class="file-actions" v-if="managedFile">
+        <button
+          v-clipboard:copy="managedFile.remote"
+          v-clipboard:success="copySuccess"
+          class="is-button button is-primary full-button"
+        >
+          <i class="fas fa-link"></i> &nbsp; {{ $t('files.copy-link') }}
+        </button>
+        <button
+          class="is-button button is-primary full-button"
+          v-on:click="openFile"
+        >
+          <i class="fas fa-external-link"></i> &nbsp;
+          {{ $t('files.open-file') }}
+        </button>
+        <button
+          class="is-button button is-danger full-button"
+          v-on:click="deleteFile"
+        >
+          <span v-if="!removing"
+            ><i class="fas fa-trash"></i> &nbsp;
+            {{ $t('files.remove-file') }}</span
+          >
+          <span v-else
+            ><i class="fas fa-spinner-third fa-spin"></i> &nbsp;
+            {{ $t('files.removing-file') }}</span
+          >
+        </button>
+      </div>
+    </div>
+    <MobileNav :toggleSettings="toggleSettings" />
+  </div>

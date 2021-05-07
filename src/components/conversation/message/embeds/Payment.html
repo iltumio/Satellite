@@ -1,0 +1,19 @@
+<div id="payment">
+    <article class="media">
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <i class="fas fa-dollar-sign logo"></i>
+            <strong class="amount green">${{ message.data.amount }}</strong><br />
+            <small> {{ message.data.amount }} {{ tokenSymbol }}</small><br />
+            <br />
+            <ExternalLink
+              :link="`${explorer}/tx/${message.data.tx}`"
+              :text="$t('global.view_on_etherscan')"
+            >
+            </ExternalLink>
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>

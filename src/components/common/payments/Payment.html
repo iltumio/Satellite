@@ -1,0 +1,19 @@
+<div :class="`modal ${active ? 'is-active' : ''}`">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <CircleIcon image="https://randomuser.me/api/portraits/women/43.jpg" />
+        <p class="modal-card-title">
+          {{ person }} <br />
+          <span class="address">0x0000000000000000000000000000000</span>
+        </p>
+        <button class="delete" aria-label="close" v-on:click="toggle"></button>
+      </header>
+      <section class="modal-card-body">
+        <p>
+          <i class="fab fa-ethereum"></i> {{ $t('payments.pay-label') }}
+          {{ person }}.
+        </p>
+      </section>
+    </div>
+  </div>

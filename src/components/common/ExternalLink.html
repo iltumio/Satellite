@@ -1,0 +1,22 @@
+<div>
+    <a v-on:click="togglePopup"
+      ><b>{{ text }}</b></a
+    >
+    <div :class="`modal ${active ? 'is-active' : ''}`">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <section class="modal-card-body">
+          <h2 class="label">{{ $t('global.external_link_title') }}</h2>
+          <p>{{ $t('global.external_link_text') }}</p>
+          <hr class="divider" />
+          <button class="button is-success" v-on:click="openLink">
+            {{ $t('global.continue') }}
+          </button>
+          &nbsp;
+          <button class="button is-danger" v-on:click="togglePopup">
+            {{ $t('global.nevermind') }}
+          </button>
+        </section>
+      </div>
+    </div>
+  </div>

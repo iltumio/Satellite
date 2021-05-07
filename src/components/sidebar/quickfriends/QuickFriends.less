@@ -1,0 +1,88 @@
+.address {
+    font-size: 8pt;
+  }
+  .friend {
+    margin: 1.3rem 0;
+    padding: 0 0.5rem;
+    border-radius: 5px;
+  }
+  button {
+    height: 100%;
+  }
+  .circle-icon {
+    height: 35px;
+    width: 35px;
+  }
+  .friends-list {
+    height: 230px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+  }
+  .nameholder {
+    padding-top: 0.8rem;
+    overflow: hidden;
+    line-height: 90%;
+    white-space: nowrap;
+    display: block;
+    text-overflow: ellipsis;
+  }
+  .modal-card {
+    position: absolute;
+    z-index: 10;
+    width: 300px;
+    top: 9.5rem;
+    right: -285px;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-card-body {
+    padding: 0.5rem 1rem 1rem 1rem;
+  }
+  .modal-card-head {
+    padding: 0.5rem 1rem;
+  }
+  .header {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    padding-top: env(safe-area-inset-top, 0);
+  }
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    padding-top: env(safe-area-inset-top, 0);
+  }
+  
+  @media (max-width: 768px) {
+    .friends-list .friend .columns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .friends-list {
+      height: 100% !important;
+    }
+  
+    .quick-friends-photo {
+      max-width: 80px;
+    }
+  
+    .quick-friends-chat {
+      float: right;
+      padding: 0.55rem 1rem;
+      font-size: 11pt;
+    }
+  
+    .close {
+      font-size: 18pt;
+    }
+  
+    .header .label {
+      font-size: 14pt;
+    }
+  }

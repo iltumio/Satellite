@@ -1,32 +1,4 @@
-<template>
-  <div id="payment">
-    <article class="media" v-on:click="clickAction">
-      <div class="media-content">
-        <div class="content">
-          <p v-if="account">
-            <CircleIcon 
-              :address="account.address" 
-              :image="account.photo"
-              :diameter="35" />
-              <span class="text">
-                <strong class="filename">{{ account.name }}</strong><br>
-                <span class="status">{{ account.statusMsg }}</span>
-              </span>
-          </p>
-          <p v-else>
-            <i class="fas fa-file-invoice logo"></i>
-            <strong class="filename">{{ address[0] }}</strong>
-            <br />
-            <ExternalLink
-              :link="getEtherscanLink()"
-              :text="$t('conversation.message.address.external_link_text')"
-            />
-          </p>
-        </div>
-      </div>
-    </article>
-  </div>
-</template>
+<template src="./Address.html"></template>
 
 <script>
 import ExternalLink from '@/components/common/ExternalLink'
@@ -82,69 +54,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#payment {
-  margin-top: 0.5rem;
-  max-width: 500px;
-  min-width: 65vw;
-}
-.media {
-  background: #fff;
-  border-radius: 6px;
-  border: 1px solid #eee;
-  padding: 0 1rem 0 1rem;
-  max-width: 500px;
-  color: #666;
-  position: relative;
-  border-left: 4px solid #00d0a1;
-}
-.media:hover .logo {
-  color: #000;
-}
-.filename {
-  font-size: 12pt;
-}
-.heading {
-  font-size: 9pt;
-}
-.media-content {
-  padding: 0.3rem;
-  font-size: 10pt;
-}
-.label {
-  padding: 0 !important;
-}
-.content {
-  padding: 0.5rem 0 0.5rem 3rem;
-}
-.logo {
-  font-size: 24pt;
-  position: absolute;
-  left: 1.4rem;
-  top: 1.2rem;
-}
-.amount {
-  color: #00d0a1;
-  font-size: 15pt;
-}
-img {
-  border-radius: 4px;
-}
-.circle-icon {
-  float: left;
-  margin: 0 -0.6rem;
-}
-.text, .status{
-  padding-left: 2rem;
-}
 
-@media (max-width: 768px) { 
-  .media-content {
-    background: #000;
-    /* color: #000; */
-    border-radius: 5px;
-    padding: 0 0.5rem;
-    margin: 0 0 0.5rem 0;
-  }
-}
-</style>
+<style scoped lang="less" src="./Address.less"></style>
+
+

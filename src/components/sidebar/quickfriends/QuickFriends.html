@@ -1,0 +1,54 @@
+<div class="modal-card bordered" v-click-outside="close">
+    <div class="modal-card-head">
+      <p class="header">
+        <span class="label">{{
+          $t('sidebar.quickfriends.chat_with_friends')
+        }}</span>
+        <span class="close" v-on:click="close">×</span>
+        <input
+          class="input is-small searchuser"
+          type="text"
+          v-model="keyword"
+          v-on:keyup="filterFriends"
+          :placeholder="$t('sidebar.quickfriends.search_placeholder')"
+        />
+      </p>
+    </div>
+    <div class="modal-card-body">
+      <div class="friends-list" v-body-scroll-lock="true">
+        <div
+          v-if="!this.$store.state.friends.length"
+          style="text-align: center"
+        >
+          <span class="label">{{
+            $t('sidebar.quickfriends.no_friends_yet')
+          }}</span>
+          <span>{{ $t('sidebar.quickfriends.add_some_friends') }}</span>
+        </div>
+        <div v-if="this.$store.state.friends.length && !friends.length">
+          <span class="label">{{ $t('sidebar.quickfriends.no_results') }}</span>
+        </div>
+        <div v-for="friend in friends" class="friend" :key="friend.address">
+          <div class="columns">
+            <div class="column is-one-quarter quick-friends-photo">
+              <CircleIcon :image="friend.photo" :address="friend.address" />
+            </div>
+            <div class="column is-half nameholder">
+              <p>
+                {{ friend.name }}<br />
+                <span class="address">{{ friend.address }}</span>
+              </p>
+            </div>
+            <div class="column is-one-quarter">
+              <button
+                class="button is-small is-primary quick-friends-chat"
+                v-on:click="handleChat(friend)"
+              >
+                <i class="fas fa-comment-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,22 @@
+<div id="commandParser">
+    <span class="label">Available Commands</span>
+    <div class="columns is-mobile" v-for="cmd in commands" :key="cmd.id">
+      <div class="column">
+        <span :class="`command ${cmd.command === command ? 'active' : ''}`">{{
+          cmd.command
+        }}</span>
+      </div>
+      <div class="column">
+        <span class="desc">{{ cmd.desc }}</span>
+      </div>
+    </div>
+    <div class="command-container">
+      <span
+        :class="`command ${commandStrings.includes(command) ? 'green' : 'red'}`"
+        >{{ command }}</span
+      >
+      <span class="arg" v-for="arg in args" :key="arg">
+        {{ arg }}
+      </span>
+    </div>
+  </div>
