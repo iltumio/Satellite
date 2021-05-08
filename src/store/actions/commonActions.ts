@@ -41,7 +41,7 @@ export default {
   async setActiveChat ({ commit, state, dispatch }, { friendAddress }) {
     commit('activeChat', friendAddress)
 
-    dispatch('fetchMessages', { address: friendAddress })
+    dispatch('fetchMailbox', { address: friendAddress })
 
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC

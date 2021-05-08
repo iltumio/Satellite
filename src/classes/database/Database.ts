@@ -85,7 +85,11 @@ export default class Database {
       this.messageManager = new MessageManager(client, id)
       this.signalingManager = new SignalingManager(client, id)
       this.bucketManager = new BucketManager(identity, this.creds.id)
-      this.mailboxManager = new MailboxManager(this.prefix, textile)
+      this.mailboxManager = new MailboxManager(
+        this.prefix,
+        textile,
+        wallet.address
+      )
       await this.mailboxManager.init()
 
       return

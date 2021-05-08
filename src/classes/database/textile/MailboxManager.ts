@@ -7,6 +7,17 @@ import {
 } from '@textile/users'
 import { Extras } from '../Interfaces'
 
+interface IMessage extends UserMessage {
+  sender: string
+  to: ''
+  at: number
+  type: string
+  payload: any
+  encrypted: boolean
+  secure: boolean
+  metadata: object
+}
+
 /**
  * A simple type to hold inbox messages after they have been
  * decrypted with the PrivateKey
@@ -27,30 +38,33 @@ type MailboxCallback = (
 type MailboxSubscriptionType = 'inbox' | 'sentbox'
 
 export class MailboxManager {
-  threadID: any
-  collectionSchema: { data: string; _id: string }
   prefix: string
+  senderAddress: string
   textile: Extras
   mailboxID: string
   inboxListener?: MailboxCallback
   sentboxListener?: MailboxCallback
 
-  constructor (prefix: string, textile: Extras) {
+  constructor (prefix: string, textile: Extras, senderAddress: string) {
     this.prefix = prefix
     this.textile = textile
     this.mailboxID = ''
-
-    this.collectionSchema = {
-      data: 'encrypted-data',
-      _id: '0'
-    }
+    this.senderAddress = senderAddress
   }
 
   async init () {
     const users: Users = this.textile.users
     this.mailboxID = await users.setupMailbox()
+  }
 
-    console.log('MailboxID', this.mailboxID)
+  buildMessage (to: string, type: string, data: any) {
+    return {
+      sender: this.senderAddress,
+      to: to,
+      at: Date.now(),
+      type: type,
+      payload: data
+    }
   }
 
   async listInboxMessages (opts?: InboxListOptions): Promise<DecryptedInbox[]> {
@@ -85,6 +99,22 @@ export class MailboxManager {
       }
     }
     this.textile.users.watchInbox(this.mailboxID, this.inboxListener)
+  }
+
+  listenToSentboxMessages (cb: (message?: DecryptedInbox) => void) {
+    this.sentboxListener = (reply, err) => {
+      if (reply?.message) {
+        this.messageDecoder(reply?.message).then(decrypted => {
+          cb(decrypted)
+        })
+      }
+
+      if (reply === undefined && err === undefined) {
+        this.sentboxListener = undefined
+        return
+      }
+    }
+    this.textile.users.watchSentbox(this.mailboxID, this.sentboxListener)
   }
 
   async sendMessage (to: string, message: string) {

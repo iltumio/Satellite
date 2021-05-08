@@ -43,7 +43,6 @@ export default {
       identifier => {
         if (!database.mailboxManager?.isSubscribed('inbox')) {
           database.mailboxManager?.listenToInboxMessages(message => {
-            console.log('message', message)
             const msg = convertMsg(message)
 
             if (msg.sender !== state.activeChat) {
@@ -81,84 +80,37 @@ export default {
               SoundManager.play('newMessage')
             }
           })
-
-          console.log('Subscribed to inbox for', identifier)
         }
       },
       ['typing-notice'],
       state.friends.map(friend => friend.address)
     )
-
-    console.log('Subscribe to mailbox')
-
-    // const threadID = ThreadID.fromString(friend.threadID)
-
-    // // Subscribe to thread events.
-    // await database.messageManager.subscribe(
-    //   threadID,
-    //   async update => {
-    // if (update.instance.sender !== state.activeChat) {
-    //   // Add an unread message indicator and if the user isn't in our sidebar,
-    //   // add a new chat group for them.
-    //   commit('markUnread', update.instance.sender)
-    //   commit('newChat', update.instance.sender)
-    // }
-
-    // if (friend.pubkey) {
-    //   const decrypted = await database.messageManager.decryptMessage(
-    //     update.instance,
-    //     friend.pubkey
-    //   )
-    //   state.lastMessages[update.instance.sender] = {
-    //     ...decrypted.payload,
-    //     at: Date.now()
-    //   }
-    //   if (
-    //     update.instance.sender === state.activeChat ||
-    //     update.instance.sender === state.activeAccount
-    //   ) {
-    //     commit('appendMessage', decrypted)
-    //   }
-    // } else if (
-    //   update.instance.sender === state.activeChat ||
-    //   update.instance.sender === state.activeAccount
-    // ) {
-    //   commit('appendMessage', update.instance)
-    // }
-
-    // if (
-    //   update.instance.sender !== state.activeAccount &&
-    //   (update.instance.sender !== state.activeChat || !document.hasFocus())
-    // ) {
-    //   SoundManager.play('newMessage')
-    // }
-
-    //     // If we're recieving messages from a peer and they are not connected, try to connect.
-    //     // WebRTC.connectIfNotConnected(update.instance.sender);
-    //   },
-    //   () => {
-    //     dispatch('subscribeToThread', { friend })
-    //   }
-    // )
   },
-  //   unsubscribeFromThread ({}, { friend }) {
-  //     // @ts-ignore
-  //     const database = this.$app.$database
+  async subscribeToSentbox ({ state, commit, dispatch }) {
+    // @ts-ignore
+    const database = this.$app.$database
+    // @ts-ignore
+    const crypto = this.$app.$crypto
+    // @ts-ignore
+    const WebRTC = this.$app.$WebRTC
+    // @ts-ignore
+    const SoundManager = this.$app.$sound
 
-  //     database.unsubscribeFromThread(friend.threadID)
-  //   },
-  //   subscribeToAllThreads ({ dispatch, state }, { friends }) {
-  //     const friendsToLoop = friends ? friends : state.friends
+    // Watch for users typing
+    if (!database.mailboxManager?.isSubscribed('sentbox')) {
+      database.mailboxManager?.listenToSentboxMessages(message => {
+        const msg = convertMsg(message)
 
-  //     // @ts-ignore
-  //     const database = this.$app.$database
+        console.log('state messages', state.messages)
 
-  //     friendsToLoop.forEach(friend => {
-  //       if (!database.messageManager.isSubscribed(friend.threadID)) {
-  //         dispatch('subscribeToThread', { friend })
-  //       }
-  //     })
-  //   },
+        const existingMessage = state.messages.find(m => m.id === msg.id)
+
+        console.log('Existing message', existingMessage)
+
+        console.log('sentbox msg', msg)
+      })
+    }
+  },
   async sendMessage ({ state, commit }, { type, data }) {
     // @ts-ignore
     const database = this.$app.$database
@@ -177,9 +129,8 @@ export default {
       recipient.encryptedKey
     )
 
-    const msg = database.messageManager?.buildMessage(
+    const msg = database.mailboxManager?.buildMessage(
       state.activeChat,
-      Date.now(),
       'message',
       {
         type: type || 'text',
