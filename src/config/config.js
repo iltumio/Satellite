@@ -94,7 +94,12 @@ module.exports = {
     check_heartbeat: 500,
     timeout: 500,
     reconnect: 3000,
-    ping_interval: 5000
+    ping_interval: 5000,
+    announceURLs: [
+      'wss://tracker.openwebtorrent.com',
+      'wss://tracker.sloppyta.co:443/announce',
+      'wss://tracker.novage.com.ua:443/announce'
+    ]
   },
   web3: {
     balance_polling_interval: 10000
@@ -105,7 +110,5 @@ module.exports = {
     duration: 800,
     className: 'vault-toast'
   },
-  verified_addresses: [
-    '0x2c3a050a6634cBD10df8086688De37D084440B7c'
-  ] // TODO: move this to a contract
-};
+  verified_addresses: ['0x2c3a050a6634cBD10df8086688De37D084440B7c'] // TODO: move this to a contract
+}

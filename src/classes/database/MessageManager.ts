@@ -71,6 +71,8 @@ export class MessageManager {
    */
   initE2EEngine (wallet: Wallet) {
     this.signingKey = new utils.SigningKey(wallet.privateKey)
+
+    this.crypto.init(wallet)
   }
 
   safeThread (threadID: ThreadID | string): ThreadID {
@@ -148,10 +150,6 @@ export class MessageManager {
     return threadID
   }
 
-  computeSharedSecret (signingKey: SigningKey, guestPublicKey: string) {
-    return signingKey.computeSharedSecret(`0x04${guestPublicKey.slice(2)}`)
-  }
-
   async addEncryptedMessage (
     threadID: ThreadID,
     message: Message,
@@ -162,9 +160,10 @@ export class MessageManager {
     }
     await this.ensureCollection(threadID, 'messages', messageSchema)
 
-    const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey)
-
-    const aesKey = await this.crypto.initializeRecipient(message.to, sharedKey)
+    const aesKey = await this.crypto.initializeRecipient(
+      message.to,
+      guestPublicKey
+    )
 
     const encryptedPayload = await this.crypto.encrypt(
       JSON.stringify(message.payload),
@@ -186,9 +185,10 @@ export class MessageManager {
   async decryptMessage (message: IMessage, guestPublicKey: string) {
     if (!message.encrypted || !this.signingKey) return message
 
-    const sharedKey = this.computeSharedSecret(this.signingKey, guestPublicKey)
-
-    const aesKey = await this.crypto.initializeRecipient(message.to, sharedKey)
+    const aesKey = await this.crypto.initializeRecipient(
+      message.to,
+      guestPublicKey
+    )
 
     try {
       const decrpytedPayload = await this.crypto.decrypt(

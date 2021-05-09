@@ -1,6 +1,6 @@
 // @ts-ignore
 import Peer from 'simple-peer'
-import { debounce } from '../../utils/utils'
+import P2PT from 'p2pt'
 
 export type CallEvent =
   | 'call-connected'
@@ -18,11 +18,10 @@ type ListenersObject = { [key: string]: CallableFunction }
 export default class P2PUser {
   identifier: string
   listeners: ListenersObject
-  instance: Peer.Instance
-  _peerData: any
-  emitSignal: CallableFunction
+  instance: any
+  peer?: Peer.Instance
   isConnected: boolean
-  options: Peer.Options
+  secret: string
   activeCall?: Peer.Instance
   activeStream?: MediaStream
   callListener?: CallableFunction
@@ -30,43 +29,43 @@ export default class P2PUser {
 
   constructor (
     identifier: string,
-    options: Peer.Options,
+    secret: string,
+    announceURLs: Array<string> = [],
     listeners: ListenersObject
   ) {
     this.identifier = identifier
+    this.secret = secret
     this.listeners = listeners
-
-    this.instance = new Peer(options)
-
-    this.options = options
-
-    const emitSignal = data => {
-      if (typeof this.listeners.onSignal === 'function') {
-        this.listeners.onSignal(data)
-      }
-    }
-
-    this.emitSignal = options.trickle ? debounce(emitSignal, 1000) : emitSignal
-
-    this.instance.on('connect', this.onConnect.bind(this))
-    this.instance.on('signal', this.onSignal.bind(this))
-    this.instance.on('error', this.onError.bind(this))
-    this.instance.on('data', this.onData.bind(this))
-    this.instance.on('track', this.onTrack.bind(this))
-    this.instance.on('stream', this.onStream.bind(this))
-    this.instance.on('close', this.onClose.bind(this))
-
     this.isConnected = false
+
+    this.instance = new P2PT(announceURLs, secret)
+
+    this.instance.on('trackerconnect', this.onTrackerConnect.bind(this))
+
+    this.instance.on('peerconnect', peer => {
+      peer.on('connect', this.onConnect.bind(this))
+      peer.on('error', this.onError.bind(this))
+      peer.on('data', this.onData.bind(this))
+      peer.on('track', this.onTrack.bind(this))
+      peer.on('stream', this.onStream.bind(this))
+      peer.on('close', this.onClose.bind(this))
+
+      this.onConnect()
+
+      this.peer = peer
+    })
+
+    this.instance.start()
   }
 
   /**
-   * @method onSignal
-   * @description Handles the callback for the signal event from SimplePeer
-   * @param data Data received from SimplePeer signal event
+   * @method onTrackerConnect
+   * @description Handles the callback for the tracker connection event from P2PT library
    */
-  public onSignal (data: any) {
-    this._peerData = data
-    this.emitSignal(this._peerData)
+  public onTrackerConnect (tracker, stats) {
+    if (typeof this.listeners.onTrackerConnect === 'function') {
+      this.listeners.onTrackerConnect(this.identifier, tracker, stats)
+    }
   }
 
   /**
@@ -151,15 +150,6 @@ export default class P2PUser {
   }
 
   /**
-   * @method forwardSignal
-   * @description Forwards signal data to the SimplePeer instance
-   * @param data Signaling data to forward
-   */
-  public forwardSignal (data: any) {
-    this.instance.signal(data)
-  }
-
-  /**
    * @method subscribeToCallEvents
    * @description Allows to subscribe to call events
    * @param callback Callback to be invoked when a call event occour
@@ -191,7 +181,7 @@ export default class P2PUser {
 
     callPeer.on('signal', (data: any) => {
       const type = data.type === 'offer' ? 'call-request' : 'call-answer'
-      this.instance.send(JSON.stringify({ type, data }))
+      this.peer?.send(JSON.stringify({ type, data }))
     })
 
     callPeer.on('connect', () => {
@@ -252,36 +242,34 @@ export default class P2PUser {
     // Store the active stream to destroy it after hangup
     this.activeStream = stream
 
-    if (sendToRemote)
-      this.instance.send(JSON.stringify({ type: 'call-answered' }))
+    if (sendToRemote) this.peer?.send(JSON.stringify({ type: 'call-answered' }))
   }
 
-  public addStream(stream) {
+  public addStream (stream) {
     // @ts-ignore
     this.activeCall.addStream(stream)
   }
 
-  public removeStream(stream) {
+  public removeStream (stream) {
     // @ts-ignore
     this.activeCall.removeStream(stream)
     // @ts-ignore
   }
 
-  public addTrack(track, stream) {
+  public addTrack (track, stream) {
     // @ts-ignore
     this.activeCall.addTrack(track, stream)
   }
 
-  public removeTrack(track, stream) {
+  public removeTrack (track, stream) {
     // @ts-ignore
     this.activeCall.removeTrack(track, stream)
   }
 
-  public replaceTrack(oldTrack, newTrack, stream) {
+  public replaceTrack (oldTrack, newTrack, stream) {
     // @ts-ignore
     this.activeCall.replaceTrack(oldTrack, newTrack, stream)
   }
-
 
   public hangupCall (sendToRemote?: boolean) {
     if (this.activeCall) {
@@ -294,16 +282,15 @@ export default class P2PUser {
       this.emitCallEvent('call-ended', this.identifier)
     }
 
-    if (sendToRemote)
-      this.instance.send(JSON.stringify({ type: 'call-hangup' }))
+    if (sendToRemote) this.peer?.send(JSON.stringify({ type: 'call-hangup' }))
   }
 
   public send (data: any) {
-    this.instance.send(data)
+    this.peer?.send(data)
   }
 
   public destroy () {
     this.activeCall?.destroy()
-    this.instance?.destroy()
+    this.peer?.destroy()
   }
 }

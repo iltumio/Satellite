@@ -1,234 +1,159 @@
-import ThreadID from '@textile/threads-id';
-import dayjs from 'dayjs';
+import ThreadID from '@textile/threads-id'
+import dayjs from 'dayjs'
 
 export default {
-  async initP2P({ commit, dispatch, state }) {
+  async initP2P ({ commit, dispatch, state }) {
     // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
+    const WebRTC = this.$app.$WebRTC
     // @ts-ignore
-    const SoundManager = this.$app.$sound;
+    const SoundManager = this.$app.$sound
     // @ts-ignore
-    const streamManager = this.$app.$streamManager;
+    const streamManager = this.$app.$streamManager
 
     WebRTC.subscribe(
       (event: string, identifier: string, { type, data }) => {
-        dispatch('signal', { signal: data, identifier: identifier });
-      },
-      ['signal']
-    );
-
-    WebRTC.subscribe(
-      (event: string, identifier: string, { type, data }) => {
-        dispatch('setFriendStatus', { address: identifier, status: 'alive' });
+        dispatch('setFriendStatus', { address: identifier, status: 'alive' })
       },
       ['connect']
-    );
+    )
 
     // Watch for users typing
     WebRTC.subscribe(
       (event, identifier, message) => {
-        commit('userTyping', [identifier, message.data]);
+        commit('userTyping', [identifier, message.data])
       },
       ['typing-notice'],
       state.activeChats
-    );
+    )
 
     // Watch for users typing
     WebRTC.subscribe(
       (event, identifier, message) => {
-        commit('incomingCall', identifier);
-        SoundManager.play('callingSound');
+        commit('incomingCall', identifier)
+        SoundManager.play('callingSound')
       },
       ['incoming-call']
-    );
+    )
 
     WebRTC.subscribe(
       (event, identifier, message) => {
-        SoundManager.stop('callingSound');
-        SoundManager.stop('connectedSound');
+        SoundManager.stop('callingSound')
+        SoundManager.stop('connectedSound')
       },
       ['call-answered']
-    );
+    )
 
     WebRTC.subscribe(
       (event, identifier, message) => {
-        SoundManager.play('callingSound');
+        SoundManager.play('callingSound')
       },
       ['outgoing-call']
-    );
+    )
 
     WebRTC.subscribe(
       (event, identifier, { type, data }) => {
-        SoundManager.stop('callingSound');
-        SoundManager.stop('connectedSound');
-        streamManager.addRemoteStream(identifier, data[0]);
-        streamManager.playStream('remote', identifier);
+        SoundManager.stop('callingSound')
+        SoundManager.stop('connectedSound')
+        streamManager.addRemoteStream(identifier, data[0])
+        streamManager.playStream('remote', identifier)
       },
       ['call-stream']
-    );
+    )
 
     WebRTC.subscribe(
       (event, identifier, message) => {
-        SoundManager.stop('callingSound');
-        SoundManager.play('hangupSound');
+        SoundManager.stop('callingSound')
+        SoundManager.play('hangupSound')
 
-        streamManager.stopStream('remote', identifier);
-        streamManager.stopStream('local', identifier);
+        streamManager.stopStream('remote', identifier)
+        streamManager.stopStream('local', identifier)
       },
       ['call-ended']
-    );
+    )
 
     WebRTC.subscribe(
       (event, identifier, message) => {
-        dispatch('setFriendStatus', { address: identifier, status: 'dead' });
+        dispatch('setFriendStatus', { address: identifier, status: 'dead' })
       },
       ['disconnect']
-    );
+    )
   },
 
-  async signal({ commit, dispatch, state }, { signal, identifier }) {
+  async tryConnectToFriends ({ dispatch }, { friends }) {
     // @ts-ignore
-    const { signalingManager } = this.$app.$database;
-
-    const sig = signalingManager.buildSignal(signal);
-
-    const friend = state.friends.find(f => f.address === identifier);
-
-    if (friend) {
-      if (sig.type === 'offer') {
-        signalingManager.initializeConnection(friend.threadID, sig, identifier);
-      } else {
-        signalingManager.updateSignal(friend.threadID, sig);
-      }
-    }
-  },
-
-  async subscribeToFriendsSignals({ dispatch }, { friends }) {
-    // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
+    const WebRTC = this.$app.$WebRTC
 
     friends.forEach(async friend => {
-      // dispatch('checkLastSignal', { friend });
-      await dispatch('subscribeToFriendSignal', { friend });
       if (!WebRTC.isPeerConnected(friend.address)) {
-        dispatch('initiateConnection', { friend });
+        dispatch('initiateConnection', { friend })
       }
-    });
+    })
   },
 
-  async checkLastSignal({}, { friend }) {
+  async initiateConnection ({}, { friend }) {
     // @ts-ignore
-    const { signalingManager } = this.$app.$database;
+    const WebRTC = this.$app.$WebRTC
     // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
+    const crypto = this.$app.$crypto
 
-    const threadID = ThreadID.fromString(friend.threadID);
+    // Initialize the ECDH encryption for the given friend
+    await crypto.initializeRecipient(friend.address, friend.pubkey)
+    // Retrieve the hashed value of the shared secret
+    const secret = crypto.getSecret(friend.address)
 
-    const lastSignal = await signalingManager.getLastSignalData(
-      threadID,
-      friend.address
-    );
-
-    if (!lastSignal) return;
-
-    const elapsedTime = dayjs().diff(dayjs(lastSignal.at), 'seconds');
-
-    if (elapsedTime <= 60 && lastSignal?.initiator) {
-      const sender = lastSignal?.sender;
-      const data = lastSignal?.payload?.signalingData;
-      await WebRTC.forwardSignal(sender, data);
-    }
+    // Initiate the P2P connection using the shared secret
+    await WebRTC.initiateConnection(friend.address, secret)
   },
 
-  async subscribeToFriendSignal({ dispatch }, { friend }) {
+  async call ({ commit, dispatch }, { friendAddress, stream }) {
     // @ts-ignore
-    const { signalingManager } = this.$app.$database;
+    const WebRTC = this.$app.$WebRTC
     // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
-
-    const threadID = ThreadID.fromString(friend.threadID);
-
-    signalingManager.subscribe(
-      threadID,
-      friend.address,
-      async update => {
-        if (!update?.instance) return;
-
-        const sender = update?.instance?.sender;
-        const data = update?.instance?.payload?.signalingData;
-
-        if (!sender || !data) return;
-
-        if (data.type === 'offer') {
-          WebRTC.connectToRemote(sender, data);
-        } else {
-          WebRTC.forwardSignal(sender, data);
-        }
-      },
-      () => {
-        dispatch('subscribeToFriendSignal', { friend });
-      }
-    );
-
-    return;
-  },
-
-  async initiateConnection({}, { friend }) {
-    // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
-
-    await WebRTC.initiateConnection(friend.address, true);
-  },
-
-  async call({ commit, dispatch }, { friendAddress, stream }) {
-    // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
-    // @ts-ignore
-    const streamManager = this.$app.$streamManager;
+    const streamManager = this.$app.$streamManager
 
     // Close active call
     WebRTC.getActiveCalls().forEach(activeCall => {
-      activeCall[1].hangupCall();
-    });
+      activeCall[1].hangupCall()
+    })
 
-    await WebRTC.call(friendAddress, stream);
+    await WebRTC.call(friendAddress, stream)
 
     // Add the local stream using the recipient address as id
-    streamManager.addLocalStream(friendAddress, stream);
+    streamManager.addLocalStream(friendAddress, stream)
 
-    commit('addActiveCall', friendAddress);
-    dispatch('sendMessage', { data: Date.now(), type: 'call' });
+    commit('addActiveCall', friendAddress)
+    dispatch('sendMessage', { data: Date.now(), type: 'call' })
   },
 
-  async answerCall({ commit, dispatch }, { friend, stream }) {
+  async answerCall ({ commit, dispatch }, { friend, stream }) {
     // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
+    const WebRTC = this.$app.$WebRTC
     // @ts-ignore
-    const streamManager = this.$app.$streamManager;
+    const streamManager = this.$app.$streamManager
 
     // Add the local stream using the sender address as id
-    streamManager.addLocalStream(friend.address, stream);
+    streamManager.addLocalStream(friend.address, stream)
 
     // Close active call
     WebRTC.getActiveCalls().forEach(activeCall => {
-      activeCall[1].hangupCall();
-      streamManager.stopStream('remote', activeCall);
-      streamManager.stopStream('local', activeCall);
-    });
+      activeCall[1].hangupCall()
+      streamManager.stopStream('remote', activeCall)
+      streamManager.stopStream('local', activeCall)
+    })
 
-    await WebRTC.answerCall(friend.address, stream);
+    await WebRTC.answerCall(friend.address, stream)
 
-    commit('incomingCall', false);
-    commit('addActiveCall', friend.address);
-    dispatch('setActiveChat', { friendAddress: friend.address });
+    commit('incomingCall', false)
+    commit('addActiveCall', friend.address)
+    dispatch('setActiveChat', { friendAddress: friend.address })
   },
 
-  async hangupCall({ commit, dispatch }, { friendAddress }) {
+  async hangupCall ({ commit, dispatch }, { friendAddress }) {
     // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
+    const WebRTC = this.$app.$WebRTC
 
-    await WebRTC.hangupCall(friendAddress);
+    await WebRTC.hangupCall(friendAddress)
 
-    commit('removeActiveCall', friendAddress);
+    commit('removeActiveCall', friendAddress)
   }
-};
+}
