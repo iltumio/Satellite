@@ -160,6 +160,18 @@ export default class WebRTC {
   }
 
   /**
+   * @function isPeerAlreadyCreated
+   * @description Checks if a given peer has been already created and
+   * connected to the tracker url
+   * @param address Ethereum address of the peer to check
+   * @returns true | false
+   */
+  isPeerAlreadyCreated (address: string): Boolean {
+    const identifier = this.buildIdentifier(address)
+    return Boolean(this._peers[identifier])
+  }
+
+  /**
    * @function connect
    * @description Initiates a peer and tries to connect
    * @param address Ethereum address to connect
@@ -169,6 +181,13 @@ export default class WebRTC {
   initiateConnection (address: string, secret: string) {
     if (this.isPeerConnected(address)) {
       console.warn(`Already connected to ${address}`)
+      return
+    }
+
+    if (this.isPeerAlreadyCreated(address)) {
+      console.warn(
+        `The peer for ${address} has already been created. Waiting for connection`
+      )
       return
     }
 

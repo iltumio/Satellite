@@ -181,12 +181,8 @@ export default {
     await friendsContract.denyRequest(address).catch(console.log)
     dispatch('fetchFriendRequests')
   },
-  async setFriendStatus ({ state, commit }, { address, status }) {
-    const updatedFriends = state.friends.map(f =>
-      f.address === address ? { ...f, status } : f
-    )
-
-    commit('updateFriends', updatedFriends)
+  async setFriendStatus ({ commit }, { address, connected }) {
+    commit('updateConnectedPeers', { address, connected })
   },
   async removeFriend ({ commit, state }, address) {
     // @ts-ignore

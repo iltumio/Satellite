@@ -9,7 +9,7 @@ export default {
 
     WebRTC.subscribe(
       (event: string, identifier: string, { type, data }) => {
-        dispatch('setFriendStatus', { address: identifier, status: 'alive' })
+        dispatch('setFriendStatus', { address: identifier, connected: true })
       },
       ['connect']
     )
@@ -70,7 +70,7 @@ export default {
 
     WebRTC.subscribe(
       (event, identifier, message) => {
-        dispatch('setFriendStatus', { address: identifier, status: 'dead' })
+        dispatch('setFriendStatus', { address: identifier, connected: false })
       },
       ['disconnect']
     )

@@ -23,7 +23,11 @@
       <div class="column pfp-column">
         <CircleIcon :image="friend.photo" :address="friend.address" />
         <span class="online-wrapper" v-if="friend.status">
-          <p :class="`online ${friend.status == 'alive' ? 'true' : ''}`">
+          <p
+            :class="
+              `online ${this.isFriendConnected(friend.address) ? 'true' : ''}`
+            "
+          >
             <i class="fa fa-circle"></i>
           </p>
         </span>
@@ -132,6 +136,10 @@ export default {
       if (this.isMobile()) {
         this.showOptions = true
       }
+    },
+    isFriendConnected (address) {
+      console.log('checking if connected', address)
+      return Boolean(this.$store.state.connectedPeers[address])
     }
   }
 }
