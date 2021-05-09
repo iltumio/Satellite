@@ -17,7 +17,7 @@ export default {
     }
   },
   methods: {
-    async acceptCall () {
+    async acceptCall (video = false) {
       const constraints = {
         audio: {
           autoGainControl: false,
@@ -31,6 +31,11 @@ export default {
           deviceId: 'default'
         }
       }
+
+      this.$store.commit('localVideo', video)
+      //  if (this.$store.state.localVideo) { 
+        constraints.video = { facingMode: { ideal: "user" } } 
+      // }
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints)
       // this.$streamManager.addLocalStream(stream);

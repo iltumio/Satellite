@@ -1,26 +1,4 @@
-<template>
-  <div id="context" ref="menu" v-click-outside="close">
-    <span class="label">{{ $t('message_context.actions') }}</span>
-    <hr class="divider" />
-    <ul>
-      <li
-        v-clipboard:copy="getDecoded(message.payload.data)"
-        v-on:click="closeSoon"
-        v-if="isTextMessage()"
-      >
-        {{ $t('message_context.copy') }}
-      </li>
-      <li v-if="isTextMessage()">{{ $t('message_context.edit') }}</li>
-      <li v-if="isTextMessage()">{{ $t('message_context.speak') }}</li>
-    </ul>
-    <hr class="divider" />
-    <ul>
-      <li v-on:click="closeSoon" v-clipboard:copy="message.id">
-        {{ $t('message_context.copy_id') }}
-      </li>
-    </ul>
-  </div>
-</template>
+<template src="./MessageContext.html"></template>
 
 <script>
 export default {
@@ -72,35 +50,5 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-.label {
-  margin: 0 !important;
-  padding: 0 0.3rem !important;
-}
-.divider {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-#context {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: black;
-  z-index: 100;
-  width: 170px;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
-}
-ul {
-  padding: 0;
-  margin: 0;
-  li {
-    margin: 0;
-    padding: 0.25rem;
-    font-size: 10pt;
-    border-radius: 2px;
-  }
-}
-</style>
+<!-- Add 'scoped' attribute to limit CSS to this component only -->
+<style lang="less" scoped src="./MessageContext.less"></style>

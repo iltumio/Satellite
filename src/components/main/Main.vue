@@ -59,7 +59,7 @@ export default {
       this.mediaOpen = true
       this.voice = voice
     },
-    async makeCall () {
+    async makeCall (video = false) {
       const constraints = {
         audio: {
           autoGainControl: false,
@@ -71,8 +71,13 @@ export default {
           sampleSize: this.$store.state.audioSamples,
           volume: 1.0,
           deviceId: 'default'
-        }
+        },
       }
+
+      this.$store.commit('localVideo', video)
+      // if (this.$store.state.localVideo) { 
+        constraints.video = { facingMode: { ideal: "user" } } 
+      // }
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints)
 

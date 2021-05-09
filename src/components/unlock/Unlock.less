@@ -1,0 +1,79 @@
+#logo {
+    display: none;
+  }
+  #unlock {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 2;
+  }
+  #tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  .main {
+    width: 500px;
+    /* margin: 33.33% calc(33.33% - 40px); */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 20%;
+  }
+  .pin-text {
+    color: #b2bae1;
+  }
+  .label {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .sub-label {
+    opacity: 0.75;
+  }
+  .subtext,
+  .error {
+    text-align: center;
+    opacity: 0.2;
+  }
+  
+  .error {
+    opacity: 1;
+  }
+  .fa-key {
+    font-size: 20pt;
+    margin-top: 1.6rem;
+    width: 15px;
+    height: 15px;
+    float: right;
+    color: #b2bae1 !important;
+  }
+  button {
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 768px) {
+    #logo {
+      position: absolute;
+      top: 4rem;
+      left: calc(50% - 50px);
+      width: 100px;
+      height: 100px;
+      display: block;
+    }
+    #unlock {
+      background-position: bottom;
+      background-size: contain;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }

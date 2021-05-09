@@ -145,7 +145,7 @@ export default {
      */
     async removeFriend (address) {
       this.removingFriend = { address: address, removed: false }
-      await this.$WebRTC.disconnectFromPeer(address)
+      // await this.$WebRTC.disconnectFromPeer(address)
       await this.$store.dispatch('removeFriend', address)
       this.removingFriend = { address: address, removed: true }
     },

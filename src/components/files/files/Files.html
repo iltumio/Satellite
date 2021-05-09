@@ -1,0 +1,49 @@
+<div id="files" class="noselect">
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      v-on:click="close"
+    ></button>
+    <h3>{{ $t('files.heading') }}</h3>
+    <hr />
+    <h2 class="label">{{ $t('files.upload') }}</h2>
+    <article class="message is-dark">
+      <div class="message-body ">
+        <FileUploadInline
+          :relayResult="updateCache"
+          :uploadDone="fetchRecentFiles"
+        />
+      </div>
+    </article>
+    <h2 class="label">{{ $t('files.history') }}</h2>
+    <article class="message is-dark">
+      <div class="message-body noselect">
+        <p>{{ $t('files.your_files_subtext') }}</p>
+        <div v-if="!loading">
+          <FileContext
+            v-if="showContext"
+            :file="activeFile"
+            :x="contextCoordsX"
+            :y="contextCoordsY"
+            :close="hideContext"
+          />
+          <div
+            v-for="(file, index) in $store.state.files"
+            v-bind:key="file.path"
+          >
+            <p @contextmenu="fileContext">
+              <File :file="file" :updateParent="updateParent" :index="index" />
+            </p>
+          </div>
+        </div>
+        <div v-else>
+          <div class="bar-small"></div>
+          <div class="bar-large"></div>
+        </div>
+        <br />
+        <div style="clear:both"></div>
+      </div>
+    </article>
+
+    <br />
+  </div>

@@ -1,0 +1,20 @@
+<div class="fullscreen-pane">
+    <section class="provider-selection-container">
+      <h1 class="head">{{ $t('web3.provider_selection.heading') }}</h1>
+      <b>
+        {{ $t('web3.provider_selection.subtext') }}
+      </b>
+      <br /><br />
+      <div class="provider-selection">
+        <div
+          class="provider-element"
+          v-for="provider in $store.state.availableProviders"
+          v-bind:key="provider.type"
+          v-on:click.stop="setSelectedProvider(provider)"
+        >
+          <img :src="provider.logo" />
+          <span>{{ provider.name }}</span>
+        </div>
+      </div>
+    </section>
+  </div>

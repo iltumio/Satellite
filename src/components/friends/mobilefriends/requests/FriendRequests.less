@@ -1,0 +1,53 @@
+.request {
+    width: calc(50% - 1rem);
+    margin: 0 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem 1rem 1rem;
+    border-radius: 4px;
+    float: left;
+    display: block;
+    height: 4.5rem;
+    .button {
+      width: 50px;
+    }
+    .name {
+      font-size: 14pt;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .address {
+      font-size: 9pt;
+    }
+    .left {
+      float: left;
+      width: calc(100% - 8rem);
+    }
+    .right {
+      float: right;
+      width: 7rem;
+      padding-top: 0.5rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .requests {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .request {
+      width: 100%;
+      max-width: unset;
+      margin: 0.5rem 0;
+    }
+  
+    .request .left {
+      max-width: calc(100% - 8rem);
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  
+    .request .right {
+      width: auto;
+    }
+  }

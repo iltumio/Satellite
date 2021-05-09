@@ -1,0 +1,70 @@
+<div>
+    <h3 class="label no-mobile">{{ $t('settings.personalize.appearance') }}</h3>
+    <article class="message is-dark">
+      <div class="message-body">
+        <h2>{{ $t('settings.personalize.theme_heading') }}</h2>
+        <p>{{ $t('settings.personalize.theme_subtext') }}</p>
+        <br />
+        <div class="select">
+          <select v-model="$store.state.theme">
+            <!--
+            <option value="dark">Simply Dark</option>
+            <option value="zenburn">Zenburn</option>
+            <option value="light">Eye Strain</option>
+            <option value="ice">Ice Cold</option>-->
+            <option value="next">Next</option>
+            <option value="tokyo">Tokyo Night</option>
+            <option value="oled" v-if="isMobile()">Oled</option>
+          </select>
+        </div>
+      </div>
+    </article>
+    <h3 class="label no-mobile">
+      {{ $t('settings.personalize.permissions') }}
+    </h3>
+    <hr class="spacer" />
+    <article class="message is-dark">
+      <div class="message-body">
+        <h2>{{ $t('settings.personalize.notifications_heading') }}</h2>
+        <p>{{ $t('settings.personalize.notifications_subtext') }}</p>
+        <br />
+        <button
+          class="button is-dark is-small"
+          :disabled="notificationsEnabled"
+          v-on:click="enableNotifications"
+        >
+          {{
+            notificationsEnabled
+              ? $t('settings.personalize.notifications_enabled')
+              : $t('settings.personalize.enable_notifications')
+          }}
+        </button>
+      </div>
+    </article>
+    <h3 class="label no-mobile">{{ $t('settings.personalize.language') }}</h3>
+    <hr class="spacer" />
+    <article class="message is-dark">
+      <div class="message-body">
+        <h2>{{ $t('settings.personalize.language_heading') }}</h2>
+        <p>{{ $t('settings.personalize.language_subtext') }}</p>
+        <br />
+        <div class="select">
+          <select @change="setLanguage($event.target.value)">
+            <option
+              :key="`LangDefault`"
+              value="en_US"
+              :selected="$store.state.settings.language === 'en_US'"
+              >{{ $t('languages.en_US') }}</option
+            >
+            <option
+              v-for="(lang, i) in languages"
+              :key="`Lang${i}`"
+              :value="lang"
+              :selected="$store.state.settings.language === lang"
+              >{{ $t(`languages.${lang}`) }}</option
+            >
+          </select>
+        </div>
+      </div>
+    </article>
+  </div>

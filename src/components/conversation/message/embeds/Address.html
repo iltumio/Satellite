@@ -1,0 +1,27 @@
+<div id="payment">
+    <article class="media" v-on:click="clickAction">
+      <div class="media-content">
+        <div class="content">
+          <p v-if="account">
+            <CircleIcon 
+              :address="account.address" 
+              :image="account.photo"
+              :diameter="35" />
+              <span class="text">
+                <strong class="filename">{{ account.name }}</strong><br>
+                <span class="status">{{ account.statusMsg }}</span>
+              </span>
+          </p>
+          <p v-else>
+            <i class="fas fa-file-invoice logo"></i>
+            <strong class="filename">{{ address[0] }}</strong>
+            <br />
+            <ExternalLink
+              :link="getEtherscanLink()"
+              :text="$t('conversation.message.address.external_link_text')"
+            />
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>

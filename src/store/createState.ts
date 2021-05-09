@@ -48,6 +48,9 @@ export interface IState {
   echoCancellation: boolean;
   muted: boolean;
   deafened: boolean;
+  // Video
+  localVideo: boolean;
+  remoteVideo: boolean;
   // Web3
   web3connected: boolean;
   web3Stats: any;
@@ -141,6 +144,9 @@ export const defaultState: IState = {
   echoCancellation: false,
   muted: false,
   deafened: false,
+  // Video
+  localVideo: false,
+  remoteVideo: false,
   // Web3
   web3connected: false,
   web3Stats: false,
