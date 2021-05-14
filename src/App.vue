@@ -37,7 +37,6 @@ export default {
         this.$store.commit('setMnemonic', decryptedMnemonic)
       }
       this.decrypted = true
-      // this.checkAccount();
 
       this.$store.dispatch('startup')
     }
@@ -71,7 +70,7 @@ export default {
   right: 0;
   left: 0;
   overflow: hidden;
-  // min-width: 990px;
+  /* min-width: 990px; */
 }
 
 #app .theme {

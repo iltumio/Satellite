@@ -16,7 +16,8 @@ module.exports = {
   },
   pinata: {
     // eslint-disable-next-line max-len
-    jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4NDZkOGUwNi1jZTYwLTQ4NzgtOWE1Ni1hNTMwODc2MTRkZDQiLCJlbWFpbCI6Im1hdHQud2lzbmlld3NraUBqYWNrZXRyaXZlci5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZmFhZTA3NDgxYmE1OGM0ZDc5YTgiLCJzY29wZWRLZXlTZWNyZXQiOiI0YmQzMmI0YmE5YTI2ZTZlYjJkYzRlOTFkYjFlZTZmNGQzZGJlNjlhY2UyNDkzMzYwOGY5OTcyMTQwNjU2YzJjIiwiaWF0IjoxNjE2ODIyMTE1fQ.Lb1Pbl7KLEkiY13Ioefv2AzrE1_CREZ2YPPz_MlboWI'
+    jwt:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4NDZkOGUwNi1jZTYwLTQ4NzgtOWE1Ni1hNTMwODc2MTRkZDQiLCJlbWFpbCI6Im1hdHQud2lzbmlld3NraUBqYWNrZXRyaXZlci5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiZmFhZTA3NDgxYmE1OGM0ZDc5YTgiLCJzY29wZWRLZXlTZWNyZXQiOiI0YmQzMmI0YmE5YTI2ZTZlYjJkYzRlOTFkYjFlZTZmNGQzZGJlNjlhY2UyNDkzMzYwOGY5OTcyMTQwNjU2YzJjIiwiaWF0IjoxNjE2ODIyMTE1fQ.Lb1Pbl7KLEkiY13Ioefv2AzrE1_CREZ2YPPz_MlboWI'
   },
   sounds: {
     newMessage: 'QmfGYjbTXg66V8ZHzqQRVutUFmkbd5L3fV6DA72jTHDWAH',
@@ -60,7 +61,6 @@ module.exports = {
       '0xaE0fe6b8c466F4a6652E6a48EeD335A6029f60a3', // Star Wars
       '0x91acdb98D38C5e2df744Ae91707C2F0E101861Ad', // Dina Birds
       '0xa5a82812E039eb4dab507C95b06e62CAbE84Ef33' // LAM
-
     ]
   },
   debug: false,
@@ -94,15 +94,21 @@ module.exports = {
     check_heartbeat: 500,
     timeout: 500,
     reconnect: 3000,
-    ping_interval: 5000
+    ping_interval: 5000,
+    announceURLs: [
+      'wss://tracker.openwebtorrent.com',
+      'wss://tracker.sloppyta.co:443/announce',
+      'wss://tracker.novage.com.ua:443/announce'
+    ]
   },
   web3: {
     balance_polling_interval: 10000
   },
   toastNotifications: {
-    position: 'top-center', iconPack: 'fontawesome', duration: 800, className: 'vault-toast'
+    position: 'top-center',
+    iconPack: 'fontawesome',
+    duration: 800,
+    className: 'vault-toast'
   },
-  verified_addresses: [
-    '0x2c3a050a6634cBD10df8086688De37D084440B7c'
-  ] // TODO: move this to a contract
+  verified_addresses: ['0x2c3a050a6634cBD10df8086688De37D084440B7c'] // TODO: move this to a contract
 }

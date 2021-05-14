@@ -1,40 +1,50 @@
 export default {
-  async startup({ dispatch, state, commit }) {
+  async startup ({ dispatch, state, commit }) {
     // First load wallet and connect
     if (state.mnemonic) {
-      await dispatch('web3Start');
+      // @ts-ignore
+      const ethereum = this.$app.$ethereum
+      // @ts-ignore
+      const crypto = this.$app.$crypto
 
-      const { client } = await dispatch('initDatabase');
+      await dispatch('web3Start')
+
+      // Initialize encryption engine using the current account private key
+      if (ethereum.initialized) {
+        crypto.init(ethereum.wallet)
+      }
+
+      const { client } = await dispatch('initDatabase')
 
       // Initialize p2p connection
-      await dispatch('initP2P', { client });
+      await dispatch('initP2P', { client })
 
       // Dispatch a new action to fetch friends
-      await dispatch('fetchFriends', state.activeAccount);
+      await dispatch('fetchFriends', state.activeAccount)
 
       // Fetch friend requests
-      await dispatch('fetchFriendRequests');
+      await dispatch('fetchFriendRequests')
 
       // Dispatch a new action to fetch servers
-      await dispatch('fetchServers');
+      await dispatch('fetchServers')
 
       // Dispatch new action to start a listener to new friends requests
-      dispatch('startFriendsListeners');
+      dispatch('startFriendsListeners')
 
-      commit('ICEConnected', true);
+      commit('ICEConnected', true)
     }
   },
-  async setActiveChat({ commit, state, dispatch }, { friendAddress }) {
-    commit('activeChat', friendAddress);
+  async setActiveChat ({ commit, state, dispatch }, { friendAddress }) {
+    commit('activeChat', friendAddress)
 
-    dispatch('fetchMessages', { address: friendAddress });
+    dispatch('fetchMessages', { address: friendAddress })
 
     // @ts-ignore
-    const WebRTC = this.$app.$WebRTC;
+    const WebRTC = this.$app.$WebRTC
 
     if (!WebRTC.isPeerConnected(friendAddress)) {
-      const friend = state.friends.find(f => f.address === friendAddress);
-      dispatch('initiateConnection', { friend });
+      const friend = state.friends.find(f => f.address === friendAddress)
+      dispatch('initiateConnection', { friend })
     }
   }
-};
+}

@@ -24,38 +24,57 @@ export default {
   },
   mounted () {
     this.updateStreams()
-    this.$streamManager.toggleLocalStreams(this.$store.state.muted, this.localVideo)
-    this.$streamManager.toggleRemoteStreams(this.$store.state.deafened, this.remoteVideo)
-    
-    this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      this.updateStreams()
-    }, ['call-stream', 'call-ended', 'incoming-call', 'outgoing-call'])
+    this.$streamManager.toggleLocalStreams(
+      this.$store.state.muted,
+      this.localVideo
+    )
+    this.$streamManager.toggleRemoteStreams(
+      this.$store.state.deafened,
+      this.remoteVideo
+    )
 
-    this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
-      this.remoteStream = data[0]
-      this.activeCall = true
-    }, ['call-stream'])
+    this.$WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        this.updateStreams()
+      },
+      ['call-stream', 'call-ended', 'incoming-call', 'outgoing-call']
+    )
 
-    this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      this.remoteVideo = data
-    }, ['stream-update'])
+    this.$WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
+        this.remoteStream = data[0]
+        this.activeCall = true
+      },
+      ['call-stream']
+    )
+
+    this.$WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        this.remoteVideo = data
+      },
+      ['stream-update']
+    )
 
     this.$WebRTC.subscribe(() => {
       this.$store.commit('incomingCall', false)
+      this.activeCall = false
     }, ['call-ended'])
 
-    this.$WebRTC.subscribe((event, identifier, { type, data }) => {
-      if (this.activeCall) {
-        // let friend = this.$store.state.friends.find(
-        //   f => f.address === this.$store.state.incomingCall
-        // )
-        this.$store.commit('incomingCall', false);
-        // this.$WebRTC.answerCall(friend.address, this.localStream);
-        // this.$store.dispatch('answerCall', { friend, stream: this.localStream })
-      }
-    }, ['incoming-call'])
-    
+    this.$WebRTC.subscribe(
+      (event, identifier, { type, data }) => {
+        if (this.activeCall) {
+          // let friend = this.$store.state.friends.find(
+          //   f => f.address === this.$store.state.incomingCall
+          // )
+          this.$store.commit('incomingCall', false)
+          // this.$WebRTC.answerCall(friend.address, this.localStream);
+          // this.$store.dispatch('answerCall', { friend, stream: this.localStream })
+        }
+      },
+      ['incoming-call']
+    )
+
     this.$WebRTC.streamUpdate(this.$store.state.activeChat, this.localVideo)
   },
   methods: {
@@ -97,8 +116,10 @@ export default {
       const localVideo = !this.$store.state.localVideo
       this.localVideo = localVideo
       this.$store.commit('localVideo', localVideo)
-      
-      localVideo ? this.$sound.sounds.unmute.play() : this.$sound.sounds.mute.play()
+
+      localVideo
+        ? this.$sound.sounds.unmute.play()
+        : this.$sound.sounds.mute.play()
 
       this.$streamManager.toggleLocalVideo(localVideo)
       this.$WebRTC.streamUpdate(this.$store.state.activeChat, localVideo)
@@ -107,14 +128,16 @@ export default {
     async toggleScreenSharing () {
       this.screenSharing = !this.screenSharing
       let displayMediaOptions = {
-        video: { cursor: "always" },
+        video: { cursor: 'always' },
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
           sampleRate: 44100
         }
       }
-      const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+      const stream = await navigator.mediaDevices.getDisplayMedia(
+        displayMediaOptions
+      )
       // let newTrack = stream.getVideoTracks()[0]
       // let localTrack = this.localStream.getVideoTracks()[0]
       // this.$WebRTC.removeStream(this.$store.state.activeChat, this.localStream)
@@ -146,8 +169,7 @@ export default {
      */
     killAllStreams () {
       this.$streamManager.killAllStreams()
-    },
-
+    }
   }
 }
 </script>
