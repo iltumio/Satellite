@@ -49,7 +49,7 @@ export default {
     // dispatch('subscribeToAllThreads', { friends: updatedFriends })
 
     // dispatch('subscribeToMailbox', { friend: updatedFriends[0] })
-    dispatch('fetchMailbox')
+    // dispatch('fetchMailbox', {friend})
 
     // Dispatch a p2pAction to subscribe for signals
     dispatch('tryConnectToFriends', { friends: updatedFriends })

@@ -13,20 +13,30 @@ function convertMsg (msg) {
 }
 
 export default {
-  async fetchMailbox ({ state, commit }) {
+  async fetchMailbox ({ state, commit }, { address, limit, skip }) {
     // @ts-ignore
     const database = this.$app.$database
+    // @ts-ignore
+    const crypto = this.$app.$crypto
+
+    const friend = state.friends.find(fr => fr.address === address)
 
     commit('loadingMessages')
-    const inboxMessages = await database.mailboxManager?.listInboxMessages()
-    const sentboxMessages = await database.mailboxManager?.listSentboxMessages()
 
-    const imsg = inboxMessages.map(convertMsg)
-    const smsg = sentboxMessages.map(convertMsg)
+    // Initialize the crypto library for the recipient to compute ECDH
+    await crypto.initializeRecipient(friend.address, friend.pubkey)
 
-    const conversation = [...imsg, ...smsg].sort((a, b) => a.at - b.at)
+    const decryptedKey = await crypto.decryptFor(
+      friend.address,
+      friend.encryptedKey
+    )
 
-    commit('updateMessages', conversation)
+    const conversation = await database.mailboxManager?.getConversation(
+      decryptedKey,
+      { limit: 5, skip: 1 }
+    )
+
+    commit('updateMessages', conversation.map(convertMsg))
   },
   async subscribeToMailbox ({ state, commit, dispatch }) {
     // @ts-ignore
@@ -100,14 +110,7 @@ export default {
     if (!database.mailboxManager?.isSubscribed('sentbox')) {
       database.mailboxManager?.listenToSentboxMessages(message => {
         const msg = convertMsg(message)
-
-        console.log('state messages', state.messages)
-
-        const existingMessage = state.messages.find(m => m.id === msg.id)
-
-        console.log('Existing message', existingMessage)
-
-        console.log('sentbox msg', msg)
+        commit('appendMessage', msg)
       })
     }
   },
@@ -144,6 +147,6 @@ export default {
     )
 
     // Mark the message as pending when it's not yet included in the thread
-    commit('appendMessage', { ...msg, pending: true })
+    // commit('appendMessage', { ...msg, pending: true })
   }
 }
