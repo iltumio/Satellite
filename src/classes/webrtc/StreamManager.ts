@@ -40,13 +40,13 @@ export default class StreamManager {
 
   public addRemoteStream (identifier: string, stream: MediaStream) {
     if (this._remoteStreams[identifier]) {
-      console.warn('Local stream already exist')
+      console.warn('Remote stream already exist')
       return
     }
     this._remoteStreams[identifier] = stream
   }
 
-  public toggleAllLocalStreams (muted: boolean, video: boolean) {
+  public toggleLocalStreams (muted: boolean, video: boolean) {
     if (typeof muted === 'undefined') return
 
     Object.entries<MediaStream>(this._localStreams).forEach(
@@ -80,17 +80,15 @@ export default class StreamManager {
     })
   }
 
-  // public enableWebcam() {
-  //   // TODO: this should add the video track if one does not exist
-  // }
 
-  // public toggleWebcam(enabled: boolean) {
-  //   this._localStreams.forEach((stream: MediaStream) => {
-  //     stream.getVideoTracks().forEach(track => {
-  //       track.enabled = enabled;
-  //     });
-  //   });
-  // }
+  public toggleLocalVideo(enable: boolean) {
+    Object.entries<MediaStream>(this._localStreams).forEach(
+      async ([identifier, stream]) => {
+        let videoTracks = stream.getVideoTracks()
+        videoTracks.forEach(track => { track.enabled = enable })
+      }
+    )
+  }
 
   private stopAllTracks (stream: MediaStream) {
     stream.getAudioTracks().forEach(track => {
@@ -113,8 +111,9 @@ export default class StreamManager {
     const audioTypeId = `_${streamType}Audio`
 
     const stream: MediaStream | undefined = this[streamTypeId][identifier]
+
     if (!stream) {
-      console.warn('Stream not found')
+      console.warn('playStream: Stream not found')
       return
     }
 
@@ -136,8 +135,9 @@ export default class StreamManager {
     const audioTypeId = `_${streamType}Audio`
 
     const stream: MediaStream | undefined = this[streamTypeId][identifier]
+
     if (!stream) {
-      console.warn('Stream not found')
+      console.warn('stopStream: Stream not found')
       return
     }
 

@@ -242,8 +242,33 @@ export default class P2PUser {
     // Store the active stream to destroy it after hangup
     this.activeStream = stream
 
-    if (sendToRemote)
-      this.instance.send(JSON.stringify({ type: 'call-answered' }))
+    if (sendToRemote) this.peer?.send(JSON.stringify({ type: 'call-answered' }))
+  }
+
+  public addStream (stream) {
+    // @ts-ignore
+    this.activeCall.addStream(stream)
+  }
+
+  public removeStream (stream) {
+    // @ts-ignore
+    this.activeCall.removeStream(stream)
+    // @ts-ignore
+  }
+
+  public addTrack (track, stream) {
+    // @ts-ignore
+    this.activeCall.addTrack(track, stream)
+  }
+
+  public removeTrack (track, stream) {
+    // @ts-ignore
+    this.activeCall.removeTrack(track, stream)
+  }
+
+  public replaceTrack (oldTrack, newTrack, stream) {
+    // @ts-ignore
+    this.activeCall.replaceTrack(oldTrack, newTrack, stream)
   }
 
   public hangupCall (sendToRemote?: boolean) {

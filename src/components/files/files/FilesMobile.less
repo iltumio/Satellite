@@ -1,0 +1,146 @@
+.files-mobile-wrapper {
+    height: calc(100% - 7.2rem);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 1rem;
+  }
+  .progress {
+    border-radius: 0;
+  }
+  .f-preview {
+    max-height: 400px;
+  }
+  .file-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #16161e;
+    padding: 2rem 1rem;
+    padding-bottom: 4rem;
+    z-index: 2;
+  }
+  .fname {
+    font-family: 'Space Mono', monospace;
+    font-size: 12pt;
+  }
+  .mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    padding-top: 4rem;
+    font-weight: bold;
+    color: #fff !important;
+    background: rgba(0, 0, 0, 0.75);
+  }
+  .modal-close {
+    margin-top: 1rem;
+  }
+  
+  .half-button {
+    width: calc(50% - 0.14rem);
+    margin-bottom: 1rem;
+  }
+  .full-button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .files-container {
+    width: calc(100% + 0.4rem);
+    margin: -0.2rem;
+  }
+  .bar-small {
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+      90deg,
+      rgba(32, 32, 43, 0.45) 0%,
+      rgba(32, 32, 43, 0.65) 50%,
+      rgba(32, 32, 43, 0.45) 100%
+    );
+    height: 30px;
+    width: 35%;
+    border-radius: 5px;
+    background-size: 200% 200%;
+    animation: gradient 0.5s ease infinite;
+    margin: 1rem 0;
+  }
+  .bar-large {
+    width: 55%;
+    height: 100px;
+    border-radius: 5px;
+    margin: 1rem 0;
+    background: linear-gradient(
+      90deg,
+      rgba(32, 32, 43, 0.45) 0%,
+      rgba(32, 32, 43, 0.65) 50%,
+      rgba(32, 32, 43, 0.45) 100%
+    );
+    background-size: 200% 200%;
+    animation: gradient 0.5s ease infinite;
+  }
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: -100% 0%;
+    }
+    100% {
+      background-position: -200% 0%;
+    }
+  }
+  #files {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #f8f9fb;
+    z-index: 5;
+    padding: 1rem 1.5rem;
+    overflow-y: scroll;
+  }
+  h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 20pt;
+  }
+  .modal-close {
+    z-index: 0 !important;
+    position: absolute;
+    top: env(safe-area-inset-top, 0);
+  }
+  
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  li {
+    height: 40vh;
+    flex-grow: 1;
+    padding: 0.2rem 0.2rem;
+  }
+  
+  li:last-child {
+    flex-grow: 10;
+  }
+  
+  img {
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+  }
+  @media (max-aspect-ratio: 1/1) {
+    li {
+      height: 12vh;
+    }
+  }
+  
+  @media (max-height: 480px) {
+    li {
+      height: 80vh;
+    }
+  }

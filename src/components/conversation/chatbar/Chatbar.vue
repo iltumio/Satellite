@@ -55,6 +55,11 @@ export default {
   methods: {
     isMobile: MobileUtils.isMobile,
     openStickers () {
+      //code to check if any of the other modals are open, if so close them
+      if(this.selectingEmoji ) {this.selectingEmoji = !this.selectingEmoji };
+      if(this.payments) {this.payments = !this.payments };
+
+      //code to toggle Stickers modal
       this.$store.commit('toggleStickers', true)
     },
     /** @method
@@ -89,10 +94,20 @@ export default {
     },
     // Toggles the visibility of the mini payment window
     togglePayments () {
+      //code to check if any of the other modals are open, if so close them
+      if(this.selectingEmoji ) {this.selectingEmoji = !this.selectingEmoji };
+      if(this.$store.state.stickersOpen) {this.$store.commit('toggleStickers', true)};
+      
+      //code to toggle payment modal
       this.payments = !this.payments
     },
     // Toggles visibility of the emoji picker
     toggleEmoji () {
+      //code to check if any of the other modals are open, if so close them
+      if(this.payments) {this.payments = !this.payments };
+      if(this.$store.state.stickersOpen) {this.$store.commit('toggleStickers', true)};
+
+      //code to toggle selectEmoji modal
       this.selectingEmoji = !this.selectingEmoji
     },
     // Send a plain text message from the chatbar to the parent component

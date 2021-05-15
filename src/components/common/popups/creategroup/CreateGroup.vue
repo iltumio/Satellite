@@ -1,47 +1,4 @@
-<template>
-  <div class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Create a group</p>
-        <button
-          class="delete"
-          aria-label="close"
-          v-on:click="$store.commit('showCreateGroup', false)"
-        ></button>
-      </header>
-      <section class="modal-card-body">
-        <p>
-          Creating a group allows you to chat with many friends at once. <br />
-          Select a group of friends to start, you can always add more later!
-        </p>
-        <br />
-        <span class="label">Group Name</span>
-        <input type="text" class="input" placeholder="Enter a name..." />
-        <br />
-        <br />
-        <span class="label">Select Friends</span>
-        <input
-          type="text"
-          class="input"
-          placeholder="Search Friends..."
-          v-model="filter"
-        />
-        <div
-          v-for="friend in getFilteredFriends(filter)"
-          :key="friend.address"
-          class="friend"
-        >
-          <GroupAddFriend
-            :friend="friend"
-            :add="toggleSelectedFriend"
-            :active="selectedFriends.includes(friend.address)"
-          />
-        </div>
-      </section>
-    </div>
-  </div>
-</template>
+<template src="./CreateGroup.html"></template>
 
 <script>
 import Fuse from 'fuse.js'
@@ -91,14 +48,4 @@ export default {
 }
 </script>
 
-<style>
-.modal {
-  z-index: 101;
-  padding-top: env(safe-area-inset-top, 0);
-}
-.friend {
-  margin-top: 0.5rem;
-  padding: 0.4rem;
-  border-radius: 4px;
-}
-</style>
+<style lang="less" src="./CreateGroup.less"></style>

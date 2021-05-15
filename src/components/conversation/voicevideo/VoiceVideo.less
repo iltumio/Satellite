@@ -47,7 +47,10 @@
   background: unset;
   width: unset !important;
   margin: 1rem;
-  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  padding: 0% 12%;
+  padding-top: 1.75rem;
 }
 .circle-icon {
   width: 85px;
@@ -56,6 +59,10 @@
 .media-open {
   visibility: visible;
   opacity: 1;
+}
+.video-stream {
+  margin: 1px;
+  height: 140%;
 }
 
 @media (max-width: 768px) {
@@ -72,5 +79,10 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
+  }
+
+  .video-stream {
+    margin: 1px;
+    height: 100%;
   }
 }

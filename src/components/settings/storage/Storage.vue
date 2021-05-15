@@ -1,4 +1,4 @@
-<template>
+<template src="./Storage.html">
   <div>
     <h3 class="label">{{ $t('settings.storage.database_label') }}</h3>
     <article class="message is-dark">
@@ -129,7 +129,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less" src="./Storage.less">
 .margin {
   margin: 0.5rem;
   margin-left: 25px;

@@ -15,6 +15,12 @@ export default {
   deafened(state: IState, deafened: boolean) {
     state.deafened = deafened;
   },
+  localVideo(state: IState, localVideo: boolean) {
+    state.localVideo = localVideo;
+  },
+  remoteVideo(state: IState, remoteVideo: boolean) {
+    state.remoteVideo = remoteVideo;
+  },
   incomingCall(state: IState, identifier: string) {
     state.incomingCall = identifier;
   },

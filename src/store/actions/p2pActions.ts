@@ -116,8 +116,9 @@ export default {
     streamManager.addLocalStream(friendAddress, stream)
 
     commit('addActiveCall', friendAddress)
-    // dispatch('sendMessage', { data: Date.now(), type: 'call' })
+    dispatch('sendMessage', { data: Date.now(), type: 'call' })
   },
+
   async answerCall ({ commit, dispatch }, { friend, stream }) {
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC
