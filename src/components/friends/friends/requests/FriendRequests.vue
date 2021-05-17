@@ -37,6 +37,8 @@ export default {
         [address]: true
       })
 
+      console.log('request', request)
+
       await this.$store.dispatch('acceptRequest', {
         address,
         guestPublicKey: request.pubkey

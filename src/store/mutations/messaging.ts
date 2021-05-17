@@ -1,6 +1,12 @@
 // @ts-ignore
 import IMessage from '../../interfaces/IMessaage'
 import { IState } from '../createState'
+import { IMessageLimit } from '../createState'
+
+interface IMessageData {
+  messages: IMessage[]
+  messagesLimit: IMessageLimit
+}
 
 export default {
   clearTypingUsers (state: IState) {
@@ -25,8 +31,9 @@ export default {
     state.loadingMessages = true
   },
   // Group messages by sender for cleanliness.
-  updateMessages (state: IState, messages: IMessage[]) {
-    state.messages = messages
+  updateMessages (state: IState, data: IMessageData) {
+    state.messages = data.messages
+    state.messagesLimit = data.messagesLimit
     state.loadingMessages = false
   },
   appendMessage (state: IState, message: IMessage) {

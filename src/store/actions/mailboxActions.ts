@@ -1,3 +1,12 @@
+import config from '../../config/config'
+import { uniqBy } from 'lodash'
+
+/**
+ * @description Utility function to convert message from the new to the
+ * previous version. Will be handled differently in Absolute
+ * @param msg message object
+ * @returns the converted message object
+ */
 function convertMsg (msg) {
   return {
     id: msg.id,
@@ -13,7 +22,10 @@ function convertMsg (msg) {
 }
 
 export default {
-  async fetchMailbox ({ state, commit }, { address, limit, skip }) {
+  /**
+   * @description Fetches the user mailbox retrieving messages from the active chat
+   */
+  async fetchMailbox ({ state, commit }, { address }) {
     // @ts-ignore
     const database = this.$app.$database
     // @ts-ignore
@@ -31,18 +43,69 @@ export default {
       friend.encryptedKey
     )
 
+    const limit = { limit: config.messaging.defaultLimit, skip: 0 }
+
     const conversation = await database.mailboxManager?.getConversation(
       decryptedKey,
-      { limit: 5, skip: 1 }
+      limit
     )
 
-    commit('updateMessages', conversation.map(convertMsg))
+    commit('updateMessages', {
+      messages: conversation.map(convertMsg),
+      messagesLimit: limit
+    })
   },
-  async subscribeToMailbox ({ state, commit, dispatch }) {
+  /**
+   * @description Loads more messages for the active chat starting from the
+   * latest fetched messages
+   * Limits can be set in config
+   */
+  async loadMoreMessages ({ state, commit }, { address }) {
     // @ts-ignore
     const database = this.$app.$database
     // @ts-ignore
     const crypto = this.$app.$crypto
+
+    const friend = state.friends.find(fr => fr.address === address)
+
+    // Initialize the crypto library for the recipient to compute ECDH
+    await crypto.initializeRecipient(friend.address, friend.pubkey)
+
+    const decryptedKey = await crypto.decryptFor(
+      friend.address,
+      friend.encryptedKey
+    )
+
+    const currentLimit = state.messagesLimit
+    const newLimit = {
+      limit: config.messaging.defaultLimit,
+      skip: currentLimit.skip + config.messaging.loadMoreCount
+    }
+
+    const conversation = await database.mailboxManager?.getConversation(
+      decryptedKey,
+      newLimit
+    )
+
+    const prevLength = state.messages.length
+
+    const newMessages = uniqBy(
+      [...conversation.map(convertMsg), ...state.messages],
+      'id'
+    ).sort((a, b) => a.at - b.at)
+
+    commit('updateMessages', {
+      messages: newMessages,
+      messagesLimit: { ...newLimit, end: newMessages.length === prevLength }
+    })
+  },
+  /**
+   * @description Subscribes to the user mailbox, if not already subscribed, and eventually
+   * updates messages in the active chat
+   */
+  async subscribeToMailbox ({ state, commit }) {
+    // @ts-ignore
+    const database = this.$app.$database
     // @ts-ignore
     const WebRTC = this.$app.$WebRTC
     // @ts-ignore
@@ -96,15 +159,13 @@ export default {
       state.friends.map(friend => friend.address)
     )
   },
-  async subscribeToSentbox ({ state, commit, dispatch }) {
+  /**
+   * @description Subscribes to the user sentbox and eventually
+   * appends sent messages to the active chat
+   */
+  async subscribeToSentbox ({ commit }) {
     // @ts-ignore
     const database = this.$app.$database
-    // @ts-ignore
-    const crypto = this.$app.$crypto
-    // @ts-ignore
-    const WebRTC = this.$app.$WebRTC
-    // @ts-ignore
-    const SoundManager = this.$app.$sound
 
     // Watch for users typing
     if (!database.mailboxManager?.isSubscribed('sentbox')) {
@@ -114,7 +175,10 @@ export default {
       })
     }
   },
-  async sendMessage ({ state, commit }, { type, data }) {
+  /**
+   * @description Sends a new message in the active chat
+   */
+  async sendMessage ({ state }, { type, data }) {
     // @ts-ignore
     const database = this.$app.$database
     // @ts-ignore

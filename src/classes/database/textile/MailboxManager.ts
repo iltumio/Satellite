@@ -122,7 +122,7 @@ export class MailboxManager {
 
     const inboxQuery = Query.where('from')
       .eq(friendIdentifier)
-      .orderBy('created_at')
+      .orderByIDDesc()
 
     if (query?.limit) {
       inboxQuery.limitTo(query.limit)
@@ -138,12 +138,18 @@ export class MailboxManager {
       inboxQuery
     )
 
-    const firstMessageTime = encryptedInbox?.[0]?.created_at || 0
+    const lastMessageTime = encryptedInbox?.[0]?.created_at || 0
+    const firstMessageTime =
+      encryptedInbox?.[encryptedInbox.length - 1]?.created_at || 0
 
     const sentboxQuery = Query.where('to')
       .eq(friendIdentifier)
       .and('created_at')
       .ge(firstMessageTime)
+
+    if (query?.skip && query.skip > 0) {
+      sentboxQuery.and('created_at').lt(lastMessageTime)
+    }
 
     const encryptedSentbox = await this.textile.client.find<any>(
       threadID,

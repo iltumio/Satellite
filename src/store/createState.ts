@@ -3,6 +3,7 @@ import { LangCodes } from '../utils/i18n'
 import { AvailableProviders } from './mutations/web3'
 // @ts-ignore
 import MobileUtils from '@/utils/Mobile'
+import config from '../config/config'
 
 interface ISettings {
   darkMode: boolean
@@ -20,6 +21,12 @@ export interface IWalletAsset {
   balance?: BigNumber | number
   priceUsd?: number
   changePercent24Hr?: string
+}
+
+export interface IMessageLimit {
+  limit: number
+  skip: number
+  end?: boolean
 }
 
 export interface IState {
@@ -92,6 +99,7 @@ export interface IState {
   activeChats: Array<any>
   activeChat: any
   messages: Array<any>
+  messagesLimit: IMessageLimit
   typingUsers: any
   userNotes: any
   showUser: boolean
@@ -219,6 +227,10 @@ export const defaultState: IState = {
   activeChats: [],
   activeChat: false,
   messages: [],
+  messagesLimit: {
+    limit: config.messaging.defaultLimit,
+    skip: 0
+  },
   typingUsers: {},
   userNotes: {},
   showUser: false,

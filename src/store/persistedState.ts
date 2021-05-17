@@ -38,7 +38,8 @@ const blacklist: IBlacklist = {
   criticalError: true,
   ICEConnected: true,
   activeCalls: true,
-  incomingCall: true
+  incomingCall: true,
+  messagesLimit: true
 }
 
 const persistedPaths = Object.keys(defaultState).filter(key => !blacklist[key])
