@@ -1,8 +1,11 @@
 import { BigNumber, ethers } from 'ethers'
 import Ethereum from '../../classes/Ethereum'
 // @ts-ignore
-import * as StickerInterface from '@/contracts/build/contracts/Sticker.json'
+// import * as StickerInterface from '@/contracts/build/contracts/Sticker.json'
 import config from '../../config/config'
+const StickerInterface = {
+  abi: []
+}
 
 export default class Sticker {
   ethereum: any

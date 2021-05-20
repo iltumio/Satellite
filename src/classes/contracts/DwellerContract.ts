@@ -2,7 +2,10 @@ import { ethers } from 'ethers'
 import Ethereum from '../../classes/Ethereum'
 import IIPFSHash from '../../interfaces/IIPFSHash'
 // @ts-ignore
-import * as DwellerID from '../../contracts/build/contracts/DwellerID.json'
+// import * as DwellerID from '../../contracts/build/contracts/DwellerID.json'
+const DwellerID = {
+  abi: []
+}
 export default class DwellerContract {
   ethereum: any
   contract: ethers.Contract

@@ -3,7 +3,11 @@ import Ethereum from '../../classes/Ethereum'
 import IIPFSHash from '../../interfaces/IIPFSHash'
 import IServer from '../../interfaces/IServer'
 // @ts-ignore
-import * as ServerInterface from '@/contracts/build/contracts/Server.json'
+// import * as ServerInterface from '@/contracts/build/contracts/Server.json'
+const ServerInterface = {
+  abi: [],
+  bytecode: { object: '' }
+}
 export default class Server {
   ethereum: any
   contract: ethers.Contract

@@ -2,6 +2,9 @@ import { ethers } from 'ethers'
 import Ethereum from '../../classes/Ethereum'
 // @ts-ignore
 import * as Vault74RegistryInterface from '@/contracts/build/contracts/Vault74Registry.json'
+const Vault74RegistryInterface = {
+  abi: []
+}
 export default class Vault74Registry {
   ethereum: any
   contract: ethers.Contract

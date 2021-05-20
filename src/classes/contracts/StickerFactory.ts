@@ -1,7 +1,10 @@
 import { BigNumber, ethers } from 'ethers'
 import Ethereum from '../../classes/Ethereum'
 // @ts-ignore
-import * as StickerFactoryInterface from '@/contracts/build/contracts/StickerFactory.json'
+// import * as StickerFactoryInterface from '@/contracts/build/contracts/StickerFactory.json'
+const StickerFactoryInterface = {
+  abi: []
+}
 // @ts-ignore
 import config from '@/config/config.js'
 

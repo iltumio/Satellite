@@ -3,7 +3,10 @@ import Ethereum from '../../classes/Ethereum'
 import DwellerCachingHelper from '../../classes/DwellerCachingHelper'
 import config from '../../config/config'
 // @ts-ignore
-import * as FriendsInterface from '@/contracts/build/contracts/Friends.json'
+// import * as FriendsInterface from '@/contracts/build/contracts/Friends.json'
+const FriendsInterface = {
+  abi: []
+}
 
 export enum FriendsEvents {
   FriendRequestSent = 'FriendRequestSent',
