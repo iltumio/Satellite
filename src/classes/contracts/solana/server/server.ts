@@ -21,15 +21,17 @@ const SERVER_PROGRAM_ID = new PublicKey(
 const DWELLER_SERVER_SEED = 'DwellerServer'
 const SERVER_MEMBER_SEED = 'ServerMember'
 
+const USER_SEED = 'user'
+
 export default class ServerProgram {
   solana: Solana
   constructor (solana: Solana) {
     this.solana = solana
   }
 
-  initializeDweller (dweller: Keypair, name: string) {
+  initializeUser (userPublicKey: PublicKey, name: string) {
     return new TransactionInstruction({
-      keys: [{ pubkey: dweller.publicKey, isSigner: true, isWritable: true }],
+      keys: [{ pubkey: userPublicKey, isSigner: false, isWritable: true }],
       programId: SERVER_PROGRAM_ID,
       data: encodeInstructionData({
         initializeDweller: { name: stringToBuffer(name, 32) }
@@ -52,50 +54,81 @@ export default class ServerProgram {
     })
   }
 
-  async createDweller (name) {
-    const { connection, getActiveAccount } = this.solana
+  async getUserPublicKey (payerAccount: Keypair) {
+    return PublicKey.createWithSeed(
+      payerAccount.publicKey,
+      USER_SEED,
+      SERVER_PROGRAM_ID
+    )
+  }
+
+  async createUser (name: string) {
+    const { connection } = this.solana
 
     const space = dwellerAccountLayout.span
     const lamports = await connection.getMinimumBalanceForRentExemption(space)
 
-    const dweller = getActiveAccount()
+    const payerAccount = this.solana.getActiveAccount()
 
-    if (!dweller) return null
+    if (!payerAccount) return null
+
+    const userPublicKey = await this.getUserPublicKey(payerAccount)
 
     const transaction = new Transaction()
       .add(
-        SystemProgram.createAccount({
-          fromPubkey: dweller.publicKey,
-          newAccountPubkey: dweller.publicKey,
+        SystemProgram.createAccountWithSeed({
+          basePubkey: payerAccount.publicKey,
+          fromPubkey: payerAccount.publicKey,
+          newAccountPubkey: userPublicKey,
           lamports,
           space,
-          programId: SERVER_PROGRAM_ID
+          programId: SERVER_PROGRAM_ID,
+          seed: USER_SEED
         })
       )
-      .add(this.initializeDweller(dweller, name))
+      .add(this.initializeUser(userPublicKey, name))
 
     const result = await sendAndConfirmTransaction(
       connection,
       transaction,
-      [dweller, dweller],
+      [payerAccount],
       {
-        commitment: 'singleGossip',
-        preflightCommitment: 'singleGossip'
+        commitment: 'finalized',
+        preflightCommitment: 'finalized'
       }
     )
 
-    console.log('result', result)
-    return dweller
+    return userPublicKey
   }
 
-  async getDweller (dwellerPubkey) {
-    const { connection } = this.solana
-    const accountInfo = await connection.getAccountInfo(dwellerPubkey)
-    if (accountInfo === null) {
-      throw 'Error: cannot find the account'
+  stringFromBuffer (buffer) {
+    return Buffer.from(buffer)
+      .toString('utf-8')
+      .replace(/\0.*$/g, '')
+  }
+
+  parseUserInfo (userInfo) {
+    if (!userInfo) {
+      return null
     }
-    const info = dwellerAccountLayout.decode(Buffer.from(accountInfo.data))
-    return info
+
+    return {
+      name: this.stringFromBuffer(userInfo.name),
+      servers: userInfo.servers,
+      status: this.stringFromBuffer(userInfo.status),
+      photoHash: this.stringFromBuffer(userInfo.photo_hash)
+    }
+  }
+
+  async getUser (userPubkey) {
+    const { connection } = this.solana
+    const accountInfo = await connection.getAccountInfo(userPubkey)
+
+    return accountInfo
+      ? this.parseUserInfo(
+          dwellerAccountLayout.decode(Buffer.from(accountInfo.data))
+        )
+      : null
   }
 
   async createDerivedAccount (

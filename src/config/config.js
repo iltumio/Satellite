@@ -110,5 +110,8 @@ module.exports = {
     duration: 800,
     className: 'vault-toast'
   },
-  verified_addresses: ['0x2c3a050a6634cBD10df8086688De37D084440B7c'] // TODO: move this to a contract
+  verified_addresses: ['0x2c3a050a6634cBD10df8086688De37D084440B7c'], // TODO: move this to a contract
+  solana: {
+    network: 'devnet'
+  }
 }

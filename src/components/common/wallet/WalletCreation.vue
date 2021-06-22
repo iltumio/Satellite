@@ -4,6 +4,7 @@
 import { ethers } from 'ethers'
 import Crypto from '@/utils/Crypto.ts'
 import QRScan from '@/components/common/QRScan'
+import Solana from '../../../classes/Solana'
 
 export default {
   name: 'WalletCreation',
@@ -25,9 +26,9 @@ export default {
     goToStep (step) {
       this.step = step
     },
-    createWallet () {
-      this.wallet = ethers.Wallet.createRandom()
-      this.splittedMnemonic = this.wallet.mnemonic.phrase.split(' ')
+    async createWallet () {
+      this.wallet = await this.$solana.createRandomKeypair()
+      this.splittedMnemonic = this.wallet.mnemonic.split(' ')
 
       const numbers = [...Array(12).keys()]
 
@@ -51,9 +52,9 @@ export default {
       return areWordsRight
     },
     async walletCreated () {
-      this.$store.commit('setMnemonic', this.wallet.mnemonic.phrase)
+      this.$store.commit('setMnemonic', this.wallet.mnemonic)
       const encrypted = await Crypto.encrypt(
-        this.wallet.mnemonic.phrase,
+        this.wallet.mnemonic,
         this.$store.state.pin
       )
       localStorage.setItem('mnemonic', encrypted)

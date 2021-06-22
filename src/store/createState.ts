@@ -1,121 +1,122 @@
-import { BigNumber, utils } from 'ethers';
-import { LangCodes } from '../utils/i18n';
-import { AvailableProviders } from './mutations/web3';
+import { BigNumber, utils } from 'ethers'
+import { LangCodes } from '../utils/i18n'
+import { AvailableProviders } from './mutations/web3'
 // @ts-ignore
 import MobileUtils from '@/utils/Mobile'
 
 interface ISettings {
-  darkMode: boolean;
-  language: LangCodes;
+  darkMode: boolean
+  language: LangCodes
 }
 
-type ThemeName = 'tokyo' | 'oled';
+type ThemeName = 'tokyo' | 'oled'
 
 export interface IWalletAsset {
-  symbol: string;
-  name: string;
-  icon: string;
-  contractAddress: string;
-  tokenType: 'default' | 'ERC20' | 'ERC721' | 'ERC1155' | 'dummy';
-  balance?: BigNumber | number;
-  priceUsd?: number;
-  changePercent24Hr?: string;
+  symbol: string
+  name: string
+  icon: string
+  contractAddress: string
+  tokenType: 'default' | 'ERC20' | 'ERC721' | 'ERC1155' | 'dummy'
+  balance?: BigNumber | number
+  priceUsd?: number
+  changePercent24Hr?: string
 }
 
 export interface IState {
   // Profile
-  viewingProfile: string | boolean;
-  // 
-  command: string | boolean;
-  args: Array<string> | boolean;
-  pin: string | boolean;
-  starting: boolean;
-  authenticated: boolean;
-  buckets: boolean;
-  statusMsg: string;
+  viewingProfile: string | boolean
+  //
+  command: string | boolean
+  args: Array<string> | boolean
+  pin: string | boolean
+  starting: boolean
+  authenticated: boolean
+  buckets: boolean
+  statusMsg: string
   // Settings
-  settings: ISettings;
+  settings: ISettings
   // Theme
-  theme: ThemeName;
-  accent: string;
+  theme: ThemeName
+  accent: string
   // Screen Share
-  screenShareRequest: null;
-  captureMouse: 'always';
+  screenShareRequest: null
+  captureMouse: 'always'
   // Audio
-  audioQuality: number;
-  audioSamples: number;
-  noiseSuppression: boolean;
-  echoCancellation: boolean;
-  muted: boolean;
-  deafened: boolean;
+  audioQuality: number
+  audioSamples: number
+  noiseSuppression: boolean
+  echoCancellation: boolean
+  muted: boolean
+  deafened: boolean
   // Video
-  localVideo: boolean;
-  remoteVideo: boolean;
+  localVideo: boolean
+  remoteVideo: boolean
   // Web3
-  web3connected: boolean;
-  web3Stats: any;
-  accounts?: Array<any>;
-  gasPrice: number;
-  activeAccount?: string;
-  balance: number;
-  balanceLastUpdate?: number;
-  localAccount: boolean;
-  mnemonic: string;
+  web3connected: boolean
+  web3Stats: any
+  accounts?: Array<any>
+  gasPrice: number
+  activeAccount?: string
+  balance: number
+  balanceLastUpdate?: number
+  localAccount: boolean
+  mnemonic: string
+  fundingAccount: boolean
   // Wallet
-  assets: { [key: string]: IWalletAsset };
+  assets: { [key: string]: IWalletAsset }
   // Network
-  availableProviders: Array<any>;
-  selectedProvider: any;
-  injectedProvider: any;
+  availableProviders: Array<any>
+  selectedProvider: any
+  injectedProvider: any
   // Profile
-  dwellerAddress?: string;
-  username: string;
-  profilePictureHash?: string;
-  files: Array<any>;
-  mainRoute: string;
+  dwellerAddress?: string
+  username: string
+  profilePictureHash?: string
+  files: Array<any>
+  mainRoute: string
   // Friends
-  friendsLoaded?: boolean;
-  friends?: Array<any>;
-  friendRequests?: Array<any>;
-  peerHealth: any;
-  unreads: Array<any>;
+  friendsLoaded?: boolean
+  friends?: Array<any>
+  friendRequests?: Array<any>
+  peerHealth: any
+  unreads: Array<any>
   // Audio Video
-  audioDevice: string;
-  videoDevice: string;
+  audioDevice: string
+  videoDevice: string
   // Internal
-  status: string;
-  p2pOnline: any;
-  sidebarOpen: boolean;
-  sidebarMobileOpen: boolean;
+  status: string
+  p2pOnline: any
+  sidebarOpen: boolean
+  sidebarMobileOpen: boolean
   // Chat
-  activeChats: Array<any>;
-  activeChat: any;
-  messages: Array<any>;
-  typingUsers: any;
-  userNotes: any;
-  showUser: boolean;
-  loadingMessages: boolean;
-  lastMessages: Object;
+  activeChats: Array<any>
+  activeChat: any
+  messages: Array<any>
+  typingUsers: any
+  userNotes: any
+  showUser: boolean
+  loadingMessages: boolean
+  lastMessages: Object
   // Direct Calling Media Streams
-  pendingMediaStream?: any;
-  activeMediaStreamPeer?: any;
-  incomingCall?: any;
-  activeCalls: Array<string>;
+  pendingMediaStream?: any
+  activeMediaStreamPeer?: any
+  incomingCall?: any
+  activeCalls: Array<string>
   // Database
-  databaseEnabled: boolean;
-  criticalError?: any;
+  databaseEnabled: boolean
+  criticalError?: any
   // Servers
-  servers: Array<any>;
-  channel?: any;
+  servers: Array<any>
+  channel?: any
   // Groups
-  group?: any;
-  showGroupInfo: boolean;
+  group?: any
+  showGroupInfo: boolean
   // Stickers
-  stickersOpen?: boolean;
-  stickerPack: any;
-  availableStickers?: any;
-  ownedStickers?: any;
-  showCreateGroup: boolean;
+  stickersOpen?: boolean
+  stickerPack: any
+  availableStickers?: any
+  ownedStickers?: any
+  showCreateGroup: boolean
 }
 
 export const defaultState: IState = {
@@ -156,6 +157,7 @@ export const defaultState: IState = {
   balance: 0,
   localAccount: false,
   mnemonic: '',
+  fundingAccount: false,
   // Wallet
   assets: {
     default: {
@@ -184,7 +186,7 @@ export const defaultState: IState = {
       icon: 'QmUUtzqBLguzq1PHXSX91gkJbhp3WznaJpMpywiaCfmLXy',
       contractAddress: 'dummy',
       tokenType: 'dummy',
-      balance: utils.parseEther("1538"),
+      balance: utils.parseEther('1538'),
       priceUsd: 1.3,
       changePercent24Hr: '5,8'
     }
@@ -238,14 +240,14 @@ export const defaultState: IState = {
   availableStickers: {},
   ownedStickers: {},
   showCreateGroup: false,
-  // Groups 
+  // Groups
   group: false,
   showGroupInfo: false,
   // Profile
-  viewingProfile: false,
-};
+  viewingProfile: false
+}
 
 const createState = (customState: any): IState =>
-  Object.assign({}, defaultState, customState);
+  Object.assign({}, defaultState, customState)
 
-export default createState;
+export default createState

@@ -23,6 +23,7 @@ import SoundManager from './classes/SoundManager'
 import { SignalingManager } from './classes/webrtc/SignalingManager'
 import Particles from 'particles.vue'
 import BodyScrollLockDirective from 'v-body-scroll-lock'
+import Solana from './classes/Solana'
 
 Vue.config.productionTip = false
 
@@ -52,6 +53,7 @@ Vue.prototype.$pin = null
 Vue.prototype.$ethereum = new Ethereum()
 Vue.prototype.$sound = new SoundManager()
 Vue.prototype.$signalingManager = new SignalingManager()
+Vue.prototype.$solana = new Solana()
 
 // Storage 2.0
 Vue.prototype.$RemoteStorage = new RemoteStorage()

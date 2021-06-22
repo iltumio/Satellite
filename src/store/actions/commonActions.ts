@@ -10,26 +10,26 @@ export default {
       await dispatch('web3Start')
 
       // Initialize encryption engine using the current account private key
-      if (ethereum.initialized) {
-        crypto.init(ethereum.wallet)
-      }
+      // if (ethereum.initialized) {
+      //   crypto.init(ethereum.wallet)
+      // }
 
-      const { client } = await dispatch('initDatabase')
+      // const { client } = await dispatch('initDatabase')
 
       // Initialize p2p connection
-      await dispatch('initP2P', { client })
+      // await dispatch('initP2P', { client })
 
       // Dispatch a new action to fetch friends
-      await dispatch('fetchFriends', state.activeAccount)
+      // await dispatch('fetchFriends', state.activeAccount)
 
       // Fetch friend requests
-      await dispatch('fetchFriendRequests')
+      // await dispatch('fetchFriendRequests')
 
       // Dispatch a new action to fetch servers
-      await dispatch('fetchServers')
+      // await dispatch('fetchServers')
 
       // Dispatch new action to start a listener to new friends requests
-      dispatch('startFriendsListeners')
+      // dispatch('startFriendsListeners')
 
       commit('ICEConnected', true)
     }
