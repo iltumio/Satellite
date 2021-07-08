@@ -29,9 +29,11 @@ export default class ServerProgram {
     this.solana = solana
   }
 
-  initializeUser (userPublicKey: PublicKey, name: string) {
+  initializeUser (userAccount: Keypair, name: string) {
     return new TransactionInstruction({
-      keys: [{ pubkey: userPublicKey, isSigner: false, isWritable: true }],
+      keys: [
+        { pubkey: userAccount.publicKey, isSigner: true, isWritable: true }
+      ],
       programId: SERVER_PROGRAM_ID,
       data: encodeInstructionData({
         initializeDweller: { name: stringToBuffer(name, 32) }
@@ -69,36 +71,34 @@ export default class ServerProgram {
     const lamports = await connection.getMinimumBalanceForRentExemption(space)
 
     const payerAccount = this.solana.getActiveAccount()
+    const userAccount = this.solana.getUserAccount()
 
     if (!payerAccount) return null
-
-    const userPublicKey = await this.getUserPublicKey(payerAccount)
+    if (!userAccount) return null
 
     const transaction = new Transaction()
       .add(
-        SystemProgram.createAccountWithSeed({
-          basePubkey: payerAccount.publicKey,
+        SystemProgram.createAccount({
           fromPubkey: payerAccount.publicKey,
-          newAccountPubkey: userPublicKey,
+          newAccountPubkey: userAccount.publicKey,
           lamports,
           space,
-          programId: SERVER_PROGRAM_ID,
-          seed: USER_SEED
+          programId: SERVER_PROGRAM_ID
         })
       )
-      .add(this.initializeUser(userPublicKey, name))
+      .add(this.initializeUser(userAccount, name))
 
     const result = await sendAndConfirmTransaction(
       connection,
       transaction,
-      [payerAccount],
+      [payerAccount, userAccount],
       {
         commitment: 'finalized',
         preflightCommitment: 'finalized'
       }
     )
 
-    return userPublicKey
+    return userAccount
   }
 
   stringFromBuffer (buffer) {

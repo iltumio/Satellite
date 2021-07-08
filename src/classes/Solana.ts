@@ -1,6 +1,7 @@
 import config from '../config/config'
 import { Connection, clusterApiUrl, Keypair, PublicKey } from '@solana/web3.js'
 import * as bip39 from 'bip39'
+import { publicKeyFromSeed, sleep } from './SolanaUtils'
 
 export interface SolanaWallet {
   mnemonic?: string
@@ -133,14 +134,10 @@ export default class Solana {
     seed: string,
     programId: PublicKey
   ): Promise<PublicKey | null> {
-    const newKey = await PublicKey.createWithSeed(
-      userPublicKey,
-      seed,
-      programId
-    )
+    const { key } = await publicKeyFromSeed(userPublicKey, seed, programId)
 
-    this.publicKeys[identifier] = newKey
-    return newKey
+    this.publicKeys[identifier] = key
+    return key
   }
 
   /**
@@ -307,5 +304,23 @@ export default class Solana {
     }
 
     return null
+  }
+
+  /**
+   * @method waitForAccount
+   * @description continuously checks the given account
+   * until it becomes available
+   * @param accountKey public key of the account to wait for
+   */
+  async waitForAccount (accountKey: PublicKey) {
+    while (true) {
+      const accountInfo = await this.connection.getAccountInfo(accountKey)
+      if (accountInfo === null) {
+        await sleep(3000)
+        continue
+      } else {
+        break
+      }
+    }
   }
 }

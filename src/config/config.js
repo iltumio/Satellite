@@ -112,6 +112,7 @@ module.exports = {
   },
   verified_addresses: ['0x2c3a050a6634cBD10df8086688De37D084440B7c'], // TODO: move this to a contract
   solana: {
-    network: 'devnet'
+    network: 'devnet',
+    friendsProgramId: '92k8fHjwZV1tzFhokS1NoyLz65vhz3E3VdEcghXF4GRr'
   }
 }

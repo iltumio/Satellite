@@ -4,9 +4,13 @@ import {
   TransactionInstruction,
   PublicKey,
   sendAndConfirmTransaction,
-  SYSVAR_RENT_PUBKEY
+  SYSVAR_RENT_PUBKEY,
+  Keypair,
+  ConfirmOptions
 } from '@solana/web3.js'
 import Solana from '../../../Solana'
+import { publicKeyFromSeed, SEEDS } from '../../../SolanaUtils'
+import config from '../../../../config/config.js'
 
 import {
   encodeInstructionData,
@@ -14,13 +18,12 @@ import {
   requestAccountLayout
 } from './layout'
 
-export const FRIENDS_PROGRAM_ID = new PublicKey(
-  '92k8fHjwZV1tzFhokS1NoyLz65vhz3E3VdEcghXF4GRr'
-)
+// export const FRIENDS_PROGRAM_ID = new PublicKey(
+//   '92k8fHjwZV1tzFhokS1NoyLz65vhz3E3VdEcghXF4GRr'
+// )
 
-export const FRIEND_INFO_SEED = 'friendinfo'
-export const OUTGOING_REQUEST = 'outgoing'
-export const INCOMING_REQUEST = 'incoming'
+console.log('program id', config.solana.friendsProgramId)
+export const FRIENDS_PROGRAM_ID = new PublicKey(config.solana.friendsProgramId)
 
 export default class FriendsProgram {
   solana: Solana
@@ -28,18 +31,18 @@ export default class FriendsProgram {
     this.solana = solana
   }
 
-  async createDerivedAccount (seedKey, seedString, params) {
+  async createDerivedAccount (
+    seedKey: PublicKey,
+    seedString: string,
+    params,
+    confirmOptionsOverride?: ConfirmOptions
+  ) {
     const { connection } = this.solana
     const payerAccount = this.solana.getActiveAccount()
     if (!payerAccount) return null
 
-    const base = await PublicKey.findProgramAddress(
-      [seedKey.toBytes()],
-      FRIENDS_PROGRAM_ID
-    )
-
-    const addressToCreate = await PublicKey.createWithSeed(
-      base[0],
+    const { base, key } = await publicKeyFromSeed(
+      seedKey,
       seedString,
       FRIENDS_PROGRAM_ID
     )
@@ -49,7 +52,7 @@ export default class FriendsProgram {
         { pubkey: payerAccount.publicKey, isSigner: true, isWritable: true },
         { pubkey: seedKey, isSigner: false, isWritable: false },
         { pubkey: base[0], isSigner: false, isWritable: false },
-        { pubkey: addressToCreate, isSigner: false, isWritable: true },
+        { pubkey: key, isSigner: false, isWritable: true },
         { pubkey: SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
         { pubkey: SystemProgram.programId, isSigner: false, isWritable: false }
       ],
@@ -60,13 +63,14 @@ export default class FriendsProgram {
     const transaction = new Transaction().add(instruction)
 
     await sendAndConfirmTransaction(connection, transaction, [payerAccount], {
-      commitment: 'singleGossip',
-      preflightCommitment: 'singleGossip'
+      commitment: 'finalized',
+      preflightCommitment: 'finalized',
+      ...confirmOptionsOverride
     })
-    return addressToCreate
+    return key
   }
 
-  async initFriendInfo (friendInfoPubKey, userKey) {
+  async initFriendInfo (friendInfoPubKey: PublicKey, userKey: PublicKey) {
     return new TransactionInstruction({
       keys: [
         { pubkey: friendInfoPubKey, isSigner: false, isWritable: true },
@@ -80,17 +84,23 @@ export default class FriendsProgram {
     })
   }
 
-  async createFriendInfo (userAccount) {
+  async createFriendInfo (
+    userAccount: Keypair,
+    confirmOptionsOverride?: ConfirmOptions
+  ) {
     const { connection } = this.solana
     const payerAccount = this.solana.getActiveAccount()
     if (!payerAccount) return null
+    if (!userAccount) return null
 
     const params = { createAccount: { friendInfo: {} } }
     const friendInfoKey = await this.createDerivedAccount(
       userAccount.publicKey,
-      FRIEND_INFO_SEED,
+      SEEDS.FRIEND_INFO,
       params
     )
+
+    if (!friendInfoKey) throw new Error('Derived account error')
 
     const transaction = new Transaction().add(
       await this.initFriendInfo(friendInfoKey, userAccount.publicKey)
@@ -101,14 +111,15 @@ export default class FriendsProgram {
       transaction,
       [payerAccount, userAccount],
       {
-        commitment: 'singleGossip',
-        preflightCommitment: 'singleGossip'
+        commitment: 'finalized',
+        preflightCommitment: 'finalized',
+        ...confirmOptionsOverride
       }
     )
     return friendInfoKey
   }
 
-  async getFriendInfo (friendInfoKey) {
+  async getFriendInfo (friendInfoKey: PublicKey) {
     const { connection } = this.solana
     const accountInfo = await connection.getAccountInfo(friendInfoKey)
 
@@ -118,11 +129,11 @@ export default class FriendsProgram {
   }
 
   async initFriendRequest (
-    requestFromToKey,
-    requestToFromKey,
-    friendInfoFromKey,
-    friendInfoToKey,
-    userFromKey
+    requestFromToKey: PublicKey,
+    requestToFromKey: PublicKey,
+    friendInfoFromKey: PublicKey,
+    friendInfoToKey: PublicKey,
+    userFromKey: PublicKey
   ) {
     return new TransactionInstruction({
       keys: [
@@ -141,10 +152,11 @@ export default class FriendsProgram {
   }
 
   async createFriendRequest (
-    userFromAccount,
-    userToKey,
-    friendInfoFromKey,
-    friendInfoToKey
+    userFromAccount: Keypair,
+    userToKey: PublicKey,
+    friendInfoFromKey: PublicKey,
+    friendInfoToKey: PublicKey,
+    confirmOptionsOverride?: ConfirmOptions
   ) {
     const { connection } = this.solana
     const payerAccount = this.solana.getActiveAccount()
@@ -160,7 +172,7 @@ export default class FriendsProgram {
 
     const requestFromAccount = await this.createDerivedAccount(
       userFromAccount.publicKey,
-      friendInfoFromData.requests_outgoing + OUTGOING_REQUEST,
+      friendInfoFromData.requests_outgoing + SEEDS.OUTGOING_REQUEST,
       outgoingParams
     )
 
@@ -174,9 +186,12 @@ export default class FriendsProgram {
 
     const requestToAccount = await this.createDerivedAccount(
       userToKey,
-      friendInfoToData.requests_incoming + INCOMING_REQUEST,
+      friendInfoToData.requests_incoming + SEEDS.INCOMING_REQUEST,
       incomingParams
     )
+
+    if (!requestFromAccount) throw new Error('')
+    if (!requestToAccount) throw new Error('')
 
     const transaction = new Transaction().add(
       await this.initFriendRequest(
@@ -194,13 +209,15 @@ export default class FriendsProgram {
       [payerAccount, userFromAccount],
       {
         commitment: 'singleGossip',
-        preflightCommitment: 'singleGossip'
+        preflightCommitment: 'singleGossip',
+        ...confirmOptionsOverride
       }
     )
     return { outgoing: requestFromAccount, incoming: requestToAccount }
   }
 
-  async getFriendRequest (connection, friendRequestKey) {
+  async getFriendRequest (friendRequestKey: PublicKey) {
+    const { connection } = this.solana
     const accountInfo = await connection.getAccountInfo(friendRequestKey)
     if (accountInfo === null) {
       throw 'Error: cannot find the account'

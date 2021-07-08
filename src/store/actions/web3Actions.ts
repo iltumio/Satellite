@@ -7,9 +7,9 @@ import Solana, { SolanaWallet } from '../../classes/Solana'
 import ServerProgram from '../../classes/contracts/solana/server/server'
 import { Keypair, PublicKey } from '@solana/web3.js'
 import FriendsProgram, {
-  FRIENDS_PROGRAM_ID,
-  FRIEND_INFO_SEED
+  FRIENDS_PROGRAM_ID
 } from '../../classes/contracts/solana/friends/friends'
+import { SEEDS } from '../../classes/SolanaUtils'
 
 export default {
   // Checks if a provider has already been selected and connects to it
@@ -87,16 +87,21 @@ export default {
     }
 
     const payerAccount = await solana.getActiveAccount()
+    const userAccount = await solana.getUserAccount()
 
-    if (!payerAccount) {
+    if (!payerAccount || !userAccount) {
       return
     }
 
-    const userPublicKey = await server.getUserPublicKey(payerAccount)
+    const userInfo = await server.getUser(userAccount.publicKey)
 
-    const userInfo = await server.getUser(userPublicKey)
+    if (!userInfo) {
+      await server.createUser('tumio2')
 
-    console.log('User info', userInfo)
+      const userInfoAfter = await server.getUser(userAccount.publicKey)
+
+      console.log('User After', userInfoAfter)
+    }
 
     if (userInfo) {
       commit('profilePictureHash', userInfo.photoHash)
@@ -105,26 +110,39 @@ export default {
 
     const friendsInfoKey = await solana.generateDerivedPublicKey(
       'friendsInfoKey',
-      userPublicKey,
-      FRIEND_INFO_SEED,
+      userAccount.publicKey,
+      SEEDS.FRIEND_INFO,
       FRIENDS_PROGRAM_ID
     )
 
-    console.log('friendsInfoKey', friendsInfoKey?.toBase58())
+    if (!friendsInfoKey) return
 
-    const friendInfo = await friends
-      .getFriendInfo(friendsInfoKey)
-      .catch(e => console.log('no friend info,', e))
+    let friendInfo = await friends.getFriendInfo(friendsInfoKey)
 
-    console.log('FriendInfo', friendInfo)
+    if (!friendInfo) {
+      const finfokey = await friends.createFriendInfo(userAccount)
 
-    // if (!userInfo) {
-    //   await server.createUser('tumio2')
+      friendInfo = await friends.getFriendInfo(friendsInfoKey)
+    }
 
-    //   const userInfoAfter = await server.getUser(userPublicKey)
+    // let userToAccountKey = new PublicKey(
+    //   'DfY8Vv6H6jC9dYcqjEQiHT93cki8RB3VswjTEF3wwRsT'
+    // )
 
-    //   console.log('User After', userInfoAfter)
-    // }
+    // let friendInfoToKey = new PublicKey(
+    //   'FDUtbRF6ccJRxTK2ptheMgSYwGsi5XCzohUZZ9gSGCug'
+    // )
+
+    // const friendRequests = await friends.createFriendRequest(
+    //   userAccount,
+    //   userToAccountKey,
+    //   friendsInfoKey,
+    //   friendInfoToKey
+    // )
+
+    // console.log(
+    //   `New friend request was created.\nIncoming: ${friendRequests?.incoming}\nOutgoing: ${friendRequests?.outgoing}`
+    // )
 
     // console.log('dweller from solana', dweller)
 
